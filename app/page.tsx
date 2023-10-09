@@ -7,7 +7,10 @@ export default function Home() {
 
     return (
       <div>
-          <p>Hi there</p>
+          <Image 
+            src="/MeixnerAmzingRaceFantacyLeageHome.svg" 
+            fill="true"
+            />
       </div>
     )
 }
