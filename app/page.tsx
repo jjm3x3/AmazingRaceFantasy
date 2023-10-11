@@ -4,12 +4,13 @@ export default function Home() {
 
 
 
+    const fill = true
 
     return (
       <div>
           <Image 
             src="/MeixnerAmzingRaceFantacyLeageHome.svg" 
-            fill="true"
+            fill={fill}
             />
       </div>
     )
