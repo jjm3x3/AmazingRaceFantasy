@@ -15,7 +15,7 @@ export default function Home() {
             alt="Landing Page which has the title of 'Meixner's Amazing Race Fantasy League' and the subtitle 'A web tool to help run an Amazing Race fantasy legue'"
             />
           <div className="menu-box">
-            <Link href="/contestants">Contestant List</Link>
+            <Link className="menu-item" href="/contestants">Contestant List</Link>
           </div>  
       </div>
     )

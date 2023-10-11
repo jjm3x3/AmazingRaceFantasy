@@ -15,3 +15,7 @@ body {
     padding: 20px;
     border: 2px solid;
 }
+
+.menu-item {
+    color: white;
+}
