@@ -13,7 +13,7 @@ export default function Home() {
             fill={fill}
             alt="Landing Page which has the title of 'Meixner's Amazing Race Fantasy League' and the subtitle 'A web tool to help run an Amazing Race fantasy legue'"
             />
-          <div>  
+          <div className="menu-box">
           </div>  
       </div>
     )
