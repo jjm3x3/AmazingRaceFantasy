@@ -15,7 +15,7 @@ export default async function Contestants() {
           <p className="text-lg text-center">{final.props.runners.length} teams</p>
           <br/>
           <div className="text-center">
-              {final.props.runners.map(t => <p>{t}</p>)}
+              {final.props.runners.map(t => <p key={t}>{t}</p>)}
           </div>
         </div>
     )
