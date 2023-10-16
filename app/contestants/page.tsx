@@ -10,7 +10,8 @@ export default function Contestants() {
         fetch("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&titles=The_Amazing_Race_32")
             .then(async (response) => {
                 const responseText = await response.text()
-                var doc = new DOMParser(responseText)
+                const parser = new DOMParser()
+                const doc = parser.parseFromString(responseText, "text/html")
                 console.log(doc)
             },
             (error) => {
