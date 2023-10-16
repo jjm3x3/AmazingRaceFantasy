@@ -19,7 +19,7 @@ export default function Contestants() {
             })
     }, [])
 
-    const final = []
+    const final: any[] = []
     return (
         <div>
           <h1 className="text-2xl text-center">Contestants This Season</h1>
