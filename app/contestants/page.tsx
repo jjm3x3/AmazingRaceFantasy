@@ -1,7 +1,21 @@
+import { useState, useEffect } from 'react'
+
 export default function Contestants() {
 
-    const final = [ "Derek & Claire", "Emily & Molly", "Luis & Michelle", "Aubrey & David", "Marcus & Michael", "Quinton & Mattie", "Glenda & Lumumba", "Abby & Will", "Linton & Sharik", "Rich & Dom", "Tim & Rex", "Aashta & Nina" ]
+    const [data, setData] = useState(null)
 
+    useEffect(() =>  {
+        fetch("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&titles=The_Amazing_Race_32")
+            .then(async (response) => {
+                const responseText = await response.text()
+                console.log(doc)
+            },
+            (error) => {
+                console.log(error)
+            })
+    }, [])
+
+    const final = []
     return (
         <div>
           <h1 className="text-2xl text-center">Contestants This Season</h1>
