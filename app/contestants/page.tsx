@@ -12,8 +12,15 @@ async function getData() {
     const final = []
     var team = ""
     for (var i = 0; i < domQuery.length; i++) {
-        var contestantName = domQuery[i].textContent
-        var contestantNames = contestantName.split(" ")
+        var contestantFullName = domQuery[i].textContent
+        console.log("ContestantName: " + contestantFullName)
+        var contestantNames = null
+        if (contestantFullName == null) {
+            console.warn("Found a null contestant Name...")
+            continue
+        } else {
+            contestantNames = contestantFullName.split(" ")
+        }
         team += contestantNames[0]
         if (i % 2 == 0) {
             team += " & "
