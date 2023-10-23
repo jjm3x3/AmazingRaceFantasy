@@ -12,7 +12,6 @@ async function getData() {
     var team = ""
     for (var i = 0; i < domQuery.length; i++) {
         var contestantFullName = domQuery[i].textContent
-        console.log("ContestantName: " + contestantFullName)
         var contestantNames = null
         if (contestantFullName == null) {
             console.warn("Found a null contestant Name...")
