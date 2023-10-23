@@ -2,7 +2,6 @@ import { JSDOM } from 'jsdom'
 
 async function getData() {
 
-    const aList = [ "Derek & Claire", "Emily & Molly", "Luis & Michelle", "Aubrey & David", "Marcus & Michael", "Quinton & Mattie", "Glenda & Lumumba", "Abby & Will", "Linton & Sharik", "Rich & Dom", "Tim & Rex", "Aashta & Nina" ]
     const response = await fetch("https://en.wikipedia.org/wiki/The_Amazing_Race_35")
     const responseText = await response.text()
     const doc = new JSDOM(responseText)
