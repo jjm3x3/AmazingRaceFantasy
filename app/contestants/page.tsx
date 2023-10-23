@@ -7,9 +7,23 @@ async function getData() {
     const responseText = await response.text()
     const doc = new JSDOM(responseText)
     var domQuery = doc.window.document.querySelectorAll(".vcard .fn")
-    console.log("Here is a domQuery: " + domQuery)
 
-    return { props: { runners: aList } }
+    // Build data model
+    const final = []
+    var team = ""
+    for (var i = 0; i < domQuery.length; i++) {
+        var contestantName = domQuery[i].textContent
+        var contestantNames = contestantName.split(" ")
+        team += contestantNames[0]
+        if (i % 2 == 0) {
+            team += " & "
+        } else {
+            final.push(team)
+            team = ""
+        }
+    }
+
+    return { props: { runners: final } }
 }
 
 export default async function Contestants() {
