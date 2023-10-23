@@ -46,6 +46,11 @@ export default async function Contestants() {
           <div className="text-center">
               {final.props.runners.map(t => <p key={t}>{t}</p>)}
           </div>
+          <div>
+            <p>
+              Data provided by <a href={wikiUrl} >Wikipedia</a> for this season of the race
+            </p>
+          </div>
         </div>
     )
 }
