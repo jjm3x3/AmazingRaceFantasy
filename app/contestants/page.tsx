@@ -48,7 +48,7 @@ export default async function Contestants() {
           </div>
           <div>
             <p>
-              Data provided by <a href={wikiUrl} >Wikipedia</a> for this season of the race
+              Data provided by <a className="standard-link" href={wikiUrl} >Wikipedia</a> for this season of the race
             </p>
           </div>
         </div>
