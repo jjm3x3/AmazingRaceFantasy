@@ -1,6 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+const imageSources = [
+    {
+        src: 'MeixnerAmzingRaceFantacyLeageHome-360w.svg',
+        media: '(max-width: 768px)'
+    },
+    {
+        src: '/MeixnerAmzingRaceFantacyLeageHome.svg'
+    }
+]
+
 export default function Home() {
 
     return (
