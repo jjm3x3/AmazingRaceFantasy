@@ -25,7 +25,7 @@ export default function Home() {
               >
             </Image>
           </picture>
-          <div className="menu-box lg:left-80 md:left-40 sm:left-12 left-2">
+          <div className="menu-box">
             <Link className="menu-item" href="/contestants">Contestant List</Link>
           </div>  
       </div>
