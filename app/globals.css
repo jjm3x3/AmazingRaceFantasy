@@ -10,7 +10,6 @@ body {
 .menu-box {
     position: absolute;
     bottom: 150px;
-    left: 400px;
     background: rgba(0, 0, 0, .7);
     padding: 20px;
     border: 2px solid;
