@@ -16,8 +16,7 @@ export default function Home() {
     return (
       <div>
           <picture>
-            {imageSources.map((source,index) => (
-              <source key={index} srcSet={source.src} media={source.media} />
+            {imageSources.map((source,index) => ( <source key={index} srcSet={source.src} media={source.media} />
             ))}
             <Image
               src="/MeixnerAmzingRaceFantacyLeageHome.svg"
