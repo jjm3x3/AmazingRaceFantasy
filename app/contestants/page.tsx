@@ -4,7 +4,7 @@ const wikiUrl = "https://en.wikipedia.org/wiki/The_Amazing_Race_35"
 
 async function getData() {
 
-    const response = await fetch(wikiUrl)
+    const response = await fetch(wikiUrl, {next: { revalidate: 3600 }})
     const responseText = await response.text()
     const doc = new JSDOM(responseText)
     var domQuery = doc.window.document.querySelectorAll(".vcard .fn")
