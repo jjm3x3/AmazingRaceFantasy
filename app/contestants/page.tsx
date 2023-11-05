@@ -26,8 +26,9 @@ async function getData() {
             team += " & "
 
             var row = domQuery[i].parentElement.parentElement.parentElement.parentElement
-            console.log(contestantNames[0])
-            console.log(row.lastElementChild.outerHTML)
+            var teamStatusFull = row.lastElementChild.textContent
+            var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
+            var isParticipating = teamStatusSimple === "Eliminated" ? false : true
         } else {
             final.push(team)
             team = ""
