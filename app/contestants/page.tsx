@@ -24,6 +24,10 @@ async function getData() {
         team += contestantNames[0]
         if (i % 2 == 0) {
             team += " & "
+
+            var row = domQuery[i].parentElement.parentElement.parentElement.parentElement
+            console.log(contestantNames[0])
+            console.log(row.lastElementChild.outerHTML)
         } else {
             final.push(team)
             team = ""
