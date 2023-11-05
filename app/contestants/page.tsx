@@ -30,7 +30,7 @@ async function getData() {
             var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
             var isParticipating = teamStatusSimple === "Eliminated" ? false : true
         } else {
-            final.push(team)
+            final.push({teamName: team, isParticipating: isParticipating })
             team = ""
         }
     }
@@ -49,7 +49,7 @@ export default async function Contestants() {
           <p className="text-lg text-center">{final.props.runners.length} teams</p>
           <br/>
           <div className="text-center">
-              {final.props.runners.map(t => <p key={t}>{t}</p>)}
+              {final.props.runners.map(t => <p key={t.teamName}>{t.teamName}</p> )}
           </div>
           <div>
             <p>
