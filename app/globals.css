@@ -11,6 +11,7 @@ body {
     position: absolute;
     @apply lg:left-80 md:left-64 sm:left-12 left-2;
     @apply lg:bottom-40 bottom-36;
+    @apply flex;
 }
 
 .menu-box {
