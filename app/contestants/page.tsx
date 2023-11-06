@@ -35,7 +35,7 @@ async function getData() {
     return { props: { runners: final } }
 }
 
-function getIsParticipating(item) {
+function getIsParticipating(item: any) {
 
     var row = null
     if (item !== null &&
