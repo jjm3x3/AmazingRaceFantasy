@@ -14,12 +14,9 @@ body {
 }
 
 .menu-box {
-    position: absolute;
     background: rgba(0, 0, 0, .7);
     padding: 20px;
     border: 2px solid;
-    @apply lg:left-80 md:left-64 sm:left-12 left-2;
-    @apply lg:bottom-40 bottom-36;
 }
 
 .menu-item {
