@@ -28,6 +28,9 @@ export default function Home() {
           <div className="menu-box">
             <Link className="menu-item" href="/contestants">Contestant List</Link>
           </div>  
+          <div className="menu-box">
+            <Link className="menu-item" href="/scoring">Scoring</Link>
+          </div>
       </div>
     )
 }
