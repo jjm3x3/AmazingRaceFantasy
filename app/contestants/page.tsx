@@ -11,7 +11,7 @@ async function getData() {
 
     // Build data model
     const final = []
-    var team = ""
+    var team = {teamName: "", isParticipating: true}
     for (var i = 0; i < domQuery.length; i++) {
         var contestantFullName = domQuery[i].textContent
         var contestantNames = null
@@ -21,17 +21,17 @@ async function getData() {
         } else {
             contestantNames = contestantFullName.split(" ")
         }
-        team += contestantNames[0]
+        team.teamName += contestantNames[0]
         if (i % 2 == 0) {
-            team += " & "
+            team.teamName += " & "
 
             var row = domQuery[i].parentElement.parentElement.parentElement.parentElement
             var teamStatusFull = row.lastElementChild.textContent
             var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
-            var isParticipating = teamStatusSimple === "Eliminated" ? false : true
+            team.isParticipating = teamStatusSimple === "Eliminated" ? false : true
         } else {
-            final.push({teamName: team, isParticipating: isParticipating })
-            team = ""
+            final.push(team)
+            team = {teamName: "", isParticipating: true}
         }
     }
 
