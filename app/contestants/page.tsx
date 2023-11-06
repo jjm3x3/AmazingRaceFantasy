@@ -37,7 +37,14 @@ async function getData() {
 
 function getIsParticipating(item) {
 
-    var row = item.parentElement.parentElement.parentElement.parentElement
+    var row = null
+    if (item !== null &&
+        item.parentElement !== null &&
+        item.parentElement.parentElement !== null &&
+        item.parentElement.parentElement.parentElement !== null &&
+        item.parentElement.parentElement.parentElement.parentElement !== null) {
+            row = item.parentElement.parentElement.parentElement.parentElement
+    }
     var teamStatusFull = row.lastElementChild.textContent
     var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
 
