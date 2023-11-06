@@ -25,10 +25,7 @@ async function getData() {
         if (i % 2 == 0) {
             team.teamName += " & "
 
-            var row = domQuery[i].parentElement.parentElement.parentElement.parentElement
-            var teamStatusFull = row.lastElementChild.textContent
-            var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
-            team.isParticipating = teamStatusSimple === "Eliminated" ? false : true
+            team.isParticipating = getIsParticipating(domQuery[i])
         } else {
             final.push(team)
             team = {teamName: "", isParticipating: true}
@@ -36,6 +33,15 @@ async function getData() {
     }
 
     return { props: { runners: final } }
+}
+
+function getIsParticipating(item) {
+
+    var row = item.parentElement.parentElement.parentElement.parentElement
+    var teamStatusFull = row.lastElementChild.textContent
+    var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
+
+    return teamStatusSimple === "Eliminated" ? false : true
 }
 
 export default async function Contestants() {
