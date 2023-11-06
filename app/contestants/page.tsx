@@ -49,7 +49,13 @@ export default async function Contestants() {
           <p className="text-lg text-center">{final.props.runners.length} teams</p>
           <br/>
           <div className="text-center">
-              {final.props.runners.map(t => <p key={t.teamName}>{t.teamName}</p> )}
+              {final.props.runners.map(t => {
+                return (<>
+                    <p key={t.teamName}>
+                        {t.isParticipating ? t.teamName : <s>{t.teamName}</s>}
+                    </p>
+                </>)
+              })}
           </div>
           <div>
             <p>
