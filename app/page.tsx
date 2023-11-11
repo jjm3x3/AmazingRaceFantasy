@@ -25,14 +25,14 @@ export default function Home() {
               >
             </Image>
           </picture>
-          <dix className="menu-tray">
+          <div className="menu-tray">
             <div className="menu-box">
               <Link className="menu-item" href="/contestants">Contestant List</Link>
             </div>
             <div className="menu-box">
               <Link className="menu-item" href="/scoring">Scoring</Link>
             </div>
-          </dix>
+          </div>
       </div>
     )
 }
