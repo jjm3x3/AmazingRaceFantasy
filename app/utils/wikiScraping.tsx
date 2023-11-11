@@ -28,6 +28,9 @@ export async function getData() {
 
             const fullTeamStatus = getFullTeamStatus(domQuery[i])
             team.isParticipating = getIsParticipating(fullTeamStatus)
+            if (!team.isParticipating) {
+                team.eliminationOrder = getEliminationOrder(fullTeamStatus)
+            }
         } else {
             final.push(team)
             team = {teamName: "", isParticipating: true, eliminationOrder: 0}
@@ -55,5 +58,13 @@ function getIsParticipating(teamStatusFull: string): bool {
     var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
 
     return teamStatusSimple === "Eliminated" ? false : true
+}
+
+function getEliminationOrder(teamStatusFull: string): number {
+
+    const teamOrderSection = teamStatusFull.trim().split(" ")[1]
+    const teamOrderString = teamOrderSection[0]
+
+    return Number(teamOrderString)
 }
 
