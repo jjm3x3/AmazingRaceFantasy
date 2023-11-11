@@ -11,7 +11,8 @@ export async function getData() {
 
     // Build data model
     const final = []
-    var team = {teamName: "", isParticipating: true}
+    // may want to start with eliminationOrder = team.length, but we don't have that right now
+    var team = {teamName: "", isParticipating: true, eliminationOrder: 0}
     for (var i = 0; i < domQuery.length; i++) {
         var contestantFullName = domQuery[i].textContent
         var contestantNames = null
@@ -29,7 +30,7 @@ export async function getData() {
             team.isParticipating = getIsParticipating(fullTeamStatus)
         } else {
             final.push(team)
-            team = {teamName: "", isParticipating: true}
+            team = {teamName: "", isParticipating: true, eliminationOrder: 0}
         }
     }
 
