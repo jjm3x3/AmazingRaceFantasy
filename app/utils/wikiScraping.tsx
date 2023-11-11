@@ -50,15 +50,7 @@ function getFullTeamStatus(item: any): string {
 
 function getIsParticipating(item: any) {
 
-    var row = null
-    if (item !== null &&
-        item.parentElement !== null &&
-        item.parentElement.parentElement !== null &&
-        item.parentElement.parentElement.parentElement !== null &&
-        item.parentElement.parentElement.parentElement.parentElement !== null) {
-            row = item.parentElement.parentElement.parentElement.parentElement
-    }
-    var teamStatusFull = row.lastElementChild.textContent
+    var teamStatusFull = getFullTeamStatus(item)
     var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
 
     return teamStatusSimple === "Eliminated" ? false : true
