@@ -1,4 +1,3 @@
-
 import { JSDOM } from 'jsdom'
 
 export const wikiUrl = "https://en.wikipedia.org/wiki/The_Amazing_Race_35"
@@ -36,6 +35,19 @@ export async function getData() {
     return { props: { runners: final } }
 }
 
+function getFullTeamStatus(item: any): string {
+
+    var row = null
+    if (item !== null &&
+        item.parentElement !== null &&
+        item.parentElement.parentElement !== null &&
+        item.parentElement.parentElement.parentElement !== null &&
+        item.parentElement.parentElement.parentElement.parentElement !== null) {
+            row = item.parentElement.parentElement.parentElement.parentElement
+    }
+    return row.lastElementChild.textContent
+}
+
 function getIsParticipating(item: any) {
 
     var row = null
@@ -51,3 +63,4 @@ function getIsParticipating(item: any) {
 
     return teamStatusSimple === "Eliminated" ? false : true
 }
+
