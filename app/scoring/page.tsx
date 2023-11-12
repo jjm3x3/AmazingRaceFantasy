@@ -1,6 +1,11 @@
 import { Fragment } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import { hashCode } from "../utils/helperFuncs"
+
+function getKey(teamName: string): string {
+    return hashCode(teamName).toString()
+}
 
 export default async function Scoring() {
 
