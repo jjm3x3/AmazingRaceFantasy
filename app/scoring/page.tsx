@@ -29,7 +29,7 @@ export default async function Scoring() {
 
     const currentSelectedContestant = "Jacob"
 
-    const currentSelectedContestantRanking = [ "Rob & Corey", "Jocelyn & Victor", "Morgan & Lena", "Greg & John", "Robbin & Chelsea", "Steve & Anna Leigh", "Ashlie & Todd", "Joel & Garrett", "Joe & Ian", "Malania & Andrea", "Liam & Yeremi", "Elizabeth & Iliana", "Alexandra & Sherida" ]
+    const currentSelectedContestantRanking = [ "Rob & Corey", "Jocelyn & Victor", "Morgan & Lena", "Greg & John", "Robbin & Chelsea", "Steve & Anna Leigh", "Ashlie & Todd", "Joel & Garrett", "Joe & Ian", "Malaina & Andrea", "Liam & Yeremi", "Elizabeth & Iliana", "Alexandra & Sheridan" ]
 
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
