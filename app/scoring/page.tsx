@@ -5,6 +5,10 @@ import TeamList from '../components/teamList'
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 
+interface Dictionary<T> {
+    [Key: string]: T;
+}
+
 function getKey(teamName: string): string {
     const names = teamName.split("&").map(s => s.trim() )
     var seed = ""
