@@ -3,6 +3,10 @@ import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import { hashCode } from "../utils/helperFuncs"
 
+interface Dictionary<T> {
+    [Key: string]: T;
+}
+
 function getKey(teamName: string): string {
     const names = teamName.split("&").map(s => s.trim() )
     var seed = ""
