@@ -17,7 +17,7 @@ function getKey(teamName: string): string {
     return code
 }
 
-function shouldBeCrossed(teamDictionary, currentWeek: number, teamName: string): bool {
+function shouldBeCrossed(teamDictionary: Dictionary<any>, currentWeek: number, teamName: string): bool {
 
     const teamInfo = teamDictionary[getKey(teamName)]
     if (teamInfo.isParticipating || (teamInfo.eliminationOrder > currentWeek)) {
