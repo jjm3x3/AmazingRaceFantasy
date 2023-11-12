@@ -4,7 +4,16 @@ import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import { hashCode } from "../utils/helperFuncs"
 
 function getKey(teamName: string): string {
-    return hashCode(teamName).toString()
+    const names = teamName.split("&").map(s => s.trim() )
+    var seed = ""
+    if (names[0][0] > names[1][0]) {
+        seed = names[1] + names[0]
+    }
+    else {
+        seed = names[0] + names[1]
+    }
+    const code = hashCode(seed).toString()
+    return code
 }
 
 export default async function Scoring() {
