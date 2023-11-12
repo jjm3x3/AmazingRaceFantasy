@@ -12,6 +12,8 @@ export default async function Scoring() {
 
     const currentSelectedContestant = "Jacob"
 
+    const currentSelectedContestantRanking = [ "Rob & Corey", "Jocelyn & Victor", "Morgan & Lena", "Greg & John", "Robbin & Chelsea", "Steve & Anna Leigh", "Ashlie & Todd", "Joel & Garrett", "Joe & Ian", "Malania & Andrea", "Liam & Yeremi", "Elizabeth & Iliana", "Alexandra & Sherida" ]
+
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
@@ -41,7 +43,18 @@ export default async function Scoring() {
 
                     return (<Fragment key={"round details"+roundNumber}>
                         <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {roundNumber+1}</h2>
-                        <TeamList teamList={reverseTeamsList} roundNumber={roundNumber} />
+                        <div className="text-center flex">
+                            <div className="basis-1/2">
+                                <TeamList teamList={reverseTeamsList} roundNumber={roundNumber} />
+                            </div>
+                            <div className="basis-1/2">
+                                {currentSelectedContestantRanking.map(t => {
+                                    return (<>
+                                        <p key={t+"current"}>{t}</p>
+                                    </>)
+                                })}
+                            </div>
+                        </div>
                         <br/>
                         <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {score}</p>
                         <p key={"grandTotal"+roundNumber}className="text-center">Grand Total: {grandTotal}</p>
