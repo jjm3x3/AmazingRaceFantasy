@@ -1,5 +1,15 @@
-export default function Scoring() {
-    var currentSelectedContestant = "Jacob"
+import { getData, wikiUrl } from "../utils/wikiScraping"
+
+export default async function Scoring() {
+
+    const wikiData = await getData()
+
+    const currentSelectedContestant = "Jacob"
+
+    const weeklyScore = wikiData.props.runners.reduce(
+        (acc, x) => {
+            return x.isParticipating ? acc + 10 : acc
+        }, 0)
 
     return (
         <div>
@@ -14,6 +24,8 @@ export default function Scoring() {
                   </>)
                 })}
             </div>
+            <br/>
+            <p className="text-center">Weekly Total: {weeklyScore}</p>
         </div>
     )
 }
