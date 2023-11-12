@@ -10,6 +10,12 @@ export default async function Scoring() {
     const wikiContestants = await getWikipediaContestantData()
     const pageData = getTeamList(wikiContestants)
 
+    const teamDictionary = pageData.props.runners.reduce((acc, t) => {
+            acc[t.teamName] = t
+
+            return acc
+        }, {})
+
     const currentSelectedContestant = "Jacob"
 
     const currentSelectedContestantRanking = [ "Rob & Corey", "Jocelyn & Victor", "Morgan & Lena", "Greg & John", "Robbin & Chelsea", "Steve & Anna Leigh", "Ashlie & Todd", "Joel & Garrett", "Joe & Ian", "Malania & Andrea", "Liam & Yeremi", "Elizabeth & Iliana", "Alexandra & Sherida" ]
@@ -50,7 +56,9 @@ export default async function Scoring() {
                             <div className="basis-1/2">
                                 {currentSelectedContestantRanking.map(t => {
                                     return (<>
-                                        <p key={t+"current"}>{t}</p>
+                                        <p key={t+"current"}>
+                                            {teamDictionary[t].isParticipating ? t : <s>{t}</s> }
+                                        </p>
                                     </>)
                                 })}
                             </div>
