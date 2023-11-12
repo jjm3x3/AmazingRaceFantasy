@@ -37,9 +37,13 @@ export default async function Scoring() {
                       </p>
                   </>)
                 })}
+                <br/>
+                {roundScores.map(s => {
+                    return (<>
+                        <p className="text-center">Weekly Total: {s}</p>
+                    </>)
+                })}
             </div>
-            <br/>
-            <p className="text-center">Weekly Total: {weeklyScore}</p>
         </div>
     )
 }
