@@ -42,7 +42,7 @@ export default async function Scoring() {
             acc[getKey(t.teamName)] = t
 
             return acc
-        }, {})
+        }, new Object())
 
     const currentSelectedContestant = "Jacob"
 
