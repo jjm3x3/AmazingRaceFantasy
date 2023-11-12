@@ -15,7 +15,7 @@ export default async function Scoring() {
     const pageData = getTeamList(wikiContestants)
 
     const teamDictionary = pageData.props.runners.reduce((acc, t) => {
-            acc[t.teamName] = t
+            acc[getKey(t.teamName)] = t
 
             return acc
         }, {})
@@ -61,7 +61,7 @@ export default async function Scoring() {
                                 {currentSelectedContestantRanking.map(t => {
                                     return (<>
                                         <p key={t+"current"}>
-                                            {teamDictionary[t].isParticipating ? t : <s>{t}</s> }
+                                            {teamDictionary[getKey(t)].isParticipating ? t : <s>{t}</s> }
                                         </p>
                                     </>)
                                 })}
