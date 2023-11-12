@@ -26,6 +26,7 @@ export default async function Scoring() {
         }, 0)
 
     const reverseTeamsList = [...wikiData.props.runners].reverse()
+    let grandTotal = 0
     let currentWeek = 0
     return (
         <div>
@@ -33,7 +34,9 @@ export default async function Scoring() {
             <br/>
             <div className="text-center">
                 {roundScores.map(s => {
+                    grandTotal += s
                     currentWeek++
+
                     return (<>
                         <h2 className="text-xl">Week {currentWeek}</h2>
                         {reverseTeamsList.map(t => {
@@ -45,6 +48,7 @@ export default async function Scoring() {
                         })}
                         <br/>
                         <p className="text-center">Weekly Total: {s}</p>
+                        <p className="text-center">Grand Total: {grandTotal}</p>
                         <br/>
                         <br/>
                     </>)
