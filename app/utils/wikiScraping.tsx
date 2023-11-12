@@ -53,7 +53,7 @@ function getFullTeamStatus(item: any): string {
     return row.lastElementChild.textContent
 }
 
-function getIsParticipating(teamStatusFull: string): bool {
+function getIsParticipating(teamStatusFull: string): boolean {
 
     var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
 
