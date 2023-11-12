@@ -41,6 +41,8 @@ export default async function Scoring() {
                         })}
                         <br/>
                         <p className="text-center">Weekly Total: {s}</p>
+                        <br/>
+                        <br/>
                     </>)
                 })}
             </div>
