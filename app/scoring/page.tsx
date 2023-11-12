@@ -5,6 +5,10 @@ import TeamList from '../components/teamList'
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 
+function getKey(teamName: string): string {
+    return teamName
+}
+
 export default async function Scoring() {
 
     const wikiContestants = await getWikipediaContestantData()
