@@ -6,7 +6,15 @@ import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 
 function getKey(teamName: string): string {
-    return teamName
+    const names = teamName.split("&").map(s => s.trim() )
+    var seed = ""
+    if (names[0][0] > names[1][0]) {
+        seed = names[1] + names[0]
+    }
+    else {
+        seed = names[0] + names[1]
+    }
+    return seed
 }
 
 export default async function Scoring() {
