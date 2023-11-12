@@ -16,6 +16,18 @@ function getKey(teamName: string): string {
     return code
 }
 
+function shouldBeCrossed(teamDictionary, currentWeek: number, teamName: string): bool {
+
+    const teamInfo = teamDictionary[getKey(teamName)]
+    if (teamInfo.isParticipating || (teamInfo.eliminationOrder > currentWeek)) {
+        return true
+    }
+    else {
+        return false
+    }
+
+}
+
 export default async function Scoring() {
 
     const wikiContestants = await getWikipediaContestantData()
