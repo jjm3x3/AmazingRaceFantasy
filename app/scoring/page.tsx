@@ -78,7 +78,7 @@ export default async function Scoring() {
                                 {currentSelectedContestantRanking.map(t => {
                                     return (<>
                                         <p key={t+"current"}>
-                                            {teamDictionary[getKey(t)].isParticipating ? t : <s>{t}</s> }
+                                            {shouldBeCrossed(teamDictionary, roundNumber+1, t) ? t : <s>{t}</s>}
                                         </p>
                                     </>)
                                 })}
