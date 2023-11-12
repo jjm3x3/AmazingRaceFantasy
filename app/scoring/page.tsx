@@ -26,17 +26,19 @@ export default async function Scoring() {
         }, 0)
 
     const reverseTeamsList = [...wikiData.props.runners].reverse()
+    let currentWeek = 0
     return (
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
             <br/>
             <div className="text-center">
                 {roundScores.map(s => {
+                    currentWeek++
                     return (<>
                         {reverseTeamsList.map(t => {
                             return (<>
                                 <p key={t.teamName}>
-                                    {t.isParticipating ? t.teamName : <s>{t.teamName}</s>}
+                                    {t.eliminationOrder === 0 || currentWeek < t.eliminationOrder ? t.teamName : <s>{t.teamName}</s>}
                                 </p>
                             </>)
                         })}
