@@ -25,6 +25,7 @@ export default async function Scoring() {
             return x.isParticipating ? acc + 10 : acc
         }, 0)
 
+    const reverseTeamsList = [...wikiData.props.runners].reverse()
     return (
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
@@ -32,7 +33,7 @@ export default async function Scoring() {
             <div className="text-center">
                 {roundScores.map(s => {
                     return (<>
-                        {wikiData.props.runners.map(t => {
+                        {reverseTeamsList.map(t => {
                             return (<>
                                 <p key={t.teamName}>
                                     {t.isParticipating ? t.teamName : <s>{t.teamName}</s>}
