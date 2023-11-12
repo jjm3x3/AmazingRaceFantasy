@@ -35,6 +35,7 @@ export default async function Scoring() {
                 {roundScores.map(s => {
                     currentWeek++
                     return (<>
+                        <h2 className="text-xl">Week {currentWeek}</h2>
                         {reverseTeamsList.map(t => {
                             return (<>
                                 <p key={t.teamName}>
