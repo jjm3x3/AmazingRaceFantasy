@@ -41,7 +41,7 @@ export async function getContestantList(): Promise<any> {
         const hometown = $row.find('td').eq(2).text().trim()
         const status = $row.find('td').eq(3).text().trim()
 
-        if ( index %2 == 1) {    
+        if (index % 2 == 1) {
             let isParticipating = true
             let eliminationOrder = ''
 
