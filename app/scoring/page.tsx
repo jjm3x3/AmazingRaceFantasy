@@ -2,7 +2,6 @@ import { Fragment } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import TeamList from '../components/teamList'
-import { hashCode } from "../utils/helperFuncs"
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -10,15 +9,14 @@ interface Dictionary<T> {
 
 function getKey(teamName: string): string {
     const names = teamName.split("&").map(s => s.trim() )
-    var seed = ""
+    var key = ""
     if (names[0][0] > names[1][0]) {
-        seed = names[1] + names[0]
+        key = names[1] + names[0]
     }
     else {
-        seed = names[0] + names[1]
+        key = names[0] + names[1]
     }
-    const code = hashCode(seed).toString()
-    return code
+    return key
 }
 
 function shouldBeCrossed(teamDictionary: Dictionary<any>, currentWeek: number, teamName: string): boolean {
