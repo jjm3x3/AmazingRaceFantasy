@@ -1,8 +1,8 @@
-import { getData, wikiUrl } from "../utils/wikiScraping"
+import { getContestantList, wikiUrl } from "../utils/wikiQuery"
 
 export default async function Contestants() {
 
-    const final = await getData()
+    const final = await getContestantList()
 
     return (
         <div>
