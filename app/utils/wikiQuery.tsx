@@ -9,7 +9,7 @@ interface IWikipediaData {
     }
 }
 
-interface Contestant {
+export interface IContestant {
     teamName: string
     age: number
     relationship: string
@@ -30,7 +30,7 @@ export async function getContestantList(): Promise<any> {
     const wikipediaData = await fetchWikipediaData()
     const htmlSnippet = wikipediaData.parse.text
     const $ = cheerio.load(htmlSnippet)
-    const contestants: Contestant[] = []
+    const contestants: IContestant[] = []
 
     $('table.wikitable tbody tr').each((index, element) => {
 
@@ -50,7 +50,7 @@ export async function getContestantList(): Promise<any> {
                 eliminationOrder = status.match(/Eliminated (\d+)/i)![1]
             }
 
-            const contestant: Contestant = {
+            const contestant: IContestant = {
                 teamName,
                 age,
                 relationship,
