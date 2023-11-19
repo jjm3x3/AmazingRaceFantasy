@@ -1,4 +1,3 @@
-
 import { JSDOM } from 'jsdom'
 
 export const wikiUrl = "https://en.wikipedia.org/wiki/The_Amazing_Race_35"
@@ -12,7 +11,8 @@ export async function getData() {
 
     // Build data model
     const final = []
-    var team = {teamName: "", isParticipating: true}
+    // may want to start with eliminationOrder = team.length, but we don't have that right now
+    var team = {teamName: "", isParticipating: true, eliminationOrder: 0}
     for (var i = 0; i < domQuery.length; i++) {
         var contestantFullName = domQuery[i].textContent
         var contestantNames = null
@@ -26,17 +26,21 @@ export async function getData() {
         if (i % 2 == 0) {
             team.teamName += " & "
 
-            team.isParticipating = getIsParticipating(domQuery[i])
+            const fullTeamStatus = getFullTeamStatus(domQuery[i])
+            team.isParticipating = getIsParticipating(fullTeamStatus)
+            if (!team.isParticipating) {
+                team.eliminationOrder = getEliminationOrder(fullTeamStatus)
+            }
         } else {
             final.push(team)
-            team = {teamName: "", isParticipating: true}
+            team = {teamName: "", isParticipating: true, eliminationOrder: 0}
         }
     }
 
     return { props: { runners: final } }
 }
 
-function getIsParticipating(item: any) {
+function getFullTeamStatus(item: any): string {
 
     var row = null
     if (item !== null &&
@@ -46,8 +50,21 @@ function getIsParticipating(item: any) {
         item.parentElement.parentElement.parentElement.parentElement !== null) {
             row = item.parentElement.parentElement.parentElement.parentElement
     }
-    var teamStatusFull = row.lastElementChild.textContent
+    return row.lastElementChild.textContent
+}
+
+function getIsParticipating(teamStatusFull: string): boolean {
+
     var teamStatusSimple = teamStatusFull.trim().split(" ")[0]
 
     return teamStatusSimple === "Eliminated" ? false : true
 }
+
+function getEliminationOrder(teamStatusFull: string): number {
+
+    const teamOrderSection = teamStatusFull.trim().split(" ")[1]
+    const teamOrderString = teamOrderSection[0]
+
+    return Number(teamOrderString)
+}
+
