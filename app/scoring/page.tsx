@@ -1,8 +1,8 @@
-import { getData, wikiUrl } from "../utils/wikiScraping"
+import { getContestantList, wikiUrl } from "../utils/wikiQuery"
 
 export default async function Scoring() {
 
-    const wikiData = await getData()
+    const wikiData = await getContestantList()
 
     const currentSelectedContestant = "Jacob"
 
