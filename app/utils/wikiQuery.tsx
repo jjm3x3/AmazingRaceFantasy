@@ -4,7 +4,7 @@ export interface ITeam {
     teamName: string
     relationship: string
     isParticipating: boolean
-    eliminationOrder: string
+    eliminationOrder: number
 }
 
 export function getTeamList(contestantData :IWikipediaContestantData[]): any {
@@ -18,7 +18,7 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
 
         if (index % 2 == 1) {
             let isParticipating = true
-            let eliminationOrder = ''
+            let eliminationOrder = 0
 
             if (status === null || status === undefined) {
                 throw new ReferenceError("Status is either null or undefined and it shouldn not be")
@@ -26,7 +26,7 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
 
             if (status.toLowerCase().includes('eliminated')) {
                 isParticipating = false
-                eliminationOrder = status.match(/Eliminated (\d+)/i)![1]
+                eliminationOrder = Number(status.match(/Eliminated (\d+)/i)![1])
             }
 
             const contestant: ITeam = {
