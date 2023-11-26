@@ -1,8 +1,8 @@
-import { getData, wikiUrl } from "../utils/wikiScraping"
+import { getContestantList, wikiUrl, IContestant } from "../utils/wikiQuery"
 
 export default async function Contestants() {
 
-    const final = await getData()
+    const final = await getContestantList()
 
     return (
         <div>
@@ -11,7 +11,7 @@ export default async function Contestants() {
           <p className="text-lg text-center">{final.props.runners.length} teams</p>
           <br/>
           <div className="text-center">
-              {final.props.runners.map(t => {
+              {final.props.runners.map((t: IContestant) => {
                 return (<>
                     <p key={t.teamName}>
                         {t.isParticipating ? t.teamName : <s>{t.teamName}</s>}
