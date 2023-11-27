@@ -48,11 +48,5 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
         }
     })
 
-    contestants.map(x => {
-        if (x.eliminationOrder === 0) {
-            x.eliminationOrder = contestants.length
-        }
-    })
-
     return { props: { runners: contestants }}
 }
