@@ -19,7 +19,7 @@ export interface IContestant {
 }
 
 async function fetchWikipediaData(): Promise<IWikipediaData> {
-    const apiUrl = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&page=The_Amazing_Race_35&section=5&formatversion=2'
+    const apiUrl = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&page=The_Amazing_Race_35&section=7&formatversion=2'
     const response = await fetch(apiUrl)
     const data = await response.json()
     return data
