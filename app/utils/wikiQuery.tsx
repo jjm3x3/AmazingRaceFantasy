@@ -27,19 +27,12 @@ async function fetchWikipediaData(): Promise<IWikipediaData> {
 
 export async function getContestantList(contestantData :IWikipediaContestantData[]): Promise<any> {
 
-    const wikipediaData = await fetchWikipediaData()
-    const htmlSnippet = wikipediaData.parse.text
-    const $ = cheerio.load(htmlSnippet)
     const contestants: IContestant[] = []
 
-    $('table.wikitable tbody tr').each((index, element) => {
+    contestantData.each((index, element) => {
 
-        const $row = $(element)
-        const teamName = $row.find('th span.fn').text().trim()
-        const age = parseInt($row.find('td').eq(0).text().trim(), 10)
-        const relationship = $row.find('td').eq(1).text().trim()
-        const hometown = $row.find('td').eq(2).text().trim()
-        const status = $row.find('td').eq(3).text().trim()
+        const status = element.status
+        let teamName = element.teamName
 
         if (index % 2 == 1) {
             let isParticipating = true
@@ -51,10 +44,10 @@ export async function getContestantList(contestantData :IWikipediaContestantData
             }
 
             const contestant: IContestant = {
-                teamName,
-                age,
-                relationship,
-                hometown,
+                teamName: teamName,
+                age: Number(element.age),
+                relationship: element.relationship,
+                hometown: element.hometown,
                 isParticipating,
                 eliminationOrder
             }
