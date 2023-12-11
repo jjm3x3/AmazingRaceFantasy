@@ -1,8 +1,9 @@
 import { getContestantList, IContestant } from "../utils/wikiQuery"
-import { wikiUrl } from "../utils/wikiFetch"
+import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 
 export default async function Contestants() {
 
+    const wikiContestants = await getWikipediaContestantData()
     const final = await getContestantList()
 
     return (
