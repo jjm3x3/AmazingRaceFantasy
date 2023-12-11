@@ -1,4 +1,4 @@
-import { IWikipediaContestantData } './wikiFetch'
+import { IWikipediaContestantData } from './wikiFetch'
 
 export interface ITeam {
     teamName: string

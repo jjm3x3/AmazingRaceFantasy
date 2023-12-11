@@ -9,7 +9,7 @@ interface IWikipediaData {
     }
 }
 
-interface IWikipediaContestantData {
+export interface IWikipediaContestantData {
     name: string
     age: string
     relationship: string
