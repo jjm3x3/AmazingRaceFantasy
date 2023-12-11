@@ -33,7 +33,7 @@ describe('getData', () => {
                 name: firstContestantsFirstName + " Guy",
                 status: "Participating"
             },
-            {team: secondContestantsFirstName + " Brother"}
+            {name: secondContestantsFirstName + " Brother"}
         ]
 
         // Act
