@@ -1,14 +1,12 @@
 
-export interface IContestant {
+export interface ITeam {
     teamName: string
-    age: number
     relationship: string
-    hometown: string
     isParticipating: boolean
     eliminationOrder: string
 }
 
-export async function getTeamList(contestantData :IWikipediaContestantData[]): Promise<any> {
+export async function getTeamList(contestantData :IWikipediaContestantData[]): Promise<ITeam[]> {
 
     const contestants: IContestant[] = []
 
@@ -28,9 +26,7 @@ export async function getTeamList(contestantData :IWikipediaContestantData[]): P
 
             const contestant: IContestant = {
                 teamName: teamName,
-                age: Number(element.age),
                 relationship: element.relationship,
-                hometown: element.hometown,
                 isParticipating,
                 eliminationOrder
             }
