@@ -6,7 +6,7 @@ export interface ITeam {
     eliminationOrder: string
 }
 
-export async function getTeamList(contestantData :IWikipediaContestantData[]): Promise<ITeam[]> {
+export async function getTeamList(contestantData :IWikipediaContestantData[]): Promise<any> {
 
     const contestants: IContestant[] = []
 
