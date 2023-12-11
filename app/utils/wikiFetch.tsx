@@ -27,13 +27,13 @@ export async function getWikipediaContestantData(): Promise<IWikipediaContestant
 
     const wikipediaData = await fetchWikipediaData()
     const htmlsnippet = wikipediaData.parse.text
-    const cheerioQuery  = cheerio.load(htmlsnippet)
-    const cheerioFilter = cheerioQuery('table.wikitable tbody tr')
+    const $ = cheerio.load(htmlsnippet)
+    const cheerioFilter = $('table.wikitable tbody tr')
 
 
     const contestantData = cheerioFilter.map((index, element) => {
 
-        const $row =  cheerioQuery(element)
+        const $row =  $(element)
 
         const aContestant = {
             teamName: $row.find('th span.fn').text().trim(),
