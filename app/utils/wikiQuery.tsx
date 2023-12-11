@@ -11,7 +11,7 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
 
     const contestants: ITeam[] = []
 
-    contestantData.each((index, element) => {
+    contestantData.forEach((element, index) => {
 
         const status = element.status
         let teamName = element.teamName
