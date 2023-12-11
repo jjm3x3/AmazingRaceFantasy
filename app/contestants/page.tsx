@@ -1,10 +1,10 @@
-import { getContestantList, IContestant } from "../utils/wikiQuery"
+import { getTeamList, IContestant } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 
 export default async function Contestants() {
 
     const wikiContestants = await getWikipediaContestantData()
-    const final = await getContestantList(wikiContestants)
+    const final = await getTeamList(wikiContestants)
 
     return (
         <div>

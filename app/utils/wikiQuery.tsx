@@ -25,7 +25,7 @@ async function fetchWikipediaData(): Promise<IWikipediaData> {
     return data
 }
 
-export async function getContestantList(contestantData :IWikipediaContestantData[]): Promise<any> {
+export async function getTeamList(contestantData :IWikipediaContestantData[]): Promise<any> {
 
     const contestants: IContestant[] = []
 
