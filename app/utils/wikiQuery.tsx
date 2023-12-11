@@ -1,14 +1,4 @@
 
-import * as cheerio from 'cheerio'
-
-export const wikiUrl = "https://en.wikipedia.org/wiki/The_Amazing_Race_35"
-
-interface IWikipediaData {
-    parse: {
-        text: string
-    }
-}
-
 export interface IContestant {
     teamName: string
     age: number
@@ -16,13 +6,6 @@ export interface IContestant {
     hometown: string
     isParticipating: boolean
     eliminationOrder: string
-}
-
-async function fetchWikipediaData(): Promise<IWikipediaData> {
-    const apiUrl = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&page=The_Amazing_Race_35&section=7&formatversion=2'
-    const response = await fetch(apiUrl)
-    const data = await response.json()
-    return data
 }
 
 export async function getTeamList(contestantData :IWikipediaContestantData[]): Promise<any> {
