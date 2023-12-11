@@ -14,7 +14,7 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
     contestantData.forEach((element, index) => {
 
         const status = element.status
-        let teamName = element.teamName
+        let teamName = element.name
 
         if (index % 2 == 1) {
             let isParticipating = true
