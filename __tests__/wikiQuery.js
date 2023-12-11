@@ -33,7 +33,8 @@ describe('getData', () => {
                 name: firstContestantsFirstName + " Guy",
                 status: "Participating"
             },
-            {team: secondContestantsFirstName + " Brother"}]
+            {team: secondContestantsFirstName + " Brother"}
+        ]
 
         // Act
         var act = () => getTeamList(listOfContestants)
