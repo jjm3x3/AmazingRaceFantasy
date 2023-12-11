@@ -23,7 +23,7 @@ async function fetchWikipediaData(): Promise<IWikipediaData> {
     return data
 }
 
-async function getCheerioQuery(): Promise<any> {
+async function getCheerioQuery(): Promise<IWikipediaContestantData[]> {
 
     const wikipediaData = await fetchWikipediaData()
     const htmlsnippet = wikipediaData.parse.text
