@@ -8,6 +8,14 @@ interface IWikipediaData {
     }
 }
 
+interface IWikipediaContestantData {
+    name: string
+    age: string
+    relationship: string
+    hometown: string
+    status: string
+}
+
 async function fetchWikipediaData(): Promise<IWikipediaData> {
     const apiUrl = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&page=The_Amazing_Race_35&section=7&formatversion=2'
     const response = await fetch(apiUrl)
