@@ -9,7 +9,7 @@ export interface ITeam {
 
 export function getTeamList(contestantData :IWikipediaContestantData[]): any {
 
-    const contestants: IContestant[] = []
+    const contestants: ITeam[] = []
 
     contestantData.each((index, element) => {
 
@@ -25,7 +25,7 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
                 eliminationOrder = status.match(/Eliminated (\d+)/i)![1]
             }
 
-            const contestant: IContestant = {
+            const contestant: ITeam = {
                 teamName: teamName,
                 relationship: element.relationship,
                 isParticipating,
