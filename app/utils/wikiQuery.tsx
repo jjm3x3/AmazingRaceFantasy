@@ -25,7 +25,7 @@ async function fetchWikipediaData(): Promise<IWikipediaData> {
     return data
 }
 
-export async function getContestantList(): Promise<any> {
+export async function getContestantList(contestantData :IWikipediaContestantData[]): Promise<any> {
 
     const wikipediaData = await fetchWikipediaData()
     const htmlSnippet = wikipediaData.parse.text
