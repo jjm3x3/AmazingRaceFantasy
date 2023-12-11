@@ -17,9 +17,26 @@ async function fetchWikipediaData(): Promise<IWikipediaData> {
 
 async function getCheerioQuery(): Promise<any> {
 
-    const htmlsnippet = wikipediadata.parse.text
+    const wikipediaData = await fetchWikipediaData()
+    const htmlsnippet = wikipediaData.parse.text
     const cheerioQuery  = cheerio.load(htmlsnippet)
     const cheerioFilter = cheerioQuery('table.wikitable tbody tr')
 
-    return cheerioFilter
+
+    const contestantData = cheerioFilter.map((index, element) => {
+
+        const $row =  cheerioQuery(element)
+
+        const aContestant = {
+            teamName: $row.find('th span.fn').text().trim(),
+            age: $row.find('td').eq(0).text().trim(),
+            relationship: $row.find('td').eq(1).text().trim(),
+            hometown: $row.find('td').eq(2).text().trim(),
+            status: $row.find('td').eq(3).text().trim()
+        }
+
+        return aContestant
+    })
+
+    return contestantData
 }
