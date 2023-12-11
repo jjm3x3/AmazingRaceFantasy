@@ -35,8 +35,8 @@ export async function getWikipediaContestantData(): Promise<IWikipediaContestant
 
         const $row =  $(element)
 
-        const aContestant = {
-            teamName: $row.find('th span.fn').text().trim(),
+        const aContestant: IWikipediaContestantData = {
+            name: $row.find('th span.fn').text().trim(),
             age: $row.find('td').eq(0).text().trim(),
             relationship: $row.find('td').eq(1).text().trim(),
             hometown: $row.find('td').eq(2).text().trim(),
@@ -44,7 +44,7 @@ export async function getWikipediaContestantData(): Promise<IWikipediaContestant
         }
 
         return aContestant
-    })
+    }).toArray()
 
     return contestantData
 }
