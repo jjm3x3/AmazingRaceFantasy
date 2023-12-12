@@ -20,6 +20,10 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
             let isParticipating = true
             let eliminationOrder = ''
 
+            if (status === null || status === undefined) {
+                throw new ReferenceError("Status is either null or undefined and it shouldn not be")
+            }
+
             if (status.toLowerCase().includes('eliminated')) {
                 isParticipating = false
                 eliminationOrder = status.match(/Eliminated (\d+)/i)![1]
