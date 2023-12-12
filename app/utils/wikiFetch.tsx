@@ -35,12 +35,18 @@ export async function getWikipediaContestantData(): Promise<IWikipediaContestant
 
         const $row =  $(element)
 
+        const name = $row.find('th span.fn').text().trim()
+        const age = $row.find('td').eq(0).text().trim()
+        const relationship = $row.find('td').eq(1).text().trim()
+        const hometown = $row.find('td').eq(2).text().trim()
+        const status = $row.find('td').eq(3).text().trim()
+
         const aContestant: IWikipediaContestantData = {
-            name: $row.find('th span.fn').text().trim(),
-            age: $row.find('td').eq(0).text().trim(),
-            relationship: $row.find('td').eq(1).text().trim(),
-            hometown: $row.find('td').eq(2).text().trim(),
-            status: $row.find('td').eq(3).text().trim()
+            name: name,
+            age: age,
+            relationship: relationship,
+            hometown: hometown,
+            status: status
         }
 
         return aContestant
