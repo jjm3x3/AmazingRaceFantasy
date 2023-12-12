@@ -88,4 +88,41 @@ describe('getData', () => {
 
         expect(result.props.runners[0].teamName).toEqual(expectedTeamName)
     })
+
+    it('should not give any team the eliminationOrder of the max teams if there are still Participating contestants', () => {
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
+
+        const listOfContestants = [
+            {},
+            {
+                name: firstContestantsFirstName + " Guy",
+                status: "Participating"
+            },
+            {
+                name: secondContestantsFirstName + " Brother",
+                status: "Participating"
+            },
+            {
+                name: "blah Guy",
+                status: "Participating"
+            },
+            {
+                name: "meh Brother",
+                status: "Participating"
+            },
+            {
+                name: "lost Guy",
+                status: "Eliminated 1st"
+            },
+            {
+                name: secondContestantsFirstName + "alsoLost Brother",
+                status: "Eliminated 1st"
+            }
+        ]
+
+        var result = getTeamList(listOfContestants)
+
+        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(3)
+    })
 })
