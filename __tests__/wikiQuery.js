@@ -65,19 +65,20 @@ describe('getData', () => {
         expect(result.props.runners[0].eliminationOrder).toEqual(2)
     })
 
-    it('should create team names based on merging contestants first names two at a time', () => {
+    it('should create team names based on merging contestants full names two at a time skipping the first empty one', () => {
         // Arrange
-        const firstContestantsFirstName = "Some"
-        const secondContestantsFirstName = "SomeGuys"
-        const expectedTeamName = firstContestantsFirstName + " & " + secondContestantsFirstName
+        const firstContestantsFullName = "Some" + " Guy"
+        const secondContestantsFullName = "SomeGuys" + " Brother"
+        const expectedTeamName = firstContestantsFullName + " & " + secondContestantsFullName
 
         const listOfContestants = [
+            {},
             {
-                name: firstContestantsFirstName + " Guy",
+                name: firstContestantsFullName,
                 status: "Participating"
             },
             {
-                name: secondContestantsFirstName + " Brother",
+                name: secondContestantsFullName,
                 status: "Participating"
             }
         ]
