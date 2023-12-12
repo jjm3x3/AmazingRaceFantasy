@@ -1,45 +1,20 @@
+import { IWikipediaContestantData } from './wikiFetch'
 
-import * as cheerio from 'cheerio'
-
-export const wikiUrl = "https://en.wikipedia.org/wiki/The_Amazing_Race_35"
-
-interface IWikipediaData {
-    parse: {
-        text: string
-    }
-}
-
-export interface IContestant {
+export interface ITeam {
     teamName: string
-    age: number
     relationship: string
-    hometown: string
     isParticipating: boolean
     eliminationOrder: string
 }
 
-async function fetchWikipediaData(): Promise<IWikipediaData> {
-    const apiUrl = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&page=The_Amazing_Race_35&section=7&formatversion=2'
-    const response = await fetch(apiUrl)
-    const data = await response.json()
-    return data
-}
+export function getTeamList(contestantData :IWikipediaContestantData[]): any {
 
-export async function getContestantList(): Promise<any> {
+    const contestants: ITeam[] = []
 
-    const wikipediaData = await fetchWikipediaData()
-    const htmlSnippet = wikipediaData.parse.text
-    const $ = cheerio.load(htmlSnippet)
-    const contestants: IContestant[] = []
+    contestantData.forEach((element, index) => {
 
-    $('table.wikitable tbody tr').each((index, element) => {
-
-        const $row = $(element)
-        const teamName = $row.find('th span.fn').text().trim()
-        const age = parseInt($row.find('td').eq(0).text().trim(), 10)
-        const relationship = $row.find('td').eq(1).text().trim()
-        const hometown = $row.find('td').eq(2).text().trim()
-        const status = $row.find('td').eq(3).text().trim()
+        const status = element.status
+        let teamName = element.name
 
         if (index % 2 == 1) {
             let isParticipating = true
@@ -50,11 +25,9 @@ export async function getContestantList(): Promise<any> {
                 eliminationOrder = status.match(/Eliminated (\d+)/i)![1]
             }
 
-            const contestant: IContestant = {
-                teamName,
-                age,
-                relationship,
-                hometown,
+            const contestant: ITeam = {
+                teamName: teamName,
+                relationship: element.relationship,
                 isParticipating,
                 eliminationOrder
             }
