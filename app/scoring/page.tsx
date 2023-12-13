@@ -43,11 +43,11 @@ export default async function Scoring() {
                     return (<Fragment key={"round details"+roundNumber}>
                         <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {currentWeek}</h2>
                         {reverseTeamsList.map(t => {
-                            return (<>
-                                <p key={t.teamName}>
+                            return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
+                                <p key={t.teamName+roundNumber}>
                                     {t.eliminationOrder === 0 || currentWeek < t.eliminationOrder ? t.teamName : <s>{t.teamName}</s>}
                                 </p>
-                            </>)
+                            </Fragment>)
                         })}
                         <br/>
                         <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {s}</p>
