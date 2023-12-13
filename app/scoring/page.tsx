@@ -9,21 +9,21 @@ export default async function Scoring() {
     const currentSelectedContestant = "Jacob"
 
     const numberOfRounds = pageData.props.runners.reduce(
-        (acc, x) => {
+        (acc: number, x: ITeam) => {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
         }, 0)
 
     const roundScores = []
     for(let i = 1; i <= numberOfRounds; i++) {
         const roundScore = pageData.props.runners.reduce(
-            (acc, x) => {
+            (acc: number, x: ITeam) => {
                 return x.eliminationOrder === 0 || x.eliminationOrder > i ? acc + 10 : acc
             }, 0)
         roundScores.push(roundScore)
     }
 
     const weeklyScore = pageData.props.runners.reduce(
-        (acc, x) => {
+        (acc: number, x: ITeam) => {
             return x.isParticipating ? acc + 10 : acc
         }, 0)
 
