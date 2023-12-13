@@ -35,7 +35,7 @@ export default async function Scoring() {
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
             <br/>
             <div className="text-center">
-                {roundScores.map(s => {
+                {roundScores.map((s,roundNumber) => {
                     grandTotal += s
                     currentWeek++
 
