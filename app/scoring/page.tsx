@@ -36,8 +36,8 @@ export default async function Scoring() {
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
             <br/>
             <div className="text-center">
-                {roundScores.map((s,roundNumber) => {
-                    grandTotal += s
+                {roundScores.map((score, roundNumber) => {
+                    grandTotal += score
                     currentWeek++
 
                     return (<Fragment key={"round details"+roundNumber}>
@@ -50,7 +50,7 @@ export default async function Scoring() {
                             </Fragment>)
                         })}
                         <br/>
-                        <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {s}</p>
+                        <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {score}</p>
                         <p key={"grandTotal"+roundNumber}className="text-center">Grand Total: {grandTotal}</p>
                         <br/>
                         <br/>
