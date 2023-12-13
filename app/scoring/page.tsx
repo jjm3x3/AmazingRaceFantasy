@@ -1,31 +1,33 @@
-import { getContestantList, wikiUrl } from "../utils/wikiQuery"
+import { getTeamList, ITeam } from "../utils/wikiQuery"
+import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 
 export default async function Scoring() {
 
-    const wikiData = await getContestantList()
+    const wikiContestants = await getWikipediaContestantData()
+    const pageData = getTeamList(wikiContestants)
 
     const currentSelectedContestant = "Jacob"
 
-    const numberOfRounds = wikiData.props.runners.reduce(
+    const numberOfRounds = pageData.props.runners.reduce(
         (acc, x) => {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
         }, 0)
 
     const roundScores = []
     for(let i = 1; i <= numberOfRounds; i++) {
-        const roundScore = wikiData.props.runners.reduce(
+        const roundScore = pageData.props.runners.reduce(
             (acc, x) => {
                 return x.eliminationOrder === 0 || x.eliminationOrder > i ? acc + 10 : acc
             }, 0)
         roundScores.push(roundScore)
     }
 
-    const weeklyScore = wikiData.props.runners.reduce(
+    const weeklyScore = pageData.props.runners.reduce(
         (acc, x) => {
             return x.isParticipating ? acc + 10 : acc
         }, 0)
 
-    const reverseTeamsList = [...wikiData.props.runners].reverse()
+    const reverseTeamsList = [...pageData.props.runners].reverse()
     let grandTotal = 0
     let currentWeek = 0
     return (
