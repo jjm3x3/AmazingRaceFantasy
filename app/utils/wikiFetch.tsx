@@ -52,7 +52,7 @@ export async function getWikipediaContestantData(): Promise<IWikipediaContestant
         return aContestant
     }).toArray()
 
-    return contestantData
+    return filterEmptyContestants(contestantData)
 }
 
 export function filterEmptyContestants(contestantList: IWikipediaContestantData[]): IWikipediaContestantData[] {
