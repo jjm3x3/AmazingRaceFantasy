@@ -49,7 +49,6 @@ describe('getData', () => {
         const expectedEliminationOrder = 2
 
         const listOfContestants = [
-            {},
             {
                 name: firstContestantsFirstName + " Guy",
                 status: "Eliminated " + expectedEliminationOrder + "nd"
@@ -72,7 +71,6 @@ describe('getData', () => {
         const expectedTeamName = firstContestantsFullName + " & " + secondContestantsFullName
 
         const listOfContestants = [
-            {},
             {
                 name: firstContestantsFullName,
                 status: "Participating"
@@ -94,7 +92,6 @@ describe('getData', () => {
         const secondContestantsFirstName = "SomeGuys"
 
         const listOfContestants = [
-            {},
             {
                 name: firstContestantsFirstName + " Guy",
                 status: "Participating"
