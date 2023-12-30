@@ -16,13 +16,14 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
         const status = element.status
         let teamName = element.name
 
+        if (status === null || status === undefined) {
+            throw new ReferenceError("Status is either null or undefined and it shouldn not be")
+        }
+
+
         if (index % 2 == 0) {
             let isParticipating = true
             let eliminationOrder = 0
-
-            if (status === null || status === undefined) {
-                throw new ReferenceError("Status is either null or undefined and it shouldn not be")
-            }
 
             if (status.toLowerCase().includes('eliminated')) {
                 isParticipating = false
