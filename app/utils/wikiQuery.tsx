@@ -16,7 +16,7 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
         const status = element.status
         let teamName = element.name
 
-        if (index % 2 == 1) {
+        if (index % 2 == 0) {
             let isParticipating = true
             let eliminationOrder = 0
 
