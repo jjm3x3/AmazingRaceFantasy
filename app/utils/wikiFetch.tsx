@@ -55,7 +55,7 @@ export async function getWikipediaContestantData(): Promise<IWikipediaContestant
     return contestantData
 }
 
-export async function filterEmptyContestants(contestantList: IWikipediaContestantData[]): IWikipediaContestantData[] {
-    return contestantList.filter(x => x.name !== "")
+export function filterEmptyContestants(contestantList: IWikipediaContestantData[]): IWikipediaContestantData[] {
+    return contestantList.filter(x => x.name != null)
 }
 
