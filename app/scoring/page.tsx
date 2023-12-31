@@ -2,12 +2,48 @@ import { Fragment } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 
+interface Dictionary<T> {
+    [Key: string]: T;
+}
+
+function getKey(teamName: string): string {
+    const names = teamName.split("&").map(s => s.trim() )
+    var key = ""
+    if (names[0][0] > names[1][0]) {
+        key = names[1] + names[0]
+    }
+    else {
+        key = names[0] + names[1]
+    }
+    return key
+}
+
+function shouldBeCrossed(teamDictionary: Dictionary<ITeam>, currentWeek: number, teamName: string): boolean {
+
+    const teamInfo = teamDictionary[getKey(teamName)]
+    if (teamInfo.isParticipating || (teamInfo.eliminationOrder > currentWeek)) {
+        return true
+    }
+    else {
+        return false
+    }
+
+}
+
 export default async function Scoring() {
 
     const wikiContestants = await getWikipediaContestantData()
     const pageData = getTeamList(wikiContestants)
 
+    const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
+            acc[getKey(t.teamName)] = t
+
+            return acc
+        }, {})
+
     const currentSelectedContestant = "Jacob"
+
+    const currentSelectedContestantRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Chelsea Day & Robbin Tomich", "Anna Leigh Wilson & Steve Cargile", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Liam Hykel & Yeremi Hykel", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
 
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
@@ -42,13 +78,26 @@ export default async function Scoring() {
 
                     return (<Fragment key={"round details"+roundNumber}>
                         <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {currentWeek}</h2>
-                        {reverseTeamsList.map(t => {
-                            return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
-                                <p key={t.teamName+roundNumber}>
-                                    {t.eliminationOrder === 0 || currentWeek < t.eliminationOrder ? t.teamName : <s>{t.teamName}</s>}
-                                </p>
-                            </Fragment>)
-                        })}
+                        <div className="text-center flex">
+                            <div className="basis-1/2">
+                                {reverseTeamsList.map(t => {
+                                    return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
+                                        <p key={t.teamName+roundNumber}>
+                                            {t.eliminationOrder === 0 || currentWeek < t.eliminationOrder ? t.teamName : <s>{t.teamName}</s>}
+                                        </p>
+                                    </Fragment>)
+                                })}
+                            </div>
+                            <div className="basis-1/2">
+                                {currentSelectedContestantRanking.map(t => {
+                                    return (<>
+                                        <p key={t+"current"}>
+                                            {shouldBeCrossed(teamDictionary, currentWeek, t) ? t : <s>{t}</s>}
+                                        </p>
+                                    </>)
+                                })}
+                            </div>
+                        </div>
                         <br/>
                         <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {score}</p>
                         <p key={"grandTotal"+roundNumber}className="text-center">Grand Total: {grandTotal}</p>
