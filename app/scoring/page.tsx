@@ -26,7 +26,7 @@ export default async function Scoring() {
     const wikiContestants = await getWikipediaContestantData()
     const pageData = getTeamList(wikiContestants)
 
-    const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<any>, t: ITeam) => {
+    const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
             acc[getKey(t.teamName)] = t
 
             return acc
