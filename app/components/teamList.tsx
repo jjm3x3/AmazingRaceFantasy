@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
+import { ITeam } from '../utils/wikiQuery'
 
-export default function TeamList({ teamList, roundNumber }) {
+export default function TeamList({ teamList, roundNumber }: { teamList: ITeam[], roundNumber: number }) {
     
     return <div>
         {teamList.map(t => {
