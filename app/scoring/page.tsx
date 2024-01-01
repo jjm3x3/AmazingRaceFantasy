@@ -25,7 +25,6 @@ export default async function Scoring() {
 
     const reverseTeamsList = [...pageData.props.runners].reverse()
     let grandTotal = 0
-    let currentWeek = 0
     return (
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
@@ -33,14 +32,13 @@ export default async function Scoring() {
             <div className="text-center">
                 {roundScores.map((score, roundNumber) => {
                     grandTotal += score
-                    currentWeek++
 
                     return (<Fragment key={"round details"+roundNumber}>
-                        <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {currentWeek}</h2>
+                        <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {roundNumber+1}</h2>
                         {reverseTeamsList.map(t => {
                             return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
                                 <p key={t.teamName+roundNumber}>
-                                    {t.eliminationOrder === 0 || currentWeek < t.eliminationOrder ? t.teamName : <s>{t.teamName}</s>}
+                                    {t.eliminationOrder === 0 || roundNumber+1 < t.eliminationOrder ? t.teamName : <s>{t.teamName}</s>}
                                 </p>
                             </Fragment>)
                         })}
