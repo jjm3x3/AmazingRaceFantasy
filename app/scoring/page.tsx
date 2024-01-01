@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import TeamList from '../components/teamList'
 
 export default async function Scoring() {
 
@@ -35,13 +36,7 @@ export default async function Scoring() {
 
                     return (<Fragment key={"round details"+roundNumber}>
                         <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {roundNumber+1}</h2>
-                        {reverseTeamsList.map(t => {
-                            return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
-                                <p key={t.teamName+roundNumber}>
-                                    {t.eliminationOrder === 0 || roundNumber+1 < t.eliminationOrder ? t.teamName : <s>{t.teamName}</s>}
-                                </p>
-                            </Fragment>)
-                        })}
+                        <TeamList teamList={reverseTeamsList} roundNumber={roundNumber} />
                         <br/>
                         <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {score}</p>
                         <p key={"grandTotal"+roundNumber}className="text-center">Grand Total: {grandTotal}</p>
