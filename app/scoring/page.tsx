@@ -23,11 +23,6 @@ export default async function Scoring() {
         roundScores.push(roundScore)
     }
 
-    const weeklyScore = pageData.props.runners.reduce(
-        (acc: number, x: ITeam) => {
-            return x.isParticipating ? acc + 10 : acc
-        }, 0)
-
     const reverseTeamsList = [...pageData.props.runners].reverse()
     let grandTotal = 0
     let currentWeek = 0
