@@ -27,4 +27,20 @@ describe('Team isInPlay', () => {
             expect(aTeam.isInPlay(i)).toBeTruthy()
         }
     })
+
+    it('should be false if roundOrder and eliminationOrder are exactly the same', () => {
+
+        for (let i = 0 - 100; i < 100; i++) {
+            if (i === 0) { continue } // This was already coverd in the last test
+
+            // Arrange
+            const aTeam = new Team({
+                eliminationOrder: i
+            })
+
+            // Act, Assert
+            expect(aTeam.eliminationOrder).toBe(i)
+            expect(aTeam.isInPlay(i)).toBeFalsy()
+        }
+    })
 })
