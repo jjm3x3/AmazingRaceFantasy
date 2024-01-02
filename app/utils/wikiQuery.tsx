@@ -1,4 +1,5 @@
 import { IWikipediaContestantData } from './wikiFetch'
+import Team from '../models/Team'
 
 export interface ITeam {
     teamName: string
@@ -29,12 +30,12 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
                 eliminationOrder = Number(status.match(/Eliminated (\d+)/i)![1])
             }
 
-            const contestant: ITeam = {
+            const contestant: Team = new Team({
                 teamName: teamName,
                 relationship: element.relationship,
                 isParticipating,
                 eliminationOrder
-            }
+            })
 
             if (contestant.teamName) {
                 contestants.push(contestant)    
