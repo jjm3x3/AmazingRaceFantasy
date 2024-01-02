@@ -1,6 +1,11 @@
 import { ITeam } from '../utils/wikiQuery'
 
 export default class Team {
+    teamName: string
+    relationship: string
+    isParticipating: boolean
+    eliminationOrder: number
+
     constructor(inTeam: ITeam) {
 
         this.teamName = inTeam.teamName
