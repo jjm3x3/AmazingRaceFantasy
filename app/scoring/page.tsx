@@ -75,13 +75,7 @@ export default async function Scoring() {
                                 <TeamList teamList={reverseTeamsList} roundNumber={roundNumber} />
                             </div>
                             <div className="basis-1/2">
-                                {currentSelectedContestantRanking.map(t => {
-                                    return (<>
-                                        <p key={t+"current"}>
-                                            {teamDictionary[getKey(t)].isParticipating ? t : <s>{t}</s> }
-                                        </p>
-                                    </>)
-                                })}
+                                <TeamList teamList={currentSelectedContestantTeamsList} roundNumber={roundNumber} />
                             </div>
                         </div>
                         <br/>
