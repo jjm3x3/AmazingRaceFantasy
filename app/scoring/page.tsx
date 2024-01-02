@@ -60,6 +60,11 @@ export default async function Scoring() {
         roundScores.push(roundScore)
     }
 
+    const currentSelectedContestantTeamsList = currentSelectedContestantRanking.map(x => {
+        const foundTeam = teamDictionary[getKey(x)]
+        return foundTeam
+    })
+
     const reverseTeamsList = [...pageData.props.runners].reverse()
     let grandTotal = 0
     return (
