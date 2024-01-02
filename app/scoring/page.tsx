@@ -16,7 +16,7 @@ export default async function Scoring() {
         }, 0)
 
     const roundScores = []
-    for(let i = 1; i <= numberOfRounds; i++) {
+    for(let i = 0; i < numberOfRounds; i++) {
         const roundScore = pageData.props.runners.reduce(
             (acc: number, x: ITeam) => {
                 const teamShouldBeScored = x.isInPlay(i)
