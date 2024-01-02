@@ -15,10 +15,10 @@ export default class Team {
     }
 
     isInPlay(roundNumber: number): boolean {
-        
+
         //return x.eliminationOrder === 0 || x.eliminationOrder > i ? acc + 10 : acc
         return this.eliminationOrder === 0 || roundNumber+1 < this.eliminationOrder
     }
-         
+
 }
 
