@@ -43,4 +43,20 @@ describe('Team isInPlay', () => {
             expect(aTeam.isInPlay(i)).toBeFalsy()
         }
     })
+
+    it('should be false if roundOrder is one less than eliminationOrder', () => {
+
+        for (let i = 0 - 100; i < 100; i++) {
+            if (i === 0) { continue } // This was already coverd in the last test
+
+            // Arrange
+            const aTeam = new Team({
+                eliminationOrder: i
+            })
+
+            // Act, Assert
+            expect(aTeam.eliminationOrder).toBe(i)
+            expect(aTeam.isInPlay(i-1)).toBeFalsy()
+        }
+    })
 })
