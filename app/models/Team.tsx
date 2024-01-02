@@ -20,9 +20,12 @@ export default class Team {
     }
 
     isInPlay(roundNumber: number): boolean {
+        
+        const currentWeek = roundNumber+1
+        const teamIsParticipating = this.isParticipating
+        const teamHasNotYetBeenEliminated = this.eliminationOrder > currentWeek
 
-        //return x.eliminationOrder === 0 || x.eliminationOrder > i ? acc + 10 : acc
-        return this.eliminationOrder === 0 || roundNumber+1 < this.eliminationOrder
+        return teamIsParticipating || teamHasNotYetBeenEliminated
     }
 
 }
