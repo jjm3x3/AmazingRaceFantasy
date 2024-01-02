@@ -54,6 +54,11 @@ export default async function Scoring() {
         roundScores.push(roundScore)
     }
 
+    const currentSelectedContestantTeamsList = currentSelectedContestantRanking.map(x => {
+        const foundTeam = teamDictionary[getKey(x)]
+        return foundTeam
+    })
+
     let grandTotal = 0
     return (
         <div>
