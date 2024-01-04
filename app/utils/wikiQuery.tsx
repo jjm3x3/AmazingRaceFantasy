@@ -17,7 +17,7 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
         let teamName = element.name
 
         if (status === null || status === undefined) {
-            throw new ReferenceError("Status is either null or undefined and it shouldn not be")
+            throw new ReferenceError("Status is either null or undefined and it should not be")
         }
 
 

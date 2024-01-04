@@ -40,7 +40,7 @@ describe('getData', () => {
         var act = () => getTeamList(listOfContestants)
 
         // Assert
-        expect(act).toThrow(new ReferenceError("Status is either null or undefined and it shouldn not be"))
+        expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"))
     })
 
     it('Should parse out elimination order a populate it when the team is not participating', () => {
