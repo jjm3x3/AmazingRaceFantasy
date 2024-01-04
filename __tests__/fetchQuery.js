@@ -20,4 +20,14 @@ describe('filterEmptyContestants', () => {
 
         expect(result).not.toHaveLength(2)
     })
+
+    it('should make sure that contestants with null names are not returned', () => {
+        const inputContestants = [
+            {name: null},
+            {name: "some name"}
+        ]
+        const result = filterEmptyContestants(inputContestants)
+
+        expect(result).not.toHaveLength(2)
+    })
 })
