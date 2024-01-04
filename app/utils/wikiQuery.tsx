@@ -20,7 +20,6 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
             throw new ReferenceError("Status is either null or undefined and it should not be")
         }
 
-
         if (index % 2 == 0) {
             let isParticipating = true
             let eliminationOrder = 0
