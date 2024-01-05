@@ -40,7 +40,7 @@ describe('getData', () => {
         var act = () => getTeamList(listOfContestants)
 
         // Assert
-        expect(act).toThrow(new ReferenceError("Status is either null or undefined and it shouldn not be"))
+        expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"))
     })
 
     it('Should parse out elimination order a populate it when the team is not participating', () => {
@@ -49,7 +49,6 @@ describe('getData', () => {
         const expectedEliminationOrder = 2
 
         const listOfContestants = [
-            {},
             {
                 name: firstContestantsFirstName + " Guy",
                 status: "Eliminated " + expectedEliminationOrder + "nd"
@@ -72,7 +71,6 @@ describe('getData', () => {
         const expectedTeamName = firstContestantsFullName + " & " + secondContestantsFullName
 
         const listOfContestants = [
-            {},
             {
                 name: firstContestantsFullName,
                 status: "Participating"
@@ -94,7 +92,6 @@ describe('getData', () => {
         const secondContestantsFirstName = "SomeGuys"
 
         const listOfContestants = [
-            {},
             {
                 name: firstContestantsFirstName + " Guy",
                 status: "Participating"
