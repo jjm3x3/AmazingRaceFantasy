@@ -13,6 +13,7 @@ describe('Team construct', () => {
 describe('Team isInPlay', () => {
     it('should be true when elimination order is 0 reguardless of roundNumber (sparse)', () => {
         const aTeam = new Team({
+            isParticipating: true,
             eliminationOrder: 0
         })
 
