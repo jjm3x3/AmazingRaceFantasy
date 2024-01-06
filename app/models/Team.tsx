@@ -8,7 +8,8 @@ export default class Team {
 
     constructor(inTeam: ITeam) {
 
-        if (inTeam.eliminationOrder === 0 && !inTeam.isParticipating) {
+        if ((inTeam.eliminationOrder === 0 && !inTeam.isParticipating) ||
+            (inTeam.eliminationOrder !== 0 && inTeam.isParticipating)) {
             console.warn("Building a team whose eliminationOrder is 0 (default), but they are also have isParticipating = false. May be a bad team construction")
         }
 
