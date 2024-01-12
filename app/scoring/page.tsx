@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import TeamList from '../components/teamList'
+import Team from '../models/Team'
 
 export default async function Scoring() {
 
@@ -18,7 +19,7 @@ export default async function Scoring() {
     const roundScores = []
     for(let i = 0; i < numberOfRounds; i++) {
         const roundScore = pageData.props.runners.reduce(
-            (acc: number, x: ITeam) => {
+            (acc: number, x: Team) => {
                 const teamShouldBeScored = x.isInPlay(i)
 
                 return teamShouldBeScored ? acc + 10 : acc
