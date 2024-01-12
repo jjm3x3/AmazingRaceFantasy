@@ -45,6 +45,10 @@ describe('Team isInPlay', () => {
         }
     })
 
+    // this is true because it assumes roundNumber is 0 indexed while
+    // eliminationOrder is 1 indexed. This also leads to the next oddity which
+    // is tested in the test w/ the same name but checking that the result is
+    // falsy when the roundNumber is eliminationOrder-2
     it('should be false if roundOrder is one less than eliminationOrder', () => {
 
         for (let i = 0 - 100; i < 100; i++) {
@@ -61,6 +65,7 @@ describe('Team isInPlay', () => {
         }
     })
 
+    // See comment on "should be false if roundOrder is one less...
     it('should be true if roundOrder is two less than eliminationOrder', () => {
 
         for (let i = 0 - 100; i < 100; i++) {
