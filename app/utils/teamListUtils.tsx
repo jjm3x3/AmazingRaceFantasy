@@ -1,6 +1,6 @@
 import Team from '../models/Team'
 
-export function shouldBeScored(team: Team, teamPosition: number, roundNumber: number): bool {
+export function shouldBeScored(team: Team, teamPosition: number, roundNumber: number): boolean {
     
    const currentWeek = roundNumber+1
    const listHasTeamBeingEliminated = teamPosition <= currentWeek
