@@ -59,6 +59,18 @@ export default async function Scoring() {
         return foundTeam
     })
 
+    const contestantRoundScores = []
+    for(let i = 0; i < numberOfRounds; i++) {
+        const roundScore = currentSelectedContestantTeamsList.reduce(
+            (acc: number, x: Team) => {
+                const teamShouldBeScored = shouldBeScored(currentSelectedContestantTeamsList, x, i)
+
+                return teamShouldBeScored ? acc + 10 : acc
+            }, 0)
+        contestantRoundScores.push(roundScore)
+    }
+
+
     let grandTotal = 0
     return (
         <div>
@@ -67,6 +79,7 @@ export default async function Scoring() {
             <div className="text-center">
                 {roundScores.map((score, roundNumber) => {
                     grandTotal += score
+                    let contestantRoundScore = contestantRoundScores[roundNumber]
 
                     return (<Fragment key={"round details"+roundNumber}>
                         <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {roundNumber+1}</h2>
@@ -79,7 +92,7 @@ export default async function Scoring() {
                             </div>
                         </div>
                         <br/>
-                        <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {score}</p>
+                        <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {contestantRoundScore}/{score}</p>
                         <p key={"grandTotal"+roundNumber}className="text-center">Grand Total: {grandTotal}</p>
                         <br/>
                         <br/>
