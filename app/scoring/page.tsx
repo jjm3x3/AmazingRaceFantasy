@@ -17,19 +17,19 @@ export default async function Scoring() {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
         }, 0)
 
+    const reverseTeamsList = [...pageData.props.runners].reverse()
+
     const roundScores = []
     for(let i = 0; i < numberOfRounds; i++) {
         const roundScore = pageData.props.runners.reduce(
             (acc: number, x: Team) => {
-                const teamsReversed = [...pageData.props.runners].reverse()
-                const teamShouldBeScored = shouldBeScored(teamsReversed, x, i)
+                const teamShouldBeScored = shouldBeScored(reverseTeamsList, x, i)
 
                 return teamShouldBeScored ? acc + 10 : acc
             }, 0)
         roundScores.push(roundScore)
     }
 
-    const reverseTeamsList = [...pageData.props.runners].reverse()
     let grandTotal = 0
     return (
         <div>
