@@ -59,7 +59,7 @@ export default async function Scoring() {
         return foundTeam
     })
 
-    const contestantRoundScores = []
+    const contestantRoundScores: number[] = []
     for(let i = 0; i < numberOfRounds; i++) {
         const roundScore = currentSelectedContestantTeamsList.reduce(
             (acc: number, x: Team) => {
