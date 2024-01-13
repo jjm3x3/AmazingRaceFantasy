@@ -21,7 +21,8 @@ export default async function Scoring() {
     for(let i = 0; i < numberOfRounds; i++) {
         const roundScore = pageData.props.runners.reduce(
             (acc: number, x: Team) => {
-                const teamShouldBeScored = shouldBeScored(x, pageData.props.runners.indexOf(x), i)
+                const teamsReversed = [...pageData.props.runners].reverse()
+                const teamShouldBeScored = shouldBeScored(teamsReversed, x, i)
 
                 return teamShouldBeScored ? acc + 10 : acc
             }, 0)

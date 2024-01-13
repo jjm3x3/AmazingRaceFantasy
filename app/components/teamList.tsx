@@ -7,11 +7,9 @@ export default function TeamList({ teamList, roundNumber }: { teamList: Team[], 
     
     return <div>
         {teamList.map(t => {
-            const teamPosition = teamList.length - teamList.indexOf(t)
-
             return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
                 <p key={t.teamName+roundNumber}>
-                    {shouldBeScored(t, teamPosition, roundNumber) ? t.teamName : <s>{t.teamName}</s> }
+                    {shouldBeScored(teamList, t, roundNumber) ? t.teamName : <s>{t.teamName}</s> }
                 </p>
             </Fragment>)
         })}
