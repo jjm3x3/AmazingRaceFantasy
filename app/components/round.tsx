@@ -7,12 +7,16 @@ export default function Round({
         contestantTeamList,
         perfectWeekScore,
         contestantWeekScore,
+        perfectGrandTotal,
+        contestantGrandTotal
     }: {
         roundNumber: number
         perfectTeamList: Team[]
         contestantTeamList: Team[]
         perfectWeekScore: number
         contestantWeekScore: number
+        perfectGrandTotal: number
+        contestantGrandTotal: number
     }) {
 
     return (<Fragment key={"round details"+roundNumber}>
@@ -27,6 +31,7 @@ export default function Round({
         </div>
         <br/>
         <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {contestantWeekScore}/{perfectWeekScore}</p>
+        <p key={"grandTotal"+roundNumber}className="text-center">Grand Total: {contestantGrandTotal}/{perfectGrandTotal}</p>
         <br/>
         <br/>
     </Fragment>)
