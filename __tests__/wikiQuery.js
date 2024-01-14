@@ -109,6 +109,51 @@ describe('getData', () => {
         expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder)
     })
 
+    it('Should parse out elimination order when a team is runners-up', () => {
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
+        const expectedEliminationOrder = 3
+
+        const listOfContestants = [
+            {
+                name: "blah Guy",
+                status: "Participating"
+            },
+            {
+                name: "meh Brother",
+                status: "Participating"
+            },
+            {
+                name: "another guy",
+                status: "Participating"
+            },
+            {
+                name: "his Brother",
+                status: "Participating"
+            },
+            {
+                name: "third guy",
+                status: "Participating"
+            },
+            {
+                name: "thrids Brother",
+                status: "Participating"
+            },
+            {
+                name: firstContestantsFirstName + " Guy",
+                status: "runners-up"
+            },
+            {
+                name: secondContestantsFirstName + " Brother",
+                status: "runners-up"
+            }
+        ]
+
+        var result = getTeamList(listOfContestants)
+
+        expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder)
+    })
+
     it('should create team names based on merging contestants full names two at a time skipping the first empty one', () => {
         // Arrange
         const firstContestantsFullName = "Some" + " Guy"
