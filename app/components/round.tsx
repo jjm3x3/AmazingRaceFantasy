@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 import TeamList from '../components/teamList'
+import Team from '../models/Team'
 
 export default function Round({
         key,
