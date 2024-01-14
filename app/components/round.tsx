@@ -4,11 +4,15 @@ import TeamList from '../components/teamList'
 export default function Round({
         roundNumber,
         perfectTeamList,
-        contestantTeamList
+        contestantTeamList,
+        perfectWeekScore,
+        contestantWeekScore,
     }: {
-        roundNumber: number,
-        perfectTeamList: Team[],
+        roundNumber: number
+        perfectTeamList: Team[]
         contestantTeamList: Team[]
+        perfectWeekScore: number
+        contestantWeekScore: number
     }) {
 
     return (<Fragment key={"round details"+roundNumber}>
@@ -21,6 +25,8 @@ export default function Round({
                 <TeamList teamList={contestantTeamList} roundNumber={roundNumber} />
             </div>
         </div>
+        <br/>
+        <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {contestantWeekScore}/{perfectWeekScore}</p>
         <br/>
         <br/>
     </Fragment>)
