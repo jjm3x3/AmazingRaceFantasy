@@ -31,6 +31,9 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
             } else if (status.toLowerCase().includes("third")) {
                 isParticipating = false
                 eliminationOrder = (contestantData.length/2) - 2
+            } else if (status.toLowerCase().includes("runners-up")) {
+                isParticipating = false
+                eliminationOrder = (contestantData.length/2) - 1
             }
 
             const contestant: Team = new Team({
