@@ -3,6 +3,7 @@ import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
+import ContestantSelector from '../components/contestantSelector'
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -60,6 +61,9 @@ export default async function Scoring() {
     return (
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
+
+            <br/>
+            <ContestantSelector />
             <br/>
             <ContestantRoundList 
                 perfectRoundScores={roundScores}
