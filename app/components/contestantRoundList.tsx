@@ -3,7 +3,8 @@ import Round from './round'
 export default function ContestantRoundList({
         perfectRoundScores,
         contestantRoundScores,
-        perfectTeamList
+        perfectTeamList,
+        contestantTeamList
     }) {
 
     let grandTotal = 0
@@ -16,7 +17,7 @@ export default function ContestantRoundList({
                 let contestantRoundScore = contestantRoundScores[roundNumber]
                 contestantGrandTotal += contestantRoundScore
 
-                return (<><p>I Will Be A Round</p></>)
+                return <Round key={"round"+roundNumber} roundNumber={roundNumber} perfectTeamList={perfectTeamList} contestantTeamList={contestantTeamList} perfectWeekScore={score} contestantWeekScore={contestantRoundScore} perfectGrandTotal={grandTotal} contestantGrandTotal={contestantGrandTotal} />
             })}
         </div>
     )
