@@ -1,6 +1,10 @@
 import Round from './round'
 
-export default function ContestantRoundList({ perfectRoundScores, contestantRoundScores }) {
+export default function ContestantRoundList({
+        perfectRoundScores,
+        contestantRoundScores,
+        perfectTeamList
+    }) {
 
     let grandTotal = 0
     let contestantGrandTotal = 0
