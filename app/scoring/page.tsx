@@ -3,6 +3,7 @@ import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import Round from '../components/round'
+import ContestantRoundList from '../components/contestantRoundList'
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -64,6 +65,7 @@ export default async function Scoring() {
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
             <br/>
+            <ContestantRoundList />
             <div className="text-center">
                 {roundScores.map((score, roundNumber) => {
                     grandTotal += score
