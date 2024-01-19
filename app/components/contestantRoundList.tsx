@@ -1,7 +1,12 @@
 
-export default function ContestantRoundList({}) {
+export default function ContestantRoundList({ perfectRoundScores }) {
 
-    return (<>
-        <p>I am a contestantRoundList</p>
-    </>)
+    return (
+        <div className="text-center">
+            {perfectRoundScores.map((score, roundNumber) => {
+
+                return (<><p>I Will Be A Round</p></>)
+            })}
+        </div>
+    )
 }

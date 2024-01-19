@@ -65,7 +65,7 @@ export default async function Scoring() {
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
             <br/>
-            <ContestantRoundList />
+            <ContestantRoundList perfectRoundScores={roundScores} />
             <div className="text-center">
                 {roundScores.map((score, roundNumber) => {
                     grandTotal += score
