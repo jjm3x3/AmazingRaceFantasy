@@ -1,13 +1,15 @@
 import { Fragment } from 'react'
-import { ITeam } from '../utils/wikiQuery'
+import Team from '../models/Team'
 
-export default function TeamList({ teamList, roundNumber }: { teamList: ITeam[], roundNumber: number }) {
+
+export default function TeamList({ teamList, roundNumber }: { teamList: Team[], roundNumber: number }) {
+
     
     return <div>
         {teamList.map(t => {
             return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
                 <p key={t.teamName+roundNumber}>
-                    {t.eliminationOrder === 0 || roundNumber+1 < t.eliminationOrder ? t.teamName : <s>{t.teamName}</s>}
+                    {t.isInPlay(roundNumber) ? t.teamName : <s>{t.teamName}</s>}
                 </p>
             </Fragment>)
         })}
