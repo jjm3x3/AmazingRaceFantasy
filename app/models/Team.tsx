@@ -10,7 +10,7 @@ export default class Team {
 
         if ((inTeam.eliminationOrder === 0 && !inTeam.isParticipating) ||
             (inTeam.eliminationOrder !== 0 && inTeam.isParticipating)) {
-            console.warn("Building a team whose eliminationOrder is 0 (default), but they are also have isParticipating = false. May be a bad team construction")
+            console.warn("Building a team with teamName: '" + inTeam.teamName + "'whose eliminationOrder is 0 (default), but they are also have isParticipating = false. May be a bad team construction")
         }
 
         this.teamName = inTeam.teamName
