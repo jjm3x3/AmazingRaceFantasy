@@ -65,11 +65,12 @@ export default async function Scoring() {
 
     const contestantRoundScores: number[] = generateContestantRoundScores(andrewsTeamList, numberOfRounds)
 
+    const andrewsRoundScores: number[] = generateContestantRoundScores(andrewsTeamList, numberOfRounds)
+
     const listOfContestantRoundLists = [
         {
             key: "Andrew",
-            // change contestantRoundScores
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={contestantRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={andrewsTeamList}/>
+            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={andrewsRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={andrewsTeamList}/>
         },
         {
             key: "Jacob",
