@@ -3,6 +3,7 @@ import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import TeamList from '../components/teamList'
 import Team from '../models/Team'
+import { shouldBeScored } from '../utils/teamListUtils'
 
 export default async function Scoring() {
 
@@ -16,18 +17,19 @@ export default async function Scoring() {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
         }, 0)
 
+    const reverseTeamsList = [...pageData.props.runners].reverse()
+
     const roundScores = []
     for(let i = 0; i < numberOfRounds; i++) {
         const roundScore = pageData.props.runners.reduce(
             (acc: number, x: Team) => {
-                const teamShouldBeScored = x.isInPlay(i)
+                const teamShouldBeScored = shouldBeScored(reverseTeamsList, x, i)
 
                 return teamShouldBeScored ? acc + 10 : acc
             }, 0)
         roundScores.push(roundScore)
     }
 
-    const reverseTeamsList = [...pageData.props.runners].reverse()
     let grandTotal = 0
     return (
         <div>
