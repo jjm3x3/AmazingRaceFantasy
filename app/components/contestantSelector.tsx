@@ -2,7 +2,7 @@
 import { Fragment, useState } from 'react'
 
 
-export default function ContestantSelector() {
+export default function ContestantSelector({ listOfContestantRoundLists }) {
 
     const [selectedContestant, setSelectedContestant] = useState("Andrew")
 

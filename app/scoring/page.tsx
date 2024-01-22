@@ -68,7 +68,7 @@ export default async function Scoring() {
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
 
             <br/>
-            <ContestantSelector />
+            <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
             <br/>
             <ContestantRoundList 
                 perfectRoundScores={roundScores}
