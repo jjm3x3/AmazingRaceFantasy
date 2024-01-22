@@ -12,6 +12,9 @@ export default function ContestantSelector({ listOfContestantRoundLists }: Conte
 
     const [selectedContestant, setSelectedContestant] = useState("Andrew")
 
+    const filteredItems = listOfContestantRoundLists
+        .map(item => item.content)
+
     return (
         <div className="flex justify-center">
             <select value={selectedContestant} onChange={e => setSelectedContestant(e.target.value)}>
@@ -21,6 +24,7 @@ export default function ContestantSelector({ listOfContestantRoundLists }: Conte
                 <option>Jim</option>
                 <option>Rachel</option>
             </select>
+            {filteredItems}
         </div>
     )
 }
