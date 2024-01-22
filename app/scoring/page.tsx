@@ -27,7 +27,7 @@ export default async function Scoring() {
     const pageData = getTeamList(wikiContestants)
 
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
-            acc[getKey(t.teamName)] = t
+            acc[Team.getKey(t.teamName)] = t
 
             return acc
         }, {})
@@ -55,7 +55,7 @@ export default async function Scoring() {
     }
 
     const currentSelectedContestantTeamsList = currentSelectedContestantRanking.map(x => {
-        const foundTeam = teamDictionary[getKey(x)]
+        const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
 
