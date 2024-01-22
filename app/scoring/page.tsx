@@ -58,6 +58,11 @@ export default async function Scoring() {
 
     const contestantRoundScores: number[] = generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds)
 
+    const listOfContestantRoundLists = [{
+            key: "Jacob",
+            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={contestantRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={currentSelectedContestantTeamsList}/>
+    }]
+
     return (
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
