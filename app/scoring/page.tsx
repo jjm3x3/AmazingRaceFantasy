@@ -8,6 +8,24 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
+
+function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number) {
+
+    const contestantRoundScores: number[] = []
+
+    for(let i = 0; i < numberOfRounds; i++) {
+        const roundScore = contestantTeamsList.reduce(
+            (acc: number, x: Team) => {
+                const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i)
+
+                return teamShouldBeScored ? acc + 10 : acc
+            }, 0)
+        contestantRoundScores.push(roundScore)
+    }
+
+    return contestantRoundScores
+}
+
 export default async function Scoring() {
 
     const wikiContestants = await getWikipediaContestantData()
