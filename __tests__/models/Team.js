@@ -82,3 +82,47 @@ describe('Team isInPlay', () => {
         }
     })
 })
+
+describe('Team static getKey', () => {
+    it('should produce the same result reguardless of the order of the team contestant', () => {
+
+        // Arrange
+        const orderingOne = "Aname one & Bname two"
+        const orderingTwo = "Bname two & Aname one"
+
+        // Act
+        const resultOne = Team.getKey(orderingOne)
+        const resultTwo = Team.getKey(orderingTwo)
+
+        // Assert
+        expect(resultOne).toBe(resultTwo)
+    })
+
+    it('should produce the same result ignoring trailing whitespace', () => {
+
+        // Arrange
+        const expectedTeamName = "Aname one & Bname two"
+        const testTeamName = "Aname one & Bname two   "
+
+        // Act
+        const expectedResult = Team.getKey(expectedTeamName)
+        const testResult = Team.getKey(testTeamName)
+
+        // Assert
+        expect(testResult).toBe(expectedResult)
+    })
+
+    it('should produce the same result ignoring leading whitespace', () => {
+
+        // Arrange
+        const expectedTeamName = "Aname one & Bname two"
+        const testTeamName = "   Aname one & Bname two"
+
+        // Act
+        const expectedResult = Team.getKey(expectedTeamName)
+        const testResult = Team.getKey(testTeamName)
+
+        // Assert
+        expect(testResult).toBe(expectedResult)
+    })
+})
