@@ -13,6 +13,7 @@ export default function ContestantSelector({ listOfContestantRoundLists }: Conte
     const [selectedContestant, setSelectedContestant] = useState("Andrew")
 
     const filteredItems = listOfContestantRoundLists
+        .filter(item => item.key == selectedContestant)
         .map(item => item.content)
 
     return (
