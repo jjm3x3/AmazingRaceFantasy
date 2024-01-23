@@ -1,10 +1,16 @@
 import Round from './round'
+import Team from '../models/Team'
 
 export default function ContestantRoundList({
         perfectRoundScores,
         contestantRoundScores,
         perfectTeamList,
         contestantTeamList
+    }: {
+        perfectRoundScores: number[]
+        contestantRoundScores: number[]
+        perfectTeamList: Team[]
+        contestantTeamList: Team[]
     }) {
 
     let grandTotal = 0
