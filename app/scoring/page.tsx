@@ -69,13 +69,6 @@ export default async function Scoring() {
 
             <br/>
             <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
-            <br/>
-            <ContestantRoundList 
-                perfectRoundScores={roundScores}
-                contestantRoundScores={contestantRoundScores}
-                perfectTeamList={reverseTeamsList}
-                contestantTeamList={currentSelectedContestantTeamsList}
-            />
         </div>
     )
 }
