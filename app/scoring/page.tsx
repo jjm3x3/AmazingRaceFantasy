@@ -40,6 +40,8 @@ export default async function Scoring() {
 
     const jacobsRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Chelsea Day & Robbin Tomich", "Anna Leigh Wilson & Steve Cargile", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Liam Hykel & Yeremi Hykel", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
 
+    const andrewsRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Liam Hykel & Yeremi Hykel", "Greg Franklin & John Franklin", "Ashlie Martin & Todd Martin", "Chelsea Day & Robbin Tomich", "Lena Franklin & Morgan Franklin", "Anna Leigh Wilson & Steve Cargile", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
+
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
@@ -54,7 +56,14 @@ export default async function Scoring() {
         return foundTeam
     })
 
+    const andrewsTeamList = andrewsRanking.map(x => {
+        const foundTeam = teamDictionary[Team.getKey(x)]
+        return foundTeam
+    })
+
     const jacobRoundScores: number[] = generateContestantRoundScores(jacobsTeamsList, numberOfRounds)
+
+    const contestantRoundScores: number[] = generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds)
 
     const listOfContestantRoundLists = [{
             key: "Jacob",
