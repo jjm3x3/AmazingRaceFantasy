@@ -1,8 +1,14 @@
 'use client'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, ReactNode } from 'react'
 
+type ContestantSelectorProps = {
+    listOfContestantRoundLists: {
+        key: string
+        content: ReactNode
+    }[]
+}
 
-export default function ContestantSelector({ listOfContestantRoundLists }) {
+export default function ContestantSelector({ listOfContestantRoundLists }: ContestantSelectorProps) {
 
     const [selectedContestant, setSelectedContestant] = useState("Andrew")
 
