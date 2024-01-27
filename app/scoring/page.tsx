@@ -65,8 +65,7 @@ export default async function Scoring() {
 
     return (
         <div>
-            <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
-
+            <h1 className="text-2xl text-center">Current Scoring for</h1>
             <br/>
             <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
         </div>
