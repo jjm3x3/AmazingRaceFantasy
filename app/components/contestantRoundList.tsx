@@ -18,7 +18,7 @@ export default function ContestantRoundList({
 
     return (
         <div className="text-center">
-            {perfectRoundScores.map((score, roundNumber) => {
+            {perfectRoundScores.map((perfectScore, roundNumber) => {
                 grandTotal += score
                 let contestantRoundScore = contestantRoundScores[roundNumber]
                 contestantGrandTotal += contestantRoundScore
@@ -28,7 +28,7 @@ export default function ContestantRoundList({
                     roundNumber={roundNumber}
                     perfectTeamList={perfectTeamList}
                     contestantTeamList={contestantTeamList}
-                    perfectWeekScore={score}
+                    perfectWeekScore={perfectScore}
                     contestantWeekScore={contestantRoundScore}
                     perfectGrandTotal={grandTotal}
                     contestantGrandTotal={contestantGrandTotal}
