@@ -62,7 +62,12 @@ export default async function Scoring() {
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
             <br/>
-            <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={contestantRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={currentSelectedContestantTeamsList}/>
+            <ContestantRoundList 
+                perfectRoundScores={roundScores}
+                contestantRoundScores={contestantRoundScores}
+                perfectTeamList={reverseTeamsList}
+                contestantTeamList={currentSelectedContestantTeamsList}
+            />
         </div>
     )
 }
