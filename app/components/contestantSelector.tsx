@@ -22,7 +22,12 @@ export default function ContestantSelector({ listOfContestantRoundLists }: Conte
                 <select data-testid="contestants-selector" value={selectedContestant} onChange={e => setSelectedContestant(e.target.value)}>
                     <option>Andrew</option>
                     <option>Cindy</option>
+<<<<<<< HEAD
                     <option data-testid="optionJacob">Jacob</option>
+=======
+                    <option>Jacob</option>
+                    <option>Jim</option>
+>>>>>>> 492a652 (Add Jims ranking)
                 </select>
             </div>
             <br />
