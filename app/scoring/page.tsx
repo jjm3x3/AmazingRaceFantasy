@@ -89,7 +89,8 @@ export default async function Scoring() {
     const cindyRoundScores: number[] = generateContestantRoundScores(cindysTeamList, numberOfRounds)
 
     const jimRoundScores: number[] = generateContestantRoundScores(jimsTeamList, numberOfRounds)
-    const rachelRoundScores: number[] = generateContestantRoundScores(jimsTeamList, numberOfRounds)
+
+    const rachelRoundScores: number[] = generateContestantRoundScores(rachelsTeamList, numberOfRounds)
 
     const listOfContestantRoundLists = [
         {
