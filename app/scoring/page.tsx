@@ -70,7 +70,16 @@ export default async function Scoring() {
                     let contestantRoundScore = contestantRoundScores[roundNumber]
                     contestantGrandTotal += contestantRoundScore
 
-                    return <Round key={"round"+roundNumber} roundNumber={roundNumber} perfectTeamList={reverseTeamsList} contestantTeamList={currentSelectedContestantTeamsList} perfectWeekScore={score} contestantWeekScore={contestantRoundScore} perfectGrandTotal={grandTotal} contestantGrandTotal={contestantGrandTotal} />
+                    return <Round
+                        key={"round"+roundNumber}
+                        roundNumber={roundNumber}
+                        perfectTeamList={reverseTeamsList}
+                        contestantTeamList={currentSelectedContestantTeamsList}
+                        perfectWeekScore={score}
+                        contestantWeekScore={contestantRoundScore}
+                        perfectGrandTotal={grandTotal}
+                        contestantGrandTotal={contestantGrandTotal}
+                    />
                 })}
             </div>
         </div>
