@@ -48,16 +48,7 @@ export default async function Scoring() {
 
     const reverseTeamsList = [...pageData.props.runners].reverse()
 
-    const roundScores = []
-    for(let i = 0; i < numberOfRounds; i++) {
-        const roundScore = pageData.props.runners.reduce(
-            (acc: number, x: Team) => {
-                const teamShouldBeScored = shouldBeScored(reverseTeamsList, x, i)
-
-                return teamShouldBeScored ? acc + 10 : acc
-            }, 0)
-        roundScores.push(roundScore)
-    }
+    const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds)
 
     const currentSelectedContestantTeamsList = currentSelectedContestantRanking.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
