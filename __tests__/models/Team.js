@@ -84,7 +84,7 @@ describe('Team isInPlay', () => {
 })
 
 describe('Team static getKey', () => {
-    it('should produce the same result reguardless of the order of the team contestant', () => {
+    it('should produce the same result regardless of the order of the team contestant', () => {
 
         // Arrange
         const orderingOne = "Aname one & Bname two"
