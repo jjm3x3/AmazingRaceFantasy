@@ -4,7 +4,6 @@ import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import Round from '../components/round'
 
-
 interface Dictionary<T> {
     [Key: string]: T;
 }
