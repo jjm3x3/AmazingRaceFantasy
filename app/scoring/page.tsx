@@ -46,6 +46,8 @@ export default async function Scoring() {
 
     const jimsRanking = [ "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Anna Leigh Wilson & Steve Cargile", "Corey McArthur & Rob McArthur", "Liam Hykel & Yeremi Hykel", "Greg Franklin & John Franklin", "Ashlie Martin & Todd Martin", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Garrett Smith & Joel Strasser", "Alexandra Lichtor & Sheridan Lichtor" ]
 
+    const rachelsRanking = [ "Ashlie Martin & Todd Martin", "Jocelyn Chao & Victor Limary", "Garrett Smith & Joel Strasser", "Lena Franklin & Morgan Franklin", "Ian Todd & Joe Moskowitz", "Corey McArthur & Rob McArthur", "Greg Franklin & John Franklin", "Liam Hykel & Yeremi Hykel", "Anna Leigh Wilson & Steve Cargile", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
+
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
@@ -74,6 +76,12 @@ export default async function Scoring() {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
+
+    const rachelsTeamList = rachelsRanking.map(x => {
+        const foundTeam = teamDictionary[Team.getKey(x)]
+        return foundTeam
+    })
+
     const jacobRoundScores: number[] = generateContestantRoundScores(jacobsTeamsList, numberOfRounds)
 
     const andrewsRoundScores: number[] = generateContestantRoundScores(andrewsTeamList, numberOfRounds)
@@ -81,6 +89,7 @@ export default async function Scoring() {
     const cindyRoundScores: number[] = generateContestantRoundScores(cindysTeamList, numberOfRounds)
 
     const jimRoundScores: number[] = generateContestantRoundScores(jimsTeamList, numberOfRounds)
+    const rachelRoundScores: number[] = generateContestantRoundScores(jimsTeamList, numberOfRounds)
 
     const listOfContestantRoundLists = [
         {
@@ -98,6 +107,10 @@ export default async function Scoring() {
         {
             key: "Jim",
             content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={jimRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={jimsTeamList}/>
+        },
+        {
+            key: "Rachel",
+            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={rachelRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={rachelsTeamList}/>
         }
     ]
 
