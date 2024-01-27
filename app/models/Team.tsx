@@ -28,6 +28,15 @@ export default class Team {
         return teamIsParticipating || teamHasNotYetBeenEliminated
     }
 
+    friendlyName(): string {
+        const contestantNames = this.teamName.split("&")
+
+        const firstContestantsNames = contestantNames[0].trim().split(" ")
+        const secondContestantsNames = contestantNames[1].trim().split(" ")
+
+        return firstContestantsNames[0] + " & " + secondContestantsNames[0]
+    }
+
     static getKey(teamName: string): string {
         var seed = ""
 
