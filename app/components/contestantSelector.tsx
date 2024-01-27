@@ -21,6 +21,7 @@ export default function ContestantSelector({ listOfContestantRoundLists }: Conte
             <div className="flex justify-center">
                 <select data-testid="contestants-selector" value={selectedContestant} onChange={e => setSelectedContestant(e.target.value)}>
                     <option>Andrew</option>
+                    <option>Cindy</option>
                     <option data-testid="optionJacob">Jacob</option>
                 </select>
             </div>

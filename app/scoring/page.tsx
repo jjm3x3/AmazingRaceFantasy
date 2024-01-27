@@ -42,6 +42,8 @@ export default async function Scoring() {
 
     const andrewsRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Liam Hykel & Yeremi Hykel", "Greg Franklin & John Franklin", "Ashlie Martin & Todd Martin", "Chelsea Day & Robbin Tomich", "Lena Franklin & Morgan Franklin", "Anna Leigh Wilson & Steve Cargile", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
 
+    const cindysRanking = [ "Jocelyn Chao & Victor Limary", "Corey McArthur & Rob McArthur", "Ian Todd & Joe Moskowitz", "Liam Hykel & Yeremi Hykel", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Anna Leigh Wilson & Steve Cargile", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
+
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
@@ -61,11 +63,16 @@ export default async function Scoring() {
         return foundTeam
     })
 
+    const cindysTeamList = cindysRanking.map(x => {
+        const foundTeam = teamDictionary[Team.getKey(x)]
+        return foundTeam
+    })
+
     const jacobRoundScores: number[] = generateContestantRoundScores(jacobsTeamsList, numberOfRounds)
 
-    const contestantRoundScores: number[] = generateContestantRoundScores(andrewsTeamList, numberOfRounds)
-
     const andrewsRoundScores: number[] = generateContestantRoundScores(andrewsTeamList, numberOfRounds)
+
+    const cindyRoundScores: number[] = generateContestantRoundScores(cindysTeamList, numberOfRounds)
 
     const listOfContestantRoundLists = [
         {
@@ -75,6 +82,10 @@ export default async function Scoring() {
         {
             key: "Jacob",
             content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={jacobRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={jacobsTeamsList}/>
+        },
+        {
+            key: "Cindy",
+            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={cindyRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={cindysTeamList}/>
         }
     ]
 
