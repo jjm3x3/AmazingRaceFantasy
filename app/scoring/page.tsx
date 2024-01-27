@@ -1,9 +1,8 @@
-import { Fragment } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
-import TeamList from '../components/teamList'
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
+import Round from '../components/round'
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -71,22 +70,16 @@ export default async function Scoring() {
                     let contestantRoundScore = contestantRoundScores[roundNumber]
                     contestantGrandTotal += contestantRoundScore
 
-                    return (<Fragment key={"round details"+roundNumber}>
-                        <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {roundNumber+1}</h2>
-                        <div className="text-center flex">
-                            <div className="basis-1/2">
-                                <TeamList teamList={reverseTeamsList} roundNumber={roundNumber} />
-                            </div>
-                            <div className="basis-1/2">
-                                <TeamList teamList={currentSelectedContestantTeamsList} roundNumber={roundNumber} />
-                            </div>
-                        </div>
-                        <br/>
-                        <p key={"weekTotal"+roundNumber}className="text-center">Weekly Total: {contestantRoundScore}/{score}</p>
-                        <p key={"grandTotal"+roundNumber}className="text-center">Grand Total: {contestantGrandTotal}/{grandTotal}</p>
-                        <br/>
-                        <br/>
-                    </Fragment>)
+                    return <Round
+                        key={"round"+roundNumber}
+                        roundNumber={roundNumber}
+                        perfectTeamList={reverseTeamsList}
+                        contestantTeamList={currentSelectedContestantTeamsList}
+                        perfectWeekScore={score}
+                        contestantWeekScore={contestantRoundScore}
+                        perfectGrandTotal={grandTotal}
+                        contestantGrandTotal={contestantGrandTotal}
+                    />
                 })}
             </div>
         </div>
