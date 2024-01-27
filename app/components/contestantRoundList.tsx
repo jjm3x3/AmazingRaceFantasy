@@ -23,7 +23,16 @@ export default function ContestantRoundList({
                 let contestantRoundScore = contestantRoundScores[roundNumber]
                 contestantGrandTotal += contestantRoundScore
 
-                return <Round key={"round"+roundNumber} roundNumber={roundNumber} perfectTeamList={perfectTeamList} contestantTeamList={contestantTeamList} perfectWeekScore={score} contestantWeekScore={contestantRoundScore} perfectGrandTotal={grandTotal} contestantGrandTotal={contestantGrandTotal} />
+                return <Round
+                    key={"round"+roundNumber}
+                    roundNumber={roundNumber}
+                    perfectTeamList={perfectTeamList}
+                    contestantTeamList={contestantTeamList}
+                    perfectWeekScore={score}
+                    contestantWeekScore={contestantRoundScore}
+                    perfectGrandTotal={grandTotal}
+                    contestantGrandTotal={contestantGrandTotal}
+                />
             })}
         </div>
     )
