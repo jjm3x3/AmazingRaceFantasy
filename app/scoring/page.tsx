@@ -2,7 +2,7 @@ import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
-import Round from '../components/round'
+import ContestantRoundList from '../components/contestantRoundList'
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -58,30 +58,16 @@ export default async function Scoring() {
     }
 
 
-    let grandTotal = 0
-    let contestantGrandTotal = 0
     return (
         <div>
             <h1 className="text-2xl text-center">Current Scoring for {currentSelectedContestant}</h1>
             <br/>
-            <div className="text-center">
-                {roundScores.map((score, roundNumber) => {
-                    grandTotal += score
-                    let contestantRoundScore = contestantRoundScores[roundNumber]
-                    contestantGrandTotal += contestantRoundScore
-
-                    return <Round
-                        key={"round"+roundNumber}
-                        roundNumber={roundNumber}
-                        perfectTeamList={reverseTeamsList}
-                        contestantTeamList={currentSelectedContestantTeamsList}
-                        perfectWeekScore={score}
-                        contestantWeekScore={contestantRoundScore}
-                        perfectGrandTotal={grandTotal}
-                        contestantGrandTotal={contestantGrandTotal}
-                    />
-                })}
-            </div>
+            <ContestantRoundList 
+                perfectRoundScores={roundScores}
+                contestantRoundScores={contestantRoundScores}
+                perfectTeamList={reverseTeamsList}
+                contestantTeamList={currentSelectedContestantTeamsList}
+            />
         </div>
     )
 }
