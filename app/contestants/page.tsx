@@ -1,5 +1,5 @@
 import { getTeamList, ITeam } from "../utils/wikiQuery"
-import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import { wikiUrl, apiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 
 export default async function Contestants() {
 
