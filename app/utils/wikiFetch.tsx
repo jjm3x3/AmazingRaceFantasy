@@ -18,7 +18,7 @@ export interface IWikipediaContestantData {
 }
 
 async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
-    const response = await fetch(apiUrl)
+    const response = await fetch(wikiUrl)
     const data = await response.json()
     return data
 }
