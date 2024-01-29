@@ -17,7 +17,7 @@ export interface IWikipediaContestantData {
     status: string
 }
 
-async function fetchWikipediaData(): Promise<IWikipediaData> {
+async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
     const response = await fetch(apiUrl)
     const data = await response.json()
     return data
@@ -25,7 +25,7 @@ async function fetchWikipediaData(): Promise<IWikipediaData> {
 
 export async function getWikipediaContestantData(wikiUrl: string): Promise<IWikipediaContestantData[]> {
 
-    const wikipediaData = await fetchWikipediaData()
+    const wikipediaData = await fetchWikipediaData(wikiUrl)
     const htmlsnippet = wikipediaData.parse.text
     const $ = cheerio.load(htmlsnippet)
     const cheerioFilter = $('table.wikitable tbody tr')
