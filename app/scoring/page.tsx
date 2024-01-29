@@ -1,5 +1,6 @@
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { apiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import { WIKI_API_URL } from '../leagueData/AmazingRace_35'
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
