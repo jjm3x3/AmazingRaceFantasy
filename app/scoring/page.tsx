@@ -1,5 +1,5 @@
 import { getTeamList, ITeam } from "../utils/wikiQuery"
-import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import { apiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
