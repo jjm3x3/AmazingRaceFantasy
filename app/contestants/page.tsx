@@ -4,7 +4,7 @@ import { WIKI_API_URL, WIKI_PAGE_URL } from '../leagueData/AmazingRace_35'
 
 export default async function Contestants() {
 
-    const wikiContestants = await getWikipediaContestantData(apiUrl)
+    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL)
     const final = getTeamList(wikiContestants)
 
     return (
