@@ -8,6 +8,24 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
+
+function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number) {
+
+    const contestantRoundScores: number[] = []
+
+    for(let i = 0; i < numberOfRounds; i++) {
+        const roundScore = contestantTeamsList.reduce(
+            (acc: number, x: Team) => {
+                const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i)
+
+                return teamShouldBeScored ? acc + 10 : acc
+            }, 0)
+        contestantRoundScores.push(roundScore)
+    }
+
+    return contestantRoundScores
+}
+
 export default async function Scoring() {
 
     const wikiContestants = await getWikipediaContestantData()
@@ -30,33 +48,14 @@ export default async function Scoring() {
 
     const reverseTeamsList = [...pageData.props.runners].reverse()
 
-    const roundScores = []
-    for(let i = 0; i < numberOfRounds; i++) {
-        const roundScore = pageData.props.runners.reduce(
-            (acc: number, x: Team) => {
-                const teamShouldBeScored = shouldBeScored(reverseTeamsList, x, i)
-
-                return teamShouldBeScored ? acc + 10 : acc
-            }, 0)
-        roundScores.push(roundScore)
-    }
+    const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds)
 
     const currentSelectedContestantTeamsList = currentSelectedContestantRanking.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
 
-    const contestantRoundScores: number[] = []
-    for(let i = 0; i < numberOfRounds; i++) {
-        const roundScore = currentSelectedContestantTeamsList.reduce(
-            (acc: number, x: Team) => {
-                const teamShouldBeScored = shouldBeScored(currentSelectedContestantTeamsList, x, i)
-
-                return teamShouldBeScored ? acc + 10 : acc
-            }, 0)
-        contestantRoundScores.push(roundScore)
-    }
-
+    const contestantRoundScores: number[] = generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds)
 
     return (
         <div>
