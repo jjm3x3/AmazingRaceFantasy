@@ -23,7 +23,7 @@ async function fetchWikipediaData(): Promise<IWikipediaData> {
     return data
 }
 
-export async function getWikipediaContestantData(): Promise<IWikipediaContestantData[]> {
+export async function getWikipediaContestantData(wikiUrl: string): Promise<IWikipediaContestantData[]> {
 
     const wikipediaData = await fetchWikipediaData()
     const htmlsnippet = wikipediaData.parse.text

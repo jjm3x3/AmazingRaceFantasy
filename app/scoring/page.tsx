@@ -29,7 +29,7 @@ function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRoun
 
 export default async function Scoring() {
 
-    const wikiContestants = await getWikipediaContestantData()
+    const wikiContestants = await getWikipediaContestantData(apiUrl)
     const pageData = getTeamList(wikiContestants)
 
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {

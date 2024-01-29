@@ -3,7 +3,7 @@ import { wikiUrl, apiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 
 export default async function Contestants() {
 
-    const wikiContestants = await getWikipediaContestantData()
+    const wikiContestants = await getWikipediaContestantData(apiUrl)
     const final = getTeamList(wikiContestants)
 
     return (
