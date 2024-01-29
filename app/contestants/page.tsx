@@ -1,5 +1,6 @@
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { wikiUrl, apiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import { WIKI_PAGE_URL } from '../leagueData/AmazingRace_35'
 
 export default async function Contestants() {
 
