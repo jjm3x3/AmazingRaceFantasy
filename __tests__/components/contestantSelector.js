@@ -1,11 +1,19 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import ContestantSelector from "../../app/components/contestantSelector";
+import ContestantRoundList from "../../app/components/contestantRoundList";
 
 const listOfContestantRoundListsMockData = [
   {
-    key: "test",
-    content: "test test",
+    key: "Jacob",
+    content: (
+      <ContestantRoundList
+        perfectRoundScores={[]}
+        contestantRoundScores={[]}
+        perfectTeamList={[]}
+        contestantTeamList={[]}
+      />
+    ),
   },
 ];
 
