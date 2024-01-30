@@ -5,8 +5,8 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Amazing Race Fantasy League",
-  description: "A web tool to help run an Amazing Race fantasy legue",
+  title: "Amazing Race",
+  description: "A web tool to help run an Amazing Race fantasy league",
 };
 
 export default function RootLayout({
