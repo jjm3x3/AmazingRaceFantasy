@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "NODE_ENV=test jest --watch"
   },
   "dependencies": {
     "@types/node": "20.6.3",
