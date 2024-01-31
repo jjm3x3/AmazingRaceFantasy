@@ -1,8 +1,8 @@
-import React from "react";
-import { render } from "@testing-library/react";
-import ContestantSelector from "../../app/components/contestantSelector";
-import ContestantRoundList from "../../app/components/contestantRoundList";
-import Team from "../../app/models/Team"
+import React from 'react';
+import { render } from '@testing-library/react';
+import ContestantSelector from '../../app/components/contestantSelector';
+import ContestantRoundList from '../../app/components/contestantRoundList';
+import Team from '../../app/models/Team'
 
 const listOfContestantRoundListsMockData = [
   {
@@ -26,12 +26,12 @@ const listOfContestantRoundListsMockData = [
   },
 ];
 
-describe("ContestantSelector", () => {
-  it("should render with default content", () => {
+describe('ContestantSelector', () => {
+  it('should render with default content', () => {
     const { getByText } = render(
       <ContestantSelector
         listOfContestantRoundLists={listOfContestantRoundListsMockData}
       />
-    );
-  });
-});
+    )
+  })
+})
