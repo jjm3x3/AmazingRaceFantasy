@@ -26,13 +26,13 @@ const listOfContestantRoundListsMockData = [
 ];
 
 describe("ContestantSelector", () => {
-  it("should render with default content", () => {
+  it("should render with default content", async () => {
     const { getByTestId } = render(
       <ContestantSelector
         listOfContestantRoundLists={listOfContestantRoundListsMockData}
       />
     );
-    expect(getByTestId("jacob-contestant").textContent).toEqual("Jacob");
-    expect(getByTestId("contestants-selector").value).toEqual("Jacob");
+    expect(await getByTestId("jacob-contestant").textContent).toEqual("Jacob");
+    expect(await getByTestId("contestants-selector").value).toEqual("Jacob");
   });
 });
