@@ -36,11 +36,13 @@ describe("ContestantSelector", () => {
         listOfContestantRoundLists={listOfContestantRoundListsMockData}
       />
     );
+    const jacobContestantOption = await screen.getByTestId("jacob-contestant");
+    const contestantSelectorElm = await screen.getByTestId(
+      "contestants-selector"
+    );
     await waitFor(() => {
-      expect(screen.getByTestId("jacob-contestant").textContent).toEqual(
-        "Jacob"
-      );
-      expect(screen.getByTestId("contestants-selector").value).toEqual("Jacob");
+      expect(jacobContestantOption.textContent).toEqual("Jacob");
+      expect(contestantSelectorElm.value).toEqual("Jacob");
     });
   });
 });
