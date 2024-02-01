@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import ContestantSelector from "../../app/components/contestantSelector";
 import ContestantRoundList from "../../app/components/contestantRoundList";
 import Team from "../../app/models/Team";
@@ -27,6 +27,9 @@ const listOfContestantRoundListsMockData = [
 ];
 
 describe("ContestantSelector", () => {
+  afterEach(() => {
+    cleanup();
+  });
   it("should render with default content", () => {
     render(
       <ContestantSelector
