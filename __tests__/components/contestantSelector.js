@@ -1,4 +1,4 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ContestantSelector from "../../app/components/contestantSelector";
 import ContestantRoundList from "../../app/components/contestantRoundList";
 import Team from "../../app/models/Team";
@@ -26,15 +26,13 @@ const listOfContestantRoundListsMockData = [
 ];
 
 describe("ContestantSelector", () => {
-  it("should render with default content", async () => {
-    const { getByTestId } = render(
+  it("should render with default content", () => {
+    render(
       <ContestantSelector
         listOfContestantRoundLists={listOfContestantRoundListsMockData}
       />
     );
-    await waitFor(() => {
-      expect(getByTestId("jacob-contestant").textContent).toEqual("Jacob");
-      expect(getByTestId("contestants-selector").value).toEqual("Jacob");
-    });
+    expect(screen.getByTestId("jacob-contestant").textContent).toEqual("Jacob");
+    expect(screen.getByTestId("contestants-selector").value).toEqual("Jacob");
   });
 });
