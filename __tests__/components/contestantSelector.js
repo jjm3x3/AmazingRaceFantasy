@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import ContestantSelector from "../../app/components/contestantSelector";
 import ContestantRoundList from "../../app/components/contestantRoundList";
 import Team from "../../app/models/Team";
@@ -32,7 +32,9 @@ describe("ContestantSelector", () => {
         listOfContestantRoundLists={listOfContestantRoundListsMockData}
       />
     );
-    expect(await getByTestId("jacob-contestant").textContent).toEqual("Jacob");
-    expect(await getByTestId("contestants-selector").value).toEqual("Jacob");
+    await waitFor(() => {
+      expect(getByTestId("jacob-contestant").textContent).toEqual("Jacob");
+      expect(getByTestId("contestants-selector").value).toEqual("Jacob");
+    });
   });
 });
