@@ -19,8 +19,8 @@ export default function ContestantSelector({ listOfContestantRoundLists }: Conte
     return (
         <div className="justify-center">
             <div className="flex justify-center">
-                <select value={selectedContestant} onChange={e => setSelectedContestant(e.target.value)}>
-                    <option>Jacob</option>
+                <select data-testid="contestants-selector" value={selectedContestant} onChange={e => setSelectedContestant(e.target.value)}>
+                    <option data-testid="jacob-contestant">Jacob</option>
                 </select>
             </div>
             <br />
