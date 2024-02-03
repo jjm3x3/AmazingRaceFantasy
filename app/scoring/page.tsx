@@ -38,7 +38,7 @@ export default async function Scoring() {
             return acc
         }, {})
 
-    const currentSelectedContestantRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Chelsea Day & Robbin Tomich", "Anna Leigh Wilson & Steve Cargile", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Liam Hykel & Yeremi Hykel", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
+    const jacobsRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Chelsea Day & Robbin Tomich", "Anna Leigh Wilson & Steve Cargile", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Liam Hykel & Yeremi Hykel", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
 
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
@@ -49,16 +49,16 @@ export default async function Scoring() {
 
     const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds)
 
-    const currentSelectedContestantTeamsList = currentSelectedContestantRanking.map(x => {
+    const jacobsTeamsList = jacobsRanking.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
 
-    const contestantRoundScores: number[] = generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds)
+    const jacobRoundScores: number[] = generateContestantRoundScores(jacobsTeamsList, numberOfRounds)
 
     const listOfContestantRoundLists = [{
             key: "Jacob",
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={contestantRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={currentSelectedContestantTeamsList}/>
+            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={jacobRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={jacobsTeamsList}/>
     }]
 
     return (
