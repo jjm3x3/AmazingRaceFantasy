@@ -3,7 +3,6 @@ import TeamList from '../components/teamList'
 import Team from '../models/Team'
 
 export default function Round({
-        key,
         roundNumber,
         perfectTeamList,
         contestantTeamList,
@@ -12,7 +11,6 @@ export default function Round({
         perfectGrandTotal,
         contestantGrandTotal
     }: {
-        key: string
         roundNumber: number
         perfectTeamList: Team[]
         contestantTeamList: Team[]
