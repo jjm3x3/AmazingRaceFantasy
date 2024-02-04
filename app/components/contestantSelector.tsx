@@ -14,7 +14,7 @@ export default function ContestantSelector({ listOfContestantRoundLists }: Conte
 
     const filteredItems = listOfContestantRoundLists
         .filter(item => item.key == selectedContestant)
-        .map((item, index) => <div key={"contestantRound-"+index}>{item.content}</div>)
+        .map((item, index) => <div key={"contestantRoundList-"+index}>{item.content}</div>)
 
     return (
         <div className="justify-center">
