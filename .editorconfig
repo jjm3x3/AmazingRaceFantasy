@@ -1,0 +1,13 @@
+# For VSCode, use this plugin https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
+
+# top-most EditorConfig file
+root = true
+
+# 4 space indentation
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+
+# Set default charset
+[*.js]
+charset = utf-8
