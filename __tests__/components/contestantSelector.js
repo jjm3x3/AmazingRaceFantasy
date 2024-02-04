@@ -32,7 +32,7 @@ describe("ContestantSelector", () => {
         listOfContestantRoundLists={listOfContestantRoundListsMockData}
       />
     );
-    expect(getByTestId("jacob-contestant").textContent).toEqual("Jacob");
+    expect(getByTestId("optionJacob").textContent).toEqual("Jacob");
     expect(getByTestId("contestants-selector").value).toEqual("Jacob");
   });
 });
