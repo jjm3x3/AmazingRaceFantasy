@@ -10,7 +10,7 @@ type ContestantSelectorProps = {
 
 export default function ContestantSelector({ listOfContestantRoundLists }: ContestantSelectorProps) {
 
-    const [selectedContestant, setSelectedContestant] = useState("Jacob")
+    const [selectedContestant, setSelectedContestant] = useState(listOfContestantRoundLists[0].key)
 
     const filteredItems = listOfContestantRoundLists
         .filter(item => item.key == selectedContestant)
