@@ -67,7 +67,7 @@ export default async function Scoring() {
         return foundTeam
     })
 
-    const jacobsTeamsList = jacobsRanking.map(x => {
+    const jacobsTeamsList = JACOBS_RANKING.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
