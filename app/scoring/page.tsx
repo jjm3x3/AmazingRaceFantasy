@@ -4,6 +4,7 @@ import { WIKI_API_URL } from '../leagueConfiguration/AmazingRace_35'
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
+import { JACOBS_RANKING } from '../leagueData/AmazingRace_35'
 import ContestantSelector from '../components/contestantSelector'
 
 interface Dictionary<T> {
@@ -42,8 +43,6 @@ export default async function Scoring() {
     const andrewsRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Liam Hykel & Yeremi Hykel", "Greg Franklin & John Franklin", "Ashlie Martin & Todd Martin", "Chelsea Day & Robbin Tomich", "Lena Franklin & Morgan Franklin", "Anna Leigh Wilson & Steve Cargile", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
 
     const cindysRanking = [ "Jocelyn Chao & Victor Limary", "Corey McArthur & Rob McArthur", "Ian Todd & Joe Moskowitz", "Liam Hykel & Yeremi Hykel", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Anna Leigh Wilson & Steve Cargile", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
-
-    const jacobsRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Chelsea Day & Robbin Tomich", "Anna Leigh Wilson & Steve Cargile", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Liam Hykel & Yeremi Hykel", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
 
     const jimsRanking = [ "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Anna Leigh Wilson & Steve Cargile", "Corey McArthur & Rob McArthur", "Liam Hykel & Yeremi Hykel", "Greg Franklin & John Franklin", "Ashlie Martin & Todd Martin", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Garrett Smith & Joel Strasser", "Alexandra Lichtor & Sheridan Lichtor" ]
 
