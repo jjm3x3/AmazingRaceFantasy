@@ -31,10 +31,10 @@ export default class Team {
     friendlyName(): string {
         const contestantNames = this.teamName.split("&")
 
-        const firstContestantsNames = contestantNames[0].trim().split(" ")
-        const secondContestantsNames = contestantNames[1].trim().split(" ")
+        const firstContestantsFirstName = this.determineFirstName(contestantNames[0].trim())
+        const secondContestantsFirstName = this.determineFirstName(contestantNames[1].trim())
 
-        return firstContestantsNames[0] + " & " + secondContestantsNames[0]
+        return firstContestantsFirstName + " & " + secondContestantsFirstName
     }
 
     private determineFirstName(contestantName: string): string {
