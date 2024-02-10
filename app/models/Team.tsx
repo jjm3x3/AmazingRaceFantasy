@@ -40,6 +40,11 @@ export default class Team {
     private determineFirstName(contestantName: string): string {
         const contestantNameParts = contestantName.split(" ")
         if (contestantNameParts.length > 2) {
+            const firstTwo = contestantNameParts[0] + " " + contestantNameParts[1]
+
+            if (["Anna Leigh"].includes(firstTwo)) {
+                return firstTwo
+            }
         }
         return contestantNameParts[0]
     }
