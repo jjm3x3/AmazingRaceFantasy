@@ -37,6 +37,10 @@ export default class Team {
         return firstContestantsNames[0] + " & " + secondContestantsNames[0]
     }
 
+    private determineFirstName(contestantName: string): string {
+        return contestantName.split(" ")[0]
+    }
+
     static getKey(teamName: string): string {
         var seed = ""
 
