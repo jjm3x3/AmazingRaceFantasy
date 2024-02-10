@@ -38,7 +38,8 @@ export default class Team {
     }
 
     private determineFirstName(contestantName: string): string {
-        return contestantName.split(" ")[0]
+        const contestantNameParts = contestantName.split(" ")
+        return contestantNameParts[0]
     }
 
     static getKey(teamName: string): string {
