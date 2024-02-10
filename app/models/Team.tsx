@@ -39,6 +39,8 @@ export default class Team {
 
     private determineFirstName(contestantName: string): string {
         const contestantNameParts = contestantName.split(" ")
+        if (contestantNameParts.length > 2) {
+        }
         return contestantNameParts[0]
     }
 
