@@ -1,5 +1,5 @@
 import { getTeamList, ITeam } from "../utils/wikiQuery"
-import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import { apiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
@@ -29,7 +29,7 @@ function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRoun
 
 export default async function Scoring() {
 
-    const wikiContestants = await getWikipediaContestantData()
+    const wikiContestants = await getWikipediaContestantData(apiUrl)
     const pageData = getTeamList(wikiContestants)
 
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
