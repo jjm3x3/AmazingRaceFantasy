@@ -1,9 +1,10 @@
 import { getTeamList, ITeam } from "../utils/wikiQuery"
-import { wikiUrl, apiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import { getWikipediaContestantData } from "../utils/wikiFetch"
+import { WIKI_API_URL, WIKI_PAGE_URL } from '../leagueConfiguration/AmazingRace_35'
 
 export default async function Contestants() {
 
-    const wikiContestants = await getWikipediaContestantData(apiUrl)
+    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL)
     const final = getTeamList(wikiContestants)
 
     return (
@@ -23,7 +24,7 @@ export default async function Contestants() {
           </div>
           <div>
             <p>
-              Data provided by <a className="standard-link" href={wikiUrl} >Wikipedia</a> for this season of the race
+              Data provided by <a className="standard-link" href={WIKI_PAGE_URL} >Wikipedia</a> for this season of the race
             </p>
           </div>
         </div>
