@@ -32,40 +32,7 @@ function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRoun
 
 export default async function Scoring() {
 
-    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL)
-    const pageData = getTeamList(wikiContestants)
-
-    const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
-            acc[Team.getKey(t.teamName)] = t
-
-            return acc
-        }, {})
-
-
-    const numberOfRounds = pageData.props.runners.reduce(
-        (acc: number, x: ITeam) => {
-            return x.eliminationOrder > acc ? x.eliminationOrder : acc
-        }, 0)
-
-    const reverseTeamsList = [...pageData.props.runners].reverse()
-
-    const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds)
-
-    // New New Way
-    const listOfContestantRoundLists = CONTESTANT_LEAGUE_DATA.map(contestant => {
-
-        const contestantsTeamList = contestant.ranking.map(x => {
-            const foundTeam = teamDictionary[Team.getKey(x)]
-            return foundTeam
-        })
-
-        const contestantsRoundScores: number[] = generateContestantRoundScores(contestantsTeamList, numberOfRounds)
-
-        return {
-            key: contestant.name,
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={contestantsRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={contestantsTeamList}/>
-        }
-    })
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(WIKI_API_URL, CONTESTANT_LEAGUE_DATA)
 
     return (
         <div>
