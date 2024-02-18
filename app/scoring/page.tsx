@@ -6,6 +6,7 @@ import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
 import { CONTESTANT_LEAGUE_DATA } from '../leagueData/AmazingRace_35'
 import ContestantSelector from '../components/contestantSelector'
+import generateListOfContestantRoundLists from '../generators/contestantRoundListGenerator'
 
 interface Dictionary<T> {
     [Key: string]: T;
