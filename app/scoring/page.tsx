@@ -4,6 +4,7 @@ import { WIKI_API_URL } from '../leagueConfiguration/AmazingRace_35'
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
+import { ANDREWS_RANKING, CINDYS_RANKING, JACOBS_RANKING, JIMS_RANKING, RACHELS_RANKING } from '../leagueData/AmazingRace_35'
 import ContestantSelector from '../components/contestantSelector'
 
 interface Dictionary<T> {
@@ -39,15 +40,6 @@ export default async function Scoring() {
             return acc
         }, {})
 
-    const andrewsRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Liam Hykel & Yeremi Hykel", "Greg Franklin & John Franklin", "Ashlie Martin & Todd Martin", "Chelsea Day & Robbin Tomich", "Lena Franklin & Morgan Franklin", "Anna Leigh Wilson & Steve Cargile", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
-
-    const cindysRanking = [ "Jocelyn Chao & Victor Limary", "Corey McArthur & Rob McArthur", "Ian Todd & Joe Moskowitz", "Liam Hykel & Yeremi Hykel", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Anna Leigh Wilson & Steve Cargile", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
-
-    const jacobsRanking = [ "Corey McArthur & Rob McArthur", "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Chelsea Day & Robbin Tomich", "Anna Leigh Wilson & Steve Cargile", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Liam Hykel & Yeremi Hykel", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
-
-    const jimsRanking = [ "Jocelyn Chao & Victor Limary", "Lena Franklin & Morgan Franklin", "Anna Leigh Wilson & Steve Cargile", "Corey McArthur & Rob McArthur", "Liam Hykel & Yeremi Hykel", "Greg Franklin & John Franklin", "Ashlie Martin & Todd Martin", "Ian Todd & Joe Moskowitz", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Garrett Smith & Joel Strasser", "Alexandra Lichtor & Sheridan Lichtor" ]
-
-    const rachelsRanking = [ "Ashlie Martin & Todd Martin", "Jocelyn Chao & Victor Limary", "Garrett Smith & Joel Strasser", "Lena Franklin & Morgan Franklin", "Ian Todd & Joe Moskowitz", "Corey McArthur & Rob McArthur", "Greg Franklin & John Franklin", "Liam Hykel & Yeremi Hykel", "Anna Leigh Wilson & Steve Cargile", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
 
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
@@ -58,27 +50,27 @@ export default async function Scoring() {
 
     const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds)
 
-    const andrewsTeamList = andrewsRanking.map(x => {
+    const andrewsTeamList = ANDREWS_RANKING.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
 
-    const cindysTeamList = cindysRanking.map(x => {
+    const cindysTeamList = CINDYS_RANKING.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
 
-    const jacobsTeamsList = jacobsRanking.map(x => {
+    const jacobsTeamsList = JACOBS_RANKING.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
 
-    const jimsTeamList = jimsRanking.map(x => {
+    const jimsTeamList = JIMS_RANKING.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
 
-    const rachelsTeamList = rachelsRanking.map(x => {
+    const rachelsTeamList = RACHELS_RANKING.map(x => {
         const foundTeam = teamDictionary[Team.getKey(x)]
         return foundTeam
     })
