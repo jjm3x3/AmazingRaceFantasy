@@ -53,18 +53,18 @@ export default async function Scoring() {
     // New New Way
     const listOfContestantRoundLists = CONTESTANT_LEAGUE_DATA.map(contestant => {
 
-        const andrewsTeamList = contestant.ranking.map(x => {
+        const contestantsTeamList = contestant.ranking.map(x => {
             const foundTeam = teamDictionary[Team.getKey(x)]
             return foundTeam
         })
 
-        const andrewsRoundScores: number[] = generateContestantRoundScores(andrewsTeamList, numberOfRounds)
+        const contestantsRoundScores: number[] = generateContestantRoundScores(contestantsTeamList, numberOfRounds)
 
 
 
         return {
             key: contestant.name,
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={andrewsRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={andrewsTeamList}/>
+            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={contestantsRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={contestantsTeamList}/>
         }
 
     })
