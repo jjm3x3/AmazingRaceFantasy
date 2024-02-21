@@ -49,7 +49,7 @@ export default async function generateListOfContestantRoundLists(wikiApiUrl: str
 
     return listOfContestantLeagueData.map(contestant => {
 
-        const currentSelectedContestantTeamsList = contestant.ranking.map(x => {
+        const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
             const foundTeam = teamDictionary[Team.getKey(x)]
             return foundTeam
         })
