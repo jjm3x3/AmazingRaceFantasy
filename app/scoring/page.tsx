@@ -4,7 +4,7 @@ import { WIKI_API_URL } from '../leagueConfiguration/AmazingRace_35'
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
-import { ANDREWS_RANKING, CINDYS_RANKING, JACOBS_RANKING, JIMS_RANKING, RACHELS_RANKING } from '../leagueData/AmazingRace_35'
+import { CONTESTANT_LEAGUE_DATA } from '../leagueData/AmazingRace_35'
 import ContestantSelector from '../components/contestantSelector'
 
 interface Dictionary<T> {
@@ -50,63 +50,21 @@ export default async function Scoring() {
 
     const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds)
 
-    const andrewsTeamList = ANDREWS_RANKING.map(x => {
-        const foundTeam = teamDictionary[Team.getKey(x)]
-        return foundTeam
-    })
+    // New New Way
+    const listOfContestantRoundLists = CONTESTANT_LEAGUE_DATA.map(contestant => {
 
-    const cindysTeamList = CINDYS_RANKING.map(x => {
-        const foundTeam = teamDictionary[Team.getKey(x)]
-        return foundTeam
-    })
+        const contestantsTeamList = contestant.ranking.map(x => {
+            const foundTeam = teamDictionary[Team.getKey(x)]
+            return foundTeam
+        })
 
-    const jacobsTeamsList = JACOBS_RANKING.map(x => {
-        const foundTeam = teamDictionary[Team.getKey(x)]
-        return foundTeam
-    })
+        const contestantsRoundScores: number[] = generateContestantRoundScores(contestantsTeamList, numberOfRounds)
 
-    const jimsTeamList = JIMS_RANKING.map(x => {
-        const foundTeam = teamDictionary[Team.getKey(x)]
-        return foundTeam
-    })
-
-    const rachelsTeamList = RACHELS_RANKING.map(x => {
-        const foundTeam = teamDictionary[Team.getKey(x)]
-        return foundTeam
-    })
-
-    const andrewsRoundScores: number[] = generateContestantRoundScores(andrewsTeamList, numberOfRounds)
-
-    const cindyRoundScores: number[] = generateContestantRoundScores(cindysTeamList, numberOfRounds)
-
-    const jacobRoundScores: number[] = generateContestantRoundScores(jacobsTeamsList, numberOfRounds)
-
-    const jimRoundScores: number[] = generateContestantRoundScores(jimsTeamList, numberOfRounds)
-
-    const rachelRoundScores: number[] = generateContestantRoundScores(rachelsTeamList, numberOfRounds)
-
-    const listOfContestantRoundLists = [
-        {
-            key: "Andrew",
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={andrewsRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={andrewsTeamList}/>
-        },
-        {
-            key: "Cindy",
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={cindyRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={cindysTeamList}/>
-        },
-        {
-            key: "Jacob",
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={jacobRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={jacobsTeamsList}/>
-        },
-        {
-            key: "Jim",
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={jimRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={jimsTeamList}/>
-        },
-        {
-            key: "Rachel",
-            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={rachelRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={rachelsTeamList}/>
+        return {
+            key: contestant.name,
+            content: <ContestantRoundList perfectRoundScores={roundScores} contestantRoundScores={contestantsRoundScores} perfectTeamList={reverseTeamsList} contestantTeamList={contestantsTeamList}/>
         }
-    ]
+    })
 
     return (
         <div>
