@@ -9,7 +9,7 @@ export default function TeamList({ teamList, roundNumber }: { teamList: Team[], 
         {teamList.map(t => {
             return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
                 <p key={t.teamName+roundNumber}>
-                    {shouldBeScored(teamList, t, roundNumber) ? t.teamName : <s>{t.teamName}</s> }
+                    {shouldBeScored(teamList, t, roundNumber) ? t.friendlyName() : <s>{t.friendlyName()}</s> }
                 </p>
             </Fragment>)
         })}
