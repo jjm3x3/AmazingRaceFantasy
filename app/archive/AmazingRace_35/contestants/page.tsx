@@ -1,6 +1,6 @@
-import { getTeamList, ITeam } from "../../utils/wikiQuery"
-import { getWikipediaContestantData } from "../../utils/wikiFetch"
-import { WIKI_API_URL, WIKI_PAGE_URL } from '../../leagueConfiguration/AmazingRace_35'
+import { getTeamList, ITeam } from "../../../utils/wikiQuery"
+import { getWikipediaContestantData } from "../../../utils/wikiFetch"
+import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/AmazingRace_35'
 
 export default async function Contestants() {
 

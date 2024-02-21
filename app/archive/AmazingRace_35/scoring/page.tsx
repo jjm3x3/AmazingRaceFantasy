@@ -1,7 +1,8 @@
-import { WIKI_API_URL } from '../../leagueConfiguration/AmazingRace_35'
-import { CONTESTANT_LEAGUE_DATA } from '../../leagueData/AmazingRace_35'
-import ContestantSelector from '../../components/contestantSelector'
-import generateListOfContestantRoundLists from '../../generators/contestantRoundListGenerator'
+
+import { WIKI_API_URL } from '../../../leagueConfiguration/AmazingRace_35'
+import { CONTESTANT_LEAGUE_DATA } from '../../../leagueData/AmazingRace_35'
+import ContestantSelector from '../../../components/contestantSelector'
+import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
 
 export default async function Scoring() {
 
