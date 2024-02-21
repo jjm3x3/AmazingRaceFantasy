@@ -126,3 +126,18 @@ describe('Team static getKey', () => {
         expect(testResult).toBe(expectedResult)
     })
 })
+
+describe("Team friendlyName", () => {
+    it("shoud return a team with a member with two firstNames when one of their names is Anna Leigh", () => { 
+
+        // Arrange
+        const expectedFirstName = "Anna Leigh"
+        const sut = new Team({teamName: expectedFirstName + " lastname & Partner Person"})
+
+        // Act
+        const result = sut.friendlyName()
+
+        // Assert
+        expect(result).toContain(expectedFirstName)
+    })
+})
