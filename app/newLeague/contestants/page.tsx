@@ -5,8 +5,6 @@ import { WIKI_API_URL, WIKI_PAGE_URL } from '../../leagueConfiguration/AmazingRa
 
 export default async function Contestants() {
 
-    console.log("Configured api url: " + WIKI_API_URL)
-
     const wikiContestants = await getWikipediaContestantData(WIKI_API_URL)
     const final = getTeamList(wikiContestants)
 
