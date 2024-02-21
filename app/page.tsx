@@ -32,6 +32,9 @@ export default function Home() {
             <div className="menu-box">
               <Link className="menu-item" href="/scoring">Scoring</Link>
             </div>
+            <div className="menu-box">
+              <Link className="menu-item" href="/leagueStanding">League Standing</Link>
+            </div>
           </div>
       </div>
     )
