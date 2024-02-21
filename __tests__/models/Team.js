@@ -140,4 +140,21 @@ describe("Team friendlyName", () => {
         // Assert
         expect(result).toContain(expectedFirstName)
     })
+
+    it("shoud return a team with two firstNames one for each player when nither of their first names match the predefined list", () => { 
+
+        // Arrange
+        const expectedFirstFirstName = "Bob"
+        const expectedSecondFirstName = "Partner"
+        const sut = new Team({
+            teamName: expectedFirstFirstName + " Lob Law & " + expectedSecondFirstName +" Peter Piper"
+        })
+
+        // Act
+        const result = sut.friendlyName()
+
+        // Assert
+        expect(result).toContain(expectedFirstFirstName)
+        expect(result).toContain(expectedSecondFirstName)
+    })
 })
