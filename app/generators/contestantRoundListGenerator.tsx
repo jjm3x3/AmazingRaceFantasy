@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
-import { wikiUrl, getWikipediaContestantData } from "../utils/wikiFetch"
+import { getWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
