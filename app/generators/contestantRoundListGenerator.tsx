@@ -70,7 +70,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
 
     const reverseTeamsList = [...pageData.props.runners].reverse()
 
-    const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds)
+    const roundScores = generateContestantRoundScores2(reverseTeamsList, numberOfRounds, "*perfect*")
 
 
     return listOfContestantLeagueData.map(contestant => {
@@ -80,7 +80,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
             return foundTeam
         })
 
-        const contestantRoundScores: number[] = generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds)
+        const contestantRoundScores: number[] = generateContestantRoundScores2(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
 
         return {
             key: contestant.name,
