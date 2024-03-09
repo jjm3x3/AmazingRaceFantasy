@@ -12,7 +12,7 @@ const listOfContestantRoundListsMockData = [
       <ContestantRoundList
         perfectRoundScores={[
             {
-                round: 1,
+                round: 0,
                 contestantRoundData: [{
                     name: perfectScoreName,
                     roundScore: 1,
@@ -20,7 +20,7 @@ const listOfContestantRoundListsMockData = [
                 }]
             },
             {
-                round: 2,
+                round: 1,
                 contestantRoundData: [{
                     name: perfectScoreName,
                     roundScore: 2,
@@ -28,7 +28,7 @@ const listOfContestantRoundListsMockData = [
                 }]
             },
             {
-                round: 3,
+                round: 2,
                 contestantRoundData: [{
                     name: perfectScoreName,
                     roundScore: 3,
@@ -38,7 +38,7 @@ const listOfContestantRoundListsMockData = [
         ]}
         contestantRoundScores={[
             {
-                round: 1,
+                round: 0,
                 contestantRoundData: [{
                     name: mockContestantName,
                     roundScore: 1,
@@ -46,7 +46,7 @@ const listOfContestantRoundListsMockData = [
                 }]
             },
             {
-                round: 2,
+                round: 1,
                 contestantRoundData: [{
                     name: mockContestantName,
                     roundScore: 2,
@@ -54,7 +54,7 @@ const listOfContestantRoundListsMockData = [
                 }]
             },
             {
-                round: 3,
+                round: 2,
                 contestantRoundData: [{
                     name: mockContestantName,
                     roundScore: 3,
