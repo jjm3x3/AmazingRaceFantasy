@@ -5,12 +5,14 @@ export default function ContestantRoundList({
         perfectRoundScores,
         contestantRoundScores,
         perfectTeamList,
-        contestantTeamList
+        contestantTeamList,
+        contestantName
     }: {
         perfectRoundScores: number[]
         contestantRoundScores: number[]
         perfectTeamList: Team[]
         contestantTeamList: Team[]
+        contestantName: string
     }) {
 
     let grandTotal = 0

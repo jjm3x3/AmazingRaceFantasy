@@ -89,6 +89,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
                 contestantRoundScores={contestantRoundScores}
                 perfectTeamList={reverseTeamsList}
                 contestantTeamList={currentSelectedContestantTeamsList}
+                contestantName={contestant.name}
             />
         }
     })
