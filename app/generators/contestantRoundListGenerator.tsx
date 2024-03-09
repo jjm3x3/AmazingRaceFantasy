@@ -10,24 +10,7 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
-function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number) {
-
-    const contestantRoundScores: number[] = []
-
-    for(let i = 0; i < numberOfRounds; i++) {
-        const roundScore = contestantTeamsList.reduce(
-            (acc: number, x: Team) => {
-                const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i)
-
-                return teamShouldBeScored ? acc + 10 : acc
-            }, 0)
-        contestantRoundScores.push(roundScore)
-    }
-
-    return contestantRoundScores
-}
-
-function generateContestantRoundScores2(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
+function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
 
     const contestantRoundScores: IRound[] = []
 
@@ -71,7 +54,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
 
     const reverseTeamsList = [...pageData.props.runners].reverse()
 
-    const roundScores = generateContestantRoundScores2(reverseTeamsList, numberOfRounds, "*perfect*")
+    const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*")
 
 
     return listOfContestantLeagueData.map(contestant => {
@@ -81,7 +64,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
             return foundTeam
         })
 
-        const contestantRoundScores: IRound[] = generateContestantRoundScores2(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
+        const contestantRoundScores: IRound[] = generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
 
         return {
             key: contestant.name,
