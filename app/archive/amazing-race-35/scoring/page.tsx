@@ -2,11 +2,13 @@
 import { WIKI_API_URL } from '../../../leagueConfiguration/AmazingRace_35'
 import { CONTESTANT_LEAGUE_DATA } from '../../../leagueData/AmazingRace_35'
 import ContestantSelector from '../../../components/contestantSelector'
+import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
 
 export default async function Scoring() {
 
-    const listOfContestantRoundLists = await generateListOfContestantRoundLists(WIKI_API_URL, CONTESTANT_LEAGUE_DATA)
+    const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL)
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA)
 
     return (
         <div>
