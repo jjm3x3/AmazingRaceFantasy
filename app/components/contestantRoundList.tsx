@@ -8,26 +8,26 @@ export default function ContestantRoundList({
         contestantTeamList,
         contestantName
     }: {
-        perfectRoundScores: number[]
-        contestantRoundScores: number[]
+        perfectRoundScores: any[]
+        contestantRoundScores: any[]
         perfectTeamList: Team[]
         contestantTeamList: Team[]
         contestantName: string
     }) {
 
-    return (
+    return (<>
         <div className="text-center">
             {perfectRoundScores.map((round, roundNumber) => {
                 if (roundNumber !== round.round) {
-                    console.warning("Something is wrong that the rounds are out of order")
+                    console.warn("Something is wrong that the rounds are out of order")
                 }
 
-                const perfectRound = round.contestantRoundData.filter(x => x.name === "*perfect*")[0]
+                const perfectRound = round.contestantRoundData.filter((x: any) => x.name === "*perfect*")[0]
                 const perfectScore = perfectRound.roundScore
                 const grandTotal = perfectRound.totalScore
 
                 const contestantRound = contestantRoundScores[roundNumber] // check round number
-                const filteredContestantRound = contestantRound.contestantRoundData.filter(x => x.name === contestantName)[0]
+                const filteredContestantRound = contestantRound.contestantRoundData.filter((x: any) => x.name === contestantName)[0]
                 const contestantRoundScore = filteredContestantRound.roundScore
                 const contestantGrandTotal = filteredContestantRound.totalScore
 
@@ -43,5 +43,5 @@ export default function ContestantRoundList({
                 />
             })}
         </div>
-    )
+    </>)
 }

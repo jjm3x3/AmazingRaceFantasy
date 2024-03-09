@@ -80,7 +80,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
             return foundTeam
         })
 
-        const contestantRoundScores: number[] = generateContestantRoundScores2(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
+        const contestantRoundScores: any[] = generateContestantRoundScores2(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
 
         return {
             key: contestant.name,
