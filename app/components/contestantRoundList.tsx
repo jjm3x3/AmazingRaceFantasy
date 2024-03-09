@@ -15,15 +15,21 @@ export default function ContestantRoundList({
         contestantName: string
     }) {
 
-    let grandTotal = 0
-    let contestantGrandTotal = 0
-
     return (
         <div className="text-center">
-            {perfectRoundScores.map((perfectScore, roundNumber) => {
-                grandTotal += perfectScore
-                let contestantRoundScore = contestantRoundScores[roundNumber]
-                contestantGrandTotal += contestantRoundScore
+            {perfectRoundScores.map((round, roundNumber) => {
+                if (roundNumber !== round.round) {
+                    console.warning("Something is wrong that the rounds are out of order")
+                }
+
+                const perfectRound = round.contestantRoundData.filter(x => x.name === "*perfect*")[0]
+                const perfectScore = perfectRound.roundScore
+                const grandTotal = perfectRound.totalScore
+
+                const contestantRound = contestantRoundScores[roundNumber] // check round number
+                const filteredContestantRound = contestantRound.contestantRoundData.filter(x => x.name === contestantName)[0]
+                const contestantRoundScore = filteredContestantRound.roundScore
+                const contestantGrandTotal = filteredContestantRound.totalScore
 
                 return <Round
                     key={"round"+roundNumber}
