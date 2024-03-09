@@ -4,6 +4,7 @@ import { IWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
+import IRound from '../models/IRound'
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -28,7 +29,7 @@ function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRoun
 
 function generateContestantRoundScores2(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
 
-    const contestantRoundScores: any[] = []
+    const contestantRoundScores: IRound[] = []
 
     let grandTotal = 0
     for(let i = 0; i < numberOfRounds; i++) {
@@ -80,7 +81,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
             return foundTeam
         })
 
-        const contestantRoundScores: any[] = generateContestantRoundScores2(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
+        const contestantRoundScores: IRound[] = generateContestantRoundScores2(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
 
         return {
             key: contestant.name,

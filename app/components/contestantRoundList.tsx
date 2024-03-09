@@ -1,5 +1,6 @@
 import Round from './round'
 import Team from '../models/Team'
+import IRound from '../models/IRound'
 
 export default function ContestantRoundList({
         perfectRoundScores,
@@ -8,8 +9,8 @@ export default function ContestantRoundList({
         contestantTeamList,
         contestantName
     }: {
-        perfectRoundScores: any[]
-        contestantRoundScores: any[]
+        perfectRoundScores: IRound[]
+        contestantRoundScores: IRound[]
         perfectTeamList: Team[]
         contestantTeamList: Team[]
         contestantName: string
@@ -17,7 +18,7 @@ export default function ContestantRoundList({
 
     return (<>
         <div className="text-center">
-            {perfectRoundScores.map((round, roundNumber) => {
+            {perfectRoundScores.map((round: IRound, roundNumber: number) => {
                 if (roundNumber !== round.round) {
                     console.warn("Something is wrong that the rounds are out of order")
                 }
