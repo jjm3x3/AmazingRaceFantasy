@@ -87,4 +87,34 @@ describe("generateContestantRoundScores", () => {
         expect(result[0].contestantRoundData[0].roundScore).toBe(20)
         expect(result[0].contestantRoundData[0].totalScore).toBe(20)
     })
+
+    it("Should accumulate total score over multiple rounds and should remove at least one team per round", () => {
+        // Arrange
+        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0})
+        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+
+        const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
+        const rounds = 2
+
+        // Act
+        const result = generateContestantRoundScores(teamList, rounds, "")
+
+        // Assert
+        expect(result).not.toBeNull()
+        // assert 2 rounds
+        expect(result.length).toBe(2)
+        // round1 assertions
+        expect(result[0]).not.toBeNull()
+        expect(result[0].contestantRoundData).not.toBeNull()
+        expect(result[0].contestantRoundData.length).toBe(1)
+        expect(result[0].contestantRoundData[0].roundScore).toBe(20)
+        expect(result[0].contestantRoundData[0].totalScore).toBe(20)
+        // round2 assertions
+        expect(result[1]).not.toBeNull()
+        expect(result[1].contestantRoundData).not.toBeNull()
+        expect(result[1].contestantRoundData.length).toBe(1)
+        expect(result[1].contestantRoundData[0].roundScore).toBe(10)
+        expect(result[1].contestantRoundData[0].totalScore).toBe(30)
+    })
 })
