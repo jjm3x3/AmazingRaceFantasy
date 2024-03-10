@@ -44,4 +44,25 @@ describe("generateContestantRoundScores", () => {
         expect(result[0].contestantRoundData).not.toBeNull()
         expect(result[0].contestantRoundData.length).toBe(1)
     })
+
+    it("Should output some score when there is one", () => {
+        // Arrange
+        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0})
+        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+
+        const teamList = [exampleTeam, exampleTeam2]
+        const rounds = 1
+
+        // Act
+        const result = generateContestantRoundScores(teamList, rounds, "")
+
+        // Assert
+        expect(result).not.toBeNull()
+        expect(result.length).toBe(1)
+        expect(result[0]).not.toBeNull()
+        expect(result[0].contestantRoundData).not.toBeNull()
+        expect(result[0].contestantRoundData.length).toBe(1)
+        expect(result[0].contestantRoundData[0].roundScore).toBe(10)
+        expect(result[0].contestantRoundData[0].totalScore).toBe(10)
+    })
 })
