@@ -4,6 +4,10 @@ import { shouldBeScored } from '../utils/teamListUtils'
 
 export default class LeagueStanding {
     rounds: IRound[]
+
+    constructor() {
+        this.rounds = []
+    }
     
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
 
