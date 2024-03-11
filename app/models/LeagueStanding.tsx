@@ -38,5 +38,5 @@ export default class LeagueStanding {
 
         return result.rounds
     }
-
 } 
+
