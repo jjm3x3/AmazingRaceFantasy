@@ -1,10 +1,6 @@
-import { ReactNode } from 'react'
-import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { IWikipediaContestantData } from "../utils/wikiFetch"
+import { getTeamList, ITeam } from "../utils/wikiQuery"
 import Team from '../models/Team'
-import { shouldBeScored } from '../utils/teamListUtils'
-import ContestantRoundList from '../components/contestantRoundList'
-import IRound from '../models/IRound'
 import LeagueStanding from '../models/LeagueStanding'
 
 interface Dictionary<T> {
