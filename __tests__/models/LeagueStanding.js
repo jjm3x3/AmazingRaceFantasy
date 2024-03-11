@@ -118,3 +118,33 @@ describe("generateContestantRoundScores", () => {
         expect(result[1].contestantRoundData[0].totalScore).toBe(30)
     })
 })
+
+describe("addContestantRoundScores", () => {
+    it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
+        // Arrange
+        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0})
+        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+
+        const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
+        const rounds = 1
+        const expectedContestantName1 = "contestant1"
+        const expectedContestantName2 = "contestant2"
+        const sut = new LeagueStanding()
+
+        // Act
+        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1)
+        sut.addContestantRoundScores(teamList, rounds, expectedContestantName2)
+
+        // Assert
+        expect(sut).not.toBeNull()
+        expect(sut.rouds).not.toBeNull()
+        expect(sut.rounds.length).toBe(1)
+        expect(sut.rounds[0]).not.toBeNull()
+        expect(sut.rounds[0].contestantRoundData).not.toBeNull()
+        expect(sut.rounds[0].contestantRoundData.length).toBe(2)
+        const resultingContestantRoundData =  sut.rounds[0].contestantRoundData
+        expect(resultingContestantRoundData[0].name).toBe(expectedContestantName1)
+        expect(resultingContestantRoundData[1].name).toBe(expectedContestantName2)
+    })
+})
