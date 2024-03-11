@@ -8,11 +8,9 @@ export default class LeagueStanding {
     constructor() {
         this.rounds = []
     }
-    
-    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
 
-        const contestantRoundScores: IRound[] = []
-    
+    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
+
         let grandTotal = 0
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
@@ -22,7 +20,7 @@ export default class LeagueStanding {
                     return teamShouldBeScored ? acc + 10 : acc
                 }, 0)
             grandTotal += roundScore
-            contestantRoundScores.push({
+            this.rounds.push({
                 round: i,
                 contestantRoundData:[{
                     name: contestantName,
@@ -31,8 +29,14 @@ export default class LeagueStanding {
                 }]
             })
         }
-    
-        return contestantRoundScores
+    }
+
+    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
+
+        const result = new LeagueStanding()
+        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName)
+
+        return result.rounds
     }
 
 } 
