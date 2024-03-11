@@ -1,8 +1,9 @@
-import Team from '../models/Team'
+import IRound from './IRound'
+import Team from './Team'
 import { shouldBeScored } from '../utils/teamListUtils'
-import IRound from '../models/IRound'
 
 export default class LeagueStanding {
+    rounds: IRound[]
     
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
 
