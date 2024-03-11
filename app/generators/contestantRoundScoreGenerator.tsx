@@ -27,29 +27,18 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
         }, 0)
 
-    const reverseTeamsList = [...pageData.props.runners].reverse()
+    const result: LeagueStanding = new LeagueStanding()
 
-    const roundScores = LeagueStanding.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*")
-
-
-    return listOfContestantLeagueData.map(contestant => {
+    listOfContestantLeagueData.map(contestant => {
 
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
             const foundTeam = teamDictionary[Team.getKey(x)]
             return foundTeam
         })
 
-        const contestantRoundScores: IRound[] = LeagueStanding.generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
+        result.addContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
 
-        return {
-            key: contestant.name,
-            content: <ContestantRoundList
-                perfectRoundScores={roundScores}
-                contestantRoundScores={contestantRoundScores}
-                perfectTeamList={reverseTeamsList}
-                contestantTeamList={currentSelectedContestantTeamsList}
-                contestantName={contestant.name}
-            />
-        }
     })
+
+    return result
 }
