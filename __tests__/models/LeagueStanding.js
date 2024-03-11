@@ -1,4 +1,4 @@
-import { generateContestantRoundScores } from '../../app/utils/contestantUtils'
+import LeagueStanding from '../../app/models/LeagueStanding'
 import Team from '../../app/models/Team'
 
 describe("generateContestantRoundScores", () => {
@@ -8,7 +8,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 0
 
         // Act
-        const result = generateContestantRoundScores(teamList, rounds, "")
+        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "")
 
         // Assert
         expect(result).not.toBeNull()
@@ -21,7 +21,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 1
 
         // Act
-        const result = generateContestantRoundScores(teamList, rounds, "")
+        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "")
 
         // Assert
         expect(result).not.toBeNull()
@@ -36,7 +36,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 1
 
         // Act
-        const result = generateContestantRoundScores(teamList, rounds, "")
+        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "")
 
         // Assert
         expect(result).not.toBeNull()
@@ -54,7 +54,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 1
 
         // Act
-        const result = generateContestantRoundScores(teamList, rounds, "")
+        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "")
 
         // Assert
         expect(result).not.toBeNull()
@@ -76,7 +76,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 1
 
         // Act
-        const result = generateContestantRoundScores(teamList, rounds, "")
+        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "")
 
         // Assert
         expect(result).not.toBeNull()
@@ -98,7 +98,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 2
 
         // Act
-        const result = generateContestantRoundScores(teamList, rounds, "")
+        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "")
 
         // Assert
         expect(result).not.toBeNull()
