@@ -11,7 +11,7 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export default async function generateListOfContestantRoundLists(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
+export default async function generateContestantRoundScores(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
 
     const wikiContestants = await dataFetcher()
     const pageData = getTeamList(wikiContestants)
