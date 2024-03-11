@@ -19,17 +19,31 @@ export default class LeagueStanding {
     
                     return teamShouldBeScored ? acc + 10 : acc
                 }, 0)
+
             grandTotal += roundScore
-            this.rounds.push({
-                round: i,
-                contestantRoundData:[{
+
+            if (this.rounds.length > i) {
+                const currentRound = this.rounds[i]
+                currentRound.contestantRoundData.push({
                     name: contestantName,
                     roundScore: roundScore,
                     totalScore: grandTotal
-                }]
-            })
+                })
+            }
+            else {
+                this.rounds.push({
+                    round:i,
+                    contestantRoundData: [{
+                        name: contestantName,
+                        roundScore: roundScore,
+                        totalScore: grandTotal
+                    }]
+                })
+            }
+
         }
     }
+
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
 
