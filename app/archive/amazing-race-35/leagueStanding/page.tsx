@@ -9,6 +9,8 @@ export default async function LeagueStanding() {
     const contestantScores = await generateContestantRoundScores(dataFetcher, CONTESTANT_LEAGUE_DATA)
 
     return (
-        <h1>Here is the league standing: placeholder...</h1>
+        <div>
+            <h1 className="text-3xl text-center">Here is the league standing</h1>
+        </div>
     )
 }
