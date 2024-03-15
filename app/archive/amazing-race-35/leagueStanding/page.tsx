@@ -11,6 +11,13 @@ export default async function LeagueStanding() {
     return (
         <div>
             <h1 className="text-3xl text-center">Here is the league standing</h1>
+            {contestantScores.rounds.map(roundData => {
+                return <>
+                    <h1 className="text-2xl text-center">Week {roundData.round}</h1>
+                    <br/>
+                    <br/>
+                </>
+            })}
         </div>
     )
 }
