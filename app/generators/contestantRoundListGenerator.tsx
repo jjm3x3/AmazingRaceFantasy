@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
-import { getWikipediaContestantData } from "../utils/wikiFetch"
+import { IWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
@@ -26,9 +26,9 @@ function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRoun
     return contestantRoundScores
 }
 
-export default async function generateListOfContestantRoundLists(wikiApiUrl: string, listOfContestantLeagueData: any[]) {
+export default async function generateListOfContestantRoundLists(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
 
-    const wikiContestants = await getWikipediaContestantData(wikiApiUrl)
+    const wikiContestants = await dataFetcher()
     const pageData = getTeamList(wikiContestants)
 
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
