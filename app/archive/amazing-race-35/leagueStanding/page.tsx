@@ -15,9 +15,19 @@ export default async function LeagueStanding() {
                 return <>
                     <h1 className="text-2xl text-center">Week {roundData.round}</h1>
                     <br/>
+                    <div className="flex flex-row">
+                        {roundData.contestantRoundData.map(contestantRound => {
+                            return <div className="basis-1/6">
+                                <h1 className="text-1xl text-center">{contestantRound.name}</h1>
+                                <p className="text-center">{contestantRound.totalScore}</p>
+                            </div>
+                        })}
+                    </div>
+                    <br/>
                     <br/>
                 </>
             })}
         </div>
     )
 }
+
