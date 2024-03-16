@@ -7,7 +7,7 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export default async function generateContestantRoundScores(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
+async function generateContestantRoundScores(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
 
     const wikiContestants = await dataFetcher()
     const pageData = getTeamList(wikiContestants)
@@ -39,7 +39,7 @@ export default async function generateContestantRoundScores(dataFetcher: () => P
     return result
 }
 
-async function generateContestantRoundScoreComponent(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
+export default async function generateContestantRoundScoreComponent(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
 
     const contestantScores = await generateContestantRoundScores(dataFetcher, listOfContestantLeagueData)
 
