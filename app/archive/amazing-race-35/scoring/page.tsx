@@ -15,6 +15,7 @@ export default async function Scoring() {
             <br/>
             <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
             <p>This seaon was largely managed by Andrew Jaicks using <a className="standard-link" href={GOOGLE_SHEET_URL}>this google sheet</a> which was populdated by him based on SMSs sent by the league contestants.</p>
+            <br/>
         </div>
     )
 }

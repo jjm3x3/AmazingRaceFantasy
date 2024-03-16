@@ -16,6 +16,7 @@ export default async function Scoring() {
             <br/>
             <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
             <p>This seaons contestant data has been sourced from <a className="standard-link" href={GOOGLE_SHEET_URL}>this google sheet</a> which was populdated using a google form.</p>
+            <br/>
         </div>
     )
 }
