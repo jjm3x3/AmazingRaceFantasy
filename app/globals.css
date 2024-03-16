@@ -4,7 +4,7 @@
 
 
 body {
-  color: rgb(var(--foreground-rgb));
+    background: rgb(189, 10, 10);
 }
 
 .menu-tray {
