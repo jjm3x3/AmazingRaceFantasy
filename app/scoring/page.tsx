@@ -15,7 +15,7 @@ export default async function Scoring() {
             <h1 className="text-2xl text-center">Current Scoring for</h1>
             <br/>
             <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
-            <p>This seaons contestant data has been persisted into <a className="standard-link" href={GOOGLE_SHEET_URL}>this google sheet</a> from a google form.</p>
+            <p>This seaons contestant data has been sourced from <a className="standard-link" href={GOOGLE_SHEET_URL}>this google sheet</a> which was populdated using a google form.</p>
         </div>
     )
 }
