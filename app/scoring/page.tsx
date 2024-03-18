@@ -1,4 +1,4 @@
-import { WIKI_API_URL } from '../leagueConfiguration/AmazingRace_36'
+import { WIKI_API_URL, GOOGLE_SHEET_URL } from '../leagueConfiguration/AmazingRace_36'
 import { CONTESTANT_LEAGUE_DATA } from '../leagueData/AmazingRace_36'
 import ContestantSelector from '../components/contestantSelector'
 import { getWikipediaContestantDataFetcher } from '../utils/wikiFetch'
@@ -15,6 +15,8 @@ export default async function Scoring() {
             <h1 className="text-2xl text-center">Current Scoring for</h1>
             <br/>
             <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
+            <p>This season's contestant data has been sourced from <a className="standard-link" href={GOOGLE_SHEET_URL}>this google sheet</a> which was populated using a google form.</p>
+            <br/>
         </div>
     )
 }
