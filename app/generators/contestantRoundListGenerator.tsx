@@ -4,15 +4,17 @@ import { IWikipediaContestantData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
+import IRound from '../models/IRound'
 
 interface Dictionary<T> {
     [Key: string]: T;
 }
 
-function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number) {
+function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
 
-    const contestantRoundScores: number[] = []
+    const contestantRoundScores: IRound[] = []
 
+    let grandTotal = 0
     for(let i = 0; i < numberOfRounds; i++) {
         const roundScore = contestantTeamsList.reduce(
             (acc: number, x: Team) => {
@@ -20,7 +22,15 @@ function generateContestantRoundScores(contestantTeamsList: Team[], numberOfRoun
 
                 return teamShouldBeScored ? acc + 10 : acc
             }, 0)
-        contestantRoundScores.push(roundScore)
+        grandTotal += roundScore
+        contestantRoundScores.push({
+            round: i,
+            contestantRoundData:[{
+                name: contestantName,
+                roundScore: roundScore,
+                totalScore: grandTotal
+            }]
+        })
     }
 
     return contestantRoundScores
@@ -44,7 +54,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
 
     const reverseTeamsList = [...pageData.props.runners].reverse()
 
-    const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds)
+    const roundScores = generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*")
 
 
     return listOfContestantLeagueData.map(contestant => {
@@ -54,7 +64,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
             return foundTeam
         })
 
-        const contestantRoundScores: number[] = generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds)
+        const contestantRoundScores: IRound[] = generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
 
         return {
             key: contestant.name,
@@ -63,6 +73,7 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
                 contestantRoundScores={contestantRoundScores}
                 perfectTeamList={reverseTeamsList}
                 contestantTeamList={currentSelectedContestantTeamsList}
+                contestantName={contestant.name}
             />
         }
     })
