@@ -1,13 +1,16 @@
-import Team from '../models/Team'
+import IRound from './IRound'
+import Team from './Team'
 import { shouldBeScored } from '../utils/teamListUtils'
-import IRound from '../models/IRound'
 
 export default class LeagueStanding {
-    
-    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string) {
+    rounds: IRound[]
 
-        const contestantRoundScores: IRound[] = []
-    
+    constructor() {
+        this.rounds = []
+    }
+
+    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string): void {
+
         let grandTotal = 0
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
@@ -16,18 +19,38 @@ export default class LeagueStanding {
     
                     return teamShouldBeScored ? acc + 10 : acc
                 }, 0)
+
             grandTotal += roundScore
-            contestantRoundScores.push({
-                round: i,
-                contestantRoundData:[{
+
+            if (this.rounds.length > i) {
+                const currentRound = this.rounds[i]
+                currentRound.contestantRoundData.push({
                     name: contestantName,
                     roundScore: roundScore,
                     totalScore: grandTotal
-                }]
-            })
+                })
+            }
+            else {
+                this.rounds.push({
+                    round:i,
+                    contestantRoundData: [{
+                        name: contestantName,
+                        roundScore: roundScore,
+                        totalScore: grandTotal
+                    }]
+                })
+            }
+
         }
-    
-        return contestantRoundScores
     }
 
+
+    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string): IRound[] {
+
+        const result = new LeagueStanding()
+        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName)
+
+        return result.rounds
+    }
 } 
+
