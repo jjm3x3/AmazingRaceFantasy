@@ -2,6 +2,10 @@
 // Contestant Ranking
 export const CONTESTANT_LEAGUE_DATA = [
     {
+        name: "Andrew",
+        ranking: [ "Juan Villa & Shane Bilek", "Rod Gardner & Leticia Gardner", "Amber Craven & Vinny Cagungun", "Ricky Rotandi & Cesar Aldrete", "Yvonne Chavez & Melissa Main", "Michelle Clark & Sean Clark", "Derek Williams & Shelisa Williams", "Anthony Smith & Bailey Smith", "Sunny Pulver & Bizzy Smith", "Angie Butler & Danny Butler", "Chris Foster & Mary Cardona-Foster", "Kishori Turner & Karishma Cordero", "Maya Mody & Rohan Mody" ]
+    },
+    {
         name: "Anita",
         ranking: [ "Rod Gardner & Leticia Gardner", "Ricky Rotandi & Cesar Aldrete", "Juan Villa & Shane Bilek", "Sunny Pulver & Bizzy Smith", "Derek Williams & Shelisa Williams", "Michelle Clark & Sean Clark", "Yvonne Chavez & Melissa Main", "Kishori Turner & Karishma Cordero", "Anthony Smith & Bailey Smith", "Angie Butler & Danny Butler", "Amber Craven & Vinny Cagungun", "Chris Foster & Mary Cardona-Foster", "Maya Mody & Rohan Mody"]
     },
