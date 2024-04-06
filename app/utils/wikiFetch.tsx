@@ -15,7 +15,7 @@ export interface IWikipediaContestantData {
 }
 
 async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
-    const response = await fetch(wikiUrl, { next: { revalidate: 10 } })
+    const response = await fetch(wikiUrl, { next: { revalidate: 3600 } })
     const data = await response.json()
     return data
 }
