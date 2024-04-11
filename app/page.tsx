@@ -33,7 +33,7 @@ export default function Home() {
               <Link className="menu-item" href="/scoring">Scoring</Link>
             </div>
             <div className="menu-box">
-              <Link className="menu-item" href="/leagueStanding">League Standing</Link>
+              <Link className="menu-item" href="/league-standing">League Standing</Link>
             </div>
           </div>
       </div>
