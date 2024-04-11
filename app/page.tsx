@@ -18,13 +18,9 @@ export default function Home() {
             <div className="title-bar">
                 <p className="page-title">X Factor Fantasy</p>
             </div>
-            <div className="menu-box">
-              <Link className="menu-item" href="/scoring">Scoring</Link>
-            </div>
-            <div className="menu-box">
-              <Link className="menu-item" href="/league-standing">League Standing</Link>
-            </div>
-          </div>
+            <p className="site-notice">
+                Welcome to X Factor Fantasy! A new season of the Amazing Race has just begun!
+            </p>
         </div>
     )
 }
