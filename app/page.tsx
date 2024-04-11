@@ -15,13 +15,8 @@ export default function Home() {
 
     return (
         <div>
-            <div className="menu-tray">
-                <div className="menu-box">
-                    <Link className="menu-item" href="/contestants">Contestant List</Link>
-                </div>
-                <div className="menu-box">
-                    <Link className="menu-item" href="/scoring">Scoring</Link>
-                </div>
+            <div className="title-bar">
+                <p className="page-title">X Factor Fantasy</p>
             </div>
             <div className="menu-box">
               <Link className="menu-item" href="/scoring">Scoring</Link>
