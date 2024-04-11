@@ -16,6 +16,13 @@ body {
     padding: 20px;
 }
 
+.main-content {
+    @apply w-full lg:w-3/4;
+    @apply left-1/2;
+    @apply translate-x-[-50%];
+    @apply relative;
+}
+
 .site-notice {
     @apply text-lg;
     @apply text-center;
