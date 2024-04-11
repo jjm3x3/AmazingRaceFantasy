@@ -22,6 +22,11 @@ body {
     padding: 40px;
 }
 
+.current-league-heading {
+    @apply text-xl;
+    padding: 10px;
+}
+
 .standard-link {
     @apply hover:underline text-blue-500 hover:text-blue-800 visited:text-purple-500 cursor-pointer
 }

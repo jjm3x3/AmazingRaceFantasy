@@ -21,6 +21,7 @@ export default function Home() {
             <p className="site-notice">
                 Welcome to X Factor Fantasy! A new season of the Amazing Race has just begun!
             </p>
+            <p className="current-league-heading" >Links For The Current League</p>
         </div>
     )
 }
