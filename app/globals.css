@@ -36,6 +36,7 @@ main {
 
 .league-page-link {
     padding: 20px;
+    @apply: text-nowrap;
 }
 
 .standard-link {
