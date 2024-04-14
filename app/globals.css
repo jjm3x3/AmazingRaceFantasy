@@ -29,7 +29,7 @@ main {
     padding: 40px;
 }
 
-.current-league-heading {
+.league-link--heading {
     @apply text-xl;
     padding: 10px;
 }
