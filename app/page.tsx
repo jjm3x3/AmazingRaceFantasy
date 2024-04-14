@@ -4,7 +4,7 @@ import fs from 'fs'
 export default function Home() {
 
     const currentDirFilesList = fs.readdirSync(__dirname)
-    let archiveDirFilesList = []
+    let archiveDirFilesList: string[] = []
 
     if (currentDirFilesList.includes("archive")) {
         console.log("Yay there is an 'archive' folder and it's contents are:")
