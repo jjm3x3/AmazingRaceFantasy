@@ -23,7 +23,7 @@ export default function Home() {
                     <br/>
                     <a className="standard-link" href="/scoring"> Jump Into The Action</a>
                 </p>
-                <p className="league-link--heading" >Links For The Current League</p>
+                <p className="league-link-heading" >Links For The Current League</p>
                 <div className="flex flex-row">
                     <Link className="standard-link league-page-link" href="/contestants">Contestants</Link>
                     <Link className="standard-link league-page-link" href="/scoring">Scoring</Link>
@@ -37,7 +37,7 @@ export default function Home() {
                     const leagueStandingPath = "/archive/" + s +"/league-standing"
 
                     return <>
-                        <p className="league-link--heading" >Links For {friendlyName} League</p>
+                        <p className="league-link-heading" >Links For {friendlyName} League</p>
                         <div className="flex flex-row">
                             <Link className="standard-link league-page-link" href={contestantsPath}>Contestants</Link>
                             <Link className="standard-link league-page-link" href={scoringPath}>Scoring</Link>
