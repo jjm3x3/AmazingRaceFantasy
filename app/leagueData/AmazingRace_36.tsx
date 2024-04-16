@@ -28,5 +28,9 @@ export const CONTESTANT_LEAGUE_DATA = [
     {
         name: "Rachel",
         ranking: ["Yvonne Chavez & Melissa Main", "Amber Craven & Vinny Cagungun", "Derek Williams & Shelisa Williams", "Ricky Rotandi & Cesar Aldrete", "Michelle Clark & Sean Clark", "Juan Villa & Shane Bilek", "Kishori Turner & Karishma Cordero", "Rod Gardner & Leticia Gardner", "Anthony Smith & Bailey Smith", "Sunny Pulver & Bizzy Smith", "Angie Butler & Danny Butler", "Chris Foster & Mary Cardona-Foster", "Maya Mody & Rohan Mody"]
+    },
+    {
+        name: "Sam",
+        ranking: ["Ricky Rotandi & Cesar Aldrete", "Rod Gardner & Leticia Gardner", "Yvonne Chavez & Melissa Main", "Derek Williams & Shelisa Williams", "Juan Villa & Shane Bilek", "Sunny Pulver & Bizzy Smith", "Amber Craven & Vinny Cagungun", "Angie Butler & Danny Butler", "Kishori Turner & Karishma Cordero", "Anthony Smith & Bailey Smith", "Michelle Clark & Sean Clark", "Chris Foster & Mary Cardona-Foster", "Maya Mody & Rohan Mody"]
     }
 ]
