@@ -126,3 +126,35 @@ describe('Team static getKey', () => {
         expect(testResult).toBe(expectedResult)
     })
 })
+
+describe("Team friendlyName", () => {
+    it("shoud return a team with a member with two firstNames when one of their names is Anna Leigh", () => { 
+
+        // Arrange
+        const expectedFirstName = "Anna Leigh"
+        const sut = new Team({teamName: expectedFirstName + " lastname & Partner Person"})
+
+        // Act
+        const result = sut.friendlyName()
+
+        // Assert
+        expect(result).toContain(expectedFirstName)
+    })
+
+    it("shoud return a team with two firstNames one for each player when nither of their first names match the predefined list", () => { 
+
+        // Arrange
+        const expectedFirstFirstName = "Bob"
+        const expectedSecondFirstName = "Partner"
+        const sut = new Team({
+            teamName: expectedFirstFirstName + " Lob Law & " + expectedSecondFirstName +" Peter Piper"
+        })
+
+        // Act
+        const result = sut.friendlyName()
+
+        // Assert
+        expect(result).toContain(expectedFirstFirstName)
+        expect(result).toContain(expectedSecondFirstName)
+    })
+})

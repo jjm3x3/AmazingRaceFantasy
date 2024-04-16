@@ -28,6 +28,27 @@ export default class Team {
         return teamIsParticipating || teamHasNotYetBeenEliminated
     }
 
+    friendlyName(): string {
+        const contestantNames = this.teamName.split("&")
+
+        const firstContestantsFirstName = this.determineFirstName(contestantNames[0].trim())
+        const secondContestantsFirstName = this.determineFirstName(contestantNames[1].trim())
+
+        return firstContestantsFirstName + " & " + secondContestantsFirstName
+    }
+
+    private determineFirstName(contestantName: string): string {
+        const contestantNameParts = contestantName.split(" ")
+        if (contestantNameParts.length > 2) {
+            const firstTwo = contestantNameParts[0] + " " + contestantNameParts[1]
+
+            if (["Anna Leigh"].includes(firstTwo)) {
+                return firstTwo
+            }
+        }
+        return contestantNameParts[0]
+    }
+
     static getKey(teamName: string): string {
         var seed = ""
 

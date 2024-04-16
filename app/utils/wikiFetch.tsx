@@ -1,8 +1,5 @@
 import * as cheerio from 'cheerio'
 
-export const wikiUrl = "https://en.wikipedia.org/wiki/The_Amazing_Race_35"
-const apiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=The_Amazing_Race_35&section=7&formatversion=2"
-
 interface IWikipediaData {
     parse: {
         text: string
@@ -17,15 +14,21 @@ export interface IWikipediaContestantData {
     status: string
 }
 
-async function fetchWikipediaData(): Promise<IWikipediaData> {
-    const response = await fetch(apiUrl)
+async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
+    const response = await fetch(wikiUrl, { next: { revalidate: 3600 } })
     const data = await response.json()
     return data
 }
 
-export async function getWikipediaContestantData(): Promise<IWikipediaContestantData[]> {
+export function getWikipediaContestantDataFetcher(wikiUrl: string): () => Promise<IWikipediaContestantData[]> {
+    return async function() {
+        return await getWikipediaContestantData(wikiUrl)
+    }
+}
 
-    const wikipediaData = await fetchWikipediaData()
+export async function getWikipediaContestantData(wikiUrl: string): Promise<IWikipediaContestantData[]> {
+
+    const wikipediaData = await fetchWikipediaData(wikiUrl)
     const htmlsnippet = wikipediaData.parse.text
     const $ = cheerio.load(htmlsnippet)
     const cheerioFilter = $('table.wikitable tbody tr')

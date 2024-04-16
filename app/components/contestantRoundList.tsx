@@ -1,27 +1,37 @@
 import Round from './round'
 import Team from '../models/Team'
+import IRound from '../models/IRound'
+import IContestantRoundData from '../models/IContestantRoundData'
 
 export default function ContestantRoundList({
         perfectRoundScores,
         contestantRoundScores,
         perfectTeamList,
-        contestantTeamList
+        contestantTeamList,
+        contestantName
     }: {
-        perfectRoundScores: number[]
-        contestantRoundScores: number[]
+        perfectRoundScores: IRound[]
+        contestantRoundScores: IRound[]
         perfectTeamList: Team[]
         contestantTeamList: Team[]
+        contestantName: string
     }) {
 
-    let grandTotal = 0
-    let contestantGrandTotal = 0
-
-    return (
+    return (<>
         <div className="text-center">
-            {perfectRoundScores.map((perfectScore, roundNumber) => {
-                grandTotal += perfectScore
-                let contestantRoundScore = contestantRoundScores[roundNumber]
-                contestantGrandTotal += contestantRoundScore
+            {perfectRoundScores.map((round: IRound, roundNumber: number) => {
+                if (roundNumber !== round.round) {
+                    console.warn("Something is wrong that the rounds are out of order")
+                }
+
+                const perfectRound = round.contestantRoundData.filter((x: IContestantRoundData) => x.name === "*perfect*")[0]
+                const perfectScore = perfectRound.roundScore
+                const grandTotal = perfectRound.totalScore
+
+                const contestantRound = contestantRoundScores[roundNumber] // check round number
+                const filteredContestantRound = contestantRound.contestantRoundData.filter((x: IContestantRoundData) => x.name === contestantName)[0]
+                const contestantRoundScore = filteredContestantRound.roundScore
+                const contestantGrandTotal = filteredContestantRound.totalScore
 
                 return <Round
                     key={"round"+roundNumber}
@@ -35,5 +45,5 @@ export default function ContestantRoundList({
                 />
             })}
         </div>
-    )
+    </>)
 }
