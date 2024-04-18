@@ -1,41 +1,23 @@
-import Image from 'next/image'
 import Link from 'next/link'
-
-const imageSources = [
-    {
-        src: 'MeixnerAmzingRaceFantacyLeageHome-360w.svg',
-        media: '(max-width: 768px)'
-    },
-    {
-        src: '/MeixnerAmzingRaceFantacyLeageHome.svg'
-    }
-]
 
 export default function Home() {
 
     return (
-      <div>
-          <picture>
-            {imageSources.map((source,index) => ( <source key={index} srcSet={source.src} media={source.media} />
-            ))}
-            <Image
-              src="/MeixnerAmzingRaceFantacyLeageHome.svg"
-              fill
-              alt="Landing Page which has the title of 'Meixner's Amazing Race Fantasy Legue' and the subtitle 'A web tool to help run an Amazing Race fantasy legue'"
-              >
-            </Image>
-          </picture>
-          <div className="menu-tray">
-            <div className="menu-box">
-              <Link className="menu-item" href="/contestants">Contestant List</Link>
-            </div>
-            <div className="menu-box">
-              <Link className="menu-item" href="/scoring">Scoring</Link>
-            </div>
-            <div className="menu-box">
-              <Link className="menu-item" href="/league-standing">League Standing</Link>
-            </div>
-          </div>
-      </div>
+        <div>
+            <header className="title-bar">
+                <p className="page-title">X Factor Fantasy</p>
+            </header>
+            <main className="main-content">
+                <p className="site-notice">
+                    Welcome to X Factor Fantasy! A new season of the Amazing Race has just begun!
+                    <br/>
+                    <a className="standard-link" href="/scoring"> Jump Into The Action</a>
+                </p>
+                <p className="current-league-heading" >Links For The Current League</p>
+                <Link className="standard-link league-page-link" href="/contestants">Contestants</Link>
+                <Link className="standard-link league-page-link" href="/scoring">Scoring</Link>
+                <Link className="standard-link league-page-link" href="/league-standing">League Standing</Link>
+            </main>
+        </div>
     )
 }
