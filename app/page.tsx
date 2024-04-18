@@ -7,7 +7,7 @@ export default function Home() {
             <header className="title-bar">
                 <p className="page-title">X Factor Fantasy</p>
             </header>
-            <div className="main-content">
+            <main className="main-content">
                 <p className="site-notice">
                     Welcome to X Factor Fantasy! A new season of the Amazing Race has just begun!
                     <br/>
@@ -17,7 +17,7 @@ export default function Home() {
                 <Link className="standard-link league-page-link" href="/contestants">Contestants</Link>
                 <Link className="standard-link league-page-link" href="/scoring">Scoring</Link>
                 <Link className="standard-link league-page-link" href="/league-standing">League Standing</Link>
-            </div>
+            </main>
         </div>
     )
 }
