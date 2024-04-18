@@ -16,7 +16,7 @@ header {
     padding: 20px;
 }
 
-.main-content {
+main {
     @apply w-full lg:w-3/4;
     @apply left-1/2;
     @apply translate-x-[-50%];
