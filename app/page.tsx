@@ -4,10 +4,10 @@ export default function Home() {
 
     return (
         <div>
-            <header className="title-bar">
+            <header>
                 <p className="page-title">X Factor Fantasy</p>
             </header>
-            <main className="main-content">
+            <main>
                 <p className="site-notice">
                     Welcome to X Factor Fantasy! A new season of the Amazing Race has just begun!
                     <br/>
