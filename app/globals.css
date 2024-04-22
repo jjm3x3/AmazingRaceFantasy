@@ -29,13 +29,14 @@ main {
     padding: 40px;
 }
 
-.current-league-heading {
+.league-link-heading {
     @apply text-xl;
     padding: 10px;
 }
 
 .league-page-link {
-    padding: 20px;
+    padding: 15px;
+    @apply: basis-1/3;
 }
 
 .standard-link {
