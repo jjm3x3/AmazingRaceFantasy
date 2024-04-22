@@ -120,12 +120,13 @@ describe("generateContestantRoundScores", () => {
 })
 
 describe("addContestantRoundScores", () => {
+
+    let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0})
+    let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+    let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+
     it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
         // Arrange
-        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0})
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
-        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
-
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
         const rounds = 1
         const expectedContestantName1 = "contestant1"
