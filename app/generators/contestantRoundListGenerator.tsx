@@ -29,7 +29,8 @@ export default async function generateListOfContestantRoundLists(dataFetcher: ()
 
     const reverseTeamsList = [...pageData.props.runners].reverse()
 
-    const roundScores: IRound[] = LeagueStanding.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*")
+    const perfectScoreHandicap = 0
+    const roundScores: IRound[] = LeagueStanding.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap)
 
 
     return listOfContestantLeagueData.map(contestant => {
