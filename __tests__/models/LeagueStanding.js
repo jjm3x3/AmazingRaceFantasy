@@ -148,4 +148,25 @@ describe("addContestantRoundScores", () => {
         expect(resultingContestantRoundData[0].name).toBe(expectedContestantName1)
         expect(resultingContestantRoundData[1].name).toBe(expectedContestantName2)
     })
+
+    it("Should not break if hadnicap is not passed", () => {
+        // Arrange
+        const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
+        const rounds = 1
+        const expectedContestantName1 = "contestant1"
+        const sut = new LeagueStanding()
+
+        // Act
+        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1)
+
+        // Assert
+        expect(sut).not.toBeNull()
+        expect(sut.rouds).not.toBeNull()
+        expect(sut.rounds.length).toBe(1)
+        expect(sut.rounds[0]).not.toBeNull()
+        expect(sut.rounds[0].contestantRoundData).not.toBeNull()
+        expect(sut.rounds[0].contestantRoundData.length).toBe(1)
+        const resultingContestantRoundData =  sut.rounds[0].contestantRoundData
+        expect(resultingContestantRoundData[0].totalScore).toBe(20)
+    })
 })
