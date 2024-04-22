@@ -11,7 +11,7 @@ export default class LeagueStanding {
 
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: int): void {
 
-        let grandTotal = 0
+        let grandTotal = handicap === undefined ? 0 : handicap
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
