@@ -45,10 +45,10 @@ export default class LeagueStanding {
     }
 
 
-    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string): IRound[] {
+    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: int): IRound[] {
 
         const result = new LeagueStanding()
-        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName)
+        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap)
 
         return result.rounds
     }
