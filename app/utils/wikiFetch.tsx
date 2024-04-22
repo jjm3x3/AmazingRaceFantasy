@@ -14,6 +14,25 @@ export interface IWikipediaContestantData {
     status: string
 }
 
+interface Section {
+    toclevel: number
+    level: string
+    line: string
+    number: string
+    index: string
+    fromtitle: string
+    byteoffset: number
+    anchor: string
+    linkAnchor: string
+}
+
+interface ParseResult {
+    title: string
+    pageid: number
+    sections: Section[]
+    showtoc: boolean
+}
+
 async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
     const response = await fetch(wikiUrl, { next: { revalidate: 3600 } })
     const data = await response.json()
@@ -26,9 +45,30 @@ export function getWikipediaContestantDataFetcher(wikiUrl: string): () => Promis
     }
 }
 
+async function fetchWikipediaSections(wikiUrl: string): Promise<ParseResult> {
+    const response = await fetch(wikiUrl)
+    const data = await response.json()
+    return data.parse
+}
+
+function findSectionIndexByAnchor(sections: Section[], anchor: string): number | undefined {
+    for (const section of sections) {
+        if (section.anchor === anchor) {
+            return parseInt(section.index, 10)
+        }
+    }
+    return undefined;
+}
+
 export async function getWikipediaContestantData(wikiUrl: string): Promise<IWikipediaContestantData[]> {
 
-    const wikipediaData = await fetchWikipediaData(wikiUrl)
+    const sectionsUrl =`${wikiUrl}&prop=sections&formatversion=2`
+    const sectionsData = await fetchWikipediaSections(sectionsUrl)
+    const sections  = sectionsData.sections
+    const sectionIndex = findSectionIndexByAnchor(sections, "Cast")
+    const castUrl = `${wikiUrl}&section=${sectionIndex}&formatversion=2`
+
+    const wikipediaData = await fetchWikipediaData(castUrl)
     const htmlsnippet = wikipediaData.parse.text
     const $ = cheerio.load(htmlsnippet)
     const cheerioFilter = $('table.wikitable tbody tr')
