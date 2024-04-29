@@ -139,7 +139,7 @@ describe("addContestantRoundScores", () => {
 
         // Assert
         expect(sut).not.toBeNull()
-        expect(sut.rouds).not.toBeNull()
+        expect(sut.rounds).not.toBeNull()
         expect(sut.rounds.length).toBe(1)
         expect(sut.rounds[0]).not.toBeNull()
         expect(sut.rounds[0].contestantRoundData).not.toBeNull()
@@ -161,7 +161,7 @@ describe("addContestantRoundScores", () => {
 
         // Assert
         expect(sut).not.toBeNull()
-        expect(sut.rouds).not.toBeNull()
+        expect(sut.rounds).not.toBeNull()
         expect(sut.rounds.length).toBe(1)
         expect(sut.rounds[0]).not.toBeNull()
         expect(sut.rounds[0].contestantRoundData).not.toBeNull()
@@ -183,7 +183,7 @@ describe("addContestantRoundScores", () => {
 
         // Assert
         expect(sut).not.toBeNull()
-        expect(sut.rouds).not.toBeNull()
+        expect(sut.rounds).not.toBeNull()
         expect(sut.rounds.length).toBe(1)
         expect(sut.rounds[0]).not.toBeNull()
         expect(sut.rounds[0].contestantRoundData).not.toBeNull()
