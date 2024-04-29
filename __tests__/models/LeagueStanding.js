@@ -149,7 +149,7 @@ describe("addContestantRoundScores", () => {
         expect(resultingContestantRoundData[1].name).toBe(expectedContestantName2)
     })
 
-    it("Should not break if hadnicap is not passed", () => {
+    it("Should not break if handicap is not passed", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
         const rounds = 1
@@ -170,7 +170,7 @@ describe("addContestantRoundScores", () => {
         expect(resultingContestantRoundData[0].totalScore).toBe(20)
     })
 
-    it("Should modify totalScore if hadnicap is not passed", () => {
+    it("Should modify totalScore if handicap is not passed", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
         const rounds = 1
