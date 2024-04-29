@@ -2,16 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
-body {
-}
-
 header {
     background: rgb(14, 76, 181);
     padding: 20px;
     color: white;
     display: flex;
     justify-content: space-between;
+    position: relative;
 }
 
 .page-title {

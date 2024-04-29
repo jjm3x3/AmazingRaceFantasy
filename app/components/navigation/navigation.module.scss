@@ -2,22 +2,37 @@
     align-self: center;
 }
 
-.nav-toggle {
+.nav-toggle, .nav-subpages-toggle {
     display: none;
 }
 
 #navigation-menu {
     position: absolute;
     right: 0;
+    top: 100%;
     display: none;
     background-color: rgb(14, 76, 181);
-    width: 5rem;
-    li {
-        padding: 0.5rem;
+    width: 10rem;
+}
+
+.top-level-link {
+    padding: 0.5rem;
+    &::after {
+        content: '+';
+        position: absolute;
+        right: 0.5rem;
     }
 }
 
-.nav-toggle:checked ~ #navigation-menu {
+.sub-level-link {
+    padding: 0.25rem 0.5rem;
+    &:hover {
+        cursor: pointer;
+        background-color: darken(rgb(14, 76, 181), 20%);
+    }
+}
+
+.nav-toggle:checked ~ #navigation-menu, .nav-subpages-toggle:checked + .nav-subpages-menu + .nav-subpages-list {
     display: block;
 }
 
@@ -29,4 +44,20 @@
     &:hover {
         cursor: pointer;
     }
+}
+
+.nav-subpages-menu {
+    &:hover {
+        cursor: pointer;
+    }
+    .nav-subpages-toggle:checked+& {
+        .top-level-link::after {
+            content: '-';
+        }
+    }
+}
+
+.nav-subpages-list {
+    display: none;
+    background-color: darken(rgb(14, 76, 181), 10%);
 }

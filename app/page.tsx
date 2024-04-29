@@ -1,23 +1,16 @@
 import Link from 'next/link'
 import Navigation from './components/navigation/navigation'
-import fs from 'fs'
+import IPage from './models/IPage';
+import ISubpage from './models/ISubpage';
+import { getPages } from '@/app/utils/pages';
 
 export default function Home() {
-
-    const currentDirFilesList = fs.readdirSync(__dirname)
-    let archiveDirFilesList: string[] = []
-
-    if (currentDirFilesList.includes("archive")) {
-        console.log("Yay there is an 'archive' folder and it's contents are:")
-        archiveDirFilesList = fs.readdirSync(__dirname+"/archive")
-        console.log(archiveDirFilesList)
-    }
-
+    const pages = getPages();
     return (
         <div>
             <header>
                 <p className="page-title">X Factor Fantasy</p>
-                <Navigation/>
+                <Navigation pages={ pages } />
             </header>
             <main>
                 <p className="site-notice">
@@ -25,27 +18,16 @@ export default function Home() {
                     <br/>
                     <a className="standard-link" href="/scoring"> Jump Into The Action</a>
                 </p>
-                <p className="league-link-heading" >Links For The Current League</p>
-                <div className="flex flex-row">
-                    <Link className="standard-link league-page-link" href="/contestants">Contestants</Link>
-                    <Link className="standard-link league-page-link" href="/scoring">Scoring</Link>
-                    <Link className="standard-link league-page-link" href="/league-standing">League Standing</Link>
-                </div>
-                {archiveDirFilesList.map(s => {
-                    const friendlyName = s.replaceAll("-", " ")
-                    // TODO capitalize show name
-                    const contestantsPath = "/archive/" + s + "/contestants"
-                    const scoringPath = "/archive/" + s + "/scoring"
-                    const leagueStandingPath = "/archive/" + s +"/league-standing"
-
-                    return <>
-                        <p className="league-link-heading" >Links For {friendlyName} League</p>
-                        <div className="flex flex-row">
-                            <Link className="standard-link league-page-link" href={contestantsPath}>Contestants</Link>
-                            <Link className="standard-link league-page-link" href={scoringPath}>Scoring</Link>
-                            <Link className="standard-link league-page-link" href={leagueStandingPath}>League Standing</Link>
-                        </div>
-                    </>
+                {pages.map((p: IPage) => { 
+                    const keyName = p.name.toLowerCase().replaceAll(' ', '-');
+                    return (<div key={`links-section-${keyName}`}>
+                    <p className="league-link-heading" >Links For { p.name } League</p>
+                    <div className="flex flex-row">{
+                        p.subpages.map((pSub: ISubpage) => (
+                            <Link className="standard-link league-page-link" key={`links-section-${keyName}-link-${pSub.name.toLowerCase().replaceAll(' ', '-')}`} href={pSub.path}>{ pSub.name}</Link>
+                        ))
+                    }</div>
+                </div>)
                 })}
             </main>
         </div>
