@@ -25,6 +25,7 @@ export default function RootLayout({
             <p className="page-title">X Factor Fantasy</p>
             {pages.length > 0 && <Navigation pages={pages} />}
         </header>
+        <br/>
         {children}
       </body>
     </html>

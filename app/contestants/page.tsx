@@ -10,7 +10,6 @@ export default async function Contestants() {
 
     return (
         <div>
-          <br/>
           <h1 className="text-2xl text-center">Contestants</h1>
           <br/>
           <p className="text-lg text-center">{final.props.runners.length} teams</p>
