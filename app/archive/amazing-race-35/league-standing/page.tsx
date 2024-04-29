@@ -11,6 +11,7 @@ export default async function LeagueStanding() {
     return (
         <div>
             <h1 className="text-3xl text-center">League Standing</h1>
+            <br/>
             {contestantScoresComponent}
         </div>
     )
