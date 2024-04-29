@@ -1,0 +1,32 @@
+#navigation {
+    align-self: center;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+#navigation-menu {
+    position: absolute;
+    right: 0;
+    display: none;
+    background-color: rgb(14, 76, 181);
+    width: 5rem;
+    li {
+        padding: 0.5rem;
+    }
+}
+
+.nav-toggle:checked ~ #navigation-menu {
+    display: block;
+}
+
+#hamburger-nav-icon {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    background-image: linear-gradient(white 20%, transparent 20%, transparent 40%, white 40%, white 60%, transparent 60%, transparent 80%, white 80%);
+    &:hover {
+        cursor: pointer;
+    }
+}
