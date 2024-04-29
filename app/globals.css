@@ -8,12 +8,15 @@ body {
 
 header {
     background: rgb(14, 76, 181);
+    padding: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
 }
 
 .page-title {
     @apply text-3xl;
     color: white;
-    padding: 20px;
 }
 
 main {

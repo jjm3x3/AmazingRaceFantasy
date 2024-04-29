@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Navigation from './components/navigation/navigation'
 import fs from 'fs'
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <div>
             <header>
                 <p className="page-title">X Factor Fantasy</p>
+                <Navigation/>
             </header>
             <main>
                 <p className="site-notice">
