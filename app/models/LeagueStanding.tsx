@@ -9,9 +9,9 @@ export default class LeagueStanding {
         this.rounds = []
     }
 
-    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string): void {
+    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
-        let grandTotal = 0
+        let grandTotal = handicap === undefined ? 0 : handicap
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
@@ -45,10 +45,10 @@ export default class LeagueStanding {
     }
 
 
-    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string): IRound[] {
+    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
         const result = new LeagueStanding()
-        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName)
+        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap)
 
         return result.rounds
     }
