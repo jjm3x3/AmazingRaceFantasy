@@ -5,12 +5,12 @@ import ISubpage from './models/ISubpage';
 import { getPages } from '@/app/utils/pages';
 
 export default function Home() {
-    const pages = getPages();
+    const pages = getPages() || [];
     return (
         <div>
             <header>
                 <p className="page-title">X Factor Fantasy</p>
-                <Navigation pages={ pages } />
+                {pages.length > 0 && <Navigation pages={pages} />}
             </header>
             <main>
                 <p className="site-notice">
