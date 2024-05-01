@@ -31,7 +31,7 @@ export default function Navigation({ pages }: {
             const keyName = page.name.toLowerCase().replaceAll(' ', '-');
             const hasSubpages = page.hasOwnProperty('subpages') && page.subpages.length > 0;
             const subpageInputAttr = {
-                id: `subpage-${keyName}`,
+                id: `subpage-${keyName}-input`,
                 classes: styles['nav-subpages-toggle'],
             }
             const subpageLabelAttr = {
@@ -41,7 +41,7 @@ export default function Navigation({ pages }: {
                 aria: {
                     controls: `subpage-${keyName}-dropdown`
                 },
-                testId: `subpage-${keyName}`
+                testId: `subpage-${keyName}-label`
             }
             const subpageListAttr = {
                 id: `subpage-${keyName}-dropdown`,
