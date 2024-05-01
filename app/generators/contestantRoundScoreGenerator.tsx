@@ -32,7 +32,7 @@ async function generateContestantRoundScores(dataFetcher: () => Promise<IWikiped
             return foundTeam
         })
 
-        result.addContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name)
+        result.addContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name, contestant.handicap)
 
     })
 

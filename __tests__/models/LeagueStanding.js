@@ -120,12 +120,13 @@ describe("generateContestantRoundScores", () => {
 })
 
 describe("addContestantRoundScores", () => {
+
+    let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0})
+    let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+    let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
+
     it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
         // Arrange
-        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0})
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
-        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0})
-
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
         const rounds = 1
         const expectedContestantName1 = "contestant1"
@@ -138,7 +139,7 @@ describe("addContestantRoundScores", () => {
 
         // Assert
         expect(sut).not.toBeNull()
-        expect(sut.rouds).not.toBeNull()
+        expect(sut.rounds).not.toBeNull()
         expect(sut.rounds.length).toBe(1)
         expect(sut.rounds[0]).not.toBeNull()
         expect(sut.rounds[0].contestantRoundData).not.toBeNull()
@@ -146,5 +147,48 @@ describe("addContestantRoundScores", () => {
         const resultingContestantRoundData =  sut.rounds[0].contestantRoundData
         expect(resultingContestantRoundData[0].name).toBe(expectedContestantName1)
         expect(resultingContestantRoundData[1].name).toBe(expectedContestantName2)
+    })
+
+    it("Should not break if handicap is not passed", () => {
+        // Arrange
+        const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
+        const rounds = 1
+        const expectedContestantName1 = "contestant1"
+        const sut = new LeagueStanding()
+
+        // Act
+        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1)
+
+        // Assert
+        expect(sut).not.toBeNull()
+        expect(sut.rounds).not.toBeNull()
+        expect(sut.rounds.length).toBe(1)
+        expect(sut.rounds[0]).not.toBeNull()
+        expect(sut.rounds[0].contestantRoundData).not.toBeNull()
+        expect(sut.rounds[0].contestantRoundData.length).toBe(1)
+        const resultingContestantRoundData =  sut.rounds[0].contestantRoundData
+        expect(resultingContestantRoundData[0].totalScore).toBe(20)
+    })
+
+    it("Should modify totalScore if handicap is not passed", () => {
+        // Arrange
+        const teamList = [exampleTeam, exampleTeam2, exampleTeam3]
+        const rounds = 1
+        const expectedContestantName1 = "contestant1"
+        const expectedHandicap = -10
+        const sut = new LeagueStanding()
+
+        // Act
+        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1, expectedHandicap)
+
+        // Assert
+        expect(sut).not.toBeNull()
+        expect(sut.rounds).not.toBeNull()
+        expect(sut.rounds.length).toBe(1)
+        expect(sut.rounds[0]).not.toBeNull()
+        expect(sut.rounds[0].contestantRoundData).not.toBeNull()
+        expect(sut.rounds[0].contestantRoundData.length).toBe(1)
+        const resultingContestantRoundData =  sut.rounds[0].contestantRoundData
+        expect(resultingContestantRoundData[0].totalScore).toBe(10)
     })
 })
