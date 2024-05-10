@@ -1,5 +1,5 @@
 #!/bin/sh
-#
+
 # An example hook script to verify what is about to be committed.
 # Called by "git commit" with no arguments.  The hook should
 # exit with non-zero status after issuing an appropriate message if
@@ -8,5 +8,25 @@
 # To enable this hook, rename this file to "pre-commit".
 
 # Format pre-commit
-exec npm run format
-echo "Formatted"
+
+STAGED_FILES=($(git diff --name-only --cached --diff-filter=d))
+STAGED_FILES_COUNT=($(git whatchanged -1 --format=oneline | wc -l))
+SHOULD_FORMAT=false
+ITERATION=0
+
+echo "Checking if files need formatting..."
+until [[ $SHOULD_FORMAT == true || $ITERATION -eq $STAGED_FILES_COUNT ]]; do
+    for FILE in $STAGED_FILES; do
+        if [[ $FILE =~ (\.js|\.jsx|\.ts|\.tsx|\.css|\.scss)$ ]]; then
+            SHOULD_FORMAT=true
+            echo "Found files to format"
+            break
+        fi
+    done
+    let ITERATION++
+done
+
+if [ $SHOULD_FORMAT = true ]; then
+    echo "Formatting files..."
+    ($(npm run --silent format:fix))
+fi

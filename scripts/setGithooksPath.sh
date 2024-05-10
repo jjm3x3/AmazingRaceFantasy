@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Sets the git commit hooks path to specified path
 # We specify a new hooks path so we can commit the folder
 # We need to check which version of git because 
@@ -14,6 +16,7 @@ GITHOOKS_PATH=".githooks"
 if (( $(echo "$GIT_NUMBER_STRING $GIT_MIN_VERSION" | awk '{print ($1 >= $2)}') )); then
     ($(git config --local core.hooksPath $GITHOOKS_PATH))
     echo "Git hooks path changed from .git/hooks to $GITHOOKS_PATH"
+    exit 1
 else
     ($(find .git/hooks -type l -exec rm {} \;))
     ($(find ${GITHOOKS_PATH} -type f -exec ln -sf ../../{} .git/hooks/ \;))
