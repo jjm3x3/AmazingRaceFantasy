@@ -51,8 +51,8 @@ export default function Navigation({ pages }: {
             return (<li key={`nav-toplevellink-${keyName}`} className={styles['nav-toplevel-page']}>
                 <NavigationItem hasSubpages={hasSubpages }  inputAttr={subpageInputAttr } labelAttr={subpageLabelAttr } listAttr={ subpageListAttr} children={page.subpages.map((subpage: ISubpage) => {
                         const subpageKeyName = subpage.name.toLowerCase().replaceAll(' ', '-');
-                        return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`} className={styles['sub-level-link']}>
-                            <Link href={subpage.path}>{subpage.name}</Link>
+                        return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>
+                            <Link href={subpage.path} className={styles['sub-level-link']}>{subpage.name}</Link>
                         </li>
                     })} />
             </li>);

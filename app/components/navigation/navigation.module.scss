@@ -31,6 +31,8 @@
 
 .sub-level-link {
     padding: 0.25rem 0.5rem;
+    display: inline-block;
+    width: 100%;
     &:hover {
         cursor: pointer;
         background-color: darken(rgb(14, 76, 181), 20%);
