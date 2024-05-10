@@ -2,17 +2,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Run `npm run setup`. This runs the following commands:
+    a. `npm install`: Installs all NPM packages
+    b. `. ./setupGithooksPath.sh`: enables project-specific hooks
+3. Run `npm run dev` to run the development server
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
