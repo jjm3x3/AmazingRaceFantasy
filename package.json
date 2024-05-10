@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "setup": "chmod ug+x .githooks/* && . ./scripts/setGithooksPath.sh && npm install",
+    "setup:gitHooks": "chmod ug+x .githooks/* && . ./scripts/setGithooksPath.sh",
+    "setup": "npm run setup:gitHooks && . ./scripts/setGithooksPath.sh && npm install",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
