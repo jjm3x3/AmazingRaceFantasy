@@ -18,7 +18,6 @@ export function getPages() {
     }];
 
     if (currentDirFilesList.includes("archive")) {
-        console.log("Yay there is an 'archive' folder and it's contents are:")
         archiveDirFilesList = fs.readdirSync(__dirname+"/archive")
     }
     archiveDirFilesList.map(s => {
