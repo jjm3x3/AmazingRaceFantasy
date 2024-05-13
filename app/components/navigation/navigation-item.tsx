@@ -1,6 +1,7 @@
 import { useState } from "react";
 import INavigationItem from '@/app/models/INavigationItem';
-export default function NavigationItem({ inputAttr, labelAttr, listAttr, children, hasSubpages }: INavigationItem) {
+export default function NavigationItem({ attrs, children, hasSubpages }: INavigationItem) {
+    const { inputAttr, labelAttr, listAttr } = attrs;
     const [isHidden, setIsHidden] = useState(true);
     return (<>
         <input 

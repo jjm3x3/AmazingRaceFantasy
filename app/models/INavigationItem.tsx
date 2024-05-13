@@ -21,10 +21,14 @@ interface IListAttribute {
     classes: string
 }
 
-export default interface INavigationItem{ 
+interface IAttribute {
     inputAttr: IInputAttribute
     labelAttr: ILabelAttribute
     listAttr: IListAttribute
+}
+
+export default interface INavigationItem{ 
+    attrs: IAttribute
     children: any
     hasSubpages: boolean
 }
