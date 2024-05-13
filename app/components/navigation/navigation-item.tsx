@@ -1,13 +1,22 @@
-import { useState } from "react";
+'use client';
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import INavigationItem from '@/app/models/INavigationItem';
 export default function NavigationItem({ inputAttr, labelAttr, listAttr, children, hasSubpages }: INavigationItem) {
     const [isHidden, setIsHidden] = useState(true);
+    const pathname = usePathname();
+    useEffect(()=> {
+        if(!isHidden){
+            setIsHidden(true);
+        }
+    }, [pathname]);
     return (<>
         <input 
             id={inputAttr.id}
             className={inputAttr.classes}
             type="checkbox"
-            onChange={(e)=> setIsHidden(!e.target.value)}
+            onChange={(e)=> setIsHidden(!isHidden)}
+            checked={!isHidden}
         />
         <label 
             htmlFor={inputAttr.id}
