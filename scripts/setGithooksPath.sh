@@ -15,7 +15,6 @@ GIT_MIN_VERSION="2.9"
 GITHOOKS_PATH="./.github/hooks"
 if (( $(echo "$GIT_NUMBER_STRING $GIT_MIN_VERSION" | awk '{print ($1 >= $2)}') )); then
     ($(git config --local core.hooksPath $GITHOOKS_PATH))
-    exit 1
 else
     ($(find .git/hooks -type l -exec rm {} \;))
     ($(find ${GITHOOKS_PATH} -type f -exec ln -sf ../../{} ${GITHOOKS_PATH} \;))
