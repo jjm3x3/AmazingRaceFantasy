@@ -1,4 +1,4 @@
-name: check-setup-github-hooks-script
+name: Check Setup Github Hooks Script
 run-name: Check Setup Github Hooks Script
 on: [pull_request, push]
 jobs:
