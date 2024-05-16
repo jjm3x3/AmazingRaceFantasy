@@ -5,11 +5,11 @@ on:
   pull_request:
     paths:
       - './scripts/setGithooksPath.sh'
-      - './github/**/*'
+      - './.github/**/*'
   push:
     paths:
       - './scripts/setGithooksPath.sh'
-      - './github/**/*'
+      - './.github/**/*'
 jobs:
   run_setup_githooks:
     name: Run setup:gitHooks
