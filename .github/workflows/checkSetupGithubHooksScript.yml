@@ -11,7 +11,7 @@ on:
       - './scripts/setGithooksPath.sh'
       - './.github/**/*'
 jobs:
-  run_setup_githooks:
+  build:
     name: Run setup:gitHooks
     strategy:
       matrix:
