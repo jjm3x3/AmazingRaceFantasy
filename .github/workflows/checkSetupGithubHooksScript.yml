@@ -1,3 +1,9 @@
+name: Check Setup Github Hooks Script
+run-name: Check Setup Github Hooks Script
+on: 
+  pull_request:
+    paths:
+      - './scripts/setGithooksPath.sh'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
