@@ -1,7 +1,7 @@
 name: check-setup-github-hooks-script
 run-name: Check Setup Github Hooks Script
 on: 
-  pull_request:
+  [pull_request, push]:
     paths:
       - './scripts/setGithooksPath.sh'
       - './github/**/*'
