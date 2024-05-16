@@ -1,5 +1,5 @@
 name: check-setup-github-hooks-script
-run-name: Check Setup Github Hooks Script
+run-name: "Check Setup Github Hooks Script"
 on: 
   pull_request:
     paths:
