@@ -18,12 +18,12 @@ jobs:
         matrix:
           os: [ubuntu-latest, windows-latest]
           node-version: [18.18.0]
-      steps:
-        - uses: actions/checkout@v3
-        - name: Use Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v1
-          with:
-            node-version: ${{ matrix.node-version }}
-        - name: Run Github hooks script
-          run: |
-              npm run setup:gitHooks
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Run Github hooks script
+        run: |
+            npm run setup:gitHooks
