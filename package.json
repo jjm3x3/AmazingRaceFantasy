@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "setup:gitHooks": "chmod ug+x ./.github/hooks/* && . ./scripts/setGithooksPath.sh",
-    "setup": "npm run setup:gitHooks && . ./scripts/setGithooksPath.sh && npm install",
+    "setup": "npm run setup:gitHooks && npm install",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
