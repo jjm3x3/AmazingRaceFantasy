@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - './scripts/setGithooksPath.sh'
+      - './github/**/*'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
