@@ -6,8 +6,7 @@ jobs:
     name: Run setup:gitHooks
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [18.x]
+        os: [ubuntu-22.04, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
