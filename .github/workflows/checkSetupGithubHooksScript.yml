@@ -1,15 +1,6 @@
 name: check-setup-github-hooks-script
 run-name: Check Setup Github Hooks Script
-on: 
-  workflow_dispatch:
-  pull_request:
-    paths:
-      - './scripts/setGithooksPath.sh'
-      - './.github/**/*'
-  push:
-    paths:
-      - './scripts/setGithooksPath.sh'
-      - './.github/**/*'
+on: [pull_request, push]
 jobs:
   build:
     name: Run setup:gitHooks
