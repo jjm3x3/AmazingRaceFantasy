@@ -1,6 +1,12 @@
 name: Check Setup Github Hooks Script
 run-name: Check Setup Github Hooks Script
-on: [pull_request, push]
+on:
+  pull_request:
+    types: [opened, reopened]
+  push:
+    paths:
+      - '**/checkSetupGithubHooksScript.yml'
+      - '**/setGithuooksPath.sh'
 jobs:
   build:
     name: Run setup:gitHooks
