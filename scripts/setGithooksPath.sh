@@ -14,6 +14,7 @@ GIT_VERSION_STRING="${GIT_NUMBER_STRING[0]}"
 GIT_MIN_VERSION="2.9"
 CURRENT_GITHOOKS_PATH=($(git rev-parse --git-path hooks))
 GITHOOKS_PATH="./.github/hooks"
+echo "$CURRENT_GITHOOKS_PATH"
 if ["$CURRENT_GITHOOKS_PATH" != "$GITHOOKS_PATH"]; then
     if (( $(echo "$GIT_NUMBER_STRING $GIT_MIN_VERSION" | awk '{print ($1 >= $2)}') )); then
         ($(git config --local core.hooksPath $GITHOOKS_PATH))
