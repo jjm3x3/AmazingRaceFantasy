@@ -18,10 +18,10 @@ if ["$CURRENT_GITHOOKS_PATH" != "$GITHOOKS_PATH"]; then
     if (( $(echo "$GIT_NUMBER_STRING $GIT_MIN_VERSION" | awk '{print ($1 >= $2)}') )); then
         ($(git config --local core.hooksPath $GITHOOKS_PATH))
     else
-        ($(find .git/hooks -type l -exec rm {} \;))
+        ($(find ${CURRENT_GITHOOKS_PATH} -type l -exec rm {} \;))
         ($(find ${GITHOOKS_PATH} -type f -exec ln -sf ../../{} ${GITHOOKS_PATH} \;))
     fi
-    echo "Git hooks path changed from .git/hooks to $GITHOOKS_PATH"
+    echo "Git hooks path changed from ${CURRENT_GITHOOKS_PATH} to $GITHOOKS_PATH"
 else
     echo "Git hooks path is already $GITHOOKS_PATH"
 fi
