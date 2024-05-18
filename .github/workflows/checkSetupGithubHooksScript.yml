@@ -6,7 +6,7 @@ on:
   push:
     paths:
       - '**/checkSetupGithubHooksScript.yml'
-      - '**/setGithuooksPath.sh'
+      - '**/setGithooksPath.sh'
 jobs:
   build:
     name: Run setup:gitHooks
