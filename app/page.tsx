@@ -5,6 +5,7 @@ import { getPages } from '@/app/utils/pages';
 
 export default function Home() {
     const pages = getPages() || [];
+    console.log(pages)
 
     return (
         <div>

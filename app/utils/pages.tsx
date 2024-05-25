@@ -1,7 +1,9 @@
 import fs from 'fs';
 
 export function getPages() {
+    console.log("Calling getPages...")
     const currentDirFilesList = fs.readdirSync(__dirname);
+    console.log("Call readdirSync: " + currentDirFilesList)
     let archiveDirFilesList: string[] = []
     const pages = [{
         name: 'Current',

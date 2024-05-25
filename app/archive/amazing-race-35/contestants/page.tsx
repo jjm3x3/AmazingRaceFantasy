@@ -4,6 +4,8 @@ import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/Amazin
 
 export default async function Contestants() {
 
+    console.log("AR 35 generated and accessed")
+
     const wikiContestants = await getWikipediaContestantData(WIKI_API_URL)
     const final = getTeamList(wikiContestants)
 
