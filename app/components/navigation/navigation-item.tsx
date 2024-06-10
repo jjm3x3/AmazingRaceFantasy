@@ -1,13 +1,11 @@
-import { useState } from "react";
 import INavigationItem from '@/app/models/INavigationItem';
-export default function NavigationItem({ inputAttr, labelAttr, listAttr, children, hasSubpages }: INavigationItem) {
-    const [isHidden, setIsHidden] = useState(true);
+export default function NavigationItem({ attrs, children, hasSubpages }: INavigationItem) {
+    const { inputAttr, labelAttr, listAttr } = attrs;
     return (<>
         <input 
             id={inputAttr.id}
             className={inputAttr.classes}
             type="checkbox"
-            onChange={(e)=> setIsHidden(!e.target.value)}
         />
         <label 
             htmlFor={inputAttr.id}
@@ -15,6 +13,6 @@ export default function NavigationItem({ inputAttr, labelAttr, listAttr, childre
             aria-controls={labelAttr.aria.controls}
             data-testid={labelAttr.testId}
             className={labelAttr.classes }>{labelAttr.content}</label>
-        {hasSubpages && <ul className={listAttr.classes}  id={listAttr.id} data-testid={listAttr.testId} aria-hidden={isHidden} hidden={isHidden}>{children}</ul>}
+        {hasSubpages && <ul className={listAttr.classes}  id={listAttr.id} data-testid={listAttr.testId}>{children}</ul>}
     </>)
 }
