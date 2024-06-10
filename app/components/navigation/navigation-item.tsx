@@ -6,7 +6,6 @@ export default function NavigationItem({ attrs, children, hasSubpages }: INaviga
             id={inputAttr.id}
             className={inputAttr.classes}
             type="checkbox"
-            onChange={(e)=> setIsHidden(!e.target.value)}
         />
         <label 
             htmlFor={inputAttr.id}
