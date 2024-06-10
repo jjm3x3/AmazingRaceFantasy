@@ -1,0 +1,11 @@
+@use 'colors';
+
+a {
+    color: colors.$blue;
+    &:hover {
+        color: colors.$hoverBlue;
+        text-decoration: none;
+        padding-bottom: 0.2rem;
+        border-bottom: 1px solid colors.$hoverBlue;
+    }
+}
