@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { usePathname } from 'next/navigation';
 import Navigation from './components/navigation/navigation'
 import IPage from './models/IPage';
 import ISubpage from './models/ISubpage';
@@ -7,12 +6,11 @@ import { getPages } from '@/app/utils/pages';
 
 export default function Home() {
     const pages = getPages() || [];
-    const currentPath = usePathname();
     return (
         <div>
             <header>
                 <p className="page-title">X Factor Fantasy</p>
-                {pages.length > 0 && <Navigation key={currentPath} pages={pages} />}
+                {pages.length > 0 && <Navigation key={Math.random()} pages={pages} />}
             </header>
             <main>
                 <p className="site-notice">
