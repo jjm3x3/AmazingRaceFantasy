@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Navigation from './components/navigation/navigation'
 import IPage from './models/IPage';
 import ISubpage from './models/ISubpage';
