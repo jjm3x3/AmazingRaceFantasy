@@ -3,6 +3,7 @@ import Navigation from './components/navigation/navigation'
 import IPage from './models/IPage';
 import ISubpage from './models/ISubpage';
 import { getPages } from '@/app/utils/pages';
+import "./styles/homepage.scss";
 
 export default function Home() {
     const pages = getPages() || [];
@@ -24,7 +25,9 @@ export default function Home() {
                     <p className="league-link-heading" >Links For { p.name } League</p>
                     <div className="flex flex-row">{
                         p.subpages.map((pSub: ISubpage) => (
-                            <Link className="standard-link league-page-link" key={`links-section-${keyName}-link-${pSub.name.toLowerCase().replaceAll(' ', '-')}`} href={pSub.path}>{ pSub.name}</Link>
+                            <p className="standard-link-container">
+                                <Link className="standard-link league-page-link" key={`links-section-${keyName}-link-${pSub.name.toLowerCase().replaceAll(' ', '-')}`} href={pSub.path}>{ pSub.name}</Link>
+                            </p>
                         ))
                     }</div>
                 </div>)
