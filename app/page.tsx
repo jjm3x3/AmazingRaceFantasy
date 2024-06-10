@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router';
 import Navigation from './components/navigation/navigation'
 import IPage from './models/IPage';
 import ISubpage from './models/ISubpage';
@@ -6,11 +7,12 @@ import { getPages } from '@/app/utils/pages';
 
 export default function Home() {
     const pages = getPages() || [];
+    const router = useRouter();
     return (
         <div>
             <header>
                 <p className="page-title">X Factor Fantasy</p>
-                {pages.length > 0 && <Navigation pages={pages} />}
+                {pages.length > 0 && <Navigation key={router.asPath} pages={pages} />}
             </header>
             <main>
                 <p className="site-notice">

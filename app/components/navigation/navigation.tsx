@@ -1,4 +1,3 @@
-'use client'
 import styles from './navigation.module.scss';
 import IPage from '@/app/models/IPage';
 import NavigationList from './navigation-list';
