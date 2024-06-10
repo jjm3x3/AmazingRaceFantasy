@@ -9,6 +9,7 @@
 
 ## Confirm
 - [ ] This PR has unit tests scenarios.
-- [ ] This feature has been tested separately of any dependencies.
+- [ ] This PR is correctly linked to the relevant milestone.
+- [ ] This PR has been locally QA'd.
 
 /assign me
