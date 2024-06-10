@@ -4,7 +4,7 @@ import ISubpage from './models/ISubpage';
 import { getPages } from '@/app/utils/pages';
 
 export default function Home() {
-    const pages = getPages() || [];
+    const pages = getPages("home") || [];
     console.log(pages)
 
     return (

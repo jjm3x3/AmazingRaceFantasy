@@ -17,7 +17,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const pages = getPages() || [];
+  const pages = getPages("layout") || [];
 
   return (
     <html lang="en">
