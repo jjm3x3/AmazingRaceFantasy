@@ -1,9 +1,6 @@
 ### Summary/Acceptance Criteria
 *Description of what this PR accomplishes*
 
-### How to verify
-*Reproduction steps*
-
 ### Screenshots
 *If applicable*
 
