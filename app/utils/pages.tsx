@@ -20,9 +20,11 @@ export function getPages(source: string) {
         }]
     }];
 
+    console.log(currentDirFilesList)
     if (currentDirFilesList.includes("archive")) {
         archiveDirFilesList = fs.readdirSync(__dirname+"/archive")
     }
+    console.log(archiveDirFilesList)
     archiveDirFilesList.map(s => {
         const friendlyName = s.replaceAll("-", " ")
         // TODO capitalize show name

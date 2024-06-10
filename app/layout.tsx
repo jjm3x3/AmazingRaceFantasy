@@ -18,6 +18,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const pages = getPages("layout") || [];
+  console.log(pages)
 
   return (
     <html lang="en">
