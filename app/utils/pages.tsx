@@ -11,10 +11,10 @@ export function getPages() {
             path: "/active/" + currentLeague + "/contestants"
         }, {
             name: 'Scoring',
-            path: '/scoring'
+            path: "/active/" + currentLeague + "/scoring"
         }, {
             name: 'League Standing',
-            path: '/league-standing'
+            path: "/active/" + currentLeague + "/league-standing"
         }]
     }];
 
