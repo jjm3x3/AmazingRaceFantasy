@@ -4,7 +4,7 @@ import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/Amazin
 
 export default async function Contestants() {
 
-    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL)
+    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL, "HouseGuests")
     const final = getTeamList(wikiContestants)
 
     return (

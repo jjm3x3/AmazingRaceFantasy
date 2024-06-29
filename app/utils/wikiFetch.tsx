@@ -60,12 +60,12 @@ function findSectionIndexByAnchor(sections: Section[], anchor: string): number |
     return undefined;
 }
 
-export async function getWikipediaContestantData(wikiUrl: string): Promise<ITableRowData[]> {
+export async function getWikipediaContestantData(wikiUrl: string, contestantSectionName: string="Cast"): Promise<ITableRowData[]> {
 
     const sectionsUrl =`${wikiUrl}&prop=sections&formatversion=2`
     const sectionsData = await fetchWikipediaSections(sectionsUrl)
     const sections  = sectionsData.sections
-    const sectionIndex = findSectionIndexByAnchor(sections, "Cast")
+    const sectionIndex = findSectionIndexByAnchor(sections, contestantSectionName)
     const castUrl = `${wikiUrl}&section=${sectionIndex}&formatversion=2`
 
     const wikipediaData = await fetchWikipediaData(castUrl)
