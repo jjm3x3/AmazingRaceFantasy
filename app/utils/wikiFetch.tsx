@@ -27,6 +27,7 @@ interface ParseResult {
 
 export interface ITableRowData {
     name: string
+    name2: string
     col1: string
     col2: string
     col3: string
@@ -79,6 +80,7 @@ export async function getWikipediaContestantData(wikiUrl: string, contestantSect
         const $row =  $(element)
 
         const name = $row.find('th span.fn').text().trim()
+        const name2 = $row.find('th').text().trim()
         const col1 = $row.find('td').eq(0).text().trim()
         const col2 = $row.find('td').eq(1).text().trim()
         const col3 = $row.find('td').eq(2).text().trim()
@@ -86,6 +88,7 @@ export async function getWikipediaContestantData(wikiUrl: string, contestantSect
 
         const aContestant: ITableRowData = {
             name: name,
+            name2: name2,
             col1: col1,
             col2: col2,
             col3: col3,
