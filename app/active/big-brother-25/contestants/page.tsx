@@ -1,6 +1,6 @@
 import { getTeamList, ITeam } from "../../../utils/wikiQuery"
 import { getWikipediaContestantData } from "../../../utils/wikiFetch"
-import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/AmazingRace_36'
+import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/BigBrother_25'
 
 export default async function Contestants() {
 
@@ -12,7 +12,7 @@ export default async function Contestants() {
           <br/>
           <h1 className="text-2xl text-center">Contestants</h1>
           <br/>
-          <p className="text-lg text-center">{final.props.runners.length} teams</p>
+          <p className="text-lg text-center">{final.props.runners.length} House Guests</p>
           <br/>
           <div className="text-center">
               {final.props.runners.map((t: ITeam) => {
@@ -26,7 +26,7 @@ export default async function Contestants() {
           <br/>
           <div>
             <p>
-              Data provided by <a className="standard-link" href={WIKI_PAGE_URL} >Wikipedia</a> for this season of the race
+              Data provided by <a className="standard-link" href={WIKI_PAGE_URL} >Wikipedia</a> for this season of Big Brother
             </p>
           </div>
         </div>
