@@ -48,7 +48,7 @@ async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
     return data
 }
 
-export function getWikipediaContestantDataFetcher(wikiUrl: string): () => Promise<IWikipediaContestantData[]> {
+export function getWikipediaContestantDataFetcher(wikiUrl: string): () => Promise<ITableRowData[]> {
     return async function() {
         return await getWikipediaContestantData(wikiUrl)
     }
@@ -69,7 +69,7 @@ function findSectionIndexByAnchor(sections: Section[], anchor: string): number |
     return undefined;
 }
 
-export async function getWikipediaContestantData(wikiUrl: string): Promise<IWikipediaContestantData[]> {
+export async function getWikipediaContestantData(wikiUrl: string): Promise<ITableRowData[]> {
 
     const sectionsUrl =`${wikiUrl}&prop=sections&formatversion=2`
     const sectionsData = await fetchWikipediaSections(sectionsUrl)
@@ -109,7 +109,7 @@ export async function getWikipediaContestantData(wikiUrl: string): Promise<IWiki
     return result
 }
 
-export function filterEmptyContestants(contestantList: IWikipediaContestantData[]): IWikipediaContestantData[] {
+export function filterEmptyContestants(contestantList: ITableRowData[]): ITableRowData[] {
     // I believe that the behavior that led to this addition is missing all
     // properties but the name seemed like the most important one for now
     return contestantList.filter(x =>  x.name)
