@@ -27,7 +27,6 @@ interface ParseResult {
 
 export interface ITableRowData {
     name: string
-    name2: string
     col1: string
     col2: string
     col3: string
