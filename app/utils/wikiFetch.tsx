@@ -33,7 +33,7 @@ interface ParseResult {
     showtoc: boolean
 }
 
-interface ITableRowData {
+export interface ITableRowData {
     name: string
     name2: string
     col1: string
