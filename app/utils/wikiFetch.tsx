@@ -6,14 +6,6 @@ interface IWikipediaData {
     }
 }
 
-export interface IWikipediaContestantData {
-    name: string
-    age: string
-    relationship: string
-    hometown: string
-    status: string
-}
-
 interface Section {
     toclevel: number
     level: string
