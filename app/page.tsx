@@ -23,9 +23,9 @@ export default function Home() {
                     const keyName = p.name.toLowerCase().replaceAll(' ', '-');
                     return (<div key={`links-section-${keyName}`}>
                     <p className="league-link-heading" >Links For { p.name } League</p>
-                    <div className="flex flex-row">{
+                    <div className="md:flex md:flex-row">{
                         p.subpages.map((pSub: ISubpage) => (
-                            <p className="standard-link-container">
+                            <p className="standard-link-container md:basis-1/3">
                                 <Link className="standard-link league-page-link" key={`links-section-${keyName}-link-${pSub.name.toLowerCase().replaceAll(' ', '-')}`} href={pSub.path}>{ pSub.name}</Link>
                             </p>
                         ))
