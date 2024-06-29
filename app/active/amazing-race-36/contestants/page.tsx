@@ -1,7 +1,6 @@
-
-import { getTeamList, ITeam } from "../utils/wikiQuery"
-import { getWikipediaContestantData } from "../utils/wikiFetch"
-import { WIKI_API_URL, WIKI_PAGE_URL } from '../leagueConfiguration/AmazingRace_36'
+import { getTeamList, ITeam } from "../../../utils/wikiQuery"
+import { getWikipediaContestantData } from "../../../utils/wikiFetch"
+import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/AmazingRace_36'
 
 export default async function Contestants() {
 
@@ -33,3 +32,4 @@ export default async function Contestants() {
         </div>
     )
 }
+

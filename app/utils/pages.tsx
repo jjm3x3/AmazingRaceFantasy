@@ -3,17 +3,18 @@ import fs from 'fs';
 export function getPages() {
     const currentDirFilesList = fs.readdirSync(__dirname);
     let archiveDirFilesList: string[] = []
+    const currentLeague = "amazing-race-36"
     const pages = [{
         name: 'Current',
         subpages: [{
             name: 'Contestants',
-            path: '/contestants'
+            path: "/active/" + currentLeague + "/contestants"
         }, {
             name: 'Scoring',
-            path: '/scoring'
+            path: "/active/" + currentLeague + "/scoring"
         }, {
             name: 'League Standing',
-            path: '/league-standing'
+            path: "/active/" + currentLeague + "/league-standing"
         }]
     }];
 

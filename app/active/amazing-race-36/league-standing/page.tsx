@@ -1,7 +1,7 @@
-import { WIKI_API_URL } from '../leagueConfiguration/AmazingRace_36'
-import { CONTESTANT_LEAGUE_DATA } from '../leagueData/AmazingRace_36'
-import { getWikipediaContestantDataFetcher } from '../utils/wikiFetch'
-import generateContestantRoundScoreComponent from '../generators/contestantRoundScoreGenerator'
+import { WIKI_API_URL } from '../../../leagueConfiguration/AmazingRace_36'
+import { CONTESTANT_LEAGUE_DATA } from '../../../leagueData/AmazingRace_36'
+import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
+import generateContestantRoundScoreComponent from '../../../generators/contestantRoundScoreGenerator'
 
 export default async function LeagueStanding() {
 
