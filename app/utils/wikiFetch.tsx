@@ -33,6 +33,15 @@ interface ParseResult {
     showtoc: boolean
 }
 
+interface ITableRowData {
+    name: string
+    name2: string
+    col1: string
+    col2: string
+    col3: string
+    col4: string
+}
+
 async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
     const response = await fetch(wikiUrl, { next: { revalidate: 3600 } })
     const data = await response.json()
@@ -84,12 +93,12 @@ export async function getWikipediaContestantData(wikiUrl: string): Promise<IWiki
         const hometown = $row.find('td').eq(2).text().trim()
         const status = $row.find('td').eq(3).text().trim()
 
-        const aContestant: IWikipediaContestantData = {
+        const aContestant: ITableRowData = {
             name: name,
-            age: age,
-            relationship: relationship,
-            hometown: hometown,
-            status: status
+            col1: age,
+            col2: relationship,
+            col3: hometown,
+            col4: status
         }
 
         return aContestant
