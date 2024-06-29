@@ -5,7 +5,7 @@ import generateContestantRoundScoreComponent from '../../../generators/contestan
 
 export default async function LeagueStanding() {
 
-    const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL)
+    const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "Cast")
     const contestantScoresComponent = await generateContestantRoundScoreComponent(dataFetcher, CONTESTANT_LEAGUE_DATA)
 
     return (
