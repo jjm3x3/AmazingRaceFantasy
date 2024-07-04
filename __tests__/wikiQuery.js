@@ -9,11 +9,11 @@ describe('getData', () => {
         const listOfContestants = [
             {
                 name: firstContestantsFirstName + " Guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: secondContestantsFirstName + " Brother",
-                status: "Participating"
+                col4: "Participating"
             }]
 
         // Act
@@ -31,7 +31,7 @@ describe('getData', () => {
         const listOfContestants = [
             {
                 name: firstContestantsFirstName + " Guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {name: secondContestantsFirstName + " Brother"}
         ]
@@ -43,7 +43,7 @@ describe('getData', () => {
         expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"))
     })
 
-    it('Should parse out elimination order a populate it when the team is not participating', () => {
+    it('Should parse out elimination order and populate it when the team is not participating', () => {
         const firstContestantsFirstName = "Some"
         const secondContestantsFirstName = "SomeGuys"
         const expectedEliminationOrder = 2
@@ -51,11 +51,11 @@ describe('getData', () => {
         const listOfContestants = [
             {
                 name: firstContestantsFirstName + " Guy",
-                status: "Eliminated " + expectedEliminationOrder + "nd"
+                col4: "Eliminated " + expectedEliminationOrder + "nd"
             },
             {
                 name: secondContestantsFirstName + " Brother",
-                status: "Eliminated " + expectedEliminationOrder + "nd"
+                col4: "Eliminated " + expectedEliminationOrder + "nd"
             }
         ]
 
@@ -72,35 +72,35 @@ describe('getData', () => {
         const listOfContestants = [
             {
                 name: "blah Guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "meh Brother",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "another guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "his Brother",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "third guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "thrids Brother",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: firstContestantsFirstName + " Guy",
-                status: "third"
+                col4: "third"
             },
             {
                 name: secondContestantsFirstName + " Brother",
-                status: "third"
+                col4: "third"
             }
         ]
 
@@ -117,35 +117,35 @@ describe('getData', () => {
         const listOfContestants = [
             {
                 name: "blah Guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "meh Brother",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "another guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "his Brother",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "third guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "thrids Brother",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: firstContestantsFirstName + " Guy",
-                status: "runners-up"
+                col4: "runners-up"
             },
             {
                 name: secondContestantsFirstName + " Brother",
-                status: "runners-up"
+                col4: "runners-up"
             }
         ]
 
@@ -163,11 +163,11 @@ describe('getData', () => {
         const listOfContestants = [
             {
                 name: firstContestantsFullName,
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: secondContestantsFullName,
-                status: "Participating"
+                col4: "Participating"
             }
         ]
 
@@ -184,27 +184,27 @@ describe('getData', () => {
         const listOfContestants = [
             {
                 name: firstContestantsFirstName + " Guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: secondContestantsFirstName + " Brother",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "blah Guy",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "meh Brother",
-                status: "Participating"
+                col4: "Participating"
             },
             {
                 name: "lost Guy",
-                status: "Eliminated 1st"
+                col4: "Eliminated 1st"
             },
             {
                 name: secondContestantsFirstName + "alsoLost Brother",
-                status: "Eliminated 1st"
+                col4: "Eliminated 1st"
             }
         ]
 

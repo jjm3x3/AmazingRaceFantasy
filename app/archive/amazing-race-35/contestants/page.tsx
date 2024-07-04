@@ -4,12 +4,13 @@ import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/Amazin
 
 export default async function Contestants() {
 
-    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL)
+    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL, "Cast")
     const final = getTeamList(wikiContestants)
 
     return (
         <div>
-          <h1 className="text-2xl text-center">Contestants This Season</h1>
+          <br/>
+          <h1 className="text-2xl text-center">Contestants</h1>
           <br/>
           <p className="text-lg text-center">{final.props.runners.length} teams</p>
           <br/>
@@ -22,6 +23,7 @@ export default async function Contestants() {
                 </>)
               })}
           </div>
+          <br/>
           <div>
             <p>
               Data provided by <a className="standard-link" href={WIKI_PAGE_URL} >Wikipedia</a> for this season of the race

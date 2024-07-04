@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
-import { IWikipediaContestantData } from "../utils/wikiFetch"
+import { ITableRowData } from "../utils/wikiFetch"
 import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
@@ -11,7 +11,7 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export default async function generateListOfContestantRoundLists(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
+export default async function generateListOfContestantRoundLists(dataFetcher: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[]) {
 
     const wikiContestants = await dataFetcher()
     const pageData = getTeamList(wikiContestants)
