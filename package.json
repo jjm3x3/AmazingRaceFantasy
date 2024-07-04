@@ -13,7 +13,7 @@
     "format:fix": "./node_modules/.bin/eslint -c 'eslint.config.mjs' --fix ."
   },
   "engines": {
-    "node":"^18.18.0 || ^20.9.0 || >=21.1.0"
+    "node":"^20.9.0"
   },
   "dependencies": {
     "@types/node": "20.6.3",
