@@ -14,9 +14,7 @@ export default function Home() {
             </header>
             <main>
                 <p className="site-notice">
-                    Welcome to X Factor Fantasy! A new season of the Amazing Race has just begun!
-                    <br/>
-                    <a className="standard-link" href="/scoring"> Jump Into The Action</a>
+                    Welcome to X Factor Fantasy! A new season of the Big Brother will be starting with it's premire on July 17th. Come back soon to see which House Guests we expect in this season.
                 </p>
                 {pages.map((p: IPage) => { 
                     const keyName = p.name.toLowerCase().replaceAll(' ', '-');

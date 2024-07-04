@@ -1,21 +1,19 @@
 import fs from 'fs';
 
-export function getPages() {
+interface ILeagueLink {
+    name: string
+    subpages: IPage[]
+}
+
+interface IPage {
+    name: string
+    path: string
+}
+
+export function getPages(): ILeagueLink[] {
     const currentDirFilesList = fs.readdirSync(__dirname);
     let archiveDirFilesList: string[] = []
-    const pages = [{
-        name: 'Current',
-        subpages: [{
-            name: 'Contestants',
-            path: '/contestants'
-        }, {
-            name: 'Scoring',
-            path: '/scoring'
-        }, {
-            name: 'League Standing',
-            path: '/league-standing'
-        }]
-    }];
+    const pages: ILeagueLink[] = [];
 
     if (currentDirFilesList.includes("archive")) {
         archiveDirFilesList = fs.readdirSync(__dirname+"/archive")
@@ -26,7 +24,7 @@ export function getPages() {
         const contestantsPath = "/archive/" + s + "/contestants"
         const scoringPath = "/archive/" + s + "/scoring"
         const leagueStandingPath = "/archive/" + s + "/league-standing"
-        const pageObj = {
+        const pageObj: ILeagueLink = {
             name: friendlyName,
             subpages: [{
                 name: 'Contestants',
