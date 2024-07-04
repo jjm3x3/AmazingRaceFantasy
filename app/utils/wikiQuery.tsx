@@ -1,4 +1,4 @@
-import { IWikipediaContestantData } from './wikiFetch'
+import { ITableRowData } from './wikiFetch'
 import Team from '../models/Team'
 
 export interface ITeam {
@@ -8,13 +8,13 @@ export interface ITeam {
     eliminationOrder: number
 }
 
-export function getTeamList(contestantData :IWikipediaContestantData[]): any {
+export function getTeamList(contestantData :ITableRowData[]): any {
 
     const contestants: ITeam[] = []
 
     contestantData.forEach((element, index) => {
 
-        const status = element.status
+        const status = element.col4
         let teamName = element.name
 
         if (status === null || status === undefined) {
@@ -38,7 +38,7 @@ export function getTeamList(contestantData :IWikipediaContestantData[]): any {
 
             const contestant: Team = new Team({
                 teamName: teamName,
-                relationship: element.relationship,
+                relationship: element.col2,
                 isParticipating,
                 eliminationOrder
             })

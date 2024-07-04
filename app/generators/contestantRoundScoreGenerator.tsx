@@ -1,4 +1,4 @@
-import { IWikipediaContestantData } from "../utils/wikiFetch"
+import { ITableRowData } from "../utils/wikiFetch"
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import Team from '../models/Team'
 import LeagueStanding from '../models/LeagueStanding'
@@ -7,7 +7,7 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
-async function generateContestantRoundScores(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
+async function generateContestantRoundScores(dataFetcher: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[]) {
 
     const wikiContestants = await dataFetcher()
     const pageData = getTeamList(wikiContestants)
@@ -39,7 +39,7 @@ async function generateContestantRoundScores(dataFetcher: () => Promise<IWikiped
     return result
 }
 
-export default async function generateContestantRoundScoreComponent(dataFetcher: () => Promise<IWikipediaContestantData[]>, listOfContestantLeagueData: any[]) {
+export default async function generateContestantRoundScoreComponent(dataFetcher: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[]) {
 
     const contestantScores = await generateContestantRoundScores(dataFetcher, listOfContestantLeagueData)
 
