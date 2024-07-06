@@ -99,6 +99,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         let isParticipating = true
         let eliminationOrder = 0
 
+        // for amazing-race
         if (status.toLowerCase().includes('eliminated')) {
             isParticipating = false
             eliminationOrder = Number(status.match(/Eliminated (\d+)/i)![1])
@@ -109,6 +110,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             isParticipating = false
             eliminationOrder = (contestantData.length/2) - 1
         }
+        // for big-brother
 
         const contestant: Team = new Team({
             teamName: teamName,
