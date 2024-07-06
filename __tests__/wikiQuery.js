@@ -212,6 +212,29 @@ describe('getTeamList', () => {
 
         expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(3)
     })
+
+    it('should not create any teams when all showContestants are missing the minimum necessary data to be created', () => {
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
+
+        const listOfContestants = [
+            {
+                col4: "Participating"
+            },
+            {
+                name: "",
+                col4: "Participating"
+            },
+            {
+                name: null,
+                col4: "Participating"
+            },
+        ]
+
+        var result = getTeamList(listOfContestants)
+
+        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(0)
+    })
 })
 
 
