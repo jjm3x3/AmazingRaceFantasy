@@ -137,6 +137,9 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         if (eliminationOrder !== 0) {
             // updatePreviousExitDay
             previousExitDay = eliminationOrder
+        } else {
+            // if no eliminationOrder is found set it to the previous exitDay
+            eliminationOrder = previousExitDay
         }
 
         const contestant: BBHouseGuest = {
