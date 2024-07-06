@@ -1,4 +1,4 @@
-import { getTeamList } from '../app/utils/wikiQuery'
+import { getTeamList, isPartialContestantData } from '../app/utils/wikiQuery'
 
 describe('getData', () => {
     it('should run', () => {
@@ -211,5 +211,29 @@ describe('getData', () => {
         var result = getTeamList(listOfContestants)
 
         expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(3)
+    })
+})
+
+
+describe('isPartialContestantData', () => {
+    it('should make sure that tableRowData with no name property should return false', () => {
+        const inputContestant = {}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeTruthy()
+    })
+
+    it('should make sure that tableRowData with an empty name property should return false', () => {
+        const inputContestant = {name: "" }
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeTruthy()
+    })
+
+    it('should make sure that tableRowData with a null name property should return false', () => {
+        const inputContestant = {name: null}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeTruthy()
     })
 })

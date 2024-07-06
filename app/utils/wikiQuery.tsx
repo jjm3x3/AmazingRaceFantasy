@@ -73,6 +73,6 @@ export function isPartialContestantData(contestantRowData: ITableRowData): boole
     // of a doubleNegative since we are often using this as a filter, The idea
     // is this should return true if we are lacking the necessary/sufficent data
     // to create a showcontestnat.
-    return contestantRowData.name === null
+    return contestantRowData.name == null || contestantRowData.name === ""
 }
 
