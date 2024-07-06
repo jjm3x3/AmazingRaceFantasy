@@ -139,6 +139,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             previousExitDay = eliminationOrder
         } else {
             // if no eliminationOrder is found set it to the previous exitDay
+            isParticipating = false
             eliminationOrder = previousExitDay
         }
 
