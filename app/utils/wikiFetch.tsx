@@ -101,9 +101,7 @@ export async function getWikipediaContestantData(wikiUrl: string, contestantSect
         return aContestant
     }).toArray()
 
-    const result = filterEmptyContestants(contestantData)
-
-    return result
+    return contestantData
 }
 
 export function filterEmptyContestants(contestantList: ITableRowData[]): ITableRowData[] {
