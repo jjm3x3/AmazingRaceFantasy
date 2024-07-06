@@ -12,6 +12,8 @@ export function getTeamList(contestantData :ITableRowData[]): any {
 
     const contestants: ITeam[] = []
 
+    let firstContestantFound: boolean = false
+
     contestantData.forEach((element, index) => {
 
         const status = element.col4
