@@ -136,6 +136,15 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         return a.eliminationOrder-b.eliminationOrder
     })
 
-    return { props: { runners: sortedContestants }}
+    let eliminationOrderCounter = 1
+    const contestantsWithEliminationOrder = sortedContestants.map(function(contestant) {
+        if (contestant.eliminationOrder !== 0) {
+            contestant.eliminationOrder = eliminationOrderCounter
+            eliminationOrderCounter++
+        }
+        return contestant
+    })
+
+    return { props: { runners: contestantsWithEliminationOrder }}
 }
 
