@@ -57,3 +57,12 @@ export function getTeamList(contestantData :ITableRowData[]): any {
 
     return { props: { runners: contestants }}
 }
+
+export function isPartialContestantData(contestantRowData: ITableRowData): boolean {
+    // Admittedly this is probably a moving target and may come with the baggage
+    // of a doubleNegative since we are often using this as a filter, The idea
+    // is this should return true if we are lacking the necessary/sufficent data
+    // to create a showcontestnat.
+    return contestantRowData.name === null
+}
+
