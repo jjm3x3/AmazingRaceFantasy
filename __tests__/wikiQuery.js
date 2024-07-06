@@ -1,6 +1,6 @@
 import { getTeamList, isPartialContestantData } from '../app/utils/wikiQuery'
 
-describe('getData', () => {
+describe('getTeamList', () => {
     it('should run', () => {
         // Arrange
         const firstContestantsFirstName = "Some"
@@ -154,7 +154,7 @@ describe('getData', () => {
         expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder)
     })
 
-    it('should create team names based on merging contestants full names two at a time skipping the first empty one', () => {
+    it('should create team names based on merging contestants full names two at a time', () => {
         // Arrange
         const firstContestantsFullName = "Some" + " Guy"
         const secondContestantsFullName = "SomeGuys" + " Brother"
