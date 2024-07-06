@@ -23,9 +23,14 @@ export function getTeamList(contestantData :ITableRowData[]): any {
             throw new ReferenceError("Status is either null or undefined and it should not be")
         }
 
+        if (!firstContestantFound && isPartialContestantData(element)) {
+            return
+        }
+
         if (index % 2 == 0) {
             let isParticipating = true
             let eliminationOrder = 0
+            firstContestantFound = true
 
             if (status.toLowerCase().includes('eliminated')) {
                 isParticipating = false
