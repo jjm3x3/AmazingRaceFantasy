@@ -235,6 +235,37 @@ describe('getTeamList', () => {
 
         expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(0)
     })
+
+    it('should create as many teams as it can alternating after finding the first and even adding a partial team when there is not a match at the end', () => {
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
+
+        const listOfContestants = [
+            {
+                col4: "Participating"
+            },
+            {
+                name: "hi my name is",
+                col4: "Participating"
+            },
+            {
+                name: null,
+                col4: "Participating"
+            },
+            {
+                name: "new person",
+                col4: "Participating"
+            },
+            {
+                name: "new person",
+                col4: "Participating"
+            },
+        ]
+
+        var result = getTeamList(listOfContestants)
+
+        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(2)
+    })
 })
 
 
