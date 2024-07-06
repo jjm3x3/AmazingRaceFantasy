@@ -1,11 +1,11 @@
-import { getTeamList, ITeam } from "../../../utils/wikiQuery"
+import { getCompetingEntityList, ITeam } from "../../../utils/wikiQuery"
 import { getWikipediaContestantData } from "../../../utils/wikiFetch"
 import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/BigBrother_25'
 
 export default async function Contestants() {
 
     const wikiContestants = await getWikipediaContestantData(WIKI_API_URL, "HouseGuests")
-    const final = getTeamList(wikiContestants)
+    const final = getCompetingEntityList(wikiContestants)
 
     return (
         <div>
