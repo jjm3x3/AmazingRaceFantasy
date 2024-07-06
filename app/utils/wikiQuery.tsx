@@ -91,6 +91,11 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
     contestantData.forEach((element, index) => {
 
         console.log(element)
+
+        if (isPartialContestantData(element)) {
+            return
+        }
+
         let status = null
         if (element.col5){
             status = element.col5 // help with navigating entry day wirdnes
@@ -146,18 +151,12 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             eliminationOrder = previousExitDay
         }
 
-        const contestant: BBHouseGuest = {
+        contestants.push({
             teamName: teamName,
             relationship: element.col2,
             isParticipating,
             exitedDay: eliminationOrder
-        }
-
-        if (contestant.teamName) {
-            contestants.push(contestant)
-        } else {
-            console.warn("Found a null contestant Name...")
-        }
+        })
     })
 
 
