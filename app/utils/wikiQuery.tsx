@@ -83,7 +83,12 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
     contestantData.forEach((element, index) => {
 
         console.log(element)
-        const status = element.col4
+        let status = null
+        if (element.col5){
+            status = element.col5 // help with navigating entry day wirdnes
+        } else {
+            status = element.col4
+        }
         console.log("status is: " + status)
         let teamName = element.name || element.name2
 
