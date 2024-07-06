@@ -28,7 +28,7 @@ export function getTeamList(contestantData :ITableRowData[]): any {
             return
         }
 
-        if (index % 2 == 0) {
+        if (!teamStarted) {
             let isParticipating = true
             let eliminationOrder = 0
             firstContestantFound = true
@@ -53,12 +53,14 @@ export function getTeamList(contestantData :ITableRowData[]): any {
 
             if (contestant.teamName) {
                 contestants.push(contestant)    
+                teamStarted = true
             } else {
                 console.warn("Found a null contestant Name...")    
             }
         } else {
-            if (index > 0) {
+            if (!isPartialContestantData(element)) {
                 contestants[contestants.length-1].teamName += " & " + teamName 
+                teamStarted = false
             }
         }
     })
