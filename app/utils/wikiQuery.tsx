@@ -125,6 +125,9 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         } else if (status.toLowerCase().includes("expelled")) {
             isParticipating = false
             eliminationOrder = Number(status.match(/ExpelledDay (\d+)/i)![1]) // covers Luke getting booted
+        } else if (status.toLowerCase().includes("exited")) {
+            isParticipating = false
+            eliminationOrder = Number(status.match(/ExitedDay (\d+)/i)![1]) // covers Jared leaving after zombie twist
         }
 
         const contestant: BBHouseGuest = {
