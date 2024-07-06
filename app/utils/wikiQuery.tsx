@@ -106,6 +106,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
 
         let isParticipating = true
         let eliminationOrder = 0
+        let isWinner = false
 
         // for amazing-race
         if (status.toLowerCase().includes('eliminated')) {
@@ -132,12 +133,14 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         } else if (status.toLowerCase().includes("runner-upd")) { // added the d to distinguish from amazing-race
             isParticipating = false
             eliminationOrder = Number(status.match(/Runner-UpDay (\d+)/i)![1]+ ".5") // covers the final person plus adding .5 to distinguish from the last eviction
+        } else if (status.toLowerCase().includes("winner")) {
+            isWinner = true
         }
 
         if (eliminationOrder !== 0) {
             // updatePreviousExitDay
             previousExitDay = eliminationOrder
-        } else {
+        } else if (!isWinner) {
             // if no eliminationOrder is found set it to the previous exitDay
             isParticipating = false
             eliminationOrder = previousExitDay
