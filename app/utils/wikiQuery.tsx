@@ -182,6 +182,10 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         })
     })
 
-    return { props: { runners: contestantsWithEliminationOrder }}
+    const contestantsSortedByEliminationOrder = contestantsWithEliminationOrder.sort(function(a, b){
+        return a.eliminationOrder-b.eliminationOrder
+    })
+
+    return { props: { runners: contestantsSortedByEliminationOrder }}
 }
 
