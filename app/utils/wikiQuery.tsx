@@ -86,6 +86,7 @@ export interface BBHouseGuest {
 export function getCompetingEntityList(contestantData :ITableRowData[]): any {
 
     const contestants: BBHouseGuest[] = []
+    let previousExitDay: number = 0
 
     contestantData.forEach((element, index) => {
 
@@ -131,6 +132,11 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         } else if (status.toLowerCase().includes("runner-upd")) { // added the d to distinguish from amazing-race
             isParticipating = false
             eliminationOrder = Number(status.match(/Runner-UpDay (\d+)/i)![1]+ ".5") // covers the final person plus adding .5 to distinguish from the last eviction
+        }
+
+        if (eliminationOrder !== 0) {
+            // updatePreviousExitDay
+            previousExitDay = eliminationOrder
         }
 
         const contestant: BBHouseGuest = {
