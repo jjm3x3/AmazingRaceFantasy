@@ -111,6 +111,11 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             eliminationOrder = (contestantData.length/2) - 1
         }
         // for big-brother
+        else if (status.toLowerCase().includes("evicted")) {
+            console.log("Was evicted")
+            isParticipating = false
+            eliminationOrder = Number(status.match(/EvictedDay (\d+)/i)![1])
+        }
 
         const contestant: Team = new Team({
             teamName: teamName,
