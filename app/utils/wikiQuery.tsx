@@ -13,6 +13,7 @@ export function getTeamList(contestantData :ITableRowData[]): any {
     const contestants: ITeam[] = []
 
     let firstContestantFound: boolean = false
+    let teamStarted: boolean = false
 
     contestantData.forEach((element, index) => {
 
