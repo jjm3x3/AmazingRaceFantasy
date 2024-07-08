@@ -90,8 +90,6 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
 
     contestantData.forEach((element, index) => {
 
-        console.log(element)
-
         if (isPartialContestantData(element)) {
             return
         }
@@ -102,7 +100,6 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         } else {
             status = element.col4
         }
-        console.log("status is: " + status)
         let teamName = element.name || element.name2
 
         if (status === null || status === undefined) {
@@ -126,7 +123,6 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         }
         // for big-brother
         else if (status.toLowerCase().includes("evicted")) {
-            console.log("Was evicted")
             isParticipating = false
             eliminationOrder = Number(status.match(/EvictedDay (\d+)/i)![1])
         } else if (status.toLowerCase().includes("expelled")) {
