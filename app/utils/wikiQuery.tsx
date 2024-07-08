@@ -12,6 +12,9 @@ export function getTeamList(contestantData :ITableRowData[]): any {
 
     const contestants: ITeam[] = []
 
+    let firstContestantFound: boolean = false
+    let teamStarted: boolean = false
+
     contestantData.forEach((element, index) => {
 
         const status = element.col4
@@ -21,9 +24,14 @@ export function getTeamList(contestantData :ITableRowData[]): any {
             throw new ReferenceError("Status is either null or undefined and it should not be")
         }
 
-        if (index % 2 == 0) {
+        if (!firstContestantFound && isPartialContestantData(element)) {
+            return
+        }
+
+        if (!teamStarted) {
             let isParticipating = true
             let eliminationOrder = 0
+            firstContestantFound = true
 
             if (status.toLowerCase().includes('eliminated')) {
                 isParticipating = false
@@ -45,15 +53,26 @@ export function getTeamList(contestantData :ITableRowData[]): any {
 
             if (contestant.teamName) {
                 contestants.push(contestant)    
+                teamStarted = true
             } else {
                 console.warn("Found a null contestant Name...")    
             }
         } else {
-            if (index > 0) {
+            if (!isPartialContestantData(element)) {
                 contestants[contestants.length-1].teamName += " & " + teamName 
+                teamStarted = false
             }
         }
     })
 
     return { props: { runners: contestants }}
 }
+
+export function isPartialContestantData(contestantRowData: ITableRowData): boolean {
+    // Admittedly this is probably a moving target and may come with the baggage
+    // of a doubleNegative since we are often using this as a filter, The idea
+    // is this should return true if we are lacking the necessary/sufficent data
+    // to create a showcontestnat.
+    return contestantRowData.name == null || contestantRowData.name === ""
+}
+

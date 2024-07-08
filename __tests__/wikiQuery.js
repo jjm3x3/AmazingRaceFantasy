@@ -1,6 +1,6 @@
-import { getTeamList } from '../app/utils/wikiQuery'
+import { getTeamList, isPartialContestantData } from '../app/utils/wikiQuery'
 
-describe('getData', () => {
+describe('getTeamList', () => {
     it('should run', () => {
         // Arrange
         const firstContestantsFirstName = "Some"
@@ -154,7 +154,7 @@ describe('getData', () => {
         expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder)
     })
 
-    it('should create team names based on merging contestants full names two at a time skipping the first empty one', () => {
+    it('should create team names based on merging contestants full names two at a time', () => {
         // Arrange
         const firstContestantsFullName = "Some" + " Guy"
         const secondContestantsFullName = "SomeGuys" + " Brother"
@@ -211,5 +211,83 @@ describe('getData', () => {
         var result = getTeamList(listOfContestants)
 
         expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(3)
+    })
+
+    it('should not create any teams when all showContestants are missing the minimum necessary data to be created', () => {
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
+
+        const listOfContestants = [
+            {
+                col4: "Participating"
+            },
+            {
+                name: "",
+                col4: "Participating"
+            },
+            {
+                name: null,
+                col4: "Participating"
+            },
+        ]
+
+        var result = getTeamList(listOfContestants)
+
+        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(0)
+    })
+
+    it('should create as many teams as it can alternating after finding the first and even adding a partial team when there is not a match at the end', () => {
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
+
+        const listOfContestants = [
+            {
+                col4: "Participating"
+            },
+            {
+                name: "hi my name is",
+                col4: "Participating"
+            },
+            {
+                name: null,
+                col4: "Participating"
+            },
+            {
+                name: "new person",
+                col4: "Participating"
+            },
+            {
+                name: "new person",
+                col4: "Participating"
+            },
+        ]
+
+        var result = getTeamList(listOfContestants)
+
+        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(2)
+    })
+})
+
+
+describe('isPartialContestantData', () => {
+    it('should make sure that tableRowData with no name property should return true', () => {
+        const inputContestant = {}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeTruthy()
+    })
+
+    it('should make sure that tableRowData with an empty name property should return true', () => {
+        const inputContestant = {name: "" }
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeTruthy()
+    })
+
+    it('should make sure that tableRowData with a null name property should return true', () => {
+        const inputContestant = {name: null}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeTruthy()
     })
 })
