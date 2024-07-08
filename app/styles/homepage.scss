@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.standard-link-container {
+    padding: 10px 25px;
+    @media (min-width: 768px) { 
+        padding: 25px;
+    }
+}
