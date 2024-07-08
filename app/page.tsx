@@ -26,7 +26,7 @@ export default function Home() {
                     <div className="md:flex md:flex-row">{
                         p.subpages.map((pSub: ISubpage) => (
                             <p className="standard-link-container md:basis-1/3">
-                                <Link className="standard-link league-page-link" key={`links-section-${keyName}-link-${pSub.name.toLowerCase().replaceAll(' ', '-')}`} href={pSub.path}>{ pSub.name}</Link>
+                                <Link className="standard-link" key={`links-section-${keyName}-link-${pSub.name.toLowerCase().replaceAll(' ', '-')}`} href={pSub.path}>{ pSub.name}</Link>
                             </p>
                         ))
                     }</div>
