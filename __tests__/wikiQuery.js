@@ -297,4 +297,11 @@ describe('isPartialContestantData', () => {
 
         expect(result).toBeFalsy()
     })
+
+    it('should make sure that tableRowData with a populated name and name2 property should return false', () => {
+        const inputContestant = {name: "first", name2: "name"}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeFalsy()
+    })
 })
