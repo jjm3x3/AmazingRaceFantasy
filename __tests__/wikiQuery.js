@@ -304,4 +304,11 @@ describe('isPartialContestantData', () => {
 
         expect(result).toBeFalsy()
     })
+
+    it('should make sure that tableRowData with a no name property and only a name2 property should return true', () => {
+        const inputContestant = {name2: "name"}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeTruthy()
+    })
 })
