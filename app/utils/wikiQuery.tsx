@@ -76,9 +76,16 @@ export function isPartialContestantData(contestantRowData: ITableRowData): boole
     return (contestantRowData.name == null || contestantRowData.name === "") && (!contestantRowData.name2 || !contestantRowData.col2)
 }
 
+export interface BBHouseGuest {
+    teamName: string
+    relationship: string
+    isParticipating: boolean
+    exitedDay: number
+}
+
 export function getCompetingEntityList(contestantData :ITableRowData[]): any {
 
-    const contestants: CompetingEntity[] = []
+    const contestants: BBHouseGuest[] = []
 
     contestantData.forEach((element, index) => {
 
@@ -117,12 +124,12 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             eliminationOrder = Number(status.match(/EvictedDay (\d+)/i)![1])
         }
 
-        const contestant: Team = new Team({
+        const contestant: BBHouseGuest = {
             teamName: teamName,
             relationship: element.col2,
             isParticipating,
-            eliminationOrder
-        })
+            exitedDay: eliminationOrder
+        }
 
         if (contestant.teamName) {
             contestants.push(contestant)
@@ -133,16 +140,23 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
 
 
     const sortedContestants = contestants.sort(function(a, b){
-        return a.eliminationOrder-b.eliminationOrder
+        return a.exitedDay-b.exitedDay
     })
 
     let eliminationOrderCounter = 1
     const contestantsWithEliminationOrder = sortedContestants.map(function(contestant) {
-        if (contestant.eliminationOrder !== 0) {
-            contestant.eliminationOrder = eliminationOrderCounter
+        let eliminationOrder = Number.MAX_VALUE
+        if (contestant.exitedDay !== 0) {
+            eliminationOrder = eliminationOrderCounter
             eliminationOrderCounter++
         }
-        return contestant
+
+        return new Team({
+            teamName: contestant.teamName,
+            relationship: contestant.relationship,
+            isParticipating: contestant.isParticipating,
+            eliminationOrder
+        })
     })
 
     return { props: { runners: contestantsWithEliminationOrder }}
