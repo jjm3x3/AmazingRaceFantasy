@@ -270,21 +270,21 @@ describe('getTeamList', () => {
 
 
 describe('isPartialContestantData', () => {
-    it('should make sure that tableRowData with no name property should return false', () => {
+    it('should make sure that tableRowData with no name property should return true', () => {
         const inputContestant = {}
         const result = isPartialContestantData(inputContestant)
 
         expect(result).toBeTruthy()
     })
 
-    it('should make sure that tableRowData with an empty name property should return false', () => {
+    it('should make sure that tableRowData with an empty name property should return true', () => {
         const inputContestant = {name: "" }
         const result = isPartialContestantData(inputContestant)
 
         expect(result).toBeTruthy()
     })
 
-    it('should make sure that tableRowData with a null name property should return false', () => {
+    it('should make sure that tableRowData with a null name property should return true', () => {
         const inputContestant = {name: null}
         const result = isPartialContestantData(inputContestant)
 
