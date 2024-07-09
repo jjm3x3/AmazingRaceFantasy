@@ -290,4 +290,32 @@ describe('isPartialContestantData', () => {
 
         expect(result).toBeTruthy()
     })
+
+    it('should make sure that tableRowData with a populated name property should return false', () => {
+        const inputContestant = {name: "first"}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeFalsy()
+    })
+
+    it('should make sure that tableRowData with a populated name and name2 property should return false', () => {
+        const inputContestant = {name: "first", name2: "name"}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeFalsy()
+    })
+
+    it('should make sure that tableRowData with a no name property and only a name2 property should return true', () => {
+        const inputContestant = {name2: "name"}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeTruthy()
+    })
+
+    it('should make sure that tableRowData with a no name property and a name2 property and a col2 property should return false', () => {
+        const inputContestant = {name2: "name", col2: "value"}
+        const result = isPartialContestantData(inputContestant)
+
+        expect(result).toBeFalsy()
+    })
 })
