@@ -76,7 +76,7 @@ export function isPartialContestantData(contestantRowData: ITableRowData): boole
     return (contestantRowData.name == null || contestantRowData.name === "") && (!contestantRowData.name2 || !contestantRowData.col2)
 }
 
-export interface BBHouseGuest {
+interface BBHouseGuest {
     teamName: string
     relationship: string
     isParticipating: boolean
