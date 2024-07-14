@@ -26,10 +26,7 @@ export default async function generateListOfContestantRoundLists(
             return acc
         }, {})
 
-    const numberOfRounds = pageData.props.runners.reduce(
-        (acc: number, x: ITeam) => {
-            return x.eliminationOrder > acc ? x.eliminationOrder : acc
-        }, 0)
+    const numberOfRounds = getNumberOfRounds(pageData.props.runners)
 
     const reverseTeamsList = [...pageData.props.runners].reverse()
 
@@ -58,3 +55,11 @@ export default async function generateListOfContestantRoundLists(
         }
     })
 }
+
+export function getNumberOfRounds(teams: ITeam[]): number {
+     return teams.reduce(
+        (acc: number, x: ITeam) => {
+            return x.eliminationOrder > acc ? x.eliminationOrder : acc
+        }, 0)
+}
+
