@@ -100,11 +100,11 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         } else {
             status = element.col4
         }
-        let teamName = element.name || element.name2
-
         if (status === null || status === undefined) {
             throw new ReferenceError("Status is either null or undefined and it should not be")
         }
+        
+        let teamName = element.name || element.name2
 
         let isParticipating = true
         let eliminationOrder = 0
