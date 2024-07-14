@@ -76,3 +76,112 @@ export function isPartialContestantData(contestantRowData: ITableRowData): boole
     return (contestantRowData.name == null || contestantRowData.name === "") && (!contestantRowData.name2 || !contestantRowData.col2)
 }
 
+interface BBHouseGuest {
+    teamName: string
+    relationship: string
+    isParticipating: boolean
+    exitedDay: number
+}
+
+export function getCompetingEntityList(contestantData :ITableRowData[]): any {
+
+    const contestants: BBHouseGuest[] = []
+    let previousExitDay: number = 0
+
+    contestantData.forEach((element, index) => {
+
+        if (isPartialContestantData(element)) {
+            return
+        }
+
+        let status = null
+        if (element.col5){
+            status = element.col5 // help with navigating entry day wirdnes
+        } else {
+            status = element.col4
+        }
+        if (status === null || status === undefined) {
+            throw new ReferenceError("Status is either null or undefined and it should not be")
+        }
+        
+        let teamName = element.name || element.name2
+
+        let isParticipating = true
+        let eliminationOrder = 0
+        let isWinner = false
+
+        // for amazing-race
+        if (status.toLowerCase().includes('eliminated')) {
+            isParticipating = false
+            eliminationOrder = Number(status.match(/Eliminated (\d+)/i)![1])
+        } else if (status.toLowerCase().includes("third")) {
+            isParticipating = false
+            eliminationOrder = (contestantData.length/2) - 2
+        } else if (status.toLowerCase().includes("runners-up")) {
+            isParticipating = false
+            eliminationOrder = (contestantData.length/2) - 1
+        }
+        // for big-brother
+        else if (status.toLowerCase().includes("evicted")) {
+            isParticipating = false
+            eliminationOrder = Number(status.match(/EvictedDay (\d+)/i)![1])
+        } else if (status.toLowerCase().includes("expelled")) {
+            isParticipating = false
+            eliminationOrder = Number(status.match(/ExpelledDay (\d+)/i)![1]) // covers Luke getting booted
+        } else if (status.toLowerCase().includes("exited")) {
+            isParticipating = false
+            eliminationOrder = Number(status.match(/ExitedDay (\d+)/i)![1]) // covers Jared leaving after zombie twist
+        } else if (status.toLowerCase().includes("runner-upd")) { // added the d to distinguish from amazing-race
+            isParticipating = false
+            eliminationOrder = Number(status.match(/Runner-UpDay (\d+)/i)![1]+ ".5") // covers the final person plus adding .5 to distinguish from the last eviction
+        } else if (status.toLowerCase().includes("winner")) {
+            isWinner = true
+        }
+
+        if (eliminationOrder !== 0) {
+            // update previousExitDay
+            previousExitDay = eliminationOrder
+        } else if (!isWinner) {
+            // if no eliminationOrder is found set it to the previous exitDay
+            isParticipating = false
+            eliminationOrder = previousExitDay
+            const foundContestant = contestants[contestants.length-1]
+            foundContestant.exitedDay = foundContestant.exitedDay + 0.5 // accounts for the default ordering where the person who come first was actually evicted last
+        }
+
+        contestants.push({
+            teamName: teamName,
+            relationship: element.col2,
+            isParticipating,
+            exitedDay: eliminationOrder
+        })
+    })
+
+
+    const sortedContestants = contestants.sort(function(a, b){
+        return a.exitedDay-b.exitedDay
+    })
+
+    let eliminationOrderCounter = 1
+    const contestantsWithEliminationOrder = sortedContestants.map(function(contestant) {
+        let eliminationOrder = Number.MAX_VALUE
+        if (contestant.exitedDay !== 0) {
+            eliminationOrder = eliminationOrderCounter
+            eliminationOrderCounter++
+        }
+
+        return new Team({
+            teamName: contestant.teamName,
+            relationship: contestant.relationship,
+            isParticipating: contestant.isParticipating,
+            eliminationOrder
+        })
+    })
+
+    const contestantsSortedByEliminationOrder = contestantsWithEliminationOrder.sort(function(a, b){
+        return a.eliminationOrder-b.eliminationOrder
+    })
+
+    return { props: { runners: contestantsSortedByEliminationOrder }}
+}
+
