@@ -54,8 +54,6 @@ export default async function generateListOfContestantRoundLists(
             />
         }
     })
-
-    //return [{key:"none", content: <>Hi</>}]
 }
 
 export function getNumberOfRounds(teams: ITeam[]): number {
