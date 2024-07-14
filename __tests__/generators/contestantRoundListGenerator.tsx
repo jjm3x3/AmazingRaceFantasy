@@ -8,7 +8,7 @@ describe("getNumberOfRounds", () => {
 
         // Act
         const result = getNumberOfRounds(teamList)
-        
+
         // Assert
         expect(result).not.toBe(Number.MAX_VALUE)
     })
