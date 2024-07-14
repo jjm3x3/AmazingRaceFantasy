@@ -125,6 +125,28 @@ describe('Team static getKey', () => {
         // Assert
         expect(testResult).toBe(expectedResult)
     })
+
+    it("should return a string with no quotes when it doesn't have an &", () => {
+        // Arrange
+        var input = "firstName \"nickname\" lastName"
+
+        // Act
+        const result = Team.getKey(input)
+
+        // Assert
+        expect(result).toEqual(expect.not.stringContaining("\""))
+    })
+
+    it("should return a string with no spaces when it doesn't have an &", () => {
+        // Arrange
+        var input = "firstName lastName"
+
+        // Act
+        const result = Team.getKey(input)
+
+        // Assert
+        expect(result).toEqual(expect.not.stringContaining(" "))
+    })
 })
 
 describe("Team friendlyName", () => {
