@@ -139,7 +139,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         }
 
         if (eliminationOrder !== 0) {
-            // updatePreviousExitDay
+            // update previousExitDay
             previousExitDay = eliminationOrder
         } else if (!isWinner) {
             // if no eliminationOrder is found set it to the previous exitDay
