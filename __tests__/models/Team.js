@@ -179,4 +179,18 @@ describe("Team friendlyName", () => {
         expect(result).toContain(expectedFirstFirstName)
         expect(result).toContain(expectedSecondFirstName)
     })
+
+    it("should return the teamName as is when there is no & in the name", () => {
+        // Not a hard requrement, more just wanting to capture some default behavior
+
+        // Arrange
+        const fullName = "some long name \"with\" \"quotes\""
+        const sut = new Team({teamName: fullName})
+
+        // Act
+        const result = sut.friendlyName()
+
+        // Assert
+        expect(result).toEqual(fullName)
+    })
 })
