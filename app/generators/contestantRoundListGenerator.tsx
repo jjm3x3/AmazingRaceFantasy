@@ -54,12 +54,14 @@ export default async function generateListOfContestantRoundLists(
             />
         }
     })
+
+    //return [{key:"none", content: <>Hi</>}]
 }
 
 export function getNumberOfRounds(teams: ITeam[]): number {
      return teams.reduce(
         (acc: number, x: ITeam) => {
-            return x.eliminationOrder > acc ? x.eliminationOrder : acc
+            return x.eliminationOrder > acc && x.eliminationOrder !== Number.MAX_VALUE ? x.eliminationOrder : acc
         }, 0)
 }
 
