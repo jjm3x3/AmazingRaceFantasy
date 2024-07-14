@@ -29,12 +29,16 @@ export default class Team {
     }
 
     friendlyName(): string {
-        const contestantNames = this.teamName.split("&")
+        if (this.teamName.includes("&")) {
+            const contestantNames = this.teamName.split("&")
 
-        const firstContestantsFirstName = this.determineFirstName(contestantNames[0].trim())
-        const secondContestantsFirstName = this.determineFirstName(contestantNames[1].trim())
+            const firstContestantsFirstName = this.determineFirstName(contestantNames[0].trim())
+            const secondContestantsFirstName = this.determineFirstName(contestantNames[1].trim())
 
-        return firstContestantsFirstName + " & " + secondContestantsFirstName
+            return firstContestantsFirstName + " & " + secondContestantsFirstName
+        } else {
+            return this.teamName
+        }
     }
 
     private determineFirstName(contestantName: string): string {
