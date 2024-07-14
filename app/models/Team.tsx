@@ -50,19 +50,23 @@ export default class Team {
     }
 
     static getKey(teamName: string): string {
-        var seed = ""
+        if (teamName.includes("&")) {
+            var seed = ""
 
-        const names = teamName
-            .split("&")
-            .map(s => s.trim() )
+            const names = teamName
+                .split("&")
+                .map(s => s.trim() )
 
-        if (names[0][0] > names[1][0]) {
-            seed = names[1] + names[0]
+            if (names[0][0] > names[1][0]) {
+                seed = names[1] + names[0]
+            }
+            else {
+                seed = names[0] + names[1]
+            }
+            return seed
+        } else {
+            return teamName.replace(/"/g, "").replace(/ /g, "")
         }
-        else {
-            seed = names[0] + names[1]
-        }
-        return seed
     }
 }
 
