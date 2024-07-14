@@ -29,12 +29,16 @@ export default class Team {
     }
 
     friendlyName(): string {
-        const contestantNames = this.teamName.split("&")
+        if (this.teamName.includes("&")) {
+            const contestantNames = this.teamName.split("&")
 
-        const firstContestantsFirstName = this.determineFirstName(contestantNames[0].trim())
-        const secondContestantsFirstName = this.determineFirstName(contestantNames[1].trim())
+            const firstContestantsFirstName = this.determineFirstName(contestantNames[0].trim())
+            const secondContestantsFirstName = this.determineFirstName(contestantNames[1].trim())
 
-        return firstContestantsFirstName + " & " + secondContestantsFirstName
+            return firstContestantsFirstName + " & " + secondContestantsFirstName
+        } else {
+            return this.teamName
+        }
     }
 
     private determineFirstName(contestantName: string): string {
@@ -50,19 +54,23 @@ export default class Team {
     }
 
     static getKey(teamName: string): string {
-        var seed = ""
+        if (teamName.includes("&")) {
+            var seed = ""
 
-        const names = teamName
-            .split("&")
-            .map(s => s.trim() )
+            const names = teamName
+                .split("&")
+                .map(s => s.trim() )
 
-        if (names[0][0] > names[1][0]) {
-            seed = names[1] + names[0]
+            if (names[0][0] > names[1][0]) {
+                seed = names[1] + names[0]
+            }
+            else {
+                seed = names[0] + names[1]
+            }
+            return seed
+        } else {
+            return teamName.replace(/"/g, "").replace(/ /g, "")
         }
-        else {
-            seed = names[0] + names[1]
-        }
-        return seed
     }
 }
 

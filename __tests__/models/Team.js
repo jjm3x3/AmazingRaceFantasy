@@ -125,6 +125,28 @@ describe('Team static getKey', () => {
         // Assert
         expect(testResult).toBe(expectedResult)
     })
+
+    it("should return a string with no quotes when it doesn't have an &", () => {
+        // Arrange
+        var input = "firstName \"nickname\" lastName"
+
+        // Act
+        const result = Team.getKey(input)
+
+        // Assert
+        expect(result).toEqual(expect.not.stringContaining("\""))
+    })
+
+    it("should return a string with no spaces when it doesn't have an &", () => {
+        // Arrange
+        var input = "firstName lastName"
+
+        // Act
+        const result = Team.getKey(input)
+
+        // Assert
+        expect(result).toEqual(expect.not.stringContaining(" "))
+    })
 })
 
 describe("Team friendlyName", () => {
@@ -156,5 +178,19 @@ describe("Team friendlyName", () => {
         // Assert
         expect(result).toContain(expectedFirstFirstName)
         expect(result).toContain(expectedSecondFirstName)
+    })
+
+    it("should return the teamName as is when there is no & in the name", () => {
+        // Not a hard requrement, more just wanting to capture some default behavior
+
+        // Arrange
+        const fullName = "some long name \"with\" \"quotes\""
+        const sut = new Team({teamName: fullName})
+
+        // Act
+        const result = sut.friendlyName()
+
+        // Assert
+        expect(result).toEqual(fullName)
     })
 })
