@@ -143,18 +143,26 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             previousExitDay = eliminationOrder
         } else if (!isWinner) {
             // if no eliminationOrder is found set it to the previous exitDay
-            isParticipating = false
+            isParticipating = true // should probably be false, but when the league starts it will be true
             eliminationOrder = previousExitDay
             const foundContestant = contestants[contestants.length-1]
-            foundContestant.exitedDay = foundContestant.exitedDay + 0.5 // accounts for the default ordering where the person who come first was actually evicted last
+            if (foundContestant == null) {
+                console.warn("found previous contestant to be null")
+            } else if (foundContestant.exitedDay === 0) {
+                console.warn("previous contestant has not exited yet")
+            } else {
+                foundContestant.exitedDay = foundContestant.exitedDay + 0.5 // accounts for the default ordering where the person who come first was actually evicted last
+            }
         }
 
-        contestants.push({
+        const parsedContestantData = {
             teamName: teamName,
             relationship: element.col2,
             isParticipating,
             exitedDay: eliminationOrder
-        })
+        }
+
+        contestants.push(parsedContestantData)
     })
 
 
