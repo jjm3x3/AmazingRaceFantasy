@@ -15,7 +15,7 @@ export default function Home() {
             </header>
             <main>
                 <p className="site-notice">
-                    Welcome to X Factor Fantasy! A new season of the Big Brother will be starting with it's premire on July 17th. Come back soon to see which House Guests we expect in this season.
+                    A new season of the Big Brother has just begun. If you are already expecting an invite, they should be sent out by 12AM 07-25-24. Then, you will have until the first eviction to submit your ranking.
                 </p>
                 {pages.map((p: IPage) => { 
                     const keyName = p.name.toLowerCase().replaceAll(' ', '-');
