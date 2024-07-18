@@ -146,7 +146,11 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             isParticipating = false
             eliminationOrder = previousExitDay
             const foundContestant = contestants[contestants.length-1]
-            foundContestant.exitedDay = foundContestant.exitedDay + 0.5 // accounts for the default ordering where the person who come first was actually evicted last
+            if (foundContestant == null) {
+                console.warn("found previous contestant to be null")
+            } else {
+                foundContestant.exitedDay = foundContestant.exitedDay + 0.5 // accounts for the default ordering where the person who come first was actually evicted last
+            }
         }
 
         const parsedContestantData = {
