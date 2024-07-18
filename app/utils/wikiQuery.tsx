@@ -149,12 +149,14 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             foundContestant.exitedDay = foundContestant.exitedDay + 0.5 // accounts for the default ordering where the person who come first was actually evicted last
         }
 
-        contestants.push({
+        const parsedContestantData = {
             teamName: teamName,
             relationship: element.col2,
             isParticipating,
             exitedDay: eliminationOrder
-        })
+        }
+
+        contestants.push(parsedContestantData)
     })
 
 
