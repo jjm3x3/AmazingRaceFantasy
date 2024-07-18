@@ -13,7 +13,7 @@ interface IPage {
 export function getPages(): ILeagueLink[] {
     const currentDirFilesList = fs.readdirSync(__dirname);
     let archiveDirFilesList: string[] = []
-    const currentLeague = "big-brother-25"
+    const currentLeague = "big-brother-26"
     const pages: ILeagueLink[] = [{
         name: 'Current',
         subpages: [{
