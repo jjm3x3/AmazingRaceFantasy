@@ -15,7 +15,7 @@ export default function Home() {
             </header>
             <main>
                 <p className="site-notice">
-                    A new season of the Big Brother has just begun. If you are already expecting an invite they should be sent out by 12AM 07-25-24. Then you will have until the first eviction to submit your ranking.
+                    A new season of the Big Brother has just begun. If you are already expecting an invite, they should be sent out by 12AM 07-25-24. Then, you will have until the first eviction to submit your ranking.
                 </p>
                 {pages.map((p: IPage) => { 
                     const keyName = p.name.toLowerCase().replaceAll(' ', '-');
