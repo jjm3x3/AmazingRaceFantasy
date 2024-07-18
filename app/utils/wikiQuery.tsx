@@ -143,7 +143,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             previousExitDay = eliminationOrder
         } else if (!isWinner) {
             // if no eliminationOrder is found set it to the previous exitDay
-            isParticipating = false
+            isParticipating = true // should probably be false, but when the league starts it will be true
             eliminationOrder = previousExitDay
             const foundContestant = contestants[contestants.length-1]
             if (foundContestant == null) {
