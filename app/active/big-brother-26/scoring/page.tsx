@@ -6,7 +6,7 @@ import generateListOfContestantRoundLists from '../../../generators/contestantRo
 
 export default async function Scoring() {
 
-    const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "Cast")
+    const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "HouseGuests")
 
     const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA)
 
