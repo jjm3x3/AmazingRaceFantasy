@@ -19,6 +19,9 @@ export function getPages(): ILeagueLink[] {
         subpages: [{
             name: 'Contestants',
             path: "/active/" + currentLeague + "/contestants"
+        }, {
+            name: 'Scoring',
+            path: "/active/" + currentLeague + "/scoring"
         }]
     }];
 
