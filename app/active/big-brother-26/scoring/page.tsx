@@ -1,4 +1,4 @@
-import { WIKI_API_URL, GOOGLE_SHEET_URL } from '../../../leagueConfiguration/AmazingRace_36'
+import { WIKI_API_URL, GOOGLE_SHEET_URL } from '../../../leagueConfiguration/BigBrother_26'
 import { CONTESTANT_LEAGUE_DATA } from '../../../leagueData/AmazingRace_36'
 import ContestantSelector from '../../../components/contestantSelector'
 import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
