@@ -16,5 +16,9 @@ export const CONTESTANT_LEAGUE_DATA = [
     {
         name: "Sam",
         ranking: [ "Rubina Bernabe", "Quinn Martin", "Leah Peters", "Angela Murray", "Makensy Manbeck", "Kenney Kelley", "Cam Sullivan-Brown", "Tucker Des Lauriers", "Brooklyn Rivera", "Lisa Weintraub", "Kimo Apaka", "Joseph Rodriguez", "Chelsie Baham", "T'kor Clottey", "Cedric Hodges", "Matt Hardeman" ]
+    },
+    {
+        name: "Sean",
+        ranking: [ "Cam Sullivan-Brown", "Joseph Rodriguez", "Leah Peters", "Brooklyn Rivera", "Kenney Kelley", "T'kor Clottey", "Cedric Hodges", "Matt Hardeman", "Makensy Manbeck", "Kimo Apaka", "Tucker Des Lauriers", "Quinn Martin", "Angela Murray", "Rubina Bernabe", "Lisa Weintraub", "Chelsie Baham" ]
     }
 ]
