@@ -37,7 +37,8 @@ export default async function generateListOfContestantRoundLists(
     return listOfContestantLeagueData.map(contestant => {
 
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
-            const foundTeam = teamDictionary[Team.getKey(x)]
+            const teamKey = Team.getKey(x)
+            const foundTeam = teamDictionary[teamKey]
             return foundTeam
         })
 

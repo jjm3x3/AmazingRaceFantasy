@@ -124,7 +124,8 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         // for big-brother
         else if (status.toLowerCase().includes("evicted")) {
             isParticipating = false
-            eliminationOrder = Number(status.match(/EvictedDay (\d+)/i)![1])
+            const statusMatches = status.match(/Evicted\W*Day (\d+)/i) // TODO: should add a test for the whitespace
+            eliminationOrder = Number(statusMatches![1])
         } else if (status.toLowerCase().includes("expelled")) {
             isParticipating = false
             eliminationOrder = Number(status.match(/ExpelledDay (\d+)/i)![1]) // covers Luke getting booted
