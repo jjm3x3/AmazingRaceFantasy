@@ -319,3 +319,6 @@ describe('isPartialContestantData', () => {
         expect(result).toBeFalsy()
     })
 })
+
+describe('getCompetingEntityList', () => {
+})
