@@ -321,27 +321,27 @@ describe('isPartialContestantData', () => {
 })
 
 describe('getCompetingEntityList', () => {
-    // it('should run', () => {
-    //     // Arrange
-    //     const firstContestantsFirstName = "Some"
-    //     const secondContestantsFirstName = "SomeGuys"
+    it('should run', () => {
+        // Arrange
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
 
-    //     const listOfContestants = [
-    //         {
-    //             name: firstContestantsFirstName + " Guy",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: secondContestantsFirstName + " Brother",
-    //             col4: "Participating"
-    //         }]
+        const listOfContestants = [
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "Participating"
+            },
+            {
+                name: secondContestantsFirstName + " Brother",
+                col4: "Participating"
+            }]
 
-    //     // Act
-    //     var result = getTeamList(listOfContestants)
+        // Act
+        var result = getCompetingEntityList(listOfContestants)
 
-    //     // Assert
-    //     expect(result).not.toBeNull()
-    // })
+        // Assert
+        expect(result).not.toBeNull()
+    })
 
     // it('should throw an error for a contestantData w/ a missing status for second on a team', () => {
     //     // Arrange
