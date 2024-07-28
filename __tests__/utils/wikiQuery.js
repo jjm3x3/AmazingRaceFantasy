@@ -378,6 +378,21 @@ describe('getCompetingEntityList', () => {
         expect(result.props.runners[0].eliminationOrder).toEqual(1)
     })
 
+    it('Should parse out evicted day from their status when it indicates they were evicted even with white space', () => {
+        const firstContestantsFirstName = "Some"
+
+        const listOfContestants = [
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "Evicted Day 10"
+            }
+        ]
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        expect(result.props.runners[0].eliminationOrder).toEqual(1)
+    })
+
     // it('Should parse out elimination order when a team is third', () => {
     //     const firstContestantsFirstName = "Some"
     //     const secondContestantsFirstName = "SomeGuys"
