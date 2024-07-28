@@ -552,6 +552,33 @@ describe('getCompetingEntityList', () => {
         expect(targetContestantList[0].eliminationOrder).toEqual(Number.MAX_VALUE)
     })
 
+    it('Should make sure an entity with a known "isParticipating" status ends up with eliminationOrder of Number.MAX_VALUE', () => {
+        const emptyStatusName = "blah Guy"
+        const participatingStatusName = "purple Guy"
+
+        const listOfContestants = [
+            {
+                name: emptyStatusName,
+                col4: ""
+            },
+            {
+                name: participatingStatusName,
+                col4: "Participating"
+            }
+        ]
+
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        expect(result.props.runners.length).toEqual(2)
+        const targetContestantList = result.props.runners.filter(x => x.teamName == emptyStatusName)
+        expect(targetContestantList.length).toEqual(1)
+        expect(targetContestantList[0].eliminationOrder).toEqual(Number.MAX_VALUE)
+        const targetContestantList2 = result.props.runners.filter(x => x.teamName == participatingStatusName)
+        expect(targetContestantList2.length).toEqual(1)
+        expect(targetContestantList2[0].eliminationOrder).toEqual(Number.MAX_VALUE)
+    })
+
     it('should not give any competingEntity the eliminationOrder of the max competingEntities if there are still Participating entities', () => {
         const firstContestantsFirstName = "Some"
         const secondContestantsFirstName = "SomeGuys"
