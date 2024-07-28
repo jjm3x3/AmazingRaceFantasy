@@ -499,6 +499,36 @@ describe('getCompetingEntityList', () => {
         expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder)
     })
 
+    it('Should ensure runner-up entity has a higher elimination order than someone who was evicted on the same day', () => {
+        // this accounts for the 3rd final person who get's evicted on finale night
+        const runnerUpName = "almost winner"
+        const thirdPlaceName = "in thrid"
+
+        const listOfContestants = [
+            {
+                name: runnerUpName,
+                col4: "Runner-UpDay 100"
+            },
+            {
+                name: thirdPlaceName,
+                col4: "EvictedDay 100"
+            },
+            {
+                name: "another guy",
+                col4: "winner"
+            }
+        ]
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        expect(result.props.runners.length).toEqual(3)
+        const targetContestantList = result.props.runners.filter(x => x.teamName == runnerUpName)
+        expect(targetContestantList.length).toEqual(1)
+        const targetContestantList2 = result.props.runners.filter(x => x.teamName == thirdPlaceName)
+        expect(targetContestantList2.length).toEqual(1)
+        expect(targetContestantList[0].eliminationOrder).toBeGreaterThan(targetContestantList2[0].eliminationOrder)
+    })
+
     it('Should make sure an entity with a winner status should end up with eliminationOrder of Number.MAX_VALUE', () => {
         const targetContestantName = "blah Guy"
 
