@@ -363,26 +363,20 @@ describe('getCompetingEntityList', () => {
         expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"))
     })
 
-    // it('Should parse out elimination order and populate it when the team is not participating', () => {
-    //     const firstContestantsFirstName = "Some"
-    //     const secondContestantsFirstName = "SomeGuys"
-    //     const expectedEliminationOrder = 2
+    it('Should parse out evicted day from their status when it indicates they were evicted', () => {
+        const firstContestantsFirstName = "Some"
 
-    //     const listOfContestants = [
-    //         {
-    //             name: firstContestantsFirstName + " Guy",
-    //             col4: "Eliminated " + expectedEliminationOrder + "nd"
-    //         },
-    //         {
-    //             name: secondContestantsFirstName + " Brother",
-    //             col4: "Eliminated " + expectedEliminationOrder + "nd"
-    //         }
-    //     ]
+        const listOfContestants = [
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "EvictedDay 10"
+            }
+        ]
 
-    //     var result = getTeamList(listOfContestants)
+        var result = getCompetingEntityList(listOfContestants)
 
-    //     expect(result.props.runners[0].eliminationOrder).toEqual(2)
-    // })
+        expect(result.props.runners[0].eliminationOrder).toEqual(1)
+    })
 
     // it('Should parse out elimination order when a team is third', () => {
     //     const firstContestantsFirstName = "Some"
