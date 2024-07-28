@@ -393,50 +393,48 @@ describe('getCompetingEntityList', () => {
         expect(result.props.runners[0].eliminationOrder).toEqual(1)
     })
 
-    // it('Should parse out elimination order when a team is third', () => {
-    //     const firstContestantsFirstName = "Some"
-    //     const secondContestantsFirstName = "SomeGuys"
-    //     const expectedEliminationOrder = 2
+    it('Should parse out expelled day from their status when it indicates they were expelled', () => {
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
+        const expectedEliminationOrder = 1
 
-    //     const listOfContestants = [
-    //         {
-    //             name: "blah Guy",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "meh Brother",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "another guy",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "his Brother",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "third guy",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "thrids Brother",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: firstContestantsFirstName + " Guy",
-    //             col4: "third"
-    //         },
-    //         {
-    //             name: secondContestantsFirstName + " Brother",
-    //             col4: "third"
-    //         }
-    //     ]
+        const listOfContestants = [
+            {
+                name: "blah Guy",
+                col4: "Participating"
+            },
+            {
+                name: "meh Brother",
+                col4: "Participating"
+            },
+            {
+                name: "another guy",
+                col4: "Participating"
+            },
+            {
+                name: "his Brother",
+                col4: "Participating"
+            },
+            {
+                name: "third guy",
+                col4: "Participating"
+            },
+            {
+                name: "thrids Brother",
+                col4: "Participating"
+            },
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "ExpelledDay 7"
+            }
+        ]
 
-    //     var result = getTeamList(listOfContestants)
+        var result = getCompetingEntityList(listOfContestants)
 
-    //     expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder)
-    // })
+        expect(result.props.runners.length).toEqual(listOfContestants.length)
+
+        expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder)
+    })
 
     // it('Should parse out elimination order when a team is runners-up', () => {
     //     const firstContestantsFirstName = "Some"
