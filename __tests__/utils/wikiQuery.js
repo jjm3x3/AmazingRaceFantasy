@@ -499,7 +499,27 @@ describe('getCompetingEntityList', () => {
         expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder)
     })
 
-    it('something about the winner', () => {
+    it('Should make sure an entity with a winner status should end up with eliminationOrder of Number.MAX_VALUE', () => {
+        const targetContestantName = "blah Guy"
+
+        const listOfContestants = [
+            {
+                name: targetContestantName,
+                col4: "Winner"
+            },
+            {
+                name: "meh Brother",
+                col4: "Participating"
+            }
+        ]
+
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        expect(result.props.runners.length).toEqual(2)
+        const targetContestantList = result.props.runners.filter(x => x.teamName == targetContestantName)
+        expect(targetContestantList.length).toEqual(1)
+        expect(targetContestantList[0].eliminationOrder).toEqual(Number.MAX_VALUE)
     })
 
     it('should not give any competingEntity the eliminationOrder of the max competingEntities if there are still Participating entities', () => {
