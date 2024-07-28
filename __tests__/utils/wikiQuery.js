@@ -499,28 +499,8 @@ describe('getCompetingEntityList', () => {
         expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder)
     })
 
-    // it('should create team names based on merging contestants full names two at a time', () => {
-    //     // Arrange
-    //     const firstContestantsFullName = "Some" + " Guy"
-    //     const secondContestantsFullName = "SomeGuys" + " Brother"
-    //     const expectedTeamName = firstContestantsFullName + " & " + secondContestantsFullName
-
-    //     const listOfContestants = [
-    //         {
-    //             name: firstContestantsFullName,
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: secondContestantsFullName,
-    //             col4: "Participating"
-    //         }
-    //     ]
-
-    //     // Act
-    //     var result = getTeamList(listOfContestants)
-
-    //     expect(result.props.runners[0].teamName).toEqual(expectedTeamName)
-    // })
+    it('something about the winner', () => {
+    })
 
     // it('should not give any team the eliminationOrder of the max teams if there are still Participating contestants', () => {
     //     const firstContestantsFirstName = "Some"
