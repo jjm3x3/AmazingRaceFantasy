@@ -502,41 +502,41 @@ describe('getCompetingEntityList', () => {
     it('something about the winner', () => {
     })
 
-    // it('should not give any team the eliminationOrder of the max teams if there are still Participating contestants', () => {
-    //     const firstContestantsFirstName = "Some"
-    //     const secondContestantsFirstName = "SomeGuys"
+    it('should not give any competingEntity the eliminationOrder of the max competingEntities if there are still Participating entities', () => {
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
 
-    //     const listOfContestants = [
-    //         {
-    //             name: firstContestantsFirstName + " Guy",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: secondContestantsFirstName + " Brother",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "blah Guy",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "meh Brother",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "lost Guy",
-    //             col4: "Eliminated 1st"
-    //         },
-    //         {
-    //             name: secondContestantsFirstName + "alsoLost Brother",
-    //             col4: "Eliminated 1st"
-    //         }
-    //     ]
+        const listOfContestants = [
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "Participating"
+            },
+            {
+                name: secondContestantsFirstName + " Brother",
+                col4: "Participating"
+            },
+            {
+                name: "blah Guy",
+                col4: "Participating"
+            },
+            {
+                name: "meh Brother",
+                col4: "Participating"
+            },
+            {
+                name: "lost Guy",
+                col4: "EvictedDay 20"
+            },
+            {
+                name: secondContestantsFirstName + "alsoLost Brother",
+                col4: "EvictedDay 10"
+            }
+        ]
 
-    //     var result = getTeamList(listOfContestants)
+        var result = getCompetingEntityList(listOfContestants)
 
-    //     expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(3)
-    // })
+        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(6)
+    })
 
     // it('should not create any teams when all showContestants are missing the minimum necessary data to be created', () => {
     //     const firstContestantsFirstName = "Some"
