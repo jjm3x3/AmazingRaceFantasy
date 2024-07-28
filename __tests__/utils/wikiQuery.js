@@ -579,6 +579,33 @@ describe('getCompetingEntityList', () => {
         expect(targetContestantList2[0].eliminationOrder).toEqual(Number.MAX_VALUE)
     })
 
+    it('Should make sure an entity with an empty status which follows an exit status ends up with eliminationOrder in the bounds of the number of contestants', () => {
+        const emptyStatusName = "blah Guy"
+
+        const listOfContestants = [
+            {
+                name: "evicted last",
+                col4: "EvictedDay 86"
+            },
+            {
+                name: emptyStatusName,
+                col4: ""
+            },
+            {
+                name: "first evicted",
+                col4: "EvictedDay 10"
+            }
+        ]
+
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        expect(result.props.runners.length).toEqual(3)
+        const targetContestantList = result.props.runners.filter(x => x.teamName == emptyStatusName)
+        expect(targetContestantList.length).toEqual(1)
+        expect(targetContestantList[0].eliminationOrder).toBeLessThan(listOfContestants.length)
+    })
+
     it('should not give any competingEntity the eliminationOrder of the max competingEntities if there are still Participating entities', () => {
         const firstContestantsFirstName = "Some"
         const secondContestantsFirstName = "SomeGuys"
