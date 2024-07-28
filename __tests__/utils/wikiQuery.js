@@ -538,28 +538,26 @@ describe('getCompetingEntityList', () => {
         expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(6)
     })
 
-    // it('should not create any teams when all showContestants are missing the minimum necessary data to be created', () => {
-    //     const firstContestantsFirstName = "Some"
-    //     const secondContestantsFirstName = "SomeGuys"
+    it('should not create any entities when all showContestants are missing the minimum necessary data to be created', () => {
+        const listOfContestants = [
+            {
+                col4: "Participating"
+            },
+            {
+                name: "",
+                col4: "Participating"
+            },
+            {
+                name: null,
+                col4: "Participating"
+            },
+        ]
 
-    //     const listOfContestants = [
-    //         {
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: "",
-    //             col4: "Participating"
-    //         },
-    //         {
-    //             name: null,
-    //             col4: "Participating"
-    //         },
-    //     ]
+        var result = getCompetingEntityList(listOfContestants)
 
-    //     var result = getTeamList(listOfContestants)
-
-    //     expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(0)
-    // })
+        expect(result.props.runners.length).toEqual(0)
+        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(0)
+    })
 
     // it('should create as many teams as it can alternating after finding the first and even adding a partial team when there is not a match at the end', () => {
     //     const firstContestantsFirstName = "Some"
