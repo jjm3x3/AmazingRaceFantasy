@@ -343,25 +343,25 @@ describe('getCompetingEntityList', () => {
         expect(result).not.toBeNull()
     })
 
-    // it('should throw an error for a contestantData w/ a missing status for second on a team', () => {
-    //     // Arrange
-    //     const firstContestantsFirstName = "Some"
-    //     const secondContestantsFirstName = "SomeGuys"
+    it('should throw an error for a contestantData w/ a missing status', () => {
+        // Arrange
+        const firstContestantsFirstName = "Some"
+        const secondContestantsFirstName = "SomeGuys"
 
-    //     const listOfContestants = [
-    //         {
-    //             name: firstContestantsFirstName + " Guy",
-    //             col4: "Participating"
-    //         },
-    //         {name: secondContestantsFirstName + " Brother"}
-    //     ]
+        const listOfContestants = [
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "Participating"
+            },
+            {name: secondContestantsFirstName + " Brother"}
+        ]
 
-    //     // Act
-    //     var act = () => getTeamList(listOfContestants)
+        // Act
+        var act = () => getCompetingEntityList(listOfContestants)
 
-    //     // Assert
-    //     expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"))
-    // })
+        // Assert
+        expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"))
+    })
 
     // it('Should parse out elimination order and populate it when the team is not participating', () => {
     //     const firstContestantsFirstName = "Some"
