@@ -436,6 +436,29 @@ describe('getCompetingEntityList', () => {
         expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder)
     })
 
+    it('Should parse out exited day from their status when it indicates they exited', () => {
+        // This could not be necessary anymore since it was built in for Jared Fields in BB25 which later got changed in [this edit](https://en.wikipedia.org/w/index.php?title=Big_Brother_25_(American_season)&oldid=1222831069)
+        const firstContestantsFirstName = "Some"
+        const expectedEliminationOrder = 1
+
+        const listOfContestants = [
+            {
+                name: "blah Guy",
+                col4: "Participating"
+            },
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "ExitedDay 58"
+            }
+        ]
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        expect(result.props.runners.length).toEqual(listOfContestants.length)
+
+        expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder)
+    })
+
     it('Should parse out ending day from status when status is runner-up', () => {
         const firstContestantsFirstName = "Some"
         const expectedEliminationOrder = 1
