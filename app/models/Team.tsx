@@ -8,9 +8,11 @@ export default class Team {
 
     constructor(inTeam: ITeam) {
 
-        if ((inTeam.eliminationOrder === 0 && !inTeam.isParticipating) ||
-            (inTeam.eliminationOrder !== 0 && inTeam.isParticipating)) {
+        if ((inTeam.eliminationOrder === 0 && !inTeam.isParticipating)) {
             console.warn("Building a team with teamName: '" + inTeam.teamName + "'whose eliminationOrder is 0 (default), but they are also have isParticipating = false. May be a bad team construction")
+        } else if (inTeam.eliminationOrder !== 0 && inTeam.eliminationOrder !== Number.MAX_VALUE && inTeam.isParticipating) {
+
+            console.warn("Building a team with teamName: '" + inTeam.teamName + "'whose eliminationOrder non 0 (default) and also no Number.MAX_VALUE, but they are also have isParticipating = true. May be a bad team construction")
         }
 
         this.teamName = inTeam.teamName

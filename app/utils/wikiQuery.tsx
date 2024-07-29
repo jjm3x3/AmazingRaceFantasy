@@ -124,7 +124,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         // for big-brother
         else if (status.toLowerCase().includes("evicted")) {
             isParticipating = false
-            const statusMatches = status.match(/Evicted\W*Day (\d+)/i) // TODO: should add a test for the whitespace
+            const statusMatches = status.match(/Evicted\W*Day (\d+)/i)
             eliminationOrder = Number(statusMatches![1])
         } else if (status.toLowerCase().includes("expelled")) {
             isParticipating = false
@@ -148,9 +148,9 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             eliminationOrder = previousExitDay
             const foundContestant = contestants[contestants.length-1]
             if (foundContestant == null) {
-                console.warn("found previous contestant to be null")
+                console.debug("found previous contestant to be null")
             } else if (foundContestant.exitedDay === 0) {
-                console.warn("previous contestant has not exited yet")
+                console.debug("previous contestant has not exited yet")
             } else {
                 foundContestant.exitedDay = foundContestant.exitedDay + 0.5 // accounts for the default ordering where the person who come first was actually evicted last
             }
