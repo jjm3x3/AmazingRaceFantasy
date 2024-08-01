@@ -101,14 +101,6 @@ export async function getWikipediaContestantData(wikiUrl: string, contestantSect
         return aContestant
     }).toArray()
 
-    const result = filterEmptyContestants(contestantData)
-
-    return result
-}
-
-export function filterEmptyContestants(contestantList: ITableRowData[]): ITableRowData[] {
-    // I believe that the behavior that led to this addition is missing all
-    // properties but the name seemed like the most important one for now
-    return contestantList.filter(x =>  x.name)
+    return contestantData
 }
 
