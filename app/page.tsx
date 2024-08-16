@@ -15,7 +15,7 @@ export default function Home() {
             </header>
             <main>
                 <p className="site-notice">
-                    A new season of the Big Brother has just begun. If you are already expecting an invite, they should be sent out by 12AM 07-25-24. Then, you will have until the first eviction to submit your ranking.
+                    A new season of the Big Brother Under way. If you are already participating, jump in here. If you would like to participate in this league or future leagues please email inqury to xfactorleaguesite@gmail.com.
                 </p>
                 {pages.map((p: IPage) => { 
                     const keyName = p.name.toLowerCase().replaceAll(' ', '-');
