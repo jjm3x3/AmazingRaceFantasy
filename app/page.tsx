@@ -7,6 +7,9 @@ import "./styles/homepage.scss";
 
 export default function Home() {
     const pages = getPages() || [];
+
+    const noticeLink = "/active/big-brother-26/scoring"
+
     return (
         <div>
             <header>
@@ -15,7 +18,7 @@ export default function Home() {
             </header>
             <main>
                 <p className="site-notice">
-                    A new season of the Big Brother Under way. If you are already participating, jump in here. If you would like to participate in this league or future leagues please email inqury to xfactorleaguesite@gmail.com.
+                    A new season of the Big Brother Under way. If you are already participating, jump in <Link className="standard-link" href={noticeLink}>here</Link>. If you would like to participate in this league or future leagues please email inqury to xfactorleaguesite@gmail.com.
                 </p>
                 {pages.map((p: IPage) => { 
                     const keyName = p.name.toLowerCase().replaceAll(' ', '-');
