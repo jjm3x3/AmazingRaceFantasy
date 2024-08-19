@@ -77,11 +77,13 @@ export default async function Scoring({ params }: {
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, CAST_PHRASE);
     let listOfContestantRoundLists;
 
+    const contestantRoundData = await GET();
+
     // Check for Amazing Race due to additional param
     if(showName.match('AmazingRace')){
-      listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA)
+      listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData)
     } else {
-      listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA, getCompetingEntityList)
+      listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, getCompetingEntityList)
     }
 
     return (
