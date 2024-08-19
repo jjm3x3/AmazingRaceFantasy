@@ -22,6 +22,9 @@ export function getPages(): ILeagueLink[] {
         }, {
             name: 'Scoring',
             path: "/active/" + currentLeague + "/scoring"
+        }, {
+            name: 'League Standing',
+            path: "/active/" + currentLeague + "/league-standing"
         }]
     }];
 
