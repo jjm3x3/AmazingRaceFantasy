@@ -1,5 +1,4 @@
 import { Table } from "../baseComponents";
-import ContestantRoundList from "../contestantRoundList";
 import styles from "./leagueStandingTable.module.scss";
 
 export default function LeagueStandingTable({ leagueData }:{leagueData: any}){
@@ -18,7 +17,8 @@ export default function LeagueStandingTable({ leagueData }:{leagueData: any}){
     tableData.rows.sort((a, b) => {
         const aScore = a.filter((param:number|string) => typeof param === "number")[0];
         const bScore = b.filter((param:number|string)=> typeof param === "number")[0];
-        return aScore > bScore ? aScore : bScore
+        const scoreToReturn = aScore > bScore ? -1 : 1;
+        return scoreToReturn;
     });
 
     tableData.rows.map((tableRow, index) => {
