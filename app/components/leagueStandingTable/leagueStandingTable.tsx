@@ -1,4 +1,5 @@
 import { Table } from "../baseComponents";
+import ContestantRoundList from "../contestantRoundList";
 import styles from "./leagueStandingTable.module.scss";
 
 export default function LeagueStandingTable({ leagueData }:{leagueData: any}){
@@ -10,7 +11,7 @@ export default function LeagueStandingTable({ leagueData }:{leagueData: any}){
         rows: tableRows
     }
     leagueData.map((contestantData:any) =>{
-        const tableContestantData = [contestantData.content.props.contestantName, contestantData.content.props.contestantRoundScores[contestantData.content.props.contestantRoundScores.length - 1].contestantRoundData[0].totalScore]
+        const tableContestantData = [contestantData.name, contestantData.totalScore]
         tableData.rows.push(tableContestantData);
     });
 
