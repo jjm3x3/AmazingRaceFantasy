@@ -40,7 +40,7 @@ export function generateStaticParams() {
     return shows;
 }
 
-export async function GET(): Promise<any[]> {
+async function getContestantData(): Promise<any[]> {
     const redis = new Redis({
         url: process.env.KV_REST_API_URL,
         token: process.env.KV_REST_API_TOKEN
@@ -77,7 +77,7 @@ export default async function Scoring({ params }: {
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, CAST_PHRASE);
     let listOfContestantRoundLists;
 
-    const contestantRoundData = await GET();
+    const contestantRoundData = await getContestantData();
 
     // Check for Amazing Race due to additional param
     if(showName.match('AmazingRace')){
