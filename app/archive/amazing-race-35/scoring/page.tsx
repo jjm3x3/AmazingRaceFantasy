@@ -5,7 +5,7 @@ import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
 import { kv } from "@vercel/kv"
 
-export async function GET(): Promise<any[]> {
+async function getContestantData(): Promise<any[]> {
     const userCursor = await kv.scan("0", {match: "amazing_race:35:*"})
     console.log(userCursor)
     const userLeagueKeys = userCursor[1] // get's the list of keys in the cursor
@@ -22,7 +22,7 @@ export async function GET(): Promise<any[]> {
 export default async function Scoring() {
 
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "Cast")
-    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, await GET())
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, await getContestantData())
 
     return (
         <div>
