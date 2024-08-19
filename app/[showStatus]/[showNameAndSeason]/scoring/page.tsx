@@ -40,6 +40,25 @@ export function generateStaticParams() {
     return shows;
 }
 
+export async function GET(): Promise<any[]> {
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    })
+
+    const userCursor = await redis.scan("0", {match: "amazing_race:35:*"})
+    console.log(userCursor)
+    const userLeagueKeys = userCursor[1] // get's the list of keys in the cursor
+    const userList = []
+    for (let i = 0; i < userLeagueKeys.length; i++) {
+        const userData = await redis.json.get(userLeagueKeys[i])
+        userList.push(userData)
+    }
+    console.log(userList)
+
+    return userList
+}
+
 export default async function Scoring({ params }: {
     params: Promise<{ showStatus: string; showNameAndSeason: string }>
   }) {
