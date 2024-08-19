@@ -3,6 +3,7 @@ import { CONTESTANT_LEAGUE_DATA } from '../../../leagueData/AmazingRace_35'
 import ContestantSelector from '../../../components/contestantSelector'
 import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
+import { kv } from "@vercel/kv"
 
 export default async function Scoring() {
 
