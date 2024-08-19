@@ -22,7 +22,7 @@ export async function GET(): Promise<any[]> {
 export default async function Scoring() {
 
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "Cast")
-    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA)
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, await GET())
 
     return (
         <div>
