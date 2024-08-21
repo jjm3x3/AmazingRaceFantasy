@@ -17,7 +17,7 @@ describe('getTeamList', () => {
             }]
 
         // Act
-        var result = getTeamList(listOfContestants)
+        var result = getTeamList(listOfContestants, true)
 
         // Assert
         expect(result).not.toBeNull()
@@ -37,7 +37,7 @@ describe('getTeamList', () => {
         ]
 
         // Act
-        var act = () => getTeamList(listOfContestants)
+        var act = () => getTeamList(listOfContestants, true)
 
         // Assert
         expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"))
@@ -59,7 +59,7 @@ describe('getTeamList', () => {
             }
         ]
 
-        var result = getTeamList(listOfContestants)
+        var result = getTeamList(listOfContestants, true)
 
         expect(result.props.runners[0].eliminationOrder).toEqual(2)
     })
@@ -104,7 +104,7 @@ describe('getTeamList', () => {
             }
         ]
 
-        var result = getTeamList(listOfContestants)
+        var result = getTeamList(listOfContestants, true)
 
         expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder)
     })
@@ -149,7 +149,7 @@ describe('getTeamList', () => {
             }
         ]
 
-        var result = getTeamList(listOfContestants)
+        var result = getTeamList(listOfContestants, true)
 
         expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder)
     })
@@ -172,7 +172,7 @@ describe('getTeamList', () => {
         ]
 
         // Act
-        var result = getTeamList(listOfContestants)
+        var result = getTeamList(listOfContestants, true)
 
         expect(result.props.runners[0].teamName).toEqual(expectedTeamName)
     })
@@ -208,7 +208,7 @@ describe('getTeamList', () => {
             }
         ]
 
-        var result = getTeamList(listOfContestants)
+        var result = getTeamList(listOfContestants, true)
 
         expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(3)
     })
@@ -231,7 +231,7 @@ describe('getTeamList', () => {
             },
         ]
 
-        var result = getTeamList(listOfContestants)
+        var result = getTeamList(listOfContestants, true)
 
         expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(0)
     })
@@ -262,7 +262,7 @@ describe('getTeamList', () => {
             },
         ]
 
-        var result = getTeamList(listOfContestants)
+        var result = getTeamList(listOfContestants, true)
 
         expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(2)
     })
