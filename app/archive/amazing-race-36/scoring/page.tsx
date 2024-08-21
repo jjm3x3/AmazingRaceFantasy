@@ -8,7 +8,7 @@ export default async function Scoring() {
 
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "Cast")
 
-    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA)
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA, true)
 
     return (
         <div>

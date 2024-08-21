@@ -7,17 +7,16 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export async function generateContestantRoundScores(dataFetcher: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[]) {
+export async function generateContestantRoundScores(dataFetcher: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[], competeAsTeam) {
 
     const wikiContestants = await dataFetcher()
-    const pageData = getTeamList(wikiContestants)
+    const pageData = getTeamList(wikiContestants, competeAsTeam)
 
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
             acc[Team.getKey(t.teamName)] = t
 
             return acc
         }, {})
-
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
@@ -39,9 +38,9 @@ export async function generateContestantRoundScores(dataFetcher: () => Promise<I
     return result
 }
 
-export default async function generateContestantRoundScoreComponent(dataFetcher: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[]) {
+export default async function generateContestantRoundScoreComponent(dataFetcher: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[], competeAsTeam: boolean) {
 
-    const contestantScores = await generateContestantRoundScores(dataFetcher, listOfContestantLeagueData)
+    const contestantScores = await generateContestantRoundScores(dataFetcher, listOfContestantLeagueData, competeAsTeam)
     return contestantScores.rounds.map(roundData => {
         return <>
             <h1 className="text-2xl text-center">Week {roundData.round+1}</h1>

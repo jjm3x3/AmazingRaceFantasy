@@ -8,7 +8,7 @@ export interface ITeam {
     eliminationOrder: number
 }
 
-export function getTeamList(contestantData :ITableRowData[]): any {
+export function getTeamList(contestantData :ITableRowData[], competeAsTeam: boolean): any {
 
     const contestants: ITeam[] = []
 
@@ -36,6 +36,9 @@ export function getTeamList(contestantData :ITableRowData[]): any {
             if (status.toLowerCase().includes('eliminated')) {
                 isParticipating = false
                 eliminationOrder = Number(status.match(/Eliminated (\d+)/i)![1])
+            } else if (status.toLowerCase().includes('evicted')) {
+                isParticipating = false
+                eliminationOrder = (contestantData.length - index);
             } else if (status.toLowerCase().includes("third")) {
                 isParticipating = false
                 eliminationOrder = (contestantData.length/2) - 2
@@ -52,8 +55,10 @@ export function getTeamList(contestantData :ITableRowData[]): any {
             })
 
             if (contestant.teamName) {
-                contestants.push(contestant)    
-                teamStarted = true
+                contestants.push(contestant)
+                if(competeAsTeam){
+                    teamStarted = true
+                }
             } else {
                 console.warn("Found a null contestant Name...")    
             }

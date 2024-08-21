@@ -6,7 +6,7 @@ import LeagueStandingTable from '../../../components/leagueStandingTable/leagueS
 
 export default async function LeagueStanding() {
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "Cast")
-    const contestantScoresData = await generateContestantRoundScores(dataFetcher, CONTESTANT_LEAGUE_DATA);
+    const contestantScoresData = await generateContestantRoundScores(dataFetcher, CONTESTANT_LEAGUE_DATA, true);
     const contestantScores = contestantScoresData.rounds[contestantScoresData.rounds.length-1].contestantRoundData;
 
     return (
