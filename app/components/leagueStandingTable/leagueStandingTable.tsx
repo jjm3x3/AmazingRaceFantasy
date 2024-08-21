@@ -1,7 +1,9 @@
 import { Table } from "../baseComponents";
+import { getWikipediaContestantDataFetcher } from "@/app/utils/wikiFetch";
+import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
 import styles from "./leagueStandingTable.module.scss";
 
-export default function LeagueStandingTable({ leagueData }:{leagueData: any}){
+export default async function LeagueStandingTable({ wikiApiURL, sectionTitle, contestantLeagueData, competeAsTeam }:{wikiApiURL: string, sectionTitle:string, contestantLeagueData: any, competeAsTeam: boolean}){
     type rowState = any[];
     const tableColNames: rowState = ["Rank", "Name", "Score"];
     const tableRows: rowState = [];
@@ -9,7 +11,12 @@ export default function LeagueStandingTable({ leagueData }:{leagueData: any}){
         colsNames: tableColNames,
         rows: tableRows
     }
-    leagueData.map((contestantData:any) =>{
+
+    const dataFetcher = getWikipediaContestantDataFetcher(wikiApiURL, sectionTitle);
+    const contestantsScoresData = await generateContestantRoundScores(dataFetcher, contestantLeagueData, competeAsTeam);
+    const contestantsScores = contestantsScoresData.rounds[contestantsScoresData.rounds.length-1].contestantRoundData;
+    
+    contestantsScores.map((contestantData:any) =>{
         const tableContestantData = [contestantData.name, contestantData.totalScore]
         tableData.rows.push(tableContestantData);
     });
