@@ -6,7 +6,6 @@ import "./styles/homepage.scss";
 
 export default function Home() {
     const pages = getPages() || [];
-
     const noticeLink = "/active/big-brother-26/scoring"
 
     return (

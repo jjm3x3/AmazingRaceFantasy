@@ -1,4 +1,6 @@
 import fs from 'fs';
+import { cwd } from 'process';
+import { join } from 'path';
 
 interface ILeagueLink {
     name: string
@@ -11,7 +13,8 @@ interface IPage {
 }
 
 export function getPages(): ILeagueLink[] {
-    const currentDirFilesList = fs.readdirSync(__dirname);
+    const appLevelDir = join(cwd(), 'app');
+    const currentDirFilesList = fs.readdirSync(appLevelDir);
     let archiveDirFilesList: string[] = []
     const currentLeague = "big-brother-26"
     const pages: ILeagueLink[] = [{
@@ -26,7 +29,7 @@ export function getPages(): ILeagueLink[] {
     }];
 
     if (currentDirFilesList.includes("archive")) {
-        archiveDirFilesList = fs.readdirSync(__dirname+"/archive")
+        archiveDirFilesList = fs.readdirSync(join(appLevelDir,"archive"));
     }
     archiveDirFilesList.map(s => {
         const friendlyName = s.replaceAll("-", " ")
