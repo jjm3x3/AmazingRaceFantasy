@@ -1,31 +1,22 @@
-import './globals.scss'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { getPages } from '@/app/utils/pages';
-import Navigation from './components/navigation/navigation'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'X Factor League',
-  description: 'A website for all of your fantasy league needs',
+  description: 'A website for all of your fantasy league needs'
 }
-const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {
-  const pages = getPages() || [];
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <header>
-          <p className="page-title">X Factor Fantasy</p>
-          {pages.length > 0 && <Navigation pages={pages} />}
-        </header>
-        <main>
-          {children}
-1        </main>
+    <html className={inter.className}>
+      <body>
+        {children}
       </body>
     </html>
   )

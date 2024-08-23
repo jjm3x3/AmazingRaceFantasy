@@ -49,6 +49,6 @@ export function getPages(): ILeagueLink[] {
         }
         pages.push(pageObj);
         return pages;
-    })
+    });
     return pages;
 }
