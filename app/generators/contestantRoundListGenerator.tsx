@@ -14,12 +14,11 @@ interface Dictionary<T> {
 export default async function generateListOfContestantRoundLists(
     dataFetcher: () => Promise<ITableRowData[]>,
     listOfContestantLeagueData: any[],
-    competeAsTeam:boolean,
     getCompetingEntityListFunction: (x: ITableRowData[], y:any) => any = getTeamList,
 ) {
 
     const wikiContestants = await dataFetcher()
-    const pageData = getCompetingEntityListFunction(wikiContestants, competeAsTeam)
+    const pageData = getCompetingEntityListFunction(wikiContestants)
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
             acc[Team.getKey(t.teamName)] = t
 

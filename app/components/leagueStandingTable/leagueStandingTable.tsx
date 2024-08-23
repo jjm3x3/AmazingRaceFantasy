@@ -3,7 +3,7 @@ import { getWikipediaContestantDataFetcher } from "@/app/utils/wikiFetch";
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
 import styles from "./leagueStandingTable.module.scss";
 
-export default async function LeagueStandingTable({ wikiApiURL, sectionTitle, contestantLeagueData, competeAsTeam }:{wikiApiURL: string, sectionTitle:string, contestantLeagueData: any, competeAsTeam: boolean}){
+export default async function LeagueStandingTable({ wikiApiURL, sectionTitle, contestantLeagueData }:{wikiApiURL: string, sectionTitle:string, contestantLeagueData: any}){
     type rowState = any[];
     const tableColNames: rowState = ["Rank", "Name", "Score"];
     const tableRows: rowState = [];
@@ -13,7 +13,7 @@ export default async function LeagueStandingTable({ wikiApiURL, sectionTitle, co
     }
 
     const dataFetcher = getWikipediaContestantDataFetcher(wikiApiURL, sectionTitle);
-    const contestantsScoresData = await generateContestantRoundScores(dataFetcher, contestantLeagueData, competeAsTeam);
+    const contestantsScoresData = await generateContestantRoundScores(dataFetcher, contestantLeagueData);
     const contestantsScores = contestantsScoresData.rounds[contestantsScoresData.rounds.length-1].contestantRoundData;
     
     contestantsScores.map((contestantData:any) =>{

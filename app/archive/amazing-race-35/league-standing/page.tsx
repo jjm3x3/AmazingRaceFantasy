@@ -7,7 +7,7 @@ export default async function LeagueStanding() {
         <div>
             <h1 className="text-3xl text-center">League Standing</h1>
             <br/>
-            <LeagueStandingTable wikiApiURL={WIKI_API_URL} sectionTitle="Cast" contestantLeagueData={CONTESTANT_LEAGUE_DATA} competeAsTeam={true} />
+            <LeagueStandingTable wikiApiURL={WIKI_API_URL} sectionTitle="Cast" contestantLeagueData={CONTESTANT_LEAGUE_DATA} />
         </div>
     )
 }

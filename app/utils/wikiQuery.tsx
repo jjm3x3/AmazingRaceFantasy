@@ -8,7 +8,7 @@ export interface ITeam {
     eliminationOrder: number
 }
 
-export function getTeamList(contestantData :ITableRowData[], competeAsTeam: boolean): any {
+export function getTeamList(contestantData :ITableRowData[]): any {
 
     const contestants: ITeam[] = []
 
@@ -56,9 +56,7 @@ export function getTeamList(contestantData :ITableRowData[], competeAsTeam: bool
 
             if (contestant.teamName) {
                 contestants.push(contestant)
-                if(competeAsTeam){
-                    teamStarted = true
-                }
+                teamStarted = true
             } else {
                 console.warn("Found a null contestant Name...")    
             }
