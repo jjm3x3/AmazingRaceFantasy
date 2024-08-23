@@ -1,6 +1,9 @@
 import { Table } from "../baseComponents";
 import { getWikipediaContestantDataFetcher } from "@/app/utils/wikiFetch";
-import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
+import generateListOfContestantRoundLists from '@/app/generators/contestantRoundListGenerator'
+// import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
+import { getCompetingEntityList } from "@/app/utils/wikiQuery"
+
 import styles from "./leagueStandingTable.module.scss";
 
 export default async function LeagueStandingTable({ wikiApiURL, sectionTitle, contestantLeagueData }:{wikiApiURL: string, sectionTitle:string, contestantLeagueData: any}){
@@ -13,11 +16,18 @@ export default async function LeagueStandingTable({ wikiApiURL, sectionTitle, co
     }
 
     const dataFetcher = getWikipediaContestantDataFetcher(wikiApiURL, sectionTitle);
-    const contestantsScoresData = await generateContestantRoundScores(dataFetcher, contestantLeagueData);
-    const contestantsScores = contestantsScoresData.rounds[contestantsScoresData.rounds.length-1].contestantRoundData;
+    let contestantsScores;
+    if(wikiApiURL.includes("Big_Brother")){
+        contestantsScores = await generateListOfContestantRoundLists(dataFetcher, contestantLeagueData, getCompetingEntityList);
+    } else {
+        contestantsScores = await generateListOfContestantRoundLists(dataFetcher, contestantLeagueData);
+    }
     
     contestantsScores.map((contestantData:any) =>{
-        const tableContestantData = [contestantData.name, contestantData.totalScore]
+        const { content: { props }} = contestantData;
+        const contestantRoundScores = props.contestantRoundScores;
+        const contestantRoundTotalScore = contestantRoundScores.at(-1).contestantRoundData[0].totalScore;
+        const tableContestantData = [props.contestantName, contestantRoundTotalScore]
         tableData.rows.push(tableContestantData);
     });
 
