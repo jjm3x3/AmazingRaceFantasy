@@ -3,6 +3,7 @@ import Team from '../models/Team'
 import { shouldBeScored } from '../utils/teamListUtils'
 
 export default function TeamList({ teamList, roundNumber }: { teamList: Team[], roundNumber: number }) {
+
     
     return <div>
         {teamList.map(t => {

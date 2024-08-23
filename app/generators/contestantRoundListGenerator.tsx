@@ -19,6 +19,7 @@ export default async function generateListOfContestantRoundLists(
 
     const wikiContestants = await dataFetcher()
     const pageData = getCompetingEntityListFunction(wikiContestants)
+
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
             acc[Team.getKey(t.teamName)] = t
 

@@ -17,6 +17,7 @@ async function generateContestantRoundScores(dataFetcher: () => Promise<ITableRo
 
             return acc
         }, {})
+
     const numberOfRounds = pageData.props.runners.reduce(
         (acc: number, x: ITeam) => {
             return x.eliminationOrder > acc ? x.eliminationOrder : acc
@@ -41,6 +42,7 @@ async function generateContestantRoundScores(dataFetcher: () => Promise<ITableRo
 export default async function generateContestantRoundScoreComponent(dataFetcher: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[]) {
 
     const contestantScores = await generateContestantRoundScores(dataFetcher, listOfContestantLeagueData)
+
     return contestantScores.rounds.map(roundData => {
         return <>
             <h1 className="text-2xl text-center">Week {roundData.round+1}</h1>
