@@ -11,7 +11,9 @@ export default async function Template({
   return (
     <>
       <header>
-        <p className="page-title">X Factor Fantasy</p>
+        <p>
+          <a href="/" title="Link that takes user to homepage. " className="page-title">X Factor Fantasy</a>
+        </p>
         {pages.length > 0 && <Navigation pages={pages} />}
       </header>
       <main>
