@@ -5,7 +5,7 @@ import { getCompetingEntityList } from "@/app/utils/wikiQuery"
 
 import styles from "./leagueStandingTable.module.scss";
 
-export default async function LeagueStandingTable({ wikiApiURL, sectionTitle, contestantLeagueData }:{wikiApiURL: string, sectionTitle:string, contestantLeagueData: any}){
+export default async function LeagueStandingTable({ contestantsScores }:{contestantsScores: any}){
     type rowState = any[];
     const tableColNames: rowState = ["Rank", "Name", "Score"];
     const tableRows: rowState = [];
@@ -14,15 +14,7 @@ export default async function LeagueStandingTable({ wikiApiURL, sectionTitle, co
         rows: tableRows
     }
 
-    const dataFetcher = getWikipediaContestantDataFetcher(wikiApiURL, sectionTitle);
-    let contestantsScores;
-    if(wikiApiURL.includes("Big_Brother")){
-        contestantsScores = await generateListOfContestantRoundLists(dataFetcher, contestantLeagueData, getCompetingEntityList);
-    } else {
-        contestantsScores = await generateListOfContestantRoundLists(dataFetcher, contestantLeagueData);
-    }
-    
-    contestantsScores.map((contestantData:any) =>{
+    contestantsScores.forEach((contestantData:any) =>{
         const { content: { props }} = contestantData;
         const contestantRoundScores = props.contestantRoundScores;
         const contestantRoundTotalScore = contestantRoundScores.at(-1).contestantRoundData[0].totalScore;
