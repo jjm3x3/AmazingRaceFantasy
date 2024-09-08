@@ -3,9 +3,8 @@ import { Table } from "../baseComponents";
 import styles from "./leagueStandingTable.module.scss";
 
 export default async function LeagueStandingTable({ contestantsScores }:{contestantsScores: any}){
-    type rowState = any[];
-    const tableColumnNames: rowState = ["Rank", "Name", "Score"];
-    const tableRows: rowState = [];
+    const tableColumnNames: any[] = ["Rank", "Name", "Score"];
+    const tableRows: any[] = [];
     const tableData = {
         columnNames: tableColumnNames,
         rows: tableRows
