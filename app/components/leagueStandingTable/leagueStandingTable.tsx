@@ -1,7 +1,4 @@
 import { Table } from "../baseComponents";
-import { getWikipediaContestantDataFetcher } from "@/app/utils/wikiFetch";
-import generateListOfContestantRoundLists from '@/app/generators/contestantRoundListGenerator'
-import { getCompetingEntityList } from "@/app/utils/wikiQuery"
 
 import styles from "./leagueStandingTable.module.scss";
 
