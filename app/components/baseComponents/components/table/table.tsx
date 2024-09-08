@@ -2,8 +2,8 @@ import {iTable}  from "../../models/iTable";
 import styles from "./table.module.scss";
 export default function Table({tableData, tableClassName}:{ tableData: iTable, tableClassName?:String }){
     let headerRow;
-    if(tableData.colsNames){
-        const headerColumnNames = tableData.colsNames.map(colValue => <th className={styles.tableCell} scope="col"><strong>{colValue}</strong></th>)
+    if(tableData.columnNames){
+        const headerColumnNames = tableData.columnNames.map(columnValue => <th className={styles.tableCell} scope="col"><strong>{columnValue}</strong></th>)
         headerRow = <thead><tr className={styles.tableHeaderRow}>{headerColumnNames}</tr></thead>;
     }
     const getTableCell = (cellData:string, index:number)=> {
@@ -32,7 +32,7 @@ export default function Table({tableData, tableClassName}:{ tableData: iTable, t
     return (
         <table className={classes}>
             {tableData.caption && <caption>{tableData.caption}</caption>}
-            {tableData.colsNames && headerRow}
+            {tableData.columnNames && headerRow}
             {tableRows}
             {tableData.tableFooter && footerRow}
         </table>

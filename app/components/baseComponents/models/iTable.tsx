@@ -10,7 +10,7 @@ export interface iTableFooter {
 
 export interface iTable {
     caption?: string, 
-    colsNames: Array<String>,
+    columnNames: Array<String>,
     rows: any[],
     tableFooter?: iTableFooter[]
 }

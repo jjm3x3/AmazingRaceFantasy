@@ -1,16 +1,13 @@
 import { Table } from "../baseComponents";
-import { getWikipediaContestantDataFetcher } from "@/app/utils/wikiFetch";
-import generateListOfContestantRoundLists from '@/app/generators/contestantRoundListGenerator'
-import { getCompetingEntityList } from "@/app/utils/wikiQuery"
 
 import styles from "./leagueStandingTable.module.scss";
 
 export default async function LeagueStandingTable({ contestantsScores }:{contestantsScores: any}){
     type rowState = any[];
-    const tableColNames: rowState = ["Rank", "Name", "Score"];
+    const tableColumnNames: rowState = ["Rank", "Name", "Score"];
     const tableRows: rowState = [];
     const tableData = {
-        colsNames: tableColNames,
+        columnNames: tableColumnNames,
         rows: tableRows
     }
 
