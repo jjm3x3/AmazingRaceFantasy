@@ -7,11 +7,10 @@ import LeagueStandingTable from '../../../components/leagueStandingTable/leagueS
 
 export default async function LeagueStanding() {
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "Cast");
-    const contestantScores = await generateContestantRoundScores();
-    // const contestantsScores = await generateListOfContestantRoundLists(dataFetcher,  CONTESTANT_LEAGUE_DATA, getCompetingEntityList);
-    // return <>
-    //     <h1 className="text-3xl text-center">League Standing</h1>
-    //     <br/>
-    //     <LeagueStandingTable contestantsScores={contestantsScores} />
-    // </>
+    const contestantsScores = await generateListOfContestantRoundLists(dataFetcher,  CONTESTANT_LEAGUE_DATA, getCompetingEntityList);
+    return <>
+        <h1 className="text-3xl text-center">League Standing</h1>
+        <br/>
+        <LeagueStandingTable contestantsScores={contestantsScores} />
+    </>
 }
