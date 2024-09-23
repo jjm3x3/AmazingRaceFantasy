@@ -1,0 +1,22 @@
+@use '../../styles/colors' as colors;
+
+.tableCell {
+    padding: 0.5rem;
+    text-align: left;
+    &:not(.tableHeaderRow:last-child){
+        border-right: 1px solid colors.$borderGray;
+    }
+}
+
+.tableRow:not(:last-child){
+    border-bottom: 1px solid colors.$borderGray;
+}
+
+.tableHeaderRow {
+    background-color: colors.$headingGray;
+}
+
+.table {
+    border: 1px solid colors.$borderGray;
+    min-width: 50vw;
+}
