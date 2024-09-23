@@ -1,6 +1,6 @@
-import {iTable}  from "../../models/iTable";
+import { TableData }  from "../../models/tableData";
 import styles from "./table.module.scss";
-export default function Table({tableData, tableClassName}:{ tableData: iTable, tableClassName?:String }){
+export default function Table({tableData, tableClassName}:{ tableData: TableData, tableClassName?:String }){
     let headerRow;
     if(tableData.columnNames){
         const headerColumnNames = tableData.columnNames.map(columnValue => <th className={styles.tableCell} scope="col"><strong>{columnValue}</strong></th>)

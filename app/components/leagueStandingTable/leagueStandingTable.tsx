@@ -12,7 +12,7 @@ export default async function LeagueStandingTable({ contestantsScores }:{contest
 
     contestantsScores.forEach((contestantData:any) =>{
         const { content: { props }} = contestantData;
-        const contestantRoundScores = props.contestantRoundScores;
+        const { contestantRoundScores } = props;
         const contestantRoundTotalScore = contestantRoundScores.at(-1).contestantRoundData[0].totalScore;
         const tableContestantData = [props.contestantName, contestantRoundTotalScore]
         tableData.rows.push(tableContestantData);
