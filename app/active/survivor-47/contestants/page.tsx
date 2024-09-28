@@ -26,7 +26,7 @@ export default async function Contestants() {
           <br/>
           <div>
             <p>
-              Data provided by <a className="standard-link" href={WIKI_PAGE_URL} >Wikipedia</a> for this season of Big Brother
+              Data provided by <a className="standard-link" href={WIKI_PAGE_URL} >Wikipedia</a> for this season of Survivor
             </p>
           </div>
         </div>
