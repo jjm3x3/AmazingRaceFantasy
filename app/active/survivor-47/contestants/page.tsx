@@ -12,7 +12,7 @@ export default async function Contestants() {
           <br/>
           <h1 className="text-2xl text-center">Contestants</h1>
           <br/>
-          <p className="text-lg text-center">{final.props.runners.length} House Guests</p>
+          <p className="text-lg text-center">{final.props.runners.length} Contestants</p>
           <br/>
           <div className="text-center">
               {final.props.runners.map((t: ITeam) => {
