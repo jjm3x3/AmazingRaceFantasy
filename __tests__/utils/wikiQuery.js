@@ -641,6 +641,42 @@ describe('getCompetingEntityList', () => {
         expect(targetContestantList[0].isParticipating).toBeFalsy()
     })
 
+    it('Should only cross out names for show contestants when they have not been evicted yet', () => {
+        const emptyStatusName = "I was the first in a double eviction"
+        const amStillCompetingName = "I am still competing"
+
+        const listOfContestants = [
+            {
+                name: amStillCompetingName,
+                col4: ""
+            },
+            {
+                name: amStillCompetingName + "2",
+                col4: ""
+            },
+            {
+                name: "evicted last",
+                col4: "EvictedDay 86"
+            },
+            {
+                name: emptyStatusName,
+                col4: ""
+            },
+            {
+                name: "first evicted",
+                col4: "EvictedDay 10"
+            }
+        ]
+
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        result.props.runners.forEach(x => {
+            let shouldStillBeCompeting = x.teamName.startsWith(amStillCompetingName)
+            expect(x.isParticipating).toEqual(shouldStillBeCompeting)
+        })
+    })
+
     it('should not give any competingEntity the eliminationOrder of the max competingEntities if there are still Participating entities', () => {
         const firstContestantsFirstName = "Some"
         const secondContestantsFirstName = "SomeGuys"
