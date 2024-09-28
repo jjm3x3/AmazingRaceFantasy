@@ -634,7 +634,7 @@ describe('getCompetingEntityList', () => {
         expect(result.props.runners.length).toEqual(3)
         const targetContestantList = result.props.runners.filter(x => x.teamName == emptyStatusName)
         expect(targetContestantList.length).toEqual(1)
-        expect(targetContestantList[0].isParticipating).toBeLessThan(false)
+        expect(targetContestantList[0].isParticipating).toBeFalsy()
     })
 
     it('should not give any competingEntity the eliminationOrder of the max competingEntities if there are still Participating entities', () => {
