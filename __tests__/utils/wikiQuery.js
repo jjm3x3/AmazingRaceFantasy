@@ -615,6 +615,10 @@ describe('getCompetingEntityList', () => {
 
         const listOfContestants = [
             {
+                name: "I am a winner",
+                col4: "Winner"
+            },
+            {
                 name: "evicted last",
                 col4: "EvictedDay 86"
             },
@@ -631,7 +635,7 @@ describe('getCompetingEntityList', () => {
 
         var result = getCompetingEntityList(listOfContestants)
 
-        expect(result.props.runners.length).toEqual(3)
+        expect(result.props.runners.length).toEqual(4)
         const targetContestantList = result.props.runners.filter(x => x.teamName == emptyStatusName)
         expect(targetContestantList.length).toEqual(1)
         expect(targetContestantList[0].isParticipating).toBeFalsy()
