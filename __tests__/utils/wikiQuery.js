@@ -610,7 +610,7 @@ describe('getCompetingEntityList', () => {
         expect(targetContestantList[0].eliminationOrder).toBeLessThan(targetContestantList2[0].eliminationOrder)
     })
 
-    it('Should make sure an entity with an empty status which follows an exit status ends up with eliminationOrder in the bounds of the number of contestants', () => {
+    it('Should solve the blue problem by making sure an entity with an empty status which follows an exit status ends up with eliminationOrder in the bounds of the number of contestants', () => {
         const emptyStatusName = "blah Guy"
 
         const listOfContestants = [
@@ -641,7 +641,7 @@ describe('getCompetingEntityList', () => {
         expect(targetContestantList[0].isParticipating).toBeFalsy()
     })
 
-    it('Should only cross out names for show contestants when they have not been evicted yet', () => {
+    it('Should solve the blue problem while only cross out names for show contestants when they have not been evicted yet', () => {
         const emptyStatusName = "I was the first in a double eviction"
         const amStillCompetingName = "I am still competing"
 
