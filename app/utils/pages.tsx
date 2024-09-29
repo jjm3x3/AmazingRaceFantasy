@@ -13,17 +13,19 @@ interface IPage {
 export function getPages(): ILeagueLink[] {
     const currentDirFilesList = fs.readdirSync(__dirname);
     let archiveDirFilesList: string[] = []
-    const currentLeague = "big-brother-26"
-    const pages: ILeagueLink[] = [{
-        name: 'Current',
-        subpages: [{
-            name: 'Contestants',
-            path: "/active/" + currentLeague + "/contestants"
-        }, {
-            name: 'Scoring',
-            path: "/active/" + currentLeague + "/scoring"
-        }]
-    }];
+    const currentBBLeague = "big-brother-26"
+    const pages: ILeagueLink[] = [
+        {
+            name: 'Current (Big Brother)',
+            subpages: [{
+                name: 'Contestants',
+                path: "/active/" + currentBBLeague + "/contestants"
+            }, {
+                name: 'Scoring',
+                path: "/active/" + currentBBLeague + "/scoring"
+            }]
+        }
+    ];
 
     if (currentDirFilesList.includes("archive")) {
         archiveDirFilesList = fs.readdirSync(__dirname+"/archive")
