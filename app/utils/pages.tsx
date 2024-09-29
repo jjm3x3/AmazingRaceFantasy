@@ -14,7 +14,15 @@ export function getPages(): ILeagueLink[] {
     const currentDirFilesList = fs.readdirSync(__dirname);
     let archiveDirFilesList: string[] = []
     const currentBBLeague = "big-brother-26"
+    const currentSurvivorLeague = "survivor-47"
     const pages: ILeagueLink[] = [
+        {
+            name: 'Current (Survivor)',
+            subpages: [{
+                name: 'Contestants',
+                path: "/active/" + currentSurvivorLeague + "/contestants"
+            }]
+        },
         {
             name: 'Current (Big Brother)',
             subpages: [{
