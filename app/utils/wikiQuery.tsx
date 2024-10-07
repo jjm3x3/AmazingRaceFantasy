@@ -143,15 +143,17 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
             // update previousExitDay
             previousExitDay = eliminationOrder
         } else if (!isWinner) {
-            // if no eliminationOrder is found set it to the previous exitDay
-            isParticipating = true // should probably be false, but when the league starts it will be true
+            // if no eliminationOrder is found, set it to the previous exitDay
             eliminationOrder = previousExitDay
             const foundContestant = contestants[contestants.length-1]
             if (foundContestant == null) {
                 console.debug("found previous contestant to be null")
+                isParticipating = true // implies that this is the first contestant
             } else if (foundContestant.exitedDay === 0) {
                 console.debug("previous contestant has not exited yet")
+                isParticipating = true // implies all contestants before this one are still participating
             } else {
+                isParticipating = false // is now false because we have already started to see contestants evicted
                 foundContestant.exitedDay = foundContestant.exitedDay + 0.5 // accounts for the default ordering where the person who come first was actually evicted last
             }
         }
