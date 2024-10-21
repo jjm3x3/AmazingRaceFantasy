@@ -7,7 +7,7 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export async function generateContestantRoundScores(pageData: () => Promise<ITableRowData[]>, listOfContestantLeagueData: any[]) {
+export async function generateContestantRoundScores(pageData: any, listOfContestantLeagueData: any[]) {
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
             acc[Team.getKey(t.teamName)] = t
 
