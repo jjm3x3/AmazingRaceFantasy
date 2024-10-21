@@ -610,6 +610,73 @@ describe('getCompetingEntityList', () => {
         expect(targetContestantList[0].eliminationOrder).toBeLessThan(targetContestantList2[0].eliminationOrder)
     })
 
+    it('Should solve the blue problem by making sure an entity with an empty status which follows an exit status ends up with eliminationOrder in the bounds of the number of contestants', () => {
+        const emptyStatusName = "blah Guy"
+
+        const listOfContestants = [
+            {
+                name: "I am a winner",
+                col4: "Winner"
+            },
+            {
+                name: "evicted last",
+                col4: "EvictedDay 86"
+            },
+            {
+                name: emptyStatusName,
+                col4: ""
+            },
+            {
+                name: "first evicted",
+                col4: "EvictedDay 10"
+            }
+        ]
+
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        expect(result.props.runners.length).toEqual(4)
+        const targetContestantList = result.props.runners.filter(x => x.teamName == emptyStatusName)
+        expect(targetContestantList.length).toEqual(1)
+        expect(targetContestantList[0].isParticipating).toBeFalsy()
+    })
+
+    it('Should solve the blue problem while only cross out names for show contestants when they have not been evicted yet', () => {
+        const emptyStatusName = "I was the first in a double eviction"
+        const amStillCompetingName = "I am still competing"
+
+        const listOfContestants = [
+            {
+                name: amStillCompetingName,
+                col4: ""
+            },
+            {
+                name: amStillCompetingName + "2",
+                col4: ""
+            },
+            {
+                name: "evicted last",
+                col4: "EvictedDay 86"
+            },
+            {
+                name: emptyStatusName,
+                col4: ""
+            },
+            {
+                name: "first evicted",
+                col4: "EvictedDay 10"
+            }
+        ]
+
+
+        var result = getCompetingEntityList(listOfContestants)
+
+        result.props.runners.forEach(x => {
+            let shouldStillBeCompeting = x.teamName.startsWith(amStillCompetingName)
+            expect(x.isParticipating).toEqual(shouldStillBeCompeting)
+        })
+    })
+
     it('should not give any competingEntity the eliminationOrder of the max competingEntities if there are still Participating entities', () => {
         const firstContestantsFirstName = "Some"
         const secondContestantsFirstName = "SomeGuys"
