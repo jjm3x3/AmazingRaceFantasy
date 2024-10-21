@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { getTeamList, ITeam } from "../utils/wikiQuery"
 import { ITableRowData } from "../utils/wikiFetch"
 import Team from '../models/Team'
-import { shouldBeScored } from '../utils/teamListUtils'
+import { getNumberOfRounds } from '../utils/teamListUtils'
 import ContestantRoundList from '../components/contestantRoundList'
 import IRound from '../models/IRound'
 import LeagueStanding from '../models/LeagueStanding'
@@ -55,12 +55,5 @@ export default async function generateListOfContestantRoundLists(
             />
         }
     })
-}
-
-export function getNumberOfRounds(teams: ITeam[]): number {
-     return teams.reduce(
-        (acc: number, x: ITeam) => {
-            return x.eliminationOrder > acc && x.eliminationOrder !== Number.MAX_VALUE ? x.eliminationOrder : acc
-        }, 0)
 }
 

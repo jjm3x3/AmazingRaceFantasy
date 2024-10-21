@@ -1,4 +1,4 @@
-import { shouldBeScored } from '../../app/utils/teamListUtils'
+import { shouldBeScored, getNumberOfRounds } from '../../app/utils/teamListUtils'
 
 describe('teamListUtils shouldBeScored', () => {
     it('should be false when there is exactly one team and we are on the first round', () => {
@@ -60,5 +60,19 @@ describe('teamListUtils shouldBeScored', () => {
 
         // Assert
         expect(result).toBeTruthy()
+    })
+})
+
+describe("getNumberOfRounds", () => {
+    it("should not ever return Number.MAX_VALUE", () => {
+
+        //Arrange
+        const teamList = [{eliminationOrder: 1}, {eliminationOrder:2}, {eliminationOrder: Number.MAX_VALUE}]
+
+        // Act
+        const result = getNumberOfRounds(teamList)
+
+        // Assert
+        expect(result).not.toBe(Number.MAX_VALUE)
     })
 })
