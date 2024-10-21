@@ -6,18 +6,11 @@ export default function Table({tableData, tableClassName}:{ tableData: TableData
         const headerColumnNames = tableData.columnNames.map(columnValue => <th className={styles.tableCell} scope="col"><strong>{columnValue}</strong></th>)
         headerRow = <thead><tr className={styles.tableHeaderRow}>{headerColumnNames}</tr></thead>;
     }
-    const getTableCell = (cellData:string, index:number)=> {
-        const isIndex = index === 0;
-        const TableCellTag = `t${isIndex ? 'h' : 'd' }` as keyof JSX.IntrinsicElements;
-        return <TableCellTag {...(isIndex && {scope: 'row'})} className={styles.tableCell}>
-            {cellData}
-        </TableCellTag>
-    }
-    const getTableRow = (tableRow:any[]=[])=> {
+    const getTableRow = (tableRow:any={})=> {
         return <tr className={styles.tableRow}>
-            {tableRow.map((tableCell, index)=> {
-                return getTableCell(tableCell, index);
-            })}
+            <th className={styles.tableCell}>{tableRow.rank}</th>
+            <td className={styles.tableCell}>{tableRow.name}</td>
+            <td className={styles.tableCell}>{tableRow.totalScore}</td>
         </tr>
     }
     const tableRows = tableData.rows.map((tableRow) => {
