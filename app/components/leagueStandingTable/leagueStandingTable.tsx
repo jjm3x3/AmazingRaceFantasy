@@ -9,14 +9,14 @@ export default async function LeagueStandingTable({ contestantsScores }:{contest
         rows: contestantsScores.at(-1).contestantRoundData
     }
 
-    tableData.rows.sort((a, b) => {
+    tableData.rows.sort((a: any, b: any) => {
         const aScore = a.totalScore;
         const bScore = b.totalScore;
         const scoreToReturn = aScore > bScore ? -1 : 1;
         return scoreToReturn;
     });
 
-    tableData.rows.map((tableRow, index) => {
+    tableData.rows.map((tableRow: any, index: number) => {
         const tableRowWithRank = tableRow;
         tableRowWithRank['rank'] = index + 1;
         return tableRowWithRank;
