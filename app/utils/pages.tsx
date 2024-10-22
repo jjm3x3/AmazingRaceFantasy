@@ -34,6 +34,9 @@ export function getPages(): ILeagueLink[] {
             }, {
                 name: 'Scoring',
                 path: "/active/" + currentBBLeague + "/scoring"
+            }, {
+                name: 'League Standing',
+                path: "/active/" + currentBBLeague + "/league-standing"
             }]
         }
     ];
