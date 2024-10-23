@@ -1,6 +1,6 @@
-import ISubpage from "./ISubpage"
+import ISubpage from "./ISubpage";
 
-export default interface IPage { 
-    name: string
-    subpages: ISubpage[]
+export default interface IPage {
+  name: string;
+  subpages: ISubpage[];
 }

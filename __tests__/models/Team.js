@@ -1,196 +1,200 @@
-import Team from '../../app/models/Team'
+import Team from "../../app/models/Team";
 
-describe('Team construct', () => {
-    it('should construct', () => {
-        const aTeam = new Team({
-            teamName: "aTeamName"
-        })
+describe("Team construct", () => {
+  it("should construct", () => {
+    const aTeam = new Team({
+      teamName: "aTeamName",
+    });
 
-        expect(aTeam).not.toBeNull()
-    })
-})
+    expect(aTeam).not.toBeNull();
+  });
+});
 
-describe('Team isInPlay', () => {
-    it('should be true when elimination order is 0 reguardless of roundNumber (sparse)', () => {
-        const aTeam = new Team({
-            isParticipating: true,
-            eliminationOrder: 0
-        })
+describe("Team isInPlay", () => {
+  it("should be true when elimination order is 0 reguardless of roundNumber (sparse)", () => {
+    const aTeam = new Team({
+      isParticipating: true,
+      eliminationOrder: 0,
+    });
 
-        // Assert, just check sections because otherwise it takes too long
-        for (let i = Number.MAX_VALUE - 100; i < Number.MAX_VALUE; i++) {
-            expect(aTeam.isInPlay(i)).toBeTruthy()
-        }
-        for (let i = Number.MIN_VALUE + 100; i > Number.MIN_VALUE; i--) {
-            expect(aTeam.isInPlay(i)).toBeTruthy()
-        }
-        for (let i = 0 - 100; i < 100; i++) {
-            expect(aTeam.isInPlay(i)).toBeTruthy()
-        }
-    })
+    // Assert, just check sections because otherwise it takes too long
+    for (let i = Number.MAX_VALUE - 100; i < Number.MAX_VALUE; i++) {
+      expect(aTeam.isInPlay(i)).toBeTruthy();
+    }
+    for (let i = Number.MIN_VALUE + 100; i > Number.MIN_VALUE; i--) {
+      expect(aTeam.isInPlay(i)).toBeTruthy();
+    }
+    for (let i = 0 - 100; i < 100; i++) {
+      expect(aTeam.isInPlay(i)).toBeTruthy();
+    }
+  });
 
-    it('should be false if roundOrder and eliminationOrder are exactly the same', () => {
+  it("should be false if roundOrder and eliminationOrder are exactly the same", () => {
+    for (let i = 0 - 100; i < 100; i++) {
+      if (i === 0) {
+        continue;
+      } // This was already coverd in the last test
 
-        for (let i = 0 - 100; i < 100; i++) {
-            if (i === 0) { continue } // This was already coverd in the last test
+      // Arrange
+      const aTeam = new Team({
+        eliminationOrder: i,
+      });
 
-            // Arrange
-            const aTeam = new Team({
-                eliminationOrder: i
-            })
+      // Act, Assert
+      expect(aTeam.eliminationOrder).toBe(i);
+      expect(aTeam.isInPlay(i)).toBeFalsy();
+    }
+  });
 
-            // Act, Assert
-            expect(aTeam.eliminationOrder).toBe(i)
-            expect(aTeam.isInPlay(i)).toBeFalsy()
-        }
-    })
+  // this is true because it assumes roundNumber is 0 indexed while
+  // eliminationOrder is 1 indexed. This also leads to the next oddity which
+  // is tested in the test w/ the same name but checking that the result is
+  // falsy when the roundNumber is eliminationOrder-2
+  it("should be false if roundOrder is one less than eliminationOrder", () => {
+    for (let i = 0 - 100; i < 100; i++) {
+      if (i === 0) {
+        continue;
+      } // This was already coverd in the last test
 
-    // this is true because it assumes roundNumber is 0 indexed while
-    // eliminationOrder is 1 indexed. This also leads to the next oddity which
-    // is tested in the test w/ the same name but checking that the result is
-    // falsy when the roundNumber is eliminationOrder-2
-    it('should be false if roundOrder is one less than eliminationOrder', () => {
+      // Arrange
+      const aTeam = new Team({
+        eliminationOrder: i,
+      });
 
-        for (let i = 0 - 100; i < 100; i++) {
-            if (i === 0) { continue } // This was already coverd in the last test
+      // Act, Assert
+      expect(aTeam.eliminationOrder).toBe(i);
+      expect(aTeam.isInPlay(i - 1)).toBeFalsy();
+    }
+  });
 
-            // Arrange
-            const aTeam = new Team({
-                eliminationOrder: i
-            })
+  // See comment on "should be false if roundOrder is one less...
+  it("should be true if roundOrder is two less than eliminationOrder", () => {
+    for (let i = 0 - 100; i < 100; i++) {
+      if (i === 0) {
+        continue;
+      } // This was already coverd in the last test
 
-            // Act, Assert
-            expect(aTeam.eliminationOrder).toBe(i)
-            expect(aTeam.isInPlay(i-1)).toBeFalsy()
-        }
-    })
+      // Arrange
+      const aTeam = new Team({
+        eliminationOrder: i,
+      });
 
-    // See comment on "should be false if roundOrder is one less...
-    it('should be true if roundOrder is two less than eliminationOrder', () => {
+      // Act, Assert
+      expect(aTeam.eliminationOrder).toBe(i);
+      expect(aTeam.isInPlay(i - 2)).toBeTruthy();
+    }
+  });
+});
 
-        for (let i = 0 - 100; i < 100; i++) {
-            if (i === 0) { continue } // This was already coverd in the last test
+describe("Team static getKey", () => {
+  it("should produce the same result regardless of the order of the team contestant", () => {
+    // Arrange
+    const orderingOne = "Aname one & Bname two";
+    const orderingTwo = "Bname two & Aname one";
 
-            // Arrange
-            const aTeam = new Team({
-                eliminationOrder: i
-            })
+    // Act
+    const resultOne = Team.getKey(orderingOne);
+    const resultTwo = Team.getKey(orderingTwo);
 
-            // Act, Assert
-            expect(aTeam.eliminationOrder).toBe(i)
-            expect(aTeam.isInPlay(i-2)).toBeTruthy()
-        }
-    })
-})
+    // Assert
+    expect(resultOne).toBe(resultTwo);
+  });
 
-describe('Team static getKey', () => {
-    it('should produce the same result regardless of the order of the team contestant', () => {
+  it("should produce the same result ignoring trailing whitespace", () => {
+    // Arrange
+    const expectedTeamName = "Aname one & Bname two";
+    const testTeamName = "Aname one & Bname two   ";
 
-        // Arrange
-        const orderingOne = "Aname one & Bname two"
-        const orderingTwo = "Bname two & Aname one"
+    // Act
+    const expectedResult = Team.getKey(expectedTeamName);
+    const testResult = Team.getKey(testTeamName);
 
-        // Act
-        const resultOne = Team.getKey(orderingOne)
-        const resultTwo = Team.getKey(orderingTwo)
+    // Assert
+    expect(testResult).toBe(expectedResult);
+  });
 
-        // Assert
-        expect(resultOne).toBe(resultTwo)
-    })
+  it("should produce the same result ignoring leading whitespace", () => {
+    // Arrange
+    const expectedTeamName = "Aname one & Bname two";
+    const testTeamName = "   Aname one & Bname two";
 
-    it('should produce the same result ignoring trailing whitespace', () => {
+    // Act
+    const expectedResult = Team.getKey(expectedTeamName);
+    const testResult = Team.getKey(testTeamName);
 
-        // Arrange
-        const expectedTeamName = "Aname one & Bname two"
-        const testTeamName = "Aname one & Bname two   "
+    // Assert
+    expect(testResult).toBe(expectedResult);
+  });
 
-        // Act
-        const expectedResult = Team.getKey(expectedTeamName)
-        const testResult = Team.getKey(testTeamName)
+  it("should return a string with no quotes when it doesn't have an &", () => {
+    // Arrange
+    var input = 'firstName "nickname" lastName';
 
-        // Assert
-        expect(testResult).toBe(expectedResult)
-    })
+    // Act
+    const result = Team.getKey(input);
 
-    it('should produce the same result ignoring leading whitespace', () => {
+    // Assert
+    expect(result).toEqual(expect.not.stringContaining('"'));
+  });
 
-        // Arrange
-        const expectedTeamName = "Aname one & Bname two"
-        const testTeamName = "   Aname one & Bname two"
+  it("should return a string with no spaces when it doesn't have an &", () => {
+    // Arrange
+    var input = "firstName lastName";
 
-        // Act
-        const expectedResult = Team.getKey(expectedTeamName)
-        const testResult = Team.getKey(testTeamName)
+    // Act
+    const result = Team.getKey(input);
 
-        // Assert
-        expect(testResult).toBe(expectedResult)
-    })
-
-    it("should return a string with no quotes when it doesn't have an &", () => {
-        // Arrange
-        var input = "firstName \"nickname\" lastName"
-
-        // Act
-        const result = Team.getKey(input)
-
-        // Assert
-        expect(result).toEqual(expect.not.stringContaining("\""))
-    })
-
-    it("should return a string with no spaces when it doesn't have an &", () => {
-        // Arrange
-        var input = "firstName lastName"
-
-        // Act
-        const result = Team.getKey(input)
-
-        // Assert
-        expect(result).toEqual(expect.not.stringContaining(" "))
-    })
-})
+    // Assert
+    expect(result).toEqual(expect.not.stringContaining(" "));
+  });
+});
 
 describe("Team friendlyName", () => {
-    it("shoud return a team with a member with two firstNames when one of their names is Anna Leigh", () => { 
+  it("shoud return a team with a member with two firstNames when one of their names is Anna Leigh", () => {
+    // Arrange
+    const expectedFirstName = "Anna Leigh";
+    const sut = new Team({
+      teamName: expectedFirstName + " lastname & Partner Person",
+    });
 
-        // Arrange
-        const expectedFirstName = "Anna Leigh"
-        const sut = new Team({teamName: expectedFirstName + " lastname & Partner Person"})
+    // Act
+    const result = sut.friendlyName();
 
-        // Act
-        const result = sut.friendlyName()
+    // Assert
+    expect(result).toContain(expectedFirstName);
+  });
 
-        // Assert
-        expect(result).toContain(expectedFirstName)
-    })
+  it("shoud return a team with two firstNames one for each player when nither of their first names match the predefined list", () => {
+    // Arrange
+    const expectedFirstFirstName = "Bob";
+    const expectedSecondFirstName = "Partner";
+    const sut = new Team({
+      teamName:
+        expectedFirstFirstName +
+        " Lob Law & " +
+        expectedSecondFirstName +
+        " Peter Piper",
+    });
 
-    it("shoud return a team with two firstNames one for each player when nither of their first names match the predefined list", () => { 
+    // Act
+    const result = sut.friendlyName();
 
-        // Arrange
-        const expectedFirstFirstName = "Bob"
-        const expectedSecondFirstName = "Partner"
-        const sut = new Team({
-            teamName: expectedFirstFirstName + " Lob Law & " + expectedSecondFirstName +" Peter Piper"
-        })
+    // Assert
+    expect(result).toContain(expectedFirstFirstName);
+    expect(result).toContain(expectedSecondFirstName);
+  });
 
-        // Act
-        const result = sut.friendlyName()
+  it("should return the teamName as is when there is no & in the name", () => {
+    // Not a hard requrement, more just wanting to capture some default behavior
 
-        // Assert
-        expect(result).toContain(expectedFirstFirstName)
-        expect(result).toContain(expectedSecondFirstName)
-    })
+    // Arrange
+    const fullName = 'some long name "with" "quotes"';
+    const sut = new Team({ teamName: fullName });
 
-    it("should return the teamName as is when there is no & in the name", () => {
-        // Not a hard requrement, more just wanting to capture some default behavior
+    // Act
+    const result = sut.friendlyName();
 
-        // Arrange
-        const fullName = "some long name \"with\" \"quotes\""
-        const sut = new Team({teamName: fullName})
-
-        // Act
-        const result = sut.friendlyName()
-
-        // Assert
-        expect(result).toEqual(fullName)
-    })
-})
+    // Assert
+    expect(result).toEqual(fullName);
+  });
+});

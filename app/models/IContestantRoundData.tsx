@@ -1,6 +1,5 @@
 export default interface IContestantRoundData {
-    name: string
-    roundScore: number
-    totalScore: number
+  name: string;
+  roundScore: number;
+  totalScore: number;
 }
-
