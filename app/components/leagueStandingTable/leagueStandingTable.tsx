@@ -12,8 +12,8 @@ export default async function LeagueStandingTable({ contestantsScores }:{contest
     tableData.rows.sort((a: any, b: any) => {
         const aScore = a.totalScore;
         const bScore = b.totalScore;
-        const scoreToReturn = aScore > bScore ? -1 : 1;
-        return scoreToReturn;
+        const sortIndicator = aScore > bScore ? -1 : 1;
+        return sortIndicator;
     });
 
     tableData.rows.map((tableRow: any, index: number) => {
