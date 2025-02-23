@@ -8,7 +8,7 @@ import { getCompetingEntityList } from "../../../utils/wikiQuery"
 
 export default async function Scoring() {
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "HouseGuests")
-    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA, getCompetingEntityList)
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, getCompetingEntityList, CONTESTANT_LEAGUE_DATA)
 
     return (
         <div>
