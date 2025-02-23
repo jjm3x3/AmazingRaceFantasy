@@ -10,6 +10,12 @@ const redis = new Redis({
     token: process.env.KV_REST_API_TOKEN
 })
 
+const userCursor = await redis.scan("0", {match: "amazing_race:35:*"})
+
+for (const aKey of userCursor[1]) { //list of keys
+    redis.del(aKey)
+}
+
 for(const user of CONTESTANT_LEAGUE_DATA) {
     if (user.userId == null) {
         console.warn(`The user named: '${user.name}'`)
