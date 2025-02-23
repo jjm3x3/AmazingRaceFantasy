@@ -1,5 +1,6 @@
 import { TableData }  from "../../models/tableData";
 import styles from "./table.module.scss";
+
 export default function Table({tableData, tableClassName}:{ tableData: TableData, tableClassName?:String }){
     let headerRow;
     if(tableData.columnNames){
