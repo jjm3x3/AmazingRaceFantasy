@@ -14,8 +14,16 @@ const redis = new Redis({
 await recreateLeagueData("amazing_race:35:", amazingRace35Data)
 await recreateLeagueData("amazing_race:36:", amazingRace36Data)
 
-const fullCursor = await redis.scan("0", {match: "*"})
+let fullCursor = await redis.scan("0", {match: "*"})
 console.log(fullCursor)
+
+let nextId = fullCursor[0]
+while (nextId != 0) {
+    console.log(`Fetching next scan batch with id: '${nextId}`)
+    fullCursor = await redis.scan(nextId, {match: "*"})
+    console.log(fullCursor)
+    nextId = fullCursor[0]
+}
 
 async function recreateLeagueData(leagueKeyPrefix, dataRepo) {
 
