@@ -8,10 +8,12 @@ const CONTESTANT_LEAGUE_DATA = [
     },
     {
         name: "Anita",
+        userId: "E75E9D22-C1B5-4AF9-9824-841F15080E94",
         ranking: [ "Rod Gardner & Leticia Gardner", "Ricky Rotandi & Cesar Aldrete", "Juan Villa & Shane Bilek", "Sunny Pulver & Bizzy Smith", "Derek Williams & Shelisa Williams", "Michelle Clark & Sean Clark", "Yvonne Chavez & Melissa Main", "Kishori Turner & Karishma Cordero", "Anthony Smith & Bailey Smith", "Angie Butler & Danny Butler", "Amber Craven & Vinny Cagungun", "Chris Foster & Mary Cardona-Foster", "Maya Mody & Rohan Mody"]
     },
     {
         name: "Antoinette",
+        userId: "DCC9DCDC-AE5C-4A53-AF09-23F3C957D60B",
         ranking: [ "Rod Gardner & Leticia Gardner", "Ricky Rotandi & Cesar Aldrete", "Derek Williams & Shelisa Williams", "Kishori Turner & Karishma Cordero", "Anthony Smith & Bailey Smith", "Yvonne Chavez & Melissa Main", "Sunny Pulver & Bizzy Smith", "Michelle Clark & Sean Clark", "Juan Villa & Shane Bilek", "Angie Butler & Danny Butler", "Amber Craven & Vinny Cagungun", "Chris Foster & Mary Cardona-Foster", "Maya Mody & Rohan Mody"]
     },
     {
@@ -36,6 +38,7 @@ const CONTESTANT_LEAGUE_DATA = [
     },
     {
         name: "Sam",
+        userId: "CD9F9A71-FF9C-416A-8D0D-C268A13B021F",
         ranking: ["Ricky Rotandi & Cesar Aldrete", "Rod Gardner & Leticia Gardner", "Yvonne Chavez & Melissa Main", "Derek Williams & Shelisa Williams", "Juan Villa & Shane Bilek", "Sunny Pulver & Bizzy Smith", "Amber Craven & Vinny Cagungun", "Angie Butler & Danny Butler", "Kishori Turner & Karishma Cordero", "Anthony Smith & Bailey Smith", "Michelle Clark & Sean Clark", "Chris Foster & Mary Cardona-Foster", "Maya Mody & Rohan Mody"],
         handicap: -80
     }
