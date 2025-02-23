@@ -1,6 +1,6 @@
 
 // Contestant Ranking
-export const CONTESTANT_LEAGUE_DATA = [
+const CONTESTANT_LEAGUE_DATA = [
     {
         name: "Andrew",
         ranking: [ "Juan Villa & Shane Bilek", "Rod Gardner & Leticia Gardner", "Amber Craven & Vinny Cagungun", "Ricky Rotandi & Cesar Aldrete", "Yvonne Chavez & Melissa Main", "Michelle Clark & Sean Clark", "Derek Williams & Shelisa Williams", "Anthony Smith & Bailey Smith", "Sunny Pulver & Bizzy Smith", "Angie Butler & Danny Butler", "Chris Foster & Mary Cardona-Foster", "Kishori Turner & Karishma Cordero", "Maya Mody & Rohan Mody" ]
@@ -35,3 +35,5 @@ export const CONTESTANT_LEAGUE_DATA = [
         handicap: -80
     }
 ]
+
+module.exports = { CONTESTANT_LEAGUE_DATA }
