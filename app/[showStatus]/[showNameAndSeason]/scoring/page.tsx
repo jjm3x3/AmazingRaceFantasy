@@ -3,6 +3,7 @@ import ContestantSelector from '../../../components/contestantSelector'
 import { getCompetingEntityList } from "../../../utils/wikiQuery"
 import { getWikipediaContestantDataFetcher } from '../../../dataSources/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
+import { Redis } from "@upstash/redis"
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
