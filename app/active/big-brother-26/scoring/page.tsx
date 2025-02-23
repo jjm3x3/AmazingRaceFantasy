@@ -3,12 +3,11 @@ import { CONTESTANT_LEAGUE_DATA } from '../../../leagueData/BigBrother_26'
 import ContestantSelector from '../../../components/contestantSelector'
 import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
-import { getCompetingEntityList } from "../../../utils/wikiQuery"
 
 
 export default async function Scoring() {
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "HouseGuests")
-    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, getCompetingEntityList, CONTESTANT_LEAGUE_DATA)
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA)
 
     return (
         <div>
