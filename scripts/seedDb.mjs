@@ -18,6 +18,9 @@ for(const user of CONTESTANT_LEAGUE_DATA) {
 
     console.log("Setting user '" + user.name + "'")
 
+    const userString = JSON.stringify(user)
+
+    await redis.json.set("amazing_race:35:"+user.userId, "$", userString)
 }
 
 const userCursor = await redis.scan("0", {match: "amazing_race:35:*"})
