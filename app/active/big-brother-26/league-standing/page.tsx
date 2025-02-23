@@ -6,7 +6,7 @@ import LeagueStandingTable from '../../../components/leagueStandingTable/leagueS
 import { getCompetingEntityList } from '@/app/utils/wikiQuery';
 
 export default async function LeagueStanding() {
-    const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "HouseGuests");
+    const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, "Houseguests");
     const contestantsScores = await generateContestantRoundScores(dataFetcher, getCompetingEntityList, CONTESTANT_LEAGUE_DATA);
     return <>
         <h1 className="text-3xl text-center">League Standing</h1>
