@@ -12,6 +12,7 @@ export default [
         languageOptions: {
             globals: {
                 ...globals.browser,
+                ...globals.jest,
                 browser: true,
                 module: true
             }
@@ -34,5 +35,4 @@ export default [
                 "always"
             ]
         }
-    }
-];
+    }];
