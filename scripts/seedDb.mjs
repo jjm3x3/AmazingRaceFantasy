@@ -1,4 +1,5 @@
 import { CONTESTANT_LEAGUE_DATA } from "../app/leagueData/AmazingRace_35.js"
+import { Redis } from "@upstash/redis"
 
 console.log("Seeding the db")
 
