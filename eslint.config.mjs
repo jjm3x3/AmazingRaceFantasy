@@ -13,11 +13,13 @@ export default [
             globals: {
                 ...globals.browser,
                 ...globals.jest,
+                ...globals.node,
                 browser: true,
                 module: true
             }
         },
         rules: {
+            "react/react-in-jsx-scope": "off",
             indent: [
                 "error",
                 4
