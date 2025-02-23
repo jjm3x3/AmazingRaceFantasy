@@ -1,4 +1,4 @@
-import { CONTESTANT_LEAGUE_DATA } from "../app/leagueData/AmazingRace_35.js"
+import amazingRace35Data from "../app/leagueData/AmazingRace_35.js"
 import { Redis } from "@upstash/redis"
 
 console.log("Seeding the db")
@@ -16,7 +16,7 @@ for (const aKey of userCursor[1]) { //list of keys
     redis.del(aKey)
 }
 
-for(const user of CONTESTANT_LEAGUE_DATA) {
+for(const user of amazingRace35Data.CONTESTANT_LEAGUE_DATA) {
     if (user.userId == null) {
         console.warn(`The user named: '${user.name}'`)
         continue
