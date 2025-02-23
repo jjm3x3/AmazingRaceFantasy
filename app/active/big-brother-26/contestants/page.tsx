@@ -4,7 +4,7 @@ import { WIKI_API_URL, WIKI_PAGE_URL } from '../../../leagueConfiguration/BigBro
 
 export default async function Contestants() {
 
-    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL, "HouseGuests")
+    const wikiContestants = await getWikipediaContestantData(WIKI_API_URL, "Houseguests")
     const final = getCompetingEntityList(wikiContestants)
 
     return (
