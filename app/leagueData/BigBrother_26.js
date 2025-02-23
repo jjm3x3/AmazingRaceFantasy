@@ -1,6 +1,6 @@
 
 // Contestant Ranking
-export const CONTESTANT_LEAGUE_DATA = [
+const CONTESTANT_LEAGUE_DATA = [
     {
         name: "Antoinette",
         ranking: [ "Makensy Manbeck", "Brooklyn Rivera", "Quinn Martin", "Rubina Bernabe", "Tucker Des Lauriers", "Cam Sullivan-Brown", "Leah Peters", "T'kor Clottey", "Cedric Hodges", "Chelsie Baham", "Kimo Apaka", "Angela Murray", "Joseph Rodriguez", "Matt Hardeman", "Lisa Weintraub", "Kenney Kelley" ]
@@ -26,3 +26,5 @@ export const CONTESTANT_LEAGUE_DATA = [
         ranking: [ "Cam Sullivan-Brown", "Kimo Apaka", "Joseph Rodriguez", "Kenney Kelley", "Brooklyn Rivera", "Lisa Weintraub", "Makensy Manbeck", "Matt Hardeman", "Tucker Des Lauriers", "Quinn Martin", "Leah Peters", "T'kor Clottey", "Rubina Bernabe", "Angela Murray", "Chelsie Baham", "Cedric Hodges" ]
     }
 ]
+
+module.exports = { CONTESTANT_LEAGUE_DATA }
