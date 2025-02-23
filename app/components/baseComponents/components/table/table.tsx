@@ -7,24 +7,24 @@ const getTableRow = (tableRow:any={})=> {
         <th className={styles.tableCell}>{tableRow.rank}</th>
         <td className={styles.tableCell}>{tableRow.name}</td>
         <td className={styles.tableCell}>{tableRow.totalScore}</td>
-    </tr>
-}
+    </tr>;
+};
 
-export default function Table({tableData, tableClassName}:{ tableData: TableData, tableClassName?:String }){
+export default function Table({tableData, tableClassName}:{ tableData: TableData, tableClassName?:string }){
     let headerRow;
     if(tableData.columnNames){
-        const headerColumnNames = tableData.columnNames.map(columnValue => <th className={styles.tableCell} scope="col"><strong>{columnValue}</strong></th>)
+        const headerColumnNames = tableData.columnNames.map(columnValue => <th className={styles.tableCell} scope="col"><strong>{columnValue}</strong></th>);
         headerRow = <thead><tr className={styles.tableHeaderRow}>{headerColumnNames}</tr></thead>;
     }
     const tableRows = tableData.rows.map((tableRow) => {
         return getTableRow(tableRow);
-    })
+    });
     let footerRow;
     if(tableData.tableFooter){
         const footerRows = getTableRow(tableData.tableFooter);
-        footerRow = <tfoot>{footerRows}</tfoot>
+        footerRow = <tfoot>{footerRows}</tfoot>;
     }
-    const classes = [styles.table, tableClassName].join(' ');
+    const classes = [styles.table, tableClassName].join(" ");
     return (
         <table className={classes}>
             {tableData.caption && <caption>{tableData.caption}</caption>}

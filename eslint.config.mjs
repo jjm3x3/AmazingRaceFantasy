@@ -5,34 +5,34 @@ import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
 
 
 export default [
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  pluginReactConfig,
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        browser: true,
-        module: true
-      }
-    },
-    rules: {
-      indent: [
-          "error",
-          4
-        ],
-        "linebreak-style": [
-          "error",
-          "unix"
-        ],
-        quotes: [
-          "error",
-          "double"
-        ],
-        semi: [
-          "error",
-          "always"
-        ]
+    pluginJs.configs.recommended,
+    ...tseslint.configs.recommended,
+    pluginReactConfig,
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                browser: true,
+                module: true
+            }
+        },
+        rules: {
+            indent: [
+                "error",
+                4
+            ],
+            "linebreak-style": [
+                "error",
+                "unix"
+            ],
+            quotes: [
+                "error",
+                "double"
+            ],
+            semi: [
+                "error",
+                "always"
+            ]
+        }
     }
-  }
 ];

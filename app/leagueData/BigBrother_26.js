@@ -25,6 +25,6 @@ const CONTESTANT_LEAGUE_DATA = [
         name: "Susannah",
         ranking: [ "Cam Sullivan-Brown", "Kimo Apaka", "Joseph Rodriguez", "Kenney Kelley", "Brooklyn Rivera", "Lisa Weintraub", "Makensy Manbeck", "Matt Hardeman", "Tucker Des Lauriers", "Quinn Martin", "Leah Peters", "T'kor Clottey", "Rubina Bernabe", "Angela Murray", "Chelsie Baham", "Cedric Hodges" ]
     }
-]
+];
 
-module.exports = { CONTESTANT_LEAGUE_DATA }
+module.exports = { CONTESTANT_LEAGUE_DATA };

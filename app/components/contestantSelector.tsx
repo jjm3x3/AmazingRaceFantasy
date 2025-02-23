@@ -1,5 +1,5 @@
-'use client'
-import { Fragment, useState, ReactNode } from 'react'
+"use client";
+import { Fragment, useState, ReactNode } from "react";
 
 type ContestantSelectorProps = {
     listOfContestantRoundLists: {
@@ -10,18 +10,18 @@ type ContestantSelectorProps = {
 
 export default function ContestantSelector({ listOfContestantRoundLists }: ContestantSelectorProps) {
 
-    const [selectedContestant, setSelectedContestant] = useState(listOfContestantRoundLists[0].key)
+    const [selectedContestant, setSelectedContestant] = useState(listOfContestantRoundLists[0].key);
 
     const filteredItems = listOfContestantRoundLists
         .filter(item => item.key == selectedContestant)
-        .map((item, index) => <div key={"contestantRoundList-"+index}>{item.content}</div>)
+        .map((item, index) => <div key={"contestantRoundList-"+index}>{item.content}</div>);
 
     return (
         <div className="justify-center">
             <div className="flex justify-center">
                 <select data-testid="contestants-selector" value={selectedContestant} onChange={e => setSelectedContestant(e.target.value)}>
                     {listOfContestantRoundLists.map(opt => {
-                       return <option key={"option"+opt.key} data-testid={"option"+opt.key}>{opt.key}</option>
+                        return <option key={"option"+opt.key} data-testid={"option"+opt.key}>{opt.key}</option>;
                     })}
                 </select>
             </div>
@@ -30,5 +30,5 @@ export default function ContestantSelector({ listOfContestantRoundLists }: Conte
                 {filteredItems}
             </div>
         </div>
-    )
+    );
 }

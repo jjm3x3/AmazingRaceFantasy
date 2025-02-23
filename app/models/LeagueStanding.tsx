@@ -1,34 +1,34 @@
-import IRound from './IRound'
-import Team from './Team'
-import { shouldBeScored } from '../utils/teamListUtils'
+import IRound from "./IRound";
+import Team from "./Team";
+import { shouldBeScored } from "../utils/teamListUtils";
 
 export default class LeagueStanding {
-    rounds: IRound[]
+    rounds: IRound[];
 
     constructor() {
-        this.rounds = []
+        this.rounds = [];
     }
 
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
-        let grandTotal = handicap === undefined ? 0 : handicap
+        let grandTotal = handicap === undefined ? 0 : handicap;
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
-                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i)
+                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i);
     
-                    return teamShouldBeScored ? acc + 10 : acc
-                }, 0)
+                    return teamShouldBeScored ? acc + 10 : acc;
+                }, 0);
 
-            grandTotal += roundScore
+            grandTotal += roundScore;
 
             if (this.rounds.length > i) {
-                const currentRound = this.rounds[i]
+                const currentRound = this.rounds[i];
                 currentRound.contestantRoundData.push({
                     name: contestantName,
                     roundScore: roundScore,
                     totalScore: grandTotal
-                })
+                });
             }
             else {
                 this.rounds.push({
@@ -38,7 +38,7 @@ export default class LeagueStanding {
                         roundScore: roundScore,
                         totalScore: grandTotal
                     }]
-                })
+                });
             }
 
         }
@@ -47,10 +47,10 @@ export default class LeagueStanding {
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
-        const result = new LeagueStanding()
-        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap)
+        const result = new LeagueStanding();
+        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);
 
-        return result.rounds
+        return result.rounds;
     }
 } 
 

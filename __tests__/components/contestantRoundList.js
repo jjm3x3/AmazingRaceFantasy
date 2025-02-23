@@ -2,8 +2,8 @@ import { render } from "@testing-library/react";
 import ContestantRoundList from "../../app/components/contestantRoundList";
 import Team from "../../app/models/Team";
 
-const perfectScoreName = "*perfect*"
-const mockContestantName = "Jacob"
+const perfectScoreName = "*perfect*";
+const mockContestantName = "Jacob";
 const mockPerfectRoundScores = [
     {
         round: 0,
@@ -29,7 +29,7 @@ const mockPerfectRoundScores = [
             totalScore: 6
         }]
     },
-]
+];
 const mockContestantRoundScores = [
     {
         round: 0,
@@ -55,17 +55,17 @@ const mockContestantRoundScores = [
             totalScore: 6
         }]
     },
-]
+];
 const mockPerfectTeamList = [
-  new Team({ teamName: "name1_1 & name1_2" }),
-  new Team({ teamName: "name2_1 & name2_2" }),
-  new Team({ teamName: "name3_1 & name3_2" }),
-]
+    new Team({ teamName: "name1_1 & name1_2" }),
+    new Team({ teamName: "name2_1 & name2_2" }),
+    new Team({ teamName: "name3_1 & name3_2" }),
+];
 const mockContestantTeamList = [
-  new Team({ teamName: "name1_1 & name1_2" }),
-  new Team({ teamName: "name2_1 & name2_2" }),
-  new Team({ teamName: "name3_1 & name3_2" }),
-]
+    new Team({ teamName: "name1_1 & name1_2" }),
+    new Team({ teamName: "name2_1 & name2_2" }),
+    new Team({ teamName: "name3_1 & name3_2" }),
+];
 
 describe("ContestantRoundList", () => {
     it("should render", () => {
@@ -77,7 +77,7 @@ describe("ContestantRoundList", () => {
                 contestantTeamList={mockContestantTeamList}
                 contestantName={mockContestantName}
             />
-        )
-    })
-})
+        );
+    });
+});
 

@@ -27,4 +27,4 @@ export default interface INavigationItem{
     listAttr: IListAttribute
     children: any
     hasSubpages: boolean
-}
+};;;;;;;;;;

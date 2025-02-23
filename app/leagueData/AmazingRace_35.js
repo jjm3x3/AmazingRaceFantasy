@@ -21,6 +21,6 @@ const CONTESTANT_LEAGUE_DATA = [
         name: "Rachel",
         ranking: [ "Ashlie Martin & Todd Martin", "Jocelyn Chao & Victor Limary", "Garrett Smith & Joel Strasser", "Lena Franklin & Morgan Franklin", "Ian Todd & Joe Moskowitz", "Corey McArthur & Rob McArthur", "Greg Franklin & John Franklin", "Liam Hykel & Yeremi Hykel", "Anna Leigh Wilson & Steve Cargile", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
     }
-]
+];
 
-module.exports = { CONTESTANT_LEAGUE_DATA }
+module.exports = { CONTESTANT_LEAGUE_DATA };
