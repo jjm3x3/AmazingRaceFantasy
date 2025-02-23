@@ -35,11 +35,11 @@ async function recreateLeagueData(leagueKeyPrefix, dataRepo) {
 
     for(const user of dataRepo.CONTESTANT_LEAGUE_DATA) {
         if (user.userId == null) {
-            console.warn(`The user named: '${user.name}'`)
+            console.warn(`Cannot insert user to leage: '${leagueKeyPrefix}' with name: '${user.name}', they are missing a userId`)
             continue
         }
 
-        console.log("Setting user '" + user.name + "'")
+        console.log(`Setting user to league '${leagueKeyPrefix}' with name: '${user.name}'`)
 
         const userString = JSON.stringify(user)
 
