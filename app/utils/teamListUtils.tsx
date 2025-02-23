@@ -10,3 +10,10 @@ export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number
     return team.isInPlay(roundNumber) && !listHasTeamBeingEliminated
 }
 
+export function getNumberOfRounds(teams: Team[]): number {
+    return teams.reduce(
+       (acc: number, x: Team) => {
+           return x.eliminationOrder > acc && x.eliminationOrder !== Number.MAX_VALUE ? x.eliminationOrder : acc
+       }, 0)
+}
+

@@ -1,8 +1,8 @@
 import { WIKI_API_URL, GOOGLE_SHEET_URL } from '../../../leagueConfiguration/BigBrother_26'
 import { CONTESTANT_LEAGUE_DATA } from '../../../leagueData/BigBrother_26'
 import ContestantSelector from '../../../components/contestantSelector'
-import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
 import { getCompetingEntityList } from "../../../utils/wikiQuery"
+import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
 
 export default async function Scoring() {
