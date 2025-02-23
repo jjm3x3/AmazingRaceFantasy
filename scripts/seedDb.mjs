@@ -10,5 +10,10 @@ const redis = new Redis({
     token: process.env.KV_REST_API_TOKEN
 })
 
+for(const user of CONTESTANT_LEAGUE_DATA) {
+    console.log("Setting user '" + user.name + "'")
+
+}
+
 const userCursor = await redis.scan("0", {match: "amazing_race:35:*"})
 console.log(userCursor)
