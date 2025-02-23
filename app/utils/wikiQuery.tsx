@@ -15,7 +15,7 @@ export function getTeamList(contestantData :ITableRowData[]): any {
     let firstContestantFound: boolean = false;
     let teamStarted: boolean = false;
 
-    contestantData.forEach((element, index) => {
+    contestantData.forEach((element) => {
 
         const status = element.col4;
         const teamName = element.name;
@@ -88,7 +88,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
     const contestants: BBHouseGuest[] = [];
     let previousExitDay: number = 0;
 
-    contestantData.forEach((element, index) => {
+    contestantData.forEach((element) => {
 
         if (isPartialContestantData(element)) {
             return;
@@ -195,4 +195,3 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
 
     return { props: { runners: contestantsSortedByEliminationOrder }};
 }
-

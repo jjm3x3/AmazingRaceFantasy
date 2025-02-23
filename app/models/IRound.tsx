@@ -4,4 +4,3 @@ export default interface IRound {
     round: number
     contestantRoundData: IContestantRoundData[]
 };
-

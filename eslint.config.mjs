@@ -31,10 +31,6 @@ export default [
             quotes: [
                 "error",
                 "double"
-            ],
-            semi: [
-                "error",
-                "always"
             ]
         }
     }];
