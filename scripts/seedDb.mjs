@@ -6,3 +6,8 @@ console.log("Seeding the db")
 console.log(CONTESTANT_LEAGUE_DATA)
 
 console.log("Connecting to: '" + process.env.KV_REST_API_URL + "'")
+
+const redis = new Redis({
+    url: process.env.KV_REST_API_URL,
+    token: process.env.KV_REST_API_TOKEN
+})
