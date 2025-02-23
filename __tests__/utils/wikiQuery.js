@@ -214,9 +214,6 @@ describe("getTeamList", () => {
     });
 
     it("should not create any teams when all showContestants are missing the minimum necessary data to be created", () => {
-        const firstContestantsFirstName = "Some";
-        const secondContestantsFirstName = "SomeGuys";
-
         const listOfContestants = [
             {
                 col4: "Participating"
@@ -237,9 +234,6 @@ describe("getTeamList", () => {
     });
 
     it("should create as many teams as it can alternating after finding the first and even adding a partial team when there is not a match at the end", () => {
-        const firstContestantsFirstName = "Some";
-        const secondContestantsFirstName = "SomeGuys";
-
         const listOfContestants = [
             {
                 col4: "Participating"
@@ -395,7 +389,6 @@ describe("getCompetingEntityList", () => {
 
     it("Should parse out expelled day from their status when it indicates they were expelled", () => {
         const firstContestantsFirstName = "Some";
-        const secondContestantsFirstName = "SomeGuys";
         const expectedEliminationOrder = 1;
 
         const listOfContestants = [

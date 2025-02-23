@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { getTeamList, ITeam } from "../utils/wikiQuery";
 import { ITableRowData } from "../utils/wikiFetch";
 import Team from "../models/Team";
