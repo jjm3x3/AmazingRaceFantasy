@@ -11,6 +11,11 @@ const redis = new Redis({
 })
 
 for(const user of CONTESTANT_LEAGUE_DATA) {
+    if (user.userId == null) {
+        console.warn(`The user named: '${user.name}'`)
+        continue
+    }
+
     console.log("Setting user '" + user.name + "'")
 
 }
