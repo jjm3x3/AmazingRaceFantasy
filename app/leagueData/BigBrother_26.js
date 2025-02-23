@@ -8,6 +8,7 @@ const CONTESTANT_LEAGUE_DATA = [
     },
     {
         name: "Duncan",
+        userId: "268C3B55-6803-436F-BE14-D30052481EAC",
         ranking: [ "Leah Peters", "Quinn Martin", "Brooklyn Rivera", "Cam Sullivan-Brown", "Makensy Manbeck", "Chelsie Baham", "T'kor Clottey", "Joseph Rodriguez", "Tucker Des Lauriers", "Rubina Bernabe", "Lisa Weintraub", "Angela Murray", "Kimo Apaka", "Matt Hardeman", "Cedric Hodges", "Kenney Kelley" ]
     },
     {
@@ -22,10 +23,12 @@ const CONTESTANT_LEAGUE_DATA = [
     },
     {
         name: "Sean",
+        userId: "EABAE0D9-0AD0-4F2F-97E3-DF22212A375F",
         ranking: [ "Cam Sullivan-Brown", "Joseph Rodriguez", "Leah Peters", "Brooklyn Rivera", "Kenney Kelley", "T'kor Clottey", "Cedric Hodges", "Matt Hardeman", "Makensy Manbeck", "Kimo Apaka", "Tucker Des Lauriers", "Quinn Martin", "Angela Murray", "Rubina Bernabe", "Lisa Weintraub", "Chelsie Baham" ]
     },
     {
         name: "Susannah",
+        userId: "89E9072C-3A9B-4360-AAD9-9331B8449BF3",
         ranking: [ "Cam Sullivan-Brown", "Kimo Apaka", "Joseph Rodriguez", "Kenney Kelley", "Brooklyn Rivera", "Lisa Weintraub", "Makensy Manbeck", "Matt Hardeman", "Tucker Des Lauriers", "Quinn Martin", "Leah Peters", "T'kor Clottey", "Rubina Bernabe", "Angela Murray", "Chelsie Baham", "Cedric Hodges" ]
     }
 ]
