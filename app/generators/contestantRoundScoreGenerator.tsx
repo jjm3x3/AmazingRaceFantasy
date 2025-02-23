@@ -10,6 +10,7 @@ interface Dictionary<T> {
 
 export async function generateContestantRoundScores(dataFetcher: () => Promise<ITableRowData[]>, getCompetitorList: any, listOfContestantLeagueData: any[]) {
     const wikiData = await dataFetcher();
+    // TODO: come up with better names for getCompetitorList and pageData
     const pageData = getCompetitorList(wikiData);
     const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
             acc[Team.getKey(t.teamName)] = t
