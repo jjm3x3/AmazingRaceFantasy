@@ -8,6 +8,7 @@ const CONTESTANT_LEAGUE_DATA = [
     },
     {
         name: "Cindy",
+        userId: "685AAAF4-97DB-4266-A0B7-E61E2C6CA22E",
         ranking: [ "Jocelyn Chao & Victor Limary", "Corey McArthur & Rob McArthur", "Ian Todd & Joe Moskowitz", "Liam Hykel & Yeremi Hykel", "Ashlie Martin & Todd Martin", "Garrett Smith & Joel Strasser", "Anna Leigh Wilson & Steve Cargile", "Lena Franklin & Morgan Franklin", "Greg Franklin & John Franklin", "Andrea Simpson & Malaina Hatcher", "Chelsea Day & Robbin Tomich", "Elizabeth Rivera & Iliana Rivera", "Alexandra Lichtor & Sheridan Lichtor" ]
     },
     {
