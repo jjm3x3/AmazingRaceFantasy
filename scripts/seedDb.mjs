@@ -23,5 +23,5 @@ for(const user of CONTESTANT_LEAGUE_DATA) {
     await redis.json.set("amazing_race:35:"+user.userId, "$", userString)
 }
 
-const userCursor = await redis.scan("0", {match: "amazing_race:35:*"})
-console.log(userCursor)
+const fullCursor = await redis.scan("0", {match: "*"})
+console.log(fullCursor)
