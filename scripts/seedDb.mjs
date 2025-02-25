@@ -10,5 +10,24 @@ const redis = new Redis({
     token: process.env.KV_REST_API_TOKEN
 });
 
-const userCursor = await redis.scan("0", {match: "amazing_race:35:*"});
-console.log(userCursor);
+const userCursor = await redis.scan("0", {match: "amazing_race:35:*"})
+
+for (const aKey of userCursor[1]) { //list of keys
+    redis.del(aKey)
+}
+
+for(const user of CONTESTANT_LEAGUE_DATA) {
+    if (user.userId == null) {
+        console.warn(`The user named: '${user.name}'`)
+        continue
+    }
+
+    console.log("Setting user '" + user.name + "'")
+
+    const userString = JSON.stringify(user)
+
+    await redis.json.set("amazing_race:35:"+user.userId, "$", userString)
+}
+
+const fullCursor = await redis.scan("0", {match: "*"})
+console.log(fullCursor)
