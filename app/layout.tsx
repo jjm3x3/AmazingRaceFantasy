@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'A website for all of your fantasy league needs'
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children
 }: {
   children: React.ReactNode
@@ -20,14 +20,4 @@ export default async function RootLayout({
       </body>
     </html>
   )
-}
-
-export async function generateStaticParams() {
-  // const posts = await fetch('https://.../posts').then((res) => res.json())
-  const bb26 = {
-    showStatus: 'active',
-    showAndSeason: 'big-brother-26'
-  }
-  const shows = [bb26];
-  return shows;
 }
