@@ -2,7 +2,7 @@ import fs from 'fs';
 import { cwd } from 'process';
 import { join } from 'path';
 
-interface ILeagueLink {
+export interface ILeagueLink {
     name: string
     subpages: IPage[]
 }
