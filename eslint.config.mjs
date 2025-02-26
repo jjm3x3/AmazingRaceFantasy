@@ -23,6 +23,8 @@ export default [
         rules: {
             "react/react-in-jsx-scope": "off",
             "react/no-unescaped-entities": "off",
+            "no-unused-vars": "off",
+            "@typescript-eslint/no-unused-vars": "off",
             indent: [
                 "error",
                 4
