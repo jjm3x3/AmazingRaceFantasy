@@ -37,7 +37,7 @@ async function recreateLeagueData(leagueKeyPrefix, dataRepo) {
 
     for(const user of dataRepo.CONTESTANT_LEAGUE_DATA) {
         if (user.userId == null) {
-            console.warn(`Cannot insert user to leage: '${leagueKeyPrefix}' with name: '${user.name}', they are missing a userId`)
+            console.warn(`Cannot insert user to league: '${leagueKeyPrefix}' with name: '${user.name}', they are missing a userId`)
             continue
         }
 
