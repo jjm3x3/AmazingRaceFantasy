@@ -1,5 +1,7 @@
-import { CONTESTANT_LEAGUE_DATA } from "../app/leagueData/AmazingRace_35.js";
-import { Redis } from "@upstash/redis";
+import amazingRace35Data from "../app/leagueData/AmazingRace_35.js"
+import amazingRace36Data from "../app/leagueData/AmazingRace_36.js"
+import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
+import { Redis } from "@upstash/redis"
 
 console.log("Seeding the db");
 
@@ -10,24 +12,39 @@ const redis = new Redis({
     token: process.env.KV_REST_API_TOKEN
 });
 
-const userCursor = await redis.scan("0", {match: "amazing_race:35:*"})
+await recreateLeagueData("amazing_race:35:", amazingRace35Data)
+await recreateLeagueData("amazing_race:36:", amazingRace36Data)
+await recreateLeagueData("big_brother:26:", bigBrother26Data)
 
-for (const aKey of userCursor[1]) { //list of keys
-    redis.del(aKey)
+let fullCursor = await redis.scan("0", {match: "*"})
+console.log(fullCursor)
+
+let nextId = fullCursor[0]
+while (nextId != 0) {
+    console.log(`Fetching next scan batch with id: '${nextId}`)
+    fullCursor = await redis.scan(nextId, {match: "*"})
+    console.log(fullCursor)
+    nextId = fullCursor[0]
 }
 
-for(const user of CONTESTANT_LEAGUE_DATA) {
-    if (user.userId == null) {
-        console.warn(`The user named: '${user.name}'`)
-        continue
+async function recreateLeagueData(leagueKeyPrefix, dataRepo) {
+
+    const userCursor = await redis.scan("0", {match: leagueKeyPrefix+"*"})
+
+    for (const aKey of userCursor[1]) { //list of keys
+        redis.del(aKey)
     }
 
-    console.log("Setting user '" + user.name + "'")
+    for(const user of dataRepo.CONTESTANT_LEAGUE_DATA) {
+        if (user.userId == null) {
+            console.warn(`Cannot insert user to league: '${leagueKeyPrefix}' with name: '${user.name}', they are missing a userId`)
+            continue
+        }
 
-    const userString = JSON.stringify(user)
+        console.log(`Setting user to league '${leagueKeyPrefix}' with name: '${user.name}'`)
 
-    await redis.json.set("amazing_race:35:"+user.userId, "$", userString)
+        const userString = JSON.stringify(user)
+
+        await redis.json.set(leagueKeyPrefix+user.userId, "$", userString)
+    }
 }
-
-const fullCursor = await redis.scan("0", {match: "*"})
-console.log(fullCursor)
