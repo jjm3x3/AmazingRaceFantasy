@@ -27,11 +27,11 @@ export function generateStaticParams() {
       const showSeason = showAndSeason[1].replace('.js', '');
       const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
       // Exporting properties as params
-      const showProperties = {
+      const showPropertiesObj = {
         showNameAndSeason,
         showStatus: LEAGUE_STATUS
       }
-      shows.push(showProperties);
+      shows.push(showPropertiesObj);
     });
     return shows;
 }
