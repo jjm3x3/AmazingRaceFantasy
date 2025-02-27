@@ -72,7 +72,7 @@ export default async function Scoring({ params }: {
             <br/>
             <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
             {/* Only render if Google Sheet link is present */}
-            {GOOGLE_SHEET_URL.length > 0 && <p>{PRE_GOOGLE_SHEETS_LINK_TEXT} <a className="standard-link" href={GOOGLE_SHEET_URL}> {POST_GOOGLE_SHEETS_LINK_TEXT}</p>}
+            {GOOGLE_SHEET_URL.length > 0 && <p>{PRE_GOOGLE_SHEETS_LINK_TEXT} <a className="standard-link" href={GOOGLE_SHEET_URL}>this google sheet</a> {POST_GOOGLE_SHEETS_LINK_TEXT}</p>}
             <br/>
         </div>
     )
