@@ -3,6 +3,7 @@ import { getCompetingEntityList } from "../../../utils/wikiQuery"
 import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
 
+export const dynamicParams = false
 
 interface showProperties {
   showNameAndSeason: string,
