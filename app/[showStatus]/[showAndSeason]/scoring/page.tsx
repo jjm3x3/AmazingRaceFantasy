@@ -3,12 +3,11 @@ import { getCompetingEntityList } from "../../../utils/wikiQuery"
 import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
 
+
 interface showProperties {
   showNameAndSeason: string,
   showStatus: string
 }
-
-export const dynamic = 'force-static'
 
 // Creates routes for scoring
 export function generateStaticParams() {
@@ -39,7 +38,7 @@ export function generateStaticParams() {
 }
 
 export default async function Scoring({ params }: {
-    params: Promise<{ showStatus: string, showAndSeason: string }>
+    params: Promise<{ showStatus: string; showAndSeason: string }>
   }) {
     // Wait for parsing and retrieving params
     const { showAndSeason } = await params;
