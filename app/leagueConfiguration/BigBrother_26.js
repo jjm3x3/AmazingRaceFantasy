@@ -9,8 +9,10 @@ const LEAGUE_STATUS = "active"
 
 const CAST_PHRASE = "Houseguests"
 
+const COMPETING_ENTITY_NAME = "house guests";
+
 const PRE_GOOGLE_SHEETS_LINK_TEXT = "This season's contestant data has been sourced from";
 
 const POST_GOOGLE_SHEETS_LINK_TEXT = "which was populated using a google form.";
 
-module.exports = { WIKI_PAGE_URL, WIKI_API_URL, GOOGLE_SHEET_URL, LEAGUE_STATUS, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT }
+module.exports = { WIKI_PAGE_URL, WIKI_API_URL, GOOGLE_SHEET_URL, LEAGUE_STATUS, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT, COMPETING_ENTITY_NAME }

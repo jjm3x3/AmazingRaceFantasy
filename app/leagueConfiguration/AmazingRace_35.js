@@ -8,8 +8,10 @@ const LEAGUE_STATUS = "archive"
 
 const CAST_PHRASE = "Cast"
 
+const COMPETING_ENTITY_NAME = "team";
+
 const PRE_GOOGLE_SHEETS_LINK_TEXT = "This season was largely managed by Andrew Jaicks using";
 
 const POST_GOOGLE_SHEETS_LINK_TEXT = "which was populated by him based on SMSs sent by the league contestants.";
 
-module.exports = { WIKI_PAGE_URL, WIKI_API_URL, GOOGLE_SHEET_URL, LEAGUE_STATUS, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT }
+module.exports = { WIKI_PAGE_URL, WIKI_API_URL, GOOGLE_SHEET_URL, LEAGUE_STATUS, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT, COMPETING_ENTITY_NAME }
