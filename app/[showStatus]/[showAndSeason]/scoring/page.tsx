@@ -20,7 +20,7 @@ export async function generateStaticParams() {
     const shows:Array<showProperties> = [];
     await fs.readdirSync(pathToLeagueData).forEach(async (file: string) => {
       // Needed status for url
-      const { LEAGUE_STATUS } = require(`../../../leagueConfiguration/${file.replace('.js', '.tsx')}`);
+      const { LEAGUE_STATUS } = await require(`../../../leagueConfiguration/${file.replace('.js', '.tsx')}`);
       // Parses filename and converts it to url format
       const showAndSeason = file.split('_');
       const showNameFormatted = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/).join('-').toLowerCase();
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
         showNameAndSeason,
         showStatus: LEAGUE_STATUS
       }
-      shows.push(showPropertiesObj);
+      await shows.push(showPropertiesObj);
     });
     return shows;
 }
