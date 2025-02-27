@@ -8,6 +8,8 @@ interface showProperties {
   showStatus: string
 }
 
+export const dynamic = 'force-static'
+
 // Creates routes for scoring
 export function generateStaticParams() {
   
