@@ -11,7 +11,8 @@
     "test:watch": "jest --watch",
     "format": "./node_modules/.bin/eslint -c 'eslint.config.mjs' .",
     "format:fix": "./node_modules/.bin/eslint -c 'eslint.config.mjs' --fix .",
-    "seed": "node --env-file=.env.local scripts/seedDb.mjs"
+    "seed:dev": "node --env-file=.env.development.local scripts/seedDb.mjs",
+    "seed:prod": "node --env-file=.env.production.local scripts/seedDb.mjs"
   },
   "engines": {
     "node": "^20.9.0"
