@@ -31,6 +31,6 @@ const CONTESTANT_LEAGUE_DATA = [
         userId: "89E9072C-3A9B-4360-AAD9-9331B8449BF3",
         ranking: [ "Cam Sullivan-Brown", "Kimo Apaka", "Joseph Rodriguez", "Kenney Kelley", "Brooklyn Rivera", "Lisa Weintraub", "Makensy Manbeck", "Matt Hardeman", "Tucker Des Lauriers", "Quinn Martin", "Leah Peters", "T'kor Clottey", "Rubina Bernabe", "Angela Murray", "Chelsie Baham", "Cedric Hodges" ]
     }
-]
+];
 
-module.exports = { CONTESTANT_LEAGUE_DATA }
+module.exports = { CONTESTANT_LEAGUE_DATA };

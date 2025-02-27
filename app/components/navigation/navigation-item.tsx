@@ -1,5 +1,5 @@
 import { useState } from "react";
-import INavigationItem from '@/app/models/INavigationItem';
+import INavigationItem from "@/app/models/INavigationItem";
 export default function NavigationItem({ inputAttr, labelAttr, listAttr, children, hasSubpages }: INavigationItem) {
     const [isHidden, setIsHidden] = useState(true);
     return (<>
@@ -16,5 +16,5 @@ export default function NavigationItem({ inputAttr, labelAttr, listAttr, childre
             data-testid={labelAttr.testId}
             className={labelAttr.classes }>{labelAttr.content}</label>
         {hasSubpages && <ul className={listAttr.classes}  id={listAttr.id} data-testid={listAttr.testId} aria-hidden={isHidden} hidden={isHidden}>{children}</ul>}
-    </>)
+    </>);
 }

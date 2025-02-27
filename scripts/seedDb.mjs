@@ -3,14 +3,17 @@ import amazingRace36Data from "../app/leagueData/AmazingRace_36.js"
 import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
 import { Redis } from "@upstash/redis"
 
-console.log("Seeding the db")
+console.log("Seeding the db");
 
-console.log("Connecting to: '" + process.env.KV_REST_API_URL + "'")
-
-const redis = new Redis({
+console.log("Setting up db settings bassed on vars in process.env");
+let redisOptions = {
     url: process.env.KV_REST_API_URL,
     token: process.env.KV_REST_API_TOKEN
-})
+};
+
+console.log("Connecting to: '" + redisOptions.url + "'");
+
+const redis = new Redis(redisOptions);
 
 await recreateLeagueData("amazing_race:35:", amazingRace35Data)
 await recreateLeagueData("amazing_race:36:", amazingRace36Data)
