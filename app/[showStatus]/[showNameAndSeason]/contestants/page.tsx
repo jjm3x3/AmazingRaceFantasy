@@ -20,8 +20,6 @@ export function generateStaticParams() {
     const pathToLeagueData = path.join(process.cwd(), 'app', 'leagueConfiguration');
     const shows:Array<showProperties> = [];
     fs.readdirSync(pathToLeagueData).map((file: string) => {
-      console.log(file);
-      console.log(pathToLeagueData)
       // Needed status for url
       const { LEAGUE_STATUS } = require(`../../../leagueConfiguration/${file}`);
       // Parses filename and converts it to url format
