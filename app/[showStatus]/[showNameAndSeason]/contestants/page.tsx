@@ -16,10 +16,10 @@ export function generateStaticParams() {
     const fs = require('fs');
     const path = require('path');
     
-    // Based on availability in leagueData
-    const pathToLeagueData = path.join(process.cwd(), 'app', 'leagueConfiguration');
+    // Based on availability in leagueConfiguration
+    const pathToLeagueConfiguration = path.join(process.cwd(), 'app', 'leagueConfiguration');
     const shows:Array<showProperties> = [];
-    fs.readdirSync(pathToLeagueData).map((file: string) => {
+    fs.readdirSync(pathToLeagueConfiguration).map((file: string) => {
       // Needed status for url
       const { LEAGUE_STATUS } = require(`../../../leagueConfiguration/${file}`);
       // Parses filename and converts it to url format
