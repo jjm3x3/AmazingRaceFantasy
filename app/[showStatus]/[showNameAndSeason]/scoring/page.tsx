@@ -48,7 +48,7 @@ export default async function Scoring({ params }: {
     const { showNameAndSeason } = await params;
     // Formatting to file naming convention
     const showAndSeasonArr = showNameAndSeason.split('-');
-    const showSeason = showAndSeasonArr[showAndSeasonArr.length - 1];
+    const showSeason = showAndSeasonArr.at(-1);
     showAndSeasonArr.pop();
     const showName = showAndSeasonArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join('');
     const fileName = `${showName}_${showSeason}`;
