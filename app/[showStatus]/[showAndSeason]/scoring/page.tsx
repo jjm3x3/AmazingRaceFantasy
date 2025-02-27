@@ -8,10 +8,6 @@ interface showProperties {
   showStatus: string
 }
 
-export const revalidate = 60
-
-export const dynamicParams = true
-
 // Creates routes for scoring
 export function generateStaticParams() {
   
