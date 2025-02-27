@@ -24,10 +24,10 @@ export default [
             "react/react-in-jsx-scope": "off",
             "react/no-unescaped-entities": "off",
             "no-unused-vars": ["error", {
-                args: "none"
+                argsIgnorePattern: "^_[a-zA-Z]+"
             }],
             "@typescript-eslint/no-unused-vars": ["error", {
-                args: "none"
+                argsIgnorePattern: "^_[a-zA-Z]+"
             }],
             indent: [
                 "error",

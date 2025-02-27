@@ -4,7 +4,7 @@ describe("teamListUtils shouldBeScored", () => {
     it("should be false when there is exactly one team and we are on the first round", () => {
         // Arrange
         const aTeam = {
-            isInPlay: (round) => true
+            isInPlay: (_round) => true
         };
         const teamList = [aTeam];
 
@@ -22,7 +22,7 @@ describe("teamListUtils shouldBeScored", () => {
 
         // Arrange
         const aTeam = {
-            isInPlay: (round) => true
+            isInPlay: (_round) => true
         };
         const teamList = [{}, aTeam];
 
@@ -37,7 +37,7 @@ describe("teamListUtils shouldBeScored", () => {
 
         // Arrange
         const aTeam = {
-            isInPlay: (round) => true
+            isInPlay: (_round) => true
         };
         const teamList = [{}, aTeam];
 
@@ -51,7 +51,7 @@ describe("teamListUtils shouldBeScored", () => {
     it("should be true when the target team is in the 2nd position or second from the end of array and its the first round", () => {
         // Arrange
         const aTeam = {
-            isInPlay: (round) => true
+            isInPlay: (_round) => true
         };
         const teamList = [aTeam, {}];
 
