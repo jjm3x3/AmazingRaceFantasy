@@ -54,7 +54,7 @@ export default async function Scoring({ params }: {
     const fileName = `${showName}_${showSeason}`;
     // "Dynamically" (still static site generated) retrieving modules
     const { CONTESTANT_LEAGUE_DATA } = await require(`../../../leagueData/${fileName}.js`);
-    const { WIKI_API_URL, GOOGLE_SHEET_URL, CAST_PHRASE } = await require(`../../../leagueConfiguration/${fileName}.js`);
+    const { WIKI_API_URL, GOOGLE_SHEET_URL, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT } = await require(`../../../leagueConfiguration/${fileName}.js`);
 
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, CAST_PHRASE);
     let listOfContestantRoundLists;
@@ -72,7 +72,7 @@ export default async function Scoring({ params }: {
             <br/>
             <ContestantSelector listOfContestantRoundLists={listOfContestantRoundLists}/>
             {/* Only render if Google Sheet link is present */}
-            {GOOGLE_SHEET_URL.length > 0 && <p>This season's contestant data has been sourced from <a className="standard-link" href={GOOGLE_SHEET_URL}>this google sheet</a> which was populated using a google form.</p>}
+            {GOOGLE_SHEET_URL.length > 0 && <p>{PRE_GOOGLE_SHEETS_LINK_TEXT} <a className="standard-link" href={GOOGLE_SHEET_URL}> {POST_GOOGLE_SHEETS_LINK_TEXT}</p>}
             <br/>
         </div>
     )

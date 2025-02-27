@@ -7,4 +7,8 @@ const LEAGUE_STATUS = "active"
 
 const CAST_PHRASE = "Contestants"
 
-module.exports = { WIKI_PAGE_URL, WIKI_API_URL, LEAGUE_STATUS, CAST_PHRASE }
+const PRE_GOOGLE_SHEETS_LINK_TEXT = "This season's contestant data has been sourced from";
+
+const POST_GOOGLE_SHEETS_LINK_TEXT = "which was populated using a google form.";
+
+module.exports = { WIKI_PAGE_URL, WIKI_API_URL, LEAGUE_STATUS, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT }
