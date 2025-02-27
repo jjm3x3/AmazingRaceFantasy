@@ -22,8 +22,10 @@ export function generateStaticParams() {
     const pathToLeagueData = path.join(process.cwd(), 'app', 'leagueData');
     const shows:Array<showProperties> = [];
     fs.readdirSync(pathToLeagueData).map((file: string) => {
+      console.log(file);
+      console.log(pathToLeagueData)
       // Needed status for url
-      const { LEAGUE_STATUS } = require(`../../../leagueConfiguration/${file.replace('.js', '.tsx')}`);
+      const { LEAGUE_STATUS } = require(`../../../leagueConfiguration/${file}`);
       // Parses filename and converts it to url format
       const showAndSeason = file.split('_');
       const showNameFormatted = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/).join('-').toLowerCase();
@@ -52,7 +54,7 @@ export default async function Scoring({ params }: {
     const fileName = `${showName}_${showSeason}`;
     // "Dynamically" (still static site generated) retrieving modules
     const { CONTESTANT_LEAGUE_DATA } = await require(`../../../leagueData/${fileName}.js`);
-    const { WIKI_API_URL, GOOGLE_SHEET_URL, CAST_PHRASE } = await require(`../../../leagueConfiguration/${fileName}.tsx`);
+    const { WIKI_API_URL, GOOGLE_SHEET_URL, CAST_PHRASE } = await require(`../../../leagueConfiguration/${fileName}.js`);
 
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, CAST_PHRASE);
     let listOfContestantRoundLists;
