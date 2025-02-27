@@ -8,8 +8,13 @@ interface showProperties {
   showStatus: string
 }
 
+export const revalidate = 60
+
+export const dynamicParams = true
+
 // Creates routes for scoring
 export function generateStaticParams() {
+  
     // Necessary Node modules to fetch data
     const fs = require('fs');
     const path = require('path');
