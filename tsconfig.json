@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/leagueConfiguration/Survivor_47.js", "app/leagueConfiguration/BigBrother_26.js", "app/leagueConfiguration/AmazingRace_36.js", "app/leagueConfiguration/AmazingRace_35.js"],
   "exclude": ["node_modules"]
 }
