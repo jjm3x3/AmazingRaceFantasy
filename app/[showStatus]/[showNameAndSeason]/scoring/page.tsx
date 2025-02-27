@@ -40,13 +40,13 @@ export function generateStaticParams() {
     return shows;
 }
 
-async function getContestantData(): Promise<any[]> {
+async function getContestantData(keyPrefix: string): Promise<any[]> {
     const redis = new Redis({
         url: process.env.KV_REST_API_URL,
         token: process.env.KV_REST_API_TOKEN
     })
 
-    const userCursor = await redis.scan("0", {match: "amazing_race:35:*"})
+    const userCursor = await redis.scan("0", {match: keyPrefix})
     console.log(userCursor)
     const userLeagueKeys = userCursor[1] // get's the list of keys in the cursor
     const userList = []
@@ -72,12 +72,12 @@ export default async function Scoring({ params }: {
     const fileName = `${showName}_${showSeason}`;
     // "Dynamically" (still static site generated) retrieving modules
     const { CONTESTANT_LEAGUE_DATA } = await require(`../../../leagueData/${fileName}.js`);
-    const { WIKI_API_URL, GOOGLE_SHEET_URL, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT } = await require(`../../../leagueConfiguration/${fileName}.js`);
+    const { WIKI_API_URL, GOOGLE_SHEET_URL, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT, CONTESTANT_LEAGUE_DATA_KEY_PREFIX } = await require(`../../../leagueConfiguration/${fileName}.js`);
 
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, CAST_PHRASE);
     let listOfContestantRoundLists;
 
-    const contestantRoundData = await getContestantData();
+    const contestantRoundData = await getContestantData(CONTESTANT_LEAGUE_DATA_KEY_PREFIX);
 
     // Check for Amazing Race due to additional param
     if(showName.match('AmazingRace')){
