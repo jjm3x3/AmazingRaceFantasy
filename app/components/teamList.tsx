@@ -1,6 +1,6 @@
-import { Fragment } from 'react'
-import Team from '../models/Team'
-import { shouldBeScored } from '../utils/teamListUtils'
+import { Fragment } from "react";
+import Team from "../models/Team";
+import { shouldBeScored } from "../utils/teamListUtils";
 
 export default function TeamList({ teamList, roundNumber }: { teamList: Team[], roundNumber: number }) {
 
@@ -11,7 +11,7 @@ export default function TeamList({ teamList, roundNumber }: { teamList: Team[], 
                 <p key={t.teamName+roundNumber}>
                     {shouldBeScored(teamList, t, roundNumber) ? t.friendlyName() : <s>{t.friendlyName()}</s> }
                 </p>
-            </Fragment>)
+            </Fragment>);
         })}
-    </div>
+    </div>;
 }

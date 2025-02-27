@@ -1,16 +1,16 @@
-import { Fragment } from 'react'
-import TeamList from '../components/teamList'
-import Team from '../models/Team'
+import { Fragment } from "react";
+import TeamList from "../components/teamList";
+import Team from "../models/Team";
 
 export default function Round({
-        roundNumber,
-        perfectTeamList,
-        contestantTeamList,
-        perfectWeekScore,
-        contestantWeekScore,
-        perfectGrandTotal,
-        contestantGrandTotal
-    }: {
+    roundNumber,
+    perfectTeamList,
+    contestantTeamList,
+    perfectWeekScore,
+    contestantWeekScore,
+    perfectGrandTotal,
+    contestantGrandTotal
+}: {
         roundNumber: number
         perfectTeamList: Team[]
         contestantTeamList: Team[]
@@ -35,5 +35,5 @@ export default function Round({
         <p key={"grandTotal"+roundNumber}className="text-center">Grand Total: {contestantGrandTotal}/{perfectGrandTotal}</p>
         <br/>
         <br/>
-    </Fragment>)
+    </Fragment>);
 }

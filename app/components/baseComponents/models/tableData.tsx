@@ -10,7 +10,7 @@ export interface TableFooter {
 
 export interface TableData {
     caption?: string, 
-    columnNames: Array<String>,
+    columnNames: Array<string>,
     rows: any[],
     tableFooter?: TableFooter[]
 }
