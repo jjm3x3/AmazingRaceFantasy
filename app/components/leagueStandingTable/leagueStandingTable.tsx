@@ -7,7 +7,7 @@ export default async function LeagueStandingTable({ contestantsScores }:{contest
     const tableData = {
         columnNames: tableColumnNames,
         rows: contestantsScores.at(-1).contestantRoundData
-    }
+    };
 
     tableData.rows.sort((a: any, b: any) => {
         const aScore = a.totalScore;
@@ -18,9 +18,9 @@ export default async function LeagueStandingTable({ contestantsScores }:{contest
 
     tableData.rows.map((tableRow: any, index: number) => {
         const tableRowWithRank = tableRow;
-        tableRowWithRank['rank'] = index + 1;
+        tableRowWithRank["rank"] = index + 1;
         return tableRowWithRank;
     });
 
-    return <Table tableClassName={`flex-auto ${styles.table}`} tableData={tableData}/>
+    return <Table tableClassName={`flex-auto ${styles.table}`} tableData={tableData}/>;
 }
