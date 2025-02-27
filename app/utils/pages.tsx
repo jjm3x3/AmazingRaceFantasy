@@ -13,58 +13,48 @@ interface IPage {
 }
 
 export function getPages(): ILeagueLink[] {
-    const appLevelDir = join(cwd(), "app");
-    const currentDirFilesList = fs.readdirSync(appLevelDir);
-    let archiveDirFilesList: string[] = [];
-    const currentBBLeague = "big-brother-26";
-    const currentSurvivorLeague = "survivor-47";
-    const pages: ILeagueLink[] = [
-        {
-            name: "Current (Survivor)",
-            subpages: [{
-                name: "Contestants",
-                path: "/active/" + currentSurvivorLeague + "/contestants"
-            }]
-        },
-        {
-            name: "Current (Big Brother)",
-            subpages: [{
-                name: "Contestants",
-                path: "/active/" + currentBBLeague + "/contestants"
-            }, {
-                name: "Scoring",
-                path: "/active/" + currentBBLeague + "/scoring"
-            }, {
-                name: "League Standing",
-                path: "/active/" + currentBBLeague + "/league-standing"
-            }]
+    // Necessary Node modules to fetch data
+    const fs = require('fs');
+    const path = require('path');
+    
+    // Based on availability in leagueConfiguration
+    const pathToLeagueData = path.join(process.cwd(), 'app', 'leagueConfiguration');
+    const paths:Array<ILeagueLink> = [];
+    fs.readdirSync(pathToLeagueData).map((file: string) => {
+      // Needed status for url
+      const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
+      // Parses filename and converts it to url format
+      const showAndSeason = file.split('_');
+      const showNameArray = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/);
+      const showNameFormatted = showNameArray.join('-').toLowerCase();
+      const showSeason = showAndSeason[1].replace('.js', '');
+      const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
+      let friendlyName = `${showNameArray.join(' ')} ${showSeason}`;
+      const contestantSubpage = {
+        name: "Contestants",
+        path: `/${LEAGUE_STATUS}/${showNameAndSeason}/contestants`
+      }
+      const subpages = [contestantSubpage];
+      if(fs.existsSync(path.join(process.cwd(), 'app', 'leagueData'))){
+        const leagueStandingSubpage = {
+            name: "League Standing",
+            path: `/${LEAGUE_STATUS}/${showNameAndSeason}/league-standing`
         }
-    ];
-
-    if (currentDirFilesList.includes("archive")) {
-        archiveDirFilesList = fs.readdirSync(join(appLevelDir,"archive"));
-    }
-    archiveDirFilesList.map(s => {
-        const friendlyName = s.replaceAll("-", " ");
-        // TODO capitalize show name
-        const contestantsPath = "/archive/" + s + "/contestants";
-        const scoringPath = "/archive/" + s + "/scoring";
-        const leagueStandingPath = "/archive/" + s + "/league-standing";
-        const pageObj: ILeagueLink = {
+        const scoringSubpage = {
+            name: "Scoring",
+            path: `/${LEAGUE_STATUS}/${showNameAndSeason}/scoring`
+        }
+        subpages.push(leagueStandingSubpage, scoringSubpage);
+      }
+        if(LEAGUE_STATUS === 'active'){
+            friendlyName = `Current (${friendlyName})`
+        }
+        //   Path object created
+        const pathObj = {
             name: friendlyName,
-            subpages: [{
-                name: "Contestants",
-                path: contestantsPath
-            },{
-                name: "Scoring",
-                path: scoringPath
-            }, {
-                name: "League Standing",
-                path: leagueStandingPath
-            }]
-        };
-        pages.push(pageObj);
-        return pages;
+            subpages: subpages
+        }
+        paths.push(pathObj);
     });
-    return pages;
+    return paths;
 }
