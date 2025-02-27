@@ -9,7 +9,7 @@ interface showProperties {
 }
 
 // Creates routes for scoring
-export function generateStaticParams() {
+export async function generateStaticParams() {
   
     // Necessary Node modules to fetch data
     const fs = require('fs');
@@ -18,7 +18,7 @@ export function generateStaticParams() {
     // Based on availability in leagueData
     const pathToLeagueData = path.join(process.cwd(), 'app', 'leagueData');
     const shows:Array<showProperties> = [];
-    fs.readdirSync(pathToLeagueData).forEach(async (file: string) => {
+    await fs.readdirSync(pathToLeagueData).forEach(async (file: string) => {
       // Needed status for url
       const { LEAGUE_STATUS } = require(`../../../leagueConfiguration/${file.replace('.js', '.tsx')}`);
       // Parses filename and converts it to url format
