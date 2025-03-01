@@ -33,3 +33,11 @@ Since we do not have authentication or authorization on the site for now, all da
 
 #### How to run
 
+1. Get Secrets in appopriate `.env*` file.
+    - _If you are authenticated to Vercel, and have the vercel CLI installed_
+       - Run `vercel env pull` in order to setup the build.
+       - Run `vercel env pull .env.development.local` in order to setup to run the `seed:dev` command.
+       - Run `vercel env pull --environment production .env.production.local` in order to setup to run the `seed:prod` command.
+    - _If you are not authenticated_
+        - Get in touch with @jmeixner in order to arrange some credential exchange
+1. Run either `seed:dev` or `seed:prod` dpending
