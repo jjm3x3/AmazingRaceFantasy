@@ -29,7 +29,7 @@ export function getPages(): ILeagueLink[] {
             name: "Contestants",
             path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/contestants`
         });
-        if(fs.existsSync(path.join(process.cwd(), 'app', 'leagueData', file))){
+        if(fs.existsSync(path.join(process.cwd(), "app", "leagueData", file))){
             const scoringSubpage = {
                 name: "Scoring",
                 path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/scoring`
@@ -40,7 +40,7 @@ export function getPages(): ILeagueLink[] {
             }
             subpages.push(scoringSubpage, leagueStandingSubpage);
         }
-        if(LEAGUE_STATUS === 'active'){
+        if(LEAGUE_STATUS === "active"){
             pageStrings.friendlyName = `Current (${pageStrings.friendlyName})`
         }
         //   Path object created
