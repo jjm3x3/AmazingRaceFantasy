@@ -57,7 +57,7 @@ export default async function LeagueStanding({ params }: {
 
     const getEntityFn = showName.match('AmazingRace') ? getTeamList : getCompetingEntityList;
     
-    const contestantsScores = await generateContestantRoundScores(dataFetcher, getEntityFn, CONTESTANT_LEAGUE_DATA);
+    const contestantsScores = await generateContestantRoundScores(dataFetcher, getEntityFn, contestantRoundData);
     return (
         <div>
             <h1 className="text-3xl text-center">League Standing</h1>
