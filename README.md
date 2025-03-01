@@ -29,3 +29,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ### Seeding The DB
 
+Since we do not have authentication or authorization on the site for now, all data stored in the backend has been stored in source [see leagueData](https://github.com/jjm3x3/AmazingRaceFantasy/tree/main/app/leagueData). In order to transition to a DB backend, we have created two new npm stages under the ["scripts" section of package.json](https://docs.npmjs.com/cli/v7/using-npm/scripts). The are `seed:dev` and `seed:prod`, which will run the [seedDb script](https://github.com/jjm3x3/AmazingRaceFantasy/blob/main/scripts/seedDb.mjs).
+
