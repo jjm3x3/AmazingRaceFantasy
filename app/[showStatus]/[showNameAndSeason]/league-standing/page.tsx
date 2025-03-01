@@ -1,3 +1,4 @@
+import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import { getWikipediaContestantDataFetcher } from "@/app/utils/wikiFetch";
 import LeagueStandingTable from "../../../components/leagueStandingTable/leagueStandingTable";
 import { getTeamList, getCompetingEntityList } from "@/app/utils/wikiQuery";
@@ -25,10 +26,7 @@ export function generateStaticParams() {
       // Needed status for url
       const { LEAGUE_STATUS } = require(`../../../leagueConfiguration/${file}`);
       // Parses filename and converts it to url format
-      const showAndSeason = file.split('_');
-      const showNameFormatted = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/).join('-').toLowerCase();
-      const showSeason = showAndSeason[1].replace('.js', '');
-      const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
+      const { urlSlug: showNameAndSeason } = transformFilenameToSeasonNameRepo(file)
       // Exporting properties as params
       const showPropertiesObj = {
         showNameAndSeason,

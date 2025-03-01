@@ -1,3 +1,5 @@
+import { transformFilenameToSeasonNameRepo } from "./leagueUtils"
+
 interface ILeagueLink {
     name: string
     subpages: IPage[]
@@ -21,34 +23,29 @@ export function getPages(): ILeagueLink[] {
         // Needed status for url
         const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
         // Parses filename and converts it to url format
-        const showAndSeason = file.split("_");
-        const showNameArray = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/);
-        const showNameFormatted = showNameArray.join("-").toLowerCase();
-        const showSeason = showAndSeason[1].replace(".js", "");
-        const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
-        let friendlyName = `${showNameArray.join(" ")} ${showSeason}`;
+        const pageStrings = transformFilenameToSeasonNameRepo(file);
         const subpages:Array<IPage> = [];
         subpages.push({
             name: "Contestants",
-            path: `/${LEAGUE_STATUS}/${showNameAndSeason}/contestants`
+            path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/contestants`
         });
         if(fs.existsSync(path.join(process.cwd(), "app", "leagueData", file))){
             const scoringSubpage = {
                 name: "Scoring",
-                path: `/${LEAGUE_STATUS}/${showNameAndSeason}/scoring`
+                path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/scoring`
             }
             const leagueStandingSubpage = {
                 name: "League Standing",
-                path: `/${LEAGUE_STATUS}/${showNameAndSeason}/league-standing`
+                path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/league-standing`
             }
             subpages.push(scoringSubpage, leagueStandingSubpage);
         }
         if(LEAGUE_STATUS === "active"){
-            friendlyName = `Current (${friendlyName})`
+            pageStrings.friendlyName = `Current (${pageStrings.friendlyName})`
         }
         //   Path object created
         const pathObj = {
-            name: friendlyName,
+            name: pageStrings.friendlyName,
             subpages: subpages
         }
         if(LEAGUE_STATUS === "active"){
@@ -60,3 +57,4 @@ export function getPages(): ILeagueLink[] {
     const paths:Array<ILeagueLink> = activeLeaguePaths.concat(archiveLeaguePaths);
     return paths;
 }
+
