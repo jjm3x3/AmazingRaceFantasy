@@ -21,7 +21,7 @@ export function getPages(): ILeagueLink[] {
         // Needed status for url
         const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
         // Parses filename and converts it to url format
-        const pageStrings = get(file);
+        const pageStrings = transformFilenameToSesonNameRepo(file);
         const subpages:Array<IPage> = [];
         subpages.push({
             name: "Contestants",
@@ -56,7 +56,7 @@ export function getPages(): ILeagueLink[] {
     return paths;
 }
 
-function get(file: string) {
+function transformFilenameToSesonNameRepo(file: string) {
     const showAndSeason = file.split('_');
     const showNameArray = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/);
     const showNameFormatted = showNameArray.join('-').toLowerCase();
