@@ -1,4 +1,4 @@
-import { ITableRowData } from "../utils/wikiFetch";
+import { ITableRowData } from "../dataSources/wikiFetch";
 import { ITeam } from "../utils/wikiQuery";
 import { getNumberOfRounds } from "../utils/teamListUtils";
 import Team from "../models/Team";

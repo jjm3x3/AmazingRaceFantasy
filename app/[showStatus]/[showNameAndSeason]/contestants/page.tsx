@@ -1,6 +1,6 @@
 import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import { getCompetingEntityList, getTeamList, ITeam } from "../../../utils/wikiQuery";
-import { getWikipediaContestantData } from "../../../utils/wikiFetch";
+import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false

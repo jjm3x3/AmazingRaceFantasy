@@ -1,7 +1,7 @@
 import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import ContestantSelector from '../../../components/contestantSelector'
 import { getCompetingEntityList } from "../../../utils/wikiQuery"
-import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
+import { getWikipediaContestantDataFetcher } from '../../../dataSources/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404

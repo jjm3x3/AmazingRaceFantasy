@@ -1,5 +1,5 @@
 import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
-import { getWikipediaContestantDataFetcher } from "@/app/utils/wikiFetch";
+import { getWikipediaContestantDataFetcher } from "@/app/dataSources/wikiFetch"
 import LeagueStandingTable from "../../../components/leagueStandingTable/leagueStandingTable";
 import { getTeamList, getCompetingEntityList } from "@/app/utils/wikiQuery";
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
