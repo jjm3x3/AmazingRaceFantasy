@@ -3,6 +3,7 @@ import { getWikipediaContestantDataFetcher } from "@/app/dataSources/wikiFetch"
 import LeagueStandingTable from "../../../components/leagueStandingTable/leagueStandingTable";
 import { getTeamList, getCompetingEntityList } from "@/app/utils/wikiQuery";
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
+import { getContestantData } from "@/app/dataSources/dbFetch"
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
@@ -52,6 +53,7 @@ export default async function LeagueStanding({ params }: {
     const { CONTESTANT_LEAGUE_DATA } = await require(`../../../leagueData/${fileName}.js`);
     const { WIKI_API_URL, CAST_PHRASE, CONTESTANT_LEAGUE_DATA_KEY_PREFIX } = await require(`../../../leagueConfiguration/${fileName}.js`);
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, CAST_PHRASE);
+    const contestantRoundData = await getContestantData(CONTESTANT_LEAGUE_DATA_KEY_PREFIX);
 
     const getEntityFn = showName.match('AmazingRace') ? getTeamList : getCompetingEntityList;
     
