@@ -12,14 +12,12 @@ export async function getContestantData(keyPrefix: string): Promise<any[]> {
     })
 
     const userCursor = await redis.scan("0", {match: keyPrefix})
-    console.log(userCursor)
     const userLeagueKeys = userCursor[1] // get's the list of keys in the cursor
     const userList = []
     for (let i = 0; i < userLeagueKeys.length; i++) {
         const userData = await redis.json.get(userLeagueKeys[i])
         userList.push(userData)
     }
-    console.log(userList)
 
     return userList
 }
