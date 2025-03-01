@@ -10,40 +10,40 @@ interface IPage {
 
 export function getPages(): ILeagueLink[] {
     // Necessary Node modules to fetch data
-    const fs = require('fs');
-    const path = require('path');
+    const fs = require("fs");
+    const path = require("path");
     
     // Based on availability in leagueConfiguration
-    const pathToLeagueData = path.join(process.cwd(), 'app', 'leagueConfiguration');
+    const pathToLeagueData = path.join(process.cwd(), "app", "leagueConfiguration");
     const activeLeaguePaths:Array<ILeagueLink> = [];
     const archiveLeaguePaths:Array<ILeagueLink> = [];
     fs.readdirSync(pathToLeagueData).map((file: string) => {
-      // Needed status for url
-      const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
-      // Parses filename and converts it to url format
-      const showAndSeason = file.split('_');
-      const showNameArray = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/);
-      const showNameFormatted = showNameArray.join('-').toLowerCase();
-      const showSeason = showAndSeason[1].replace('.js', '');
-      const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
-      let friendlyName = `${showNameArray.join(' ')} ${showSeason}`;
-      const subpages:Array<IPage> = [];
-      subpages.push({
-        name: "Contestants",
-        path: `/${LEAGUE_STATUS}/${showNameAndSeason}/contestants`
-      });
-      if(fs.existsSync(path.join(process.cwd(), 'app', 'leagueData', file))){
-        const scoringSubpage = {
-            name: "Scoring",
-            path: `/${LEAGUE_STATUS}/${showNameAndSeason}/scoring`
+        // Needed status for url
+        const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
+        // Parses filename and converts it to url format
+        const showAndSeason = file.split("_");
+        const showNameArray = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/);
+        const showNameFormatted = showNameArray.join("-").toLowerCase();
+        const showSeason = showAndSeason[1].replace(".js", "");
+        const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
+        let friendlyName = `${showNameArray.join(" ")} ${showSeason}`;
+        const subpages:Array<IPage> = [];
+        subpages.push({
+            name: "Contestants",
+            path: `/${LEAGUE_STATUS}/${showNameAndSeason}/contestants`
+        });
+        if(fs.existsSync(path.join(process.cwd(), "app", "leagueData", file))){
+            const scoringSubpage = {
+                name: "Scoring",
+                path: `/${LEAGUE_STATUS}/${showNameAndSeason}/scoring`
+            }
+            const leagueStandingSubpage = {
+                name: "League Standing",
+                path: `/${LEAGUE_STATUS}/${showNameAndSeason}/league-standing`
+            }
+            subpages.push(scoringSubpage, leagueStandingSubpage);
         }
-        const leagueStandingSubpage = {
-            name: "League Standing",
-            path: `/${LEAGUE_STATUS}/${showNameAndSeason}/league-standing`
-        }
-        subpages.push(scoringSubpage, leagueStandingSubpage);
-      }
-        if(LEAGUE_STATUS === 'active'){
+        if(LEAGUE_STATUS === "active"){
             friendlyName = `Current (${friendlyName})`
         }
         //   Path object created
@@ -51,7 +51,7 @@ export function getPages(): ILeagueLink[] {
             name: friendlyName,
             subpages: subpages
         }
-        if(LEAGUE_STATUS === 'active'){
+        if(LEAGUE_STATUS === "active"){
             activeLeaguePaths.push(pathObj);
         } else {
             archiveLeaguePaths.push(pathObj);
