@@ -10,7 +10,7 @@ export function transformFilenameToSeasonNameRepo(fileName: string): SeasonNameR
     const showNameFormatted = showNameArray.join('-').toLowerCase();
     const showSeason = showAndSeason[1].replace('.js', '');
     const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
-    let friendlyName = `${showNameArray.join(' ')} ${showSeason}`;
+    const friendlyName = `${showNameArray.join(' ')} ${showSeason}`;
 
     return { urlSlug: showNameAndSeason, friendlyName: friendlyName }
 }
