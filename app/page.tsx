@@ -11,7 +11,7 @@ export default function Home() {
     return (
         <>
             <p className="site-notice">
-                A new season of the Big Brother Under way. If you are already participating, jump in <Link className="standard-link" href={noticeLink}>here</Link>. If you would like to participate in this league or future leagues please email inquiry to <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>.
+                A new league for Amazing Race 37 is about to start up. If you are interested please email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link> to receive and invite and stay tuned for next steps.
             </p>
             {pages.map((p: IPage) => { 
                 const keyName = p.name.toLowerCase().replaceAll(" ", "-");
