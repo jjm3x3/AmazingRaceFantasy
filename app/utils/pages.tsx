@@ -31,11 +31,11 @@ export function getPages(): ILeagueLink[] {
       const showSeason = showAndSeason[1].replace('.js', '');
       const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
       let friendlyName = `${showNameArray.join(' ')} ${showSeason}`;
-      const contestantSubpage = {
+      const subpages:Array<IPage> = [];
+      subpages.push({
         name: "Contestants",
         path: `/${LEAGUE_STATUS}/${showNameAndSeason}/contestants`
-      }
-      const subpages = [contestantSubpage];
+      });
       if(fs.existsSync(path.join(process.cwd(), 'app', 'leagueData', file))){
         const scoringSubpage = {
             name: "Scoring",
