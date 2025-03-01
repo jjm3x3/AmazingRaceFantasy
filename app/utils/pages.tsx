@@ -1,7 +1,3 @@
-import fs from "fs";
-import { cwd } from "process";
-import { join } from "path";
-
 interface ILeagueLink {
     name: string
     subpages: IPage[]
@@ -13,58 +9,54 @@ interface IPage {
 }
 
 export function getPages(): ILeagueLink[] {
-    const appLevelDir = join(cwd(), "app");
-    const currentDirFilesList = fs.readdirSync(appLevelDir);
-    let archiveDirFilesList: string[] = [];
-    const currentBBLeague = "big-brother-26";
-    const currentSurvivorLeague = "survivor-47";
-    const pages: ILeagueLink[] = [
-        {
-            name: "Current (Survivor)",
-            subpages: [{
-                name: "Contestants",
-                path: "/active/" + currentSurvivorLeague + "/contestants"
-            }]
-        },
-        {
-            name: "Current (Big Brother)",
-            subpages: [{
-                name: "Contestants",
-                path: "/active/" + currentBBLeague + "/contestants"
-            }, {
+    // Necessary Node modules to fetch data
+    const fs = require("fs");
+    const path = require("path");
+    
+    // Based on availability in leagueConfiguration
+    const pathToLeagueData = path.join(process.cwd(), "app", "leagueConfiguration");
+    const activeLeaguePaths:Array<ILeagueLink> = [];
+    const archiveLeaguePaths:Array<ILeagueLink> = [];
+    fs.readdirSync(pathToLeagueData).map((file: string) => {
+        // Needed status for url
+        const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
+        // Parses filename and converts it to url format
+        const showAndSeason = file.split("_");
+        const showNameArray = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/);
+        const showNameFormatted = showNameArray.join("-").toLowerCase();
+        const showSeason = showAndSeason[1].replace(".js", "");
+        const showNameAndSeason = `${showNameFormatted}-${showSeason}`;
+        let friendlyName = `${showNameArray.join(" ")} ${showSeason}`;
+        const subpages:Array<IPage> = [];
+        subpages.push({
+            name: "Contestants",
+            path: `/${LEAGUE_STATUS}/${showNameAndSeason}/contestants`
+        });
+        if(fs.existsSync(path.join(process.cwd(), "app", "leagueData", file))){
+            const scoringSubpage = {
                 name: "Scoring",
-                path: "/active/" + currentBBLeague + "/scoring"
-            }, {
+                path: `/${LEAGUE_STATUS}/${showNameAndSeason}/scoring`
+            }
+            const leagueStandingSubpage = {
                 name: "League Standing",
-                path: "/active/" + currentBBLeague + "/league-standing"
-            }]
+                path: `/${LEAGUE_STATUS}/${showNameAndSeason}/league-standing`
+            }
+            subpages.push(scoringSubpage, leagueStandingSubpage);
         }
-    ];
-
-    if (currentDirFilesList.includes("archive")) {
-        archiveDirFilesList = fs.readdirSync(join(appLevelDir,"archive"));
-    }
-    archiveDirFilesList.map(s => {
-        const friendlyName = s.replaceAll("-", " ");
-        // TODO capitalize show name
-        const contestantsPath = "/archive/" + s + "/contestants";
-        const scoringPath = "/archive/" + s + "/scoring";
-        const leagueStandingPath = "/archive/" + s + "/league-standing";
-        const pageObj: ILeagueLink = {
+        if(LEAGUE_STATUS === "active"){
+            friendlyName = `Current (${friendlyName})`
+        }
+        //   Path object created
+        const pathObj = {
             name: friendlyName,
-            subpages: [{
-                name: "Contestants",
-                path: contestantsPath
-            },{
-                name: "Scoring",
-                path: scoringPath
-            }, {
-                name: "League Standing",
-                path: leagueStandingPath
-            }]
-        };
-        pages.push(pageObj);
-        return pages;
+            subpages: subpages
+        }
+        if(LEAGUE_STATUS === "active"){
+            activeLeaguePaths.push(pathObj);
+        } else {
+            archiveLeaguePaths.push(pathObj);
+        }
     });
-    return pages;
+    const paths:Array<ILeagueLink> = activeLeaguePaths.concat(archiveLeaguePaths);
+    return paths;
 }
