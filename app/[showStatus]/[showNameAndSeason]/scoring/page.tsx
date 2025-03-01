@@ -41,6 +41,11 @@ export function generateStaticParams() {
 }
 
 async function getContestantData(keyPrefix: string): Promise<any[]> {
+
+    if (keyPrefix === undefined) {
+        throw new Error(`Unable to getContestantData. Provided param 'keySpace' is undefined but must have a value"`);
+    }
+
     const redis = new Redis({
         url: process.env.KV_REST_API_URL,
         token: process.env.KV_REST_API_TOKEN
