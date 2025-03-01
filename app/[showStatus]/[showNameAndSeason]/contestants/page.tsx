@@ -47,9 +47,10 @@ export default async function Contestants({ params }: {
     const showAndSeasonArr = showNameAndSeason.split('-');
     const showSeason = showAndSeasonArr.at(-1);
     showAndSeasonArr.pop();
-    const showName = showAndSeasonArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
-    const friendlyShowName = showName.join(' ');
-    const fileName = `${showName.join('')}_${showSeason}`;
+    const showNameArr = showAndSeasonArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
+    const showName = showNameArr.join('');
+    const friendlyShowName = showNameArr.join(' ');
+    const fileName = `${showName}_${showSeason}`;
     // "Dynamically" (still static site generated) retrieving modules
     const { WIKI_API_URL, WIKI_PAGE_URL, CAST_PHRASE, COMPETING_ENTITY_NAME } = await require(`../../../leagueConfiguration/${fileName}.js`);
 
