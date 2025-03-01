@@ -56,8 +56,8 @@ export function getPages(): ILeagueLink[] {
     return paths;
 }
 
-function transformFilenameToSesonNameRepo(file: string) {
-    const showAndSeason = file.split('_');
+function transformFilenameToSesonNameRepo(fileName: string) {
+    const showAndSeason = fileName.split('_');
     const showNameArray = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/);
     const showNameFormatted = showNameArray.join('-').toLowerCase();
     const showSeason = showAndSeason[1].replace('.js', '');
