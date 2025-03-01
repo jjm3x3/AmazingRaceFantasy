@@ -47,7 +47,9 @@ export default async function Contestants({ params }: {
     const showAndSeasonArr = showNameAndSeason.split('-');
     const showSeason = showAndSeasonArr.at(-1);
     showAndSeasonArr.pop();
-    const showName = showAndSeasonArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join('');
+    const showNameArr = showAndSeasonArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
+    const showName = showNameArr.join('');
+    const friendlyShowName = showNameArr.join(' ');
     const fileName = `${showName}_${showSeason}`;
     // "Dynamically" (still static site generated) retrieving modules
     const { WIKI_API_URL, WIKI_PAGE_URL, CAST_PHRASE, COMPETING_ENTITY_NAME } = await require(`../../../leagueConfiguration/${fileName}.js`);
@@ -79,7 +81,7 @@ export default async function Contestants({ params }: {
             <br/>
             <div>
                 <p>
-              Data provided by <a className="standard-link" href={WIKI_PAGE_URL} >Wikipedia</a> for this season of Big Brother
+                    Data provided by <a className="standard-link" href={WIKI_PAGE_URL} >Wikipedia</a> for this season of {friendlyShowName}
                 </p>
             </div>
         </div>
