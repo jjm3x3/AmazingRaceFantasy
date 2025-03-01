@@ -36,7 +36,7 @@ export function getPages(): ILeagueLink[] {
         path: `/${LEAGUE_STATUS}/${showNameAndSeason}/contestants`
       }
       const subpages = [contestantSubpage];
-      if(fs.existsSync(path.join(process.cwd(), 'app', 'leagueData'))){
+      if(fs.existsSync(path.join(process.cwd(), 'app', 'leagueData', file))){
         const leagueStandingSubpage = {
             name: "League Standing",
             path: `/${LEAGUE_STATUS}/${showNameAndSeason}/league-standing`
