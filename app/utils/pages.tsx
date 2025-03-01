@@ -1,4 +1,4 @@
-import { transformFilenameToSesonNameRepo } from "./leagueUtils"
+import { transformFilenameToSeasonNameRepo } from "./leagueUtils"
 
 interface ILeagueLink {
     name: string
@@ -23,7 +23,7 @@ export function getPages(): ILeagueLink[] {
         // Needed status for url
         const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
         // Parses filename and converts it to url format
-        const pageStrings = transformFilenameToSesonNameRepo(file);
+        const pageStrings = transformFilenameToSeasonNameRepo(file);
         const subpages:Array<IPage> = [];
         subpages.push({
             name: "Contestants",

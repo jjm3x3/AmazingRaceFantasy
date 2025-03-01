@@ -4,7 +4,7 @@ export interface SeasonNameRepo {
     friendlyName: string
 }
 
-export function transformFilenameToSesonNameRepo(fileName: string): SeasonNameRepo {
+export function transformFilenameToSeasonNameRepo(fileName: string): SeasonNameRepo {
     const showAndSeason = fileName.split('_');
     const showNameArray = showAndSeason[0].split(/(?<![A-Z])(?=[A-Z])/);
     const showNameFormatted = showNameArray.join('-').toLowerCase();
