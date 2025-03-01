@@ -1,4 +1,4 @@
-import {transformFilenameToSesonNameRepo } from "./leagueUtils"
+import { transformFilenameToSesonNameRepo } from "./leagueUtils"
 
 interface ILeagueLink {
     name: string

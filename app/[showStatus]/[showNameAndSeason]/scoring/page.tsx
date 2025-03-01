@@ -1,4 +1,4 @@
-import {transformFilenameToSesonNameRepo } from "../../../utils/leagueUtils"
+import { transformFilenameToSesonNameRepo } from "../../../utils/leagueUtils"
 import ContestantSelector from '../../../components/contestantSelector'
 import { getCompetingEntityList } from "../../../utils/wikiQuery"
 import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
