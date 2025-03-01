@@ -50,7 +50,7 @@ export default async function LeagueStanding({ params }: {
     const fileName = `${showName}_${showSeason}`;
     // "Dynamically" (still static site generated) retrieving modules
     const { CONTESTANT_LEAGUE_DATA } = await require(`../../../leagueData/${fileName}.js`);
-    const { WIKI_API_URL, CAST_PHRASE } = await require(`../../../leagueConfiguration/${fileName}.js`);
+    const { WIKI_API_URL, CAST_PHRASE, CONTESTANT_LEAGUE_DATA_KEY_PREFIX } = await require(`../../../leagueConfiguration/${fileName}.js`);
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, CAST_PHRASE);
 
     const getEntityFn = showName.match('AmazingRace') ? getTeamList : getCompetingEntityList;
