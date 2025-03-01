@@ -19,7 +19,8 @@ export function getPages(): ILeagueLink[] {
     
     // Based on availability in leagueConfiguration
     const pathToLeagueData = path.join(process.cwd(), 'app', 'leagueConfiguration');
-    const paths:Array<ILeagueLink> = [];
+    const activeLeaguePaths:Array<ILeagueLink> = [];
+    const archiveLeaguePaths:Array<ILeagueLink> = [];
     fs.readdirSync(pathToLeagueData).map((file: string) => {
       // Needed status for url
       const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
@@ -54,7 +55,12 @@ export function getPages(): ILeagueLink[] {
             name: friendlyName,
             subpages: subpages
         }
-        paths.push(pathObj);
+        if(LEAGUE_STATUS === 'active'){
+            activeLeaguePaths.push(pathObj);
+        } else {
+            archiveLeaguePaths.push(pathObj);
+        }
     });
+    const paths:Array<ILeagueLink> = activeLeaguePaths.concat(archiveLeaguePaths);
     return paths;
 }
