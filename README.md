@@ -24,3 +24,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Operations
+
+### Seeding The DB
+
+Since we do not have authentication or authorization on the site for now, all data stored in the backend has been stored in source [see leagueData](https://github.com/jjm3x3/AmazingRaceFantasy/tree/main/app/leagueData). In order to transition to a DB backend, we have created two new npm stages under the ["scripts" section of package.json](https://docs.npmjs.com/cli/v7/using-npm/scripts). The are `seed:dev` and `seed:prod`, which will run the [seedDb script](https://github.com/jjm3x3/AmazingRaceFantasy/blob/main/scripts/seedDb.mjs).
+
+#### How to run
+
+1. Get Secrets in appopriate `.env*` file.
+    - _If you are authenticated to Vercel and have the vercel CLI installed_
+       - Run `vercel env pull` in order to setup the build.
+       - Run `vercel env pull .env.development.local` in order to setup to run the `seed:dev` command.
+       - Run `vercel env pull --environment production .env.production.local` in order to setup to run the `seed:prod` command.
+    - _If you are not authenticated_
+        - Get in touch with @jmeixner in order to arrange some credential exchange
+1. Run either `seed:dev` or `seed:prod` dpending
