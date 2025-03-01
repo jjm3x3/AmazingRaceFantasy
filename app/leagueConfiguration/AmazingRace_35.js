@@ -8,7 +8,7 @@ const LEAGUE_STATUS = "archive"
 
 const CAST_PHRASE = "Cast"
 
-const COMPETING_ENTITY_NAME = "team";
+const COMPETING_ENTITY_NAME = "teams";
 
 const PRE_GOOGLE_SHEETS_LINK_TEXT = "This season was largely managed by Andrew Jaicks using";
 
