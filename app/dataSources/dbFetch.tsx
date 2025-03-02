@@ -1,6 +1,12 @@
 import { Redis } from "@upstash/redis"
 
-export async function getContestantData(keyPrefix: string): Promise<any[]> {
+interface IContestantData {
+    name: string
+    userId: string
+    ranking: string[]
+}
+
+export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
 
     if (keyPrefix === undefined) {
         throw new Error(`Unable to getContestantData. Provided param 'keySpace' is undefined but must have a value"`);
@@ -15,8 +21,10 @@ export async function getContestantData(keyPrefix: string): Promise<any[]> {
     const userLeagueKeys = userCursor[1] // get's the list of keys in the cursor
     const userList = []
     for (let i = 0; i < userLeagueKeys.length; i++) {
-        const userData = await redis.json.get(userLeagueKeys[i])
-        userList.push(userData)
+        const userData: IContestantData | null = await redis.json.get(userLeagueKeys[i])
+        if (userData !== null) {
+            userList.push(userData);
+        }
     }
 
     return userList
