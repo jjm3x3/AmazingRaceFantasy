@@ -1,5 +1,4 @@
 import * as pagesModule from "../../app/utils/pages";
-import path from "path";
 
 const AmazingRaceConfigData = () => {
     const WIKI_API_URL = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=The_Amazing_Race_36"
