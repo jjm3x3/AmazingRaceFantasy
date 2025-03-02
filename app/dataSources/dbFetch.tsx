@@ -1,6 +1,12 @@
 import { Redis } from "@upstash/redis"
 
-export async function getContestantData(keyPrefix: string): Promise<any[]> {
+interface IContestantData {
+    name: string
+    userId: string
+    ranking: string[]
+}
+
+export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
 
     if (keyPrefix === undefined) {
         throw new Error(`Unable to getContestantData. Provided param 'keySpace' is undefined but must have a value"`);
