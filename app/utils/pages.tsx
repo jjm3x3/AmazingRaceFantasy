@@ -1,3 +1,6 @@
+import * as pagesModule from "./pages";
+const path = require("path");
+const fs = require("fs");
 import { transformFilenameToSeasonNameRepo } from "./leagueUtils"
 
 interface ILeagueLink {
@@ -10,18 +13,28 @@ interface IPage {
     path: string
 }
 
-export function getPages(): ILeagueLink[] {
-    // Necessary Node modules to fetch data
-    const fs = require("fs");
-    const path = require("path");
-    
-    // Based on availability in leagueConfiguration
+export function getPathsToMap (){
     const pathToLeagueData = path.join(process.cwd(), "app", "leagueConfiguration");
+    const pathsToMap = fs.readdirSync(pathToLeagueData);
+    return pathsToMap;
+}
+
+export function getLeagueConfigurationData (filename:string){
+    return require(`../leagueConfiguration/${filename}`);
+}
+
+export function checkForSubpages (filename:string){
+    return fs.existsSync(path.join(process.cwd(), "app", "leagueData", filename));
+}
+
+export function getPages(): ILeagueLink[] {
+    // Based on availability in leagueConfiguration
+    const filepaths = pagesModule.getPathsToMap();
     const activeLeaguePaths:Array<ILeagueLink> = [];
     const archiveLeaguePaths:Array<ILeagueLink> = [];
-    fs.readdirSync(pathToLeagueData).map((file: string) => {
+    filepaths.map((file: string) => {
         // Needed status for url
-        const { LEAGUE_STATUS } = require(`../leagueConfiguration/${file}`);
+        const { LEAGUE_STATUS } = pagesModule.getLeagueConfigurationData(file);
         // Parses filename and converts it to url format
         const pageStrings = transformFilenameToSeasonNameRepo(file);
         const subpages:Array<IPage> = [];
@@ -29,7 +42,7 @@ export function getPages(): ILeagueLink[] {
             name: "Contestants",
             path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/contestants`
         });
-        if(fs.existsSync(path.join(process.cwd(), "app", "leagueData", file))){
+        if(pagesModule.checkForSubpages(file)){
             const scoringSubpage = {
                 name: "Scoring",
                 path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/scoring`
