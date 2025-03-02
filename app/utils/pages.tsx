@@ -1,5 +1,6 @@
 import * as pagesModule from "./pages";
 const path = require("path");
+const fs = require("fs");
 import { transformFilenameToSeasonNameRepo } from "./leagueUtils"
 
 interface ILeagueLink {
@@ -12,27 +13,26 @@ interface IPage {
     path: string
 }
 
-export function getConfigurationPath (){
-    return path.join(process.cwd(), "app", "leagueConfiguration");
+export function getPathsToMap (){
+    const pathToLeagueData = path.join(process.cwd(), "app", "leagueConfiguration");
+    const pathsToMap = fs.readdirSync(pathToLeagueData);
+    return pathsToMap;
 }
 
 export function getConfigurationPage (filename:string){
     return require(`../leagueConfiguration/${filename}`);
 }
 
-export function getDataPath (filename:string){
-    return path.join(process.cwd(), "app", "leagueData", filename);
+export function checkForSubpages (filename:string){
+    return fs.existsSync(path.join(process.cwd(), "app", "leagueData", filename));
 }
 
 export function getPages(): ILeagueLink[] {
-    // Necessary Node modules to fetch data
-    const fs = require("fs");
-    
     // Based on availability in leagueConfiguration
-    const pathToLeagueData = pagesModule.getConfigurationPath();
+    const filepaths = pagesModule.getPathsToMap();
     const activeLeaguePaths:Array<ILeagueLink> = [];
     const archiveLeaguePaths:Array<ILeagueLink> = [];
-    fs.readdirSync(pathToLeagueData).map((file: string) => {
+    filepaths.map((file: string) => {
         // Needed status for url
         const { LEAGUE_STATUS } = pagesModule.getConfigurationPage(file);
         // Parses filename and converts it to url format
@@ -42,7 +42,7 @@ export function getPages(): ILeagueLink[] {
             name: "Contestants",
             path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/contestants`
         });
-        if(fs.existsSync(pagesModule.getDataPath(file))){
+        if(pagesModule.checkForSubpages(file)){
             const scoringSubpage = {
                 name: "Scoring",
                 path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/scoring`
