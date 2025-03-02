@@ -3,7 +3,7 @@ const WIKI_API_URL = "https://en.wikipedia.org/w/api.php?action=parse&format=jso
 
 const WIKI_PAGE_URL = "https://en.wikipedia.org/wiki/Survivor_47"
 
-const LEAGUE_STATUS = "active"
+const LEAGUE_STATUS = "archive"
 
 const CAST_PHRASE = "Contestants"
 
