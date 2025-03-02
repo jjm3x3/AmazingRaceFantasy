@@ -91,7 +91,7 @@ jest.mock("../../app/utils/pages", () => {
 });
 
 describe("pages getPages", () =>  {
-    it("should return appropriate data based on folder structure", () => {
+    it("should return appropriate data order based on league status", () => {
         const pages = pagesModule.getPages();
         expect(pages.length).toBe(2);
         expect(pages[0].name).toBe("Current (Big Brother 26)");
