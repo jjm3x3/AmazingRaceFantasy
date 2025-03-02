@@ -97,18 +97,23 @@ describe("pages getPages", () =>  {
         expect(pages[0].name).toBe("Current (Big Brother 26)");
         expect(pages[1].name).toBe("Amazing Race 36");
     });
-    it("should have subpages based on leagueConfig and leagueData", ()=> {
+    it("should have subpages based on leagueConfig", ()=> {
         const pages = pagesModule.getPages();
         const bigBrotherSubpages = pages[0].subpages;
-        // Check for active leagues with no leagueData
+        // Check for leagues based on leagueConfig
         expect(bigBrotherSubpages.length).toBe(1);
         expect(bigBrotherSubpages[0].name).toBe("Contestants");
         expect(bigBrotherSubpages[0].path).toBe("/active/big-brother-26/contestants");
-        // Check for archive leagues with leagueData
         const amazingRaceSubpages = pages[1].subpages;
         expect(amazingRaceSubpages.length).toBe(3);
         expect(amazingRaceSubpages[0].name).toBe("Contestants");
         expect(amazingRaceSubpages[0].path).toBe("/archive/amazing-race-36/contestants");
+    });
+
+    it("should have subpages based on leagueData", ()=> {
+        const pages = pagesModule.getPages();
+        // Check for leagues based on leagueData
+        const amazingRaceSubpages = pages[1].subpages;
         expect(amazingRaceSubpages[1].name).toBe("Scoring");
         expect(amazingRaceSubpages[1].path).toBe("/archive/amazing-race-36/scoring");
         expect(amazingRaceSubpages[2].name).toBe("League Standing");
