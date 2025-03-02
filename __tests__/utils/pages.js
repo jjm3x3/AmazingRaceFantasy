@@ -81,7 +81,7 @@ jest.mock("../../app/utils/pages", () => {
     return {
       ...jest.requireActual("../../app/utils/pages"),
       getPathsToMap: jest.fn().mockImplementation(()=> { return Object.keys(dataObject)}),
-      getConfigurationPage: jest.fn().mockImplementation(filename => {
+      getLeagueConfigurationData: jest.fn().mockImplementation(filename => {
         return dataObject[filename].leagueConfig;
       }),
       checkForSubpages: jest.fn().mockImplementation(filename => {

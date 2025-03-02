@@ -19,7 +19,7 @@ export function getPathsToMap (){
     return pathsToMap;
 }
 
-export function getConfigurationPage (filename:string){
+export function getLeagueConfigurationData (filename:string){
     return require(`../leagueConfiguration/${filename}`);
 }
 
@@ -34,7 +34,7 @@ export function getPages(): ILeagueLink[] {
     const archiveLeaguePaths:Array<ILeagueLink> = [];
     filepaths.map((file: string) => {
         // Needed status for url
-        const { LEAGUE_STATUS } = pagesModule.getConfigurationPage(file);
+        const { LEAGUE_STATUS } = pagesModule.getLeagueConfigurationData(file);
         // Parses filename and converts it to url format
         const pageStrings = transformFilenameToSeasonNameRepo(file);
         const subpages:Array<IPage> = [];
