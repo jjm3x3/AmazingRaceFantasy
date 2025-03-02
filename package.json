@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "./node_modules/.bin/husky && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "./node_modules/.bin/eslint -c 'eslint.config.mjs' .",
     "lint:fix": "./node_modules/.bin/eslint -c 'eslint.config.mjs' --fix .",
