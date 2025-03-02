@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "./node_modules/.bin/husky && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
@@ -13,7 +13,7 @@
     "format:fix": "./node_modules/.bin/eslint -c 'eslint.config.mjs' --fix .",
     "seed:dev": "node --env-file=.env.development.local scripts/seedDb.mjs",
     "seed:prod": "node --env-file=.env.production.local scripts/seedDb.mjs",
-    "prepare": "husky"
+    "prepare": "./node_modules/.bin/husky"
   },
   "engines": {
     "node": "^20.9.0"

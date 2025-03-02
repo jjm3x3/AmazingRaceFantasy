@@ -1,1 +1,1 @@
-npm test
+./node_modules/.bin/eslint --fix $(git diff --name-only HEAD | xargs)
