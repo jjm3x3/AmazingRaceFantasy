@@ -21,8 +21,10 @@ export async function getContestantData(keyPrefix: string): Promise<IContestantD
     const userLeagueKeys = userCursor[1] // get's the list of keys in the cursor
     const userList = []
     for (let i = 0; i < userLeagueKeys.length; i++) {
-        const userData = await redis.json.get(userLeagueKeys[i])
-        userList.push(userData)
+        const userData: IContestantData | null = await redis.json.get(userLeagueKeys[i])
+        if (userData !== null) {
+            userList.push(userData);
+        }
     }
 
     return userList
