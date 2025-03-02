@@ -1,4 +1,4 @@
-import { ITableRowData } from "./wikiFetch";
+import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
 
 export interface ITeam {

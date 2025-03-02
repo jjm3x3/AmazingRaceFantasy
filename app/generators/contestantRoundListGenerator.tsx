@@ -1,5 +1,5 @@
 import { getTeamList, ITeam } from "../utils/wikiQuery";
-import { ITableRowData } from "../utils/wikiFetch";
+import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
 import { getNumberOfRounds } from "../utils/teamListUtils";
 import ContestantRoundList from "../components/contestantRoundList";
