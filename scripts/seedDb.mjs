@@ -1,6 +1,10 @@
 import amazingRace35Data from "../app/leagueData/AmazingRace_35.js"
 import amazingRace36Data from "../app/leagueData/AmazingRace_36.js"
 import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
+import amazingRace35LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_35.js"
+import amazingRace36LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_36.js"
+import bigBrother26LeagueConfiguration from "../app/leagueConfiguration/BigBrother_26.js"
+import survivor47LeagueConfiguration from "../app/leagueConfiguration/Survivor_47.js"
 import { Redis } from "@upstash/redis"
 
 console.log("Seeding the db");
@@ -15,6 +19,7 @@ console.log("Connecting to: '" + redisOptions.url + "'");
 
 const redis = new Redis(redisOptions);
 
+// Create user data
 await recreateLeagueData("amazing_race:35:", amazingRace35Data)
 await recreateLeagueData("amazing_race:36:", amazingRace36Data)
 await recreateLeagueData("big_brother:26:", bigBrother26Data)
@@ -50,4 +55,26 @@ async function recreateLeagueData(leagueKeyPrefix, dataRepo) {
 
         await redis.json.set(leagueKeyPrefix+user.userId, "$", userString)
     }
+}
+
+// Create league configuration data
+
+await recreateLeagueConfigurationData("league_configuration:amazing_race:35:", amazingRace35LeagueConfiguration)
+await recreateLeagueConfigurationData("league_configuration:amazing_race:36:", amazingRace36LeagueConfiguration)
+await recreateLeagueConfigurationData("league_configuration:big_brother:26:", bigBrother26LeagueConfiguration)
+await recreateLeagueConfigurationData("league_configuration:survivor:47:", survivor47LeagueConfiguration)
+
+async function recreateLeagueConfigurationData(leagueKeyPrefix, dataRepo) {
+
+    const leagueConfigurationCursor = await redis.scan("0", {match: leagueKeyPrefix+"*"})
+
+    for (const aKey of leagueConfigurationCursor[1]) { //list of keys
+        redis.del(aKey)
+    }
+
+    const leagueConfigString = JSON.stringify(dataRepo)
+
+    console.log(`Setting league configuration data for '${leagueKeyPrefix}'`);
+    
+    await redis.json.set(leagueKeyPrefix, "$", leagueConfigString)
 }
