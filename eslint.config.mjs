@@ -5,7 +5,12 @@ import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
 
 export default [
     {
-        ignores: [".next", "node_modules"]
+        ignores: [".next", "node_modules"],
+        settings: {
+            react: {
+                version: "detect"
+            }
+        }
     },
     pluginJs.configs.recommended,
     ...tseslint.configs.recommended,
