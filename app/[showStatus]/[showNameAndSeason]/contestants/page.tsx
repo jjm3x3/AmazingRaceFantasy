@@ -1,6 +1,8 @@
 import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import { getCompetingEntityList, getTeamList, ITeam } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
+import fs from "fs";
+import path from "path";
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
@@ -13,10 +15,6 @@ interface showProperties {
 // Creates routes for scoring
 export function generateStaticParams() {
   
-    // Necessary Node modules to fetch data
-    const fs = require("fs");
-    const path = require("path");
-    
     // Based on availability in leagueConfiguration
     const pathToLeagueConfiguration = path.join(process.cwd(), "app", "leagueConfiguration");
     const shows:Array<showProperties> = [];
