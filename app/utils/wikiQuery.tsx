@@ -19,6 +19,8 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
             throw new ReferenceError("Status is either null or undefined and it should not be");
         }
 
+        previousStatus = status;
+
         if (!firstContestantFound && isPartialContestantData(element)) {
             return;
         }
