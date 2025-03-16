@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <>
             <p className="site-notice">
-                The league for The Amazing Race 37 is already underway. Stay tuned to see how you fair, if you would still like to join or would like to join in future leagues feel free to email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>.
+                The league for The Amazing Race 37 is already underway. Stay tuned to see how you fair. If you would still like to join or would like to join in future leagues feel free to email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>.
             </p>
             {pages.map((p: IPage) => { 
                 const keyName = p.name.toLowerCase().replaceAll(" ", "-");
