@@ -1,4 +1,4 @@
-import { getTeamList, ITeam } from "../utils/wikiQuery";
+import { getTeamList } from "../utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
