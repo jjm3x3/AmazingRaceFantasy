@@ -8,6 +8,8 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
     let firstContestantFound: boolean = false;
     let teamStarted: boolean = false;
 
+    let previousStatus = "";
+
     contestantData.forEach((element) => {
 
         const status = element.col4;
