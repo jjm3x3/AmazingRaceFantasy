@@ -1,6 +1,6 @@
 import { Redis } from "@upstash/redis"
 
-interface IContestantData {
+export interface IContestantData {
     name: string
     userId: string
     ranking: string[]
