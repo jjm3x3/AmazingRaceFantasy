@@ -8,9 +8,9 @@ export interface ITeam {
     eliminationOrder: number
 }
 
-export function getTeamList(contestantData :ITableRowData[]): any {
+export function getTeamList(contestantData :ITableRowData[]): Team[] {
 
-    const contestants: ITeam[] = [];
+    const contestants: Team[] = [];
 
     let firstContestantFound: boolean = false;
     let teamStarted: boolean = false;
@@ -65,7 +65,7 @@ export function getTeamList(contestantData :ITableRowData[]): any {
         }
     });
 
-    return { props: { runners: contestants }};
+    return contestants;
 }
 
 export function isPartialContestantData(contestantRowData: ITableRowData): boolean {
@@ -83,7 +83,7 @@ interface BBHouseGuest {
     exitedDay: number
 }
 
-export function getCompetingEntityList(contestantData :ITableRowData[]): any {
+export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] {
 
     const contestants: BBHouseGuest[] = [];
     let previousExitDay: number = 0;
@@ -193,5 +193,5 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         return a.eliminationOrder-b.eliminationOrder;
     });
 
-    return { props: { runners: contestantsSortedByEliminationOrder }};
+    return contestantsSortedByEliminationOrder;
 }
