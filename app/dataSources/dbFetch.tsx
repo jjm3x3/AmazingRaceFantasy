@@ -9,7 +9,7 @@ export interface IContestantData {
 export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
 
     if (keyPrefix === undefined) {
-        throw new Error(`Unable to getContestantData. Provided param 'keySpace' is undefined but must have a value"`);
+        throw new Error("Unable to getContestantData. Provided param 'keySpace' is undefined but must have a value\"");
     }
 
     const redis = new Redis({
