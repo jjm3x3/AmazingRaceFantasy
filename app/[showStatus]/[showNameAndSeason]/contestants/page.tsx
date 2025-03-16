@@ -20,7 +20,7 @@ export async function generateStaticParams() {
     const shows:Array<showProperties> = [];
     fs.readdirSync(pathToLeagueConfiguration).map((file: string) => {
         // Needed status for url
-        const { LEAGUE_STATUS } = require(`../../../leagueConfiguration/${file}`);
+        const { LEAGUE_STATUS } = await import(`../../../leagueConfiguration/${file}`);
         // Parses filename and converts it to url format
         const { urlSlug: showNameAndSeason } = transformFilenameToSeasonNameRepo(file)
         // Exporting properties as params
