@@ -12,7 +12,8 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
 
     contestantData.forEach((element) => {
 
-        const status = element.col4;
+        let status = element.col4;
+
         const teamName = element.name;
 
         if (status === null || status === undefined) {
