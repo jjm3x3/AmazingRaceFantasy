@@ -20,15 +20,15 @@ export default async function generateListOfContestantRoundLists(
     const wikiContestants = await dataFetcher();
     const pageData = getCompetingEntityListFunction(wikiContestants);
 
-    const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
+    const teamDictionary = pageData.reduce((acc: Dictionary<Team>, t: Team) => {
         acc[Team.getKey(t.teamName)] = t;
 
         return acc;
     }, {});
 
-    const numberOfRounds = getNumberOfRounds(pageData.props.runners);
+    const numberOfRounds = getNumberOfRounds(pageData);
 
-    const reverseTeamsList = [...pageData.props.runners].reverse();
+    const reverseTeamsList = [...pageData].reverse();
 
     const perfectScoreHandicap = 0;
     const roundScores: IRound[] = LeagueStanding.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap);
