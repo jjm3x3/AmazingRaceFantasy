@@ -4,6 +4,7 @@ export interface IContestantData {
     name: string
     userId: string
     ranking: string[]
+    handicap: number
 }
 
 export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
