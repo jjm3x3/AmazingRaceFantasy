@@ -18,7 +18,7 @@ export async function generateStaticParams() {
     // Based on availability in leagueConfiguration
     const pathToLeagueConfiguration = path.join(process.cwd(), "app", "leagueConfiguration");
     const shows:Array<showProperties> = [];
-    fs.readdirSync(pathToLeagueConfiguration).map((file: string) => {
+    fs.readdirSync(pathToLeagueConfiguration).map(async (file: string) => {
         // Needed status for url
         const { LEAGUE_STATUS } = await import(`../../../leagueConfiguration/${file}`);
         // Parses filename and converts it to url format
