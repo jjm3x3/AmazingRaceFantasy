@@ -17,7 +17,6 @@ export async function generateStaticParams() {
   
     // Based on availability in leagueConfiguration
     const pathToLeagueConfiguration = path.join(process.cwd(), "app", "leagueConfiguration");
-    const shows:Array<showProperties> = [];
     const showPropPromises = fs.readdirSync(pathToLeagueConfiguration).map(async (file: string) => {
         // Needed status for url
         const { LEAGUE_STATUS } = await import(`../../../leagueConfiguration/${file}`);
@@ -30,6 +29,9 @@ export async function generateStaticParams() {
         }
         return showPropertiesObj;
     });
+
+    const shows = await Promise.all(showPropPromises);
+
     return shows;
 }
 
