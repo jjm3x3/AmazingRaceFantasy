@@ -7,10 +7,6 @@ import path from "path";
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
 
-interface showProperties {
-  showNameAndSeason: string,
-  showStatus: string
-}
 
 // Creates routes for scoring
 export async function generateStaticParams() {
