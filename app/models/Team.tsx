@@ -1,5 +1,5 @@
 
-export interface ITeam {
+interface ITeam {
     teamName: string
     relationship: string
     isParticipating: boolean
