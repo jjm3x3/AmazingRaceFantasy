@@ -1,4 +1,5 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
+import { IContestantData } from "@/app/dataSources/dbFetch";
 import { getNumberOfRounds } from "../utils/teamListUtils";
 import Team from "../models/Team";
 import LeagueStanding from "../models/LeagueStanding";
