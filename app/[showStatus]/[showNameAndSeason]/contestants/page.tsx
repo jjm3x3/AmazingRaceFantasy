@@ -28,7 +28,7 @@ export async function generateStaticParams() {
             showNameAndSeason,
             showStatus: LEAGUE_STATUS
         }
-        shows.push(showPropertiesObj);
+        return showPropertiesObj;
     });
     return shows;
 }
