@@ -1,13 +1,6 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
 
-export interface ITeam {
-    teamName: string
-    relationship: string
-    isParticipating: boolean
-    eliminationOrder: number
-}
-
 export function getTeamList(contestantData :ITableRowData[]): Team[] {
 
     const contestants: Team[] = [];
