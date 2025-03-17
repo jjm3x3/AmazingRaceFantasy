@@ -65,7 +65,7 @@ export default async function Contestants({ params }: {
             <p className="text-lg text-center">{final.length} {COMPETING_ENTITY_NAME}</p>
             <br/>
             <div className="text-center">
-                {final.map((t: ITeam) => {
+                {final.map((t: Team) => {
                     return (<>
                         <p key={t.teamName}>
                             {t.isParticipating ? t.teamName : <s>{t.teamName}</s>}
