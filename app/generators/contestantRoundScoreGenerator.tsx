@@ -11,7 +11,7 @@ interface Dictionary<T> {
 export async function generateContestantRoundScores(
     dataFetcher: () => Promise<ITableRowData[]>,
     getCompetitorList: (_: ITableRowData[]) => Team[],
-    listOfContestantLeagueData: any[]
+    listOfContestantLeagueData: IContestantData[]
 ) {
     const wikiData = await dataFetcher();
     // TODO: come up with better names for getCompetitorList and pageData
