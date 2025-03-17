@@ -1,5 +1,5 @@
 import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
-import { getCompetingEntityList, getTeamList, ITeam } from "../../../utils/wikiQuery";
+import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import Team from "@/app/models/Team"
 import fs from "fs";
