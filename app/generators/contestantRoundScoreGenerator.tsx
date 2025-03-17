@@ -10,7 +10,7 @@ interface Dictionary<T> {
 
 export async function generateContestantRoundScores(
     dataFetcher: () => Promise<ITableRowData[]>,
-    getCompetitorList: (contestantData: ITableRowData[]) => any,
+    getCompetitorList: (_: ITableRowData[]) => any,
     listOfContestantLeagueData: any[]
 ) {
     const wikiData = await dataFetcher();
