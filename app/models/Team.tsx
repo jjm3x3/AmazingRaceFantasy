@@ -1,4 +1,3 @@
-import { ITeam } from "../utils/wikiQuery";
 
 export interface ITeam {
     teamName: string
