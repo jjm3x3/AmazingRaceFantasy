@@ -13,7 +13,7 @@ interface showProperties {
 }
 
 // Creates routes for scoring
-export async function generateStaticParams() {
+export function generateStaticParams() {
   
     // Based on availability in leagueConfiguration
     const pathToLeagueConfiguration = path.join(process.cwd(), "app", "leagueConfiguration");
