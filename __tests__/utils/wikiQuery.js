@@ -44,6 +44,40 @@ describe("getTeamList", () => {
         expect(result[0].eliminationOrder).toEqual(2);
     });
 
+    it("should return two teams that have isParticipating false when only the first contestant/team has a status and the second team is not participating", () => {
+        // Arrange
+        const firstContestantsFirstName = "Some";
+        const secondContestantsFirstName = "SomeGuys";
+
+        const listOfContestants = [
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "Eliminated 1st & 2nd"
+            },
+            {
+                name: secondContestantsFirstName + " Brother",
+                col4: ""
+            },
+            {
+                name: "3rdContestantSecondTeam" + " Guy",
+                col4: ""
+            },
+            {
+                name: "4thContestantSecondTeam" + " Brother",
+                col4: ""
+            }
+        ];
+
+        // Act
+        var result = getTeamList(listOfContestants);
+
+        // Assert
+        expect(result).not.toBeNull();
+        expect(result.length).toEqual(2);
+        expect(result[0].isParticipating).toBeFalsy()
+        expect(result[1].isParticipating).toBeFalsy()
+    });
+
     it("Should parse out elimination order when a team is third", () => {
         const firstContestantsFirstName = "Some";
         const secondContestantsFirstName = "SomeGuys";
