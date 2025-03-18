@@ -1,6 +1,7 @@
 import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
-import { getCompetingEntityList, getTeamList, ITeam } from "../../../utils/wikiQuery";
+import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
+import Team from "@/app/models/Team"
 import fs from "fs";
 import path from "path";
 
@@ -61,10 +62,10 @@ export default async function Contestants({ params }: {
             <br/>
             <h1 className="text-2xl text-center">Contestants</h1>
             <br/>
-            <p className="text-lg text-center">{final.props.runners.length} {COMPETING_ENTITY_NAME}</p>
+            <p className="text-lg text-center">{final.length} {COMPETING_ENTITY_NAME}</p>
             <br/>
             <div className="text-center">
-                {final.props.runners.map((t: ITeam) => {
+                {final.map((t: Team) => {
                     return (<>
                         <p key={t.teamName}>
                             {t.isParticipating ? t.teamName : <s>{t.teamName}</s>}

@@ -61,7 +61,7 @@ describe("getTeamList", () => {
 
         var result = getTeamList(listOfContestants);
 
-        expect(result.props.runners[0].eliminationOrder).toEqual(2);
+        expect(result[0].eliminationOrder).toEqual(2);
     });
 
     it("Should parse out elimination order when a team is third", () => {
@@ -106,7 +106,7 @@ describe("getTeamList", () => {
 
         var result = getTeamList(listOfContestants);
 
-        expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder);
+        expect(result[3].eliminationOrder).toEqual(expectedEliminationOrder);
     });
 
     it("Should parse out elimination order when a team is runners-up", () => {
@@ -151,7 +151,7 @@ describe("getTeamList", () => {
 
         var result = getTeamList(listOfContestants);
 
-        expect(result.props.runners[3].eliminationOrder).toEqual(expectedEliminationOrder);
+        expect(result[3].eliminationOrder).toEqual(expectedEliminationOrder);
     });
 
     it("should create team names based on merging contestants full names two at a time", () => {
@@ -174,7 +174,7 @@ describe("getTeamList", () => {
         // Act
         var result = getTeamList(listOfContestants);
 
-        expect(result.props.runners[0].teamName).toEqual(expectedTeamName);
+        expect(result[0].teamName).toEqual(expectedTeamName);
     });
 
     it("should not give any team the eliminationOrder of the max teams if there are still Participating contestants", () => {
@@ -210,7 +210,7 @@ describe("getTeamList", () => {
 
         var result = getTeamList(listOfContestants);
 
-        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(3);
+        expect(result.map(x => x.eliminationOrder)).not.toContain(3);
     });
 
     it("should not create any teams when all showContestants are missing the minimum necessary data to be created", () => {
@@ -230,7 +230,7 @@ describe("getTeamList", () => {
 
         var result = getTeamList(listOfContestants);
 
-        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(0);
+        expect(result.map(x => x.eliminationOrder)).not.toContain(0);
     });
 
     it("should create as many teams as it can alternating after finding the first and even adding a partial team when there is not a match at the end", () => {
@@ -258,7 +258,7 @@ describe("getTeamList", () => {
 
         var result = getTeamList(listOfContestants);
 
-        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(2);
+        expect(result.map(x => x.eliminationOrder)).not.toContain(2);
     });
 });
 
@@ -369,7 +369,7 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners[0].eliminationOrder).toEqual(1);
+        expect(result[0].eliminationOrder).toEqual(1);
     });
 
     it("Should parse out evicted day from their status when it indicates they were evicted even with white space", () => {
@@ -384,7 +384,7 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners[0].eliminationOrder).toEqual(1);
+        expect(result[0].eliminationOrder).toEqual(1);
     });
 
     it("Should parse out expelled day from their status when it indicates they were expelled", () => {
@@ -424,9 +424,9 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.length).toEqual(listOfContestants.length);
+        expect(result.length).toEqual(listOfContestants.length);
 
-        expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder);
+        expect(result[0].eliminationOrder).toEqual(expectedEliminationOrder);
     });
 
     it("Should parse out exited day from their status when it indicates they exited", () => {
@@ -447,9 +447,9 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.length).toEqual(listOfContestants.length);
+        expect(result.length).toEqual(listOfContestants.length);
 
-        expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder);
+        expect(result[0].eliminationOrder).toEqual(expectedEliminationOrder);
     });
 
     it("Should parse out ending day from status when status is runner-up", () => {
@@ -489,7 +489,7 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners[0].eliminationOrder).toEqual(expectedEliminationOrder);
+        expect(result[0].eliminationOrder).toEqual(expectedEliminationOrder);
     });
 
     it("Should ensure runner-up entity has a higher elimination order than someone who was evicted on the same day", () => {
@@ -514,10 +514,10 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.length).toEqual(3);
-        const targetContestantList = result.props.runners.filter(x => x.teamName == runnerUpName);
+        expect(result.length).toEqual(3);
+        const targetContestantList = result.filter(x => x.teamName == runnerUpName);
         expect(targetContestantList.length).toEqual(1);
-        const targetContestantList2 = result.props.runners.filter(x => x.teamName == thirdPlaceName);
+        const targetContestantList2 = result.filter(x => x.teamName == thirdPlaceName);
         expect(targetContestantList2.length).toEqual(1);
         expect(targetContestantList[0].eliminationOrder).toBeGreaterThan(targetContestantList2[0].eliminationOrder);
     });
@@ -539,8 +539,8 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.length).toEqual(2);
-        const targetContestantList = result.props.runners.filter(x => x.teamName == targetContestantName);
+        expect(result.length).toEqual(2);
+        const targetContestantList = result.filter(x => x.teamName == targetContestantName);
         expect(targetContestantList.length).toEqual(1);
         expect(targetContestantList[0].eliminationOrder).toEqual(Number.MAX_VALUE);
     });
@@ -563,11 +563,11 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.length).toEqual(2);
-        const targetContestantList = result.props.runners.filter(x => x.teamName == emptyStatusName);
+        expect(result.length).toEqual(2);
+        const targetContestantList = result.filter(x => x.teamName == emptyStatusName);
         expect(targetContestantList.length).toEqual(1);
         expect(targetContestantList[0].eliminationOrder).toEqual(Number.MAX_VALUE);
-        const targetContestantList2 = result.props.runners.filter(x => x.teamName == participatingStatusName);
+        const targetContestantList2 = result.filter(x => x.teamName == participatingStatusName);
         expect(targetContestantList2.length).toEqual(1);
         expect(targetContestantList2[0].eliminationOrder).toEqual(Number.MAX_VALUE);
     });
@@ -594,10 +594,10 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.length).toEqual(3);
-        const targetContestantList = result.props.runners.filter(x => x.teamName == emptyStatusName);
+        expect(result.length).toEqual(3);
+        const targetContestantList = result.filter(x => x.teamName == emptyStatusName);
         expect(targetContestantList.length).toEqual(1);
-        const targetContestantList2 = result.props.runners.filter(x => x.teamName == followingExitStatusName);
+        const targetContestantList2 = result.filter(x => x.teamName == followingExitStatusName);
         expect(targetContestantList2.length).toEqual(1);
         expect(targetContestantList[0].eliminationOrder).toBeLessThan(listOfContestants.length);
         expect(targetContestantList[0].eliminationOrder).toBeLessThan(targetContestantList2[0].eliminationOrder);
@@ -628,8 +628,8 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.length).toEqual(4);
-        const targetContestantList = result.props.runners.filter(x => x.teamName == emptyStatusName);
+        expect(result.length).toEqual(4);
+        const targetContestantList = result.filter(x => x.teamName == emptyStatusName);
         expect(targetContestantList.length).toEqual(1);
         expect(targetContestantList[0].isParticipating).toBeFalsy();
     });
@@ -664,7 +664,7 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        result.props.runners.forEach(x => {
+        result.forEach(x => {
             let shouldStillBeCompeting = x.teamName.startsWith(amStillCompetingName);
             expect(x.isParticipating).toEqual(shouldStillBeCompeting);
         });
@@ -703,7 +703,7 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(6);
+        expect(result.map(x => x.eliminationOrder)).not.toContain(6);
     });
 
     it("should not create any entities when all showContestants are missing the minimum necessary data to be created", () => {
@@ -723,7 +723,7 @@ describe("getCompetingEntityList", () => {
 
         var result = getCompetingEntityList(listOfContestants);
 
-        expect(result.props.runners.length).toEqual(0);
-        expect(result.props.runners.map(x => x.eliminationOrder)).not.toContain(0);
+        expect(result.length).toEqual(0);
+        expect(result.map(x => x.eliminationOrder)).not.toContain(0);
     });
 });

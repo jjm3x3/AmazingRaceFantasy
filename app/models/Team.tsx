@@ -1,4 +1,10 @@
-import { ITeam } from "../utils/wikiQuery";
+
+interface ITeam {
+    teamName: string
+    relationship: string
+    isParticipating: boolean
+    eliminationOrder: number
+}
 
 export default class Team {
     teamName: string;
