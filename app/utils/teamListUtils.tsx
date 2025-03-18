@@ -14,6 +14,7 @@ export function getNumberOfRounds(teams: Team[]): number {
     const seenOrders = new Set();
     teams.filter(
         (t) => t.eliminationOrder !== Number.MAX_VALUE
+            && t.eliminationOrder !== 0
     ).forEach((t) => {
         seenOrders.add(t.eliminationOrder);
     });
