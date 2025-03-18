@@ -65,7 +65,6 @@ describe("teamListUtils shouldBeScored", () => {
 
 describe("getNumberOfRounds", () => {
     it("should not ever return Number.MAX_VALUE", () => {
-
         //Arrange
         const teamList = [{eliminationOrder: 1}, {eliminationOrder:2}, {eliminationOrder: Number.MAX_VALUE}];
 
