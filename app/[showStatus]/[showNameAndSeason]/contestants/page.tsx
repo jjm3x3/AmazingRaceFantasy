@@ -7,18 +7,13 @@ import path from "path";
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
 
-interface showProperties {
-  showNameAndSeason: string,
-  showStatus: string
-}
 
 // Creates routes for scoring
-export function generateStaticParams() {
+export async function generateStaticParams() {
   
     // Based on availability in leagueConfiguration
     const pathToLeagueConfiguration = path.join(process.cwd(), "app", "leagueConfiguration");
-    const shows:Array<showProperties> = [];
-    fs.readdirSync(pathToLeagueConfiguration).map(async (file: string) => {
+    const showPropPromises = fs.readdirSync(pathToLeagueConfiguration).map(async (file: string) => {
         // Needed status for url
         const { LEAGUE_STATUS } = await import(`../../../leagueConfiguration/${file}`);
         // Parses filename and converts it to url format
@@ -28,8 +23,11 @@ export function generateStaticParams() {
             showNameAndSeason,
             showStatus: LEAGUE_STATUS
         }
-        shows.push(showPropertiesObj);
+        return showPropertiesObj;
     });
+
+    const shows = await Promise.all(showPropPromises);
+
     return shows;
 }
 
