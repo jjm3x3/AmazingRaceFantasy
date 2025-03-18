@@ -75,4 +75,19 @@ describe("getNumberOfRounds", () => {
         // Assert
         expect(result).not.toBe(Number.MAX_VALUE);
     });
+
+    it("Should return the number of unique eliminationOrders", () => {
+        //Arrange
+        const teamList = [
+            {eliminationOrder: 1},
+            {eliminationOrder: 1},
+            {eliminationOrder: 3},
+        ];
+
+        // Act
+        const result = getNumberOfRounds(teamList);
+
+        // Assert
+        expect(result).toBe(2);
+    });
 });
