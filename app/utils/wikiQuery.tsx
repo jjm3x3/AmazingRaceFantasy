@@ -8,14 +8,17 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
     let firstContestantFound: boolean = false;
     let teamStarted: boolean = false;
 
+    let previousStatus = "";
+
     contestantData.forEach((element) => {
 
-        const status = element.col4;
         const teamName = element.name;
 
-        if (status === null || status === undefined) {
-            throw new ReferenceError("Status is either null or undefined and it should not be");
+        let status = element.col4;
+        if (status === null || status === undefined || status === "") {
+            status = previousStatus
         }
+        previousStatus = status;
 
         if (!firstContestantFound && isPartialContestantData(element)) {
             return;
