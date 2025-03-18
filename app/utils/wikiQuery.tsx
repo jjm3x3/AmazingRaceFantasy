@@ -16,10 +16,9 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
         if (status === null || status === undefined || status === "") {
             status = previousStatus
         }
+        previousStatus = status;
 
         const teamName = element.name;
-
-        previousStatus = status;
 
         if (!firstContestantFound && isPartialContestantData(element)) {
             return;
