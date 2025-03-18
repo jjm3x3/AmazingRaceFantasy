@@ -12,7 +12,9 @@ export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number
 
 export function getNumberOfRounds(teams: Team[]): number {
     const seenOrders = new Set();
-    teams.forEach((t) => {
+    teams.filter(
+        (t) => t.eliminationOrder !== Number.MAX_VALUE
+    ).forEach((t) => {
         seenOrders.add(t.eliminationOrder);
     });
 
