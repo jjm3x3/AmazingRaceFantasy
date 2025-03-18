@@ -23,27 +23,6 @@ describe("getTeamList", () => {
         expect(result).not.toBeNull();
     });
 
-    it("Should parse out elimination order and populate it when the team is not participating", () => {
-        const firstContestantsFirstName = "Some";
-        const secondContestantsFirstName = "SomeGuys";
-        const expectedEliminationOrder = 2;
-
-        const listOfContestants = [
-            {
-                name: firstContestantsFirstName + " Guy",
-                col4: "Eliminated " + expectedEliminationOrder + "nd"
-            },
-            {
-                name: secondContestantsFirstName + " Brother",
-                col4: "Eliminated " + expectedEliminationOrder + "nd"
-            }
-        ];
-
-        var result = getTeamList(listOfContestants);
-
-        expect(result[0].eliminationOrder).toEqual(2);
-    });
-
     it("should return two teams that have isParticipating false when only the first contestant/team has a status and the second team is not participating", () => {
         // Arrange
         const firstContestantsFirstName = "Some";
@@ -76,6 +55,27 @@ describe("getTeamList", () => {
         expect(result.length).toEqual(2);
         expect(result[0].isParticipating).toBeFalsy()
         expect(result[1].isParticipating).toBeFalsy()
+    });
+
+    it("Should parse out elimination order and populate it when the team is not participating", () => {
+        const firstContestantsFirstName = "Some";
+        const secondContestantsFirstName = "SomeGuys";
+        const expectedEliminationOrder = 2;
+
+        const listOfContestants = [
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "Eliminated " + expectedEliminationOrder + "nd"
+            },
+            {
+                name: secondContestantsFirstName + " Brother",
+                col4: "Eliminated " + expectedEliminationOrder + "nd"
+            }
+        ];
+
+        var result = getTeamList(listOfContestants);
+
+        expect(result[0].eliminationOrder).toEqual(2);
     });
 
     it("Should parse out elimination order when a team is third", () => {
