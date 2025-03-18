@@ -90,4 +90,19 @@ describe("getNumberOfRounds", () => {
         // Assert
         expect(result).toBe(2);
     });
+
+    it("Should not countin Number.MAX_VALUE as a unique number", () => {
+        //Arrange
+        const teamList = [
+            {eliminationOrder: 1},
+            {eliminationOrder: 3},
+            {eliminationOrder: Number.MAX_VALUE}
+        ];
+
+        // Act
+        const result = getNumberOfRounds(teamList);
+
+        // Assert
+        expect(result).toBe(2);
+    });
 });
