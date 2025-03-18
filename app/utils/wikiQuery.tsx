@@ -12,13 +12,13 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
 
     contestantData.forEach((element) => {
 
+        const teamName = element.name;
+
         let status = element.col4;
         if (status === null || status === undefined || status === "") {
             status = previousStatus
         }
         previousStatus = status;
-
-        const teamName = element.name;
 
         if (!firstContestantFound && isPartialContestantData(element)) {
             return;
