@@ -19,10 +19,6 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
 
         const teamName = element.name;
 
-        if (status === null || status === undefined) {
-            throw new ReferenceError("Status is either null or undefined and it should not be");
-        }
-
         previousStatus = status;
 
         if (!firstContestantFound && isPartialContestantData(element)) {
