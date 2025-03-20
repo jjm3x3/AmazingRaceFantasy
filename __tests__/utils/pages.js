@@ -89,7 +89,7 @@ jest.mock("../../app/utils/pages", () => {
             return dataObject[filename].leagueConfig;
         }),
         checkForSubpages: jest.fn().mockImplementation(filename => {
-            return dataObject[filename]["leagueData"];
+            return Object.prototype.hasOwnProperty.call(dataObject[filename], "leagueData");
         })
     };
 });
