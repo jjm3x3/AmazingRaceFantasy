@@ -65,7 +65,6 @@ describe("teamListUtils shouldBeScored", () => {
 
 describe("getNumberOfRounds", () => {
     it("should not ever return Number.MAX_VALUE", () => {
-
         //Arrange
         const teamList = [{eliminationOrder: 1}, {eliminationOrder:2}, {eliminationOrder: Number.MAX_VALUE}];
 
@@ -74,5 +73,50 @@ describe("getNumberOfRounds", () => {
 
         // Assert
         expect(result).not.toBe(Number.MAX_VALUE);
+    });
+
+    it("Should return the number of unique eliminationOrders", () => {
+        //Arrange
+        const teamList = [
+            {eliminationOrder: 1},
+            {eliminationOrder: 1},
+            {eliminationOrder: 3},
+        ];
+
+        // Act
+        const result = getNumberOfRounds(teamList);
+
+        // Assert
+        expect(result).toBe(2);
+    });
+
+    it("Should not countin Number.MAX_VALUE as a unique number", () => {
+        //Arrange
+        const teamList = [
+            {eliminationOrder: 1},
+            {eliminationOrder: 3},
+            {eliminationOrder: Number.MAX_VALUE}
+        ];
+
+        // Act
+        const result = getNumberOfRounds(teamList);
+
+        // Assert
+        expect(result).toBe(2);
+    });
+
+    it("Should not countin 0 as a unique number", () => {
+        //Arrange
+        const teamList = [
+            {eliminationOrder: 1},
+            {eliminationOrder: 3},
+            {eliminationOrder: 0}
+        ];
+
+        // Act
+        const result = getNumberOfRounds(teamList);
+
+        // Assert
+        expect(result).toBe(2);
     });
 });
