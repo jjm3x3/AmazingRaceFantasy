@@ -1,28 +1,24 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
 
-export interface ITeam {
-    teamName: string
-    relationship: string
-    isParticipating: boolean
-    eliminationOrder: number
-}
+export function getTeamList(contestantData :ITableRowData[]): Team[] {
 
-export function getTeamList(contestantData :ITableRowData[]): any {
-
-    const contestants: ITeam[] = [];
+    const contestants: Team[] = [];
 
     let firstContestantFound: boolean = false;
     let teamStarted: boolean = false;
 
+    let previousStatus = "";
+
     contestantData.forEach((element) => {
 
-        const status = element.col4;
         const teamName = element.name;
 
-        if (status === null || status === undefined) {
-            throw new ReferenceError("Status is either null or undefined and it should not be");
+        let status = element.col4;
+        if (status === null || status === undefined || status === "") {
+            status = previousStatus
         }
+        previousStatus = status;
 
         if (!firstContestantFound && isPartialContestantData(element)) {
             return;
@@ -65,7 +61,7 @@ export function getTeamList(contestantData :ITableRowData[]): any {
         }
     });
 
-    return { props: { runners: contestants }};
+    return contestants;
 }
 
 export function isPartialContestantData(contestantRowData: ITableRowData): boolean {
@@ -83,7 +79,7 @@ interface BBHouseGuest {
     exitedDay: number
 }
 
-export function getCompetingEntityList(contestantData :ITableRowData[]): any {
+export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] {
 
     const contestants: BBHouseGuest[] = [];
     let previousExitDay: number = 0;
@@ -193,5 +189,5 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): any {
         return a.eliminationOrder-b.eliminationOrder;
     });
 
-    return { props: { runners: contestantsSortedByEliminationOrder }};
+    return contestantsSortedByEliminationOrder;
 }

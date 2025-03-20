@@ -1,5 +1,5 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
-import { ITeam } from "../utils/wikiQuery";
+import { IContestantData } from "@/app/dataSources/dbFetch";
 import { getNumberOfRounds } from "../utils/teamListUtils";
 import Team from "../models/Team";
 import LeagueStanding from "../models/LeagueStanding";
@@ -8,16 +8,20 @@ interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export async function generateContestantRoundScores(dataFetcher: () => Promise<ITableRowData[]>, getCompetitorList: (contestantData: ITableRowData[]) => any, listOfContestantLeagueData: any[]) {
+export async function generateContestantRoundScores(
+    dataFetcher: () => Promise<ITableRowData[]>,
+    getCompetitorList: (_: ITableRowData[]) => Team[],
+    listOfContestantLeagueData: IContestantData[]
+) {
     const wikiData = await dataFetcher();
     // TODO: come up with better names for getCompetitorList and pageData
     const pageData = getCompetitorList(wikiData);
-    const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
+    const teamDictionary = pageData.reduce((acc: Dictionary<Team>, t: Team) => {
         acc[Team.getKey(t.teamName)] = t;
 
         return acc;
     }, {});
-    const numberOfRounds = getNumberOfRounds(pageData.props.runners);
+    const numberOfRounds = getNumberOfRounds(pageData);
 
     const result: LeagueStanding = new LeagueStanding();
 

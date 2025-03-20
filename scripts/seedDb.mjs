@@ -1,5 +1,6 @@
 import amazingRace35Data from "../app/leagueData/AmazingRace_35.js"
 import amazingRace36Data from "../app/leagueData/AmazingRace_36.js"
+import amazingRace37Data from "../app/leagueData/AmazingRace_37.js"
 import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
 import amazingRace35LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_35.js"
 import amazingRace36LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_36.js"
@@ -22,6 +23,7 @@ const redis = new Redis(redisOptions);
 // Create user data
 await recreateLeagueData("amazing_race:35:", amazingRace35Data)
 await recreateLeagueData("amazing_race:36:", amazingRace36Data)
+await recreateLeagueData("amazing_race:37:", amazingRace37Data)
 await recreateLeagueData("big_brother:26:", bigBrother26Data)
 
 let fullCursor = await redis.scan("0", {match: "*"})
