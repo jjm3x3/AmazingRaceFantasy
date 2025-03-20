@@ -6,13 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "./node_modules/.bin/eslint -c 'eslint.config.mjs' .",
+    "lint:fix": "./node_modules/.bin/eslint -c 'eslint.config.mjs' --fix .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "format": "./node_modules/.bin/eslint -c 'eslint.config.mjs' .",
-    "format:fix": "./node_modules/.bin/eslint -c 'eslint.config.mjs' --fix .",
     "seed:dev": "node --env-file=.env.development.local scripts/seedDb.mjs",
-    "seed:prod": "node --env-file=.env.production.local scripts/seedDb.mjs"
+    "seed:prod": "node --env-file=.env.production.local scripts/seedDb.mjs",
+    "prepare": "./node_modules/.bin/husky"
   },
   "engines": {
     "node": "^20.9.0"
@@ -24,6 +24,7 @@
     "@upstash/redis": "^1.34.4",
     "autoprefixer": "10.4.15",
     "cheerio": "^1.0.0-rc.12",
+    "husky": "^9.1.7",
     "next": "^14.2.4",
     "postcss": "8.4.30",
     "react": "^18.3.1",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
+    "@next/eslint-plugin-next": "^15.2.0",
     "@stylistic/eslint-plugin-js": "^2.1.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.2",

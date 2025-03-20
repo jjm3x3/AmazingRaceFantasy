@@ -1,8 +1,9 @@
 import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import ContestantSelector from '../../../components/contestantSelector'
 import { getCompetingEntityList } from "../../../utils/wikiQuery"
-import { getWikipediaContestantDataFetcher } from '../../../utils/wikiFetch'
+import { getWikipediaContestantDataFetcher } from '../../../dataSources/wikiFetch'
 import generateListOfContestantRoundLists from '../../../generators/contestantRoundListGenerator'
+import { getContestantData } from "@/app/dataSources/dbFetch"
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
@@ -51,17 +52,18 @@ export default async function Scoring({ params }: {
     const showName = showAndSeasonArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join('');
     const fileName = `${showName}_${showSeason}`;
     // "Dynamically" (still static site generated) retrieving modules
-    const { CONTESTANT_LEAGUE_DATA } = await require(`../../../leagueData/${fileName}.js`);
-    const { WIKI_API_URL, GOOGLE_SHEET_URL, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT } = await require(`../../../leagueConfiguration/${fileName}.js`);
+    const { WIKI_API_URL, GOOGLE_SHEET_URL, CAST_PHRASE, PRE_GOOGLE_SHEETS_LINK_TEXT, POST_GOOGLE_SHEETS_LINK_TEXT, CONTESTANT_LEAGUE_DATA_KEY_PREFIX } = await require(`../../../leagueConfiguration/${fileName}.js`);
 
     const dataFetcher = getWikipediaContestantDataFetcher(WIKI_API_URL, CAST_PHRASE);
     let listOfContestantRoundLists;
 
+    const contestantRoundData = await getContestantData(CONTESTANT_LEAGUE_DATA_KEY_PREFIX);
+
     // Check for Amazing Race due to additional param
     if(showName.match('AmazingRace')){
-      listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA)
+      listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData)
     } else {
-      listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, CONTESTANT_LEAGUE_DATA, getCompetingEntityList)
+      listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, getCompetingEntityList)
     }
 
     return (

@@ -1,5 +1,6 @@
-import { getTeamList, ITeam } from "../utils/wikiQuery";
-import { ITableRowData } from "../utils/wikiFetch";
+import { getTeamList } from "../utils/wikiQuery";
+import { IContestantData } from "@/app/dataSources/dbFetch";
+import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
 import { getNumberOfRounds } from "../utils/teamListUtils";
 import ContestantRoundList from "../components/contestantRoundList";
@@ -12,22 +13,22 @@ interface Dictionary<T> {
 
 export default async function generateListOfContestantRoundLists(
     dataFetcher: () => Promise<ITableRowData[]>,
-    listOfContestantLeagueData: any[],
-    getCompetingEntityListFunction: (_: ITableRowData[]) => any = getTeamList,
+    listOfContestantLeagueData: IContestantData[],
+    getCompetingEntityListFunction: (_: ITableRowData[]) => Team[] = getTeamList,
 ) {
 
     const wikiContestants = await dataFetcher();
     const pageData = getCompetingEntityListFunction(wikiContestants);
 
-    const teamDictionary = pageData.props.runners.reduce((acc: Dictionary<ITeam>, t: ITeam) => {
+    const teamDictionary = pageData.reduce((acc: Dictionary<Team>, t: Team) => {
         acc[Team.getKey(t.teamName)] = t;
 
         return acc;
     }, {});
 
-    const numberOfRounds = getNumberOfRounds(pageData.props.runners);
+    const numberOfRounds = getNumberOfRounds(pageData);
 
-    const reverseTeamsList = [...pageData.props.runners].reverse();
+    const reverseTeamsList = [...pageData].reverse();
 
     const perfectScoreHandicap = 0;
     const roundScores: IRound[] = LeagueStanding.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap);

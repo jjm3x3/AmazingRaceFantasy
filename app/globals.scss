@@ -29,6 +29,9 @@ main {
     @apply text-lg;
     @apply text-center;
     padding: 40px;
+    p:not(:last-child) {
+        margin-bottom: 20px;
+    }
 }
 
 .league-link-heading {
