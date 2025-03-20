@@ -1,6 +1,6 @@
 import * as pagesModule from "./pages";
-const path = require("path");
-const fs = require("fs");
+import fs from "fs";
+import path from "path";
 import { transformFilenameToSeasonNameRepo } from "./leagueUtils"
 
 interface ILeagueLink {
@@ -34,26 +34,26 @@ export function getPages(): ILeagueLink[] {
     const archiveLeaguePaths:Array<ILeagueLink> = [];
     filepaths.map((file: string) => {
         // Needed status for url
-        const { LEAGUE_STATUS } = pagesModule.getLeagueConfigurationData(file);
+        const { leagueStatus } = pagesModule.getLeagueConfigurationData(file);
         // Parses filename and converts it to url format
         const pageStrings = transformFilenameToSeasonNameRepo(file);
         const subpages:Array<IPage> = [];
         subpages.push({
             name: "Contestants",
-            path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/contestants`
+            path: `/${leagueStatus}/${pageStrings.urlSlug}/contestants`
         });
         if(pagesModule.checkForSubpages(file)){
             const scoringSubpage = {
                 name: "Scoring",
-                path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/scoring`
+                path: `/${leagueStatus}/${pageStrings.urlSlug}/scoring`
             }
             const leagueStandingSubpage = {
                 name: "League Standing",
-                path: `/${LEAGUE_STATUS}/${pageStrings.urlSlug}/league-standing`
+                path: `/${leagueStatus}/${pageStrings.urlSlug}/league-standing`
             }
             subpages.push(scoringSubpage, leagueStandingSubpage);
         }
-        if(LEAGUE_STATUS === "active"){
+        if(leagueStatus === "active"){
             pageStrings.friendlyName = `Current (${pageStrings.friendlyName})`
         }
         //   Path object created
@@ -61,7 +61,7 @@ export function getPages(): ILeagueLink[] {
             name: pageStrings.friendlyName,
             subpages: subpages
         }
-        if(LEAGUE_STATUS === "active"){
+        if(leagueStatus === "active"){
             activeLeaguePaths.push(pathObj);
         } else {
             archiveLeaguePaths.push(pathObj);
