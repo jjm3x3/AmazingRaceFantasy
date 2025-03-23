@@ -25,6 +25,11 @@ const CONTESTANT_LEAGUE_DATA = [
         name: "Rach",
         userId: "E3BA8CF1-0F66-4911-88D8-A9ECFEEB37A7",
         ranking: [ "Jonathan Towns & Ana Towns", "Carson McCalley & Jack Dodge", "Han Nguyen & Holden Nguyen", "Brett Hamby & Mark Romain", "Alyssa Borden & Josiah Borden", "Jeff \"Pops\" Bailey & Jeff Bailey", "Melinda Papadeas & Erika Papadeas", "Nick Fiorito & Mike Fiorito", "Courtney Ramsey & Jasmin Carey", "Scott Thompson & Lori Thompson", "Bernie Gutierrez & Carrigain Scadden", "Ernest Cato & Bridget Cato", "Mark Crawford & Larry Graham", "Jackye Clayton & Lauren McKinney" ]
+    },
+    {
+        name: "Sam",
+        userId: "CD9F9A71-FF9C-416A-8D0D-C268A13B021F",
+        ranking: [ "Carson McCalley & Jack Dodge", "Brett Hamby & Mark Romain", "Alyssa Borden & Josiah Borden", "Nick Fiorito & Mike Fiorito", "Jonathan Towns & Ana Towns", "Han Nguyen & Holden Nguyen", "Bernie Gutierrez & Carrigain Scadden", "Ernest Cato & Bridget Cato", "Scott Thompson & Lori Thompson", "Jeff \"Pops\" Bailey & Jeff Bailey", "Melinda Papadeas & Erika Papadeas", "Courtney Ramsey & Jasmin Carey", "Mark Crawford & Larry Graham", "Jackye Clayton & Lauren McKinney" ]
     }
 ];
 
