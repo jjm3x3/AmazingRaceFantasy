@@ -192,3 +192,9 @@ describe("addContestantRoundScores", () => {
         expect(resultingContestantRoundData[0].totalScore).toBe(10);
     });
 });
+
+describe("Regression Tests Checking Scoring of Archived Leagues", () => {
+
+    it("");
+
+});
