@@ -368,4 +368,11 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(anitasRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
         expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(640);
     });
+
+    it("Should Score Sean correctly for Big Brother 26", () => {
+
+        // Arrange
+        const seansRawTeamList = [{"teamName":"Cam Sullivan-Brown","relationship":"Physical therapist","isParticipating":false,"eliminationOrder":14},{"teamName":"Joseph Rodriguez","relationship":"Video store clerk","isParticipating":false,"eliminationOrder":7},{"teamName":"Leah Peters","relationship":"VIP cocktail server","isParticipating":false,"eliminationOrder":10},{"teamName":"Brooklyn Rivera","relationship":"Business administrator","isParticipating":false,"eliminationOrder":5},{"teamName":"Kenney Kelley","relationship":"Former undercover cop","isParticipating":false,"eliminationOrder":3},{"teamName":"T'kor Clottey","relationship":"Crochet business owner","isParticipating":false,"eliminationOrder":9},{"teamName":"Cedric Hodges","relationship":"Former marine","isParticipating":false,"eliminationOrder":4},{"teamName":"Matt Hardeman","relationship":"Tech sales rep","isParticipating":false,"eliminationOrder":1},{"teamName":"Makensy Manbeck","relationship":"Construction project manager","isParticipating":false,"eliminationOrder":15},{"teamName":"Kimo Apaka","relationship":"Mattress sales representative","isParticipating":false,"eliminationOrder":12},{"teamName":"Tucker Des Lauriers","relationship":"Marketing/sales executive","isParticipating":false,"eliminationOrder":6},{"teamName":"Quinn Martin","relationship":"Nurse recruiter","isParticipating":false,"eliminationOrder":8},{"teamName":"Angela Murray","relationship":"Real estate agent","isParticipating":false,"eliminationOrder":11},{"teamName":"Rubina Bernabe","relationship":"Event bartender","isParticipating":false,"eliminationOrder":13},{"teamName":"Lisa Weintraub","relationship":"Celebrity chef","isParticipating":false,"eliminationOrder":2},{"teamName":"Chelsie Baham","relationship":"Nonprofit director","isParticipating":true,"eliminationOrder":1.7976931348623157e+308}]
+
+    });
 });
