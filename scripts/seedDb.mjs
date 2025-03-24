@@ -4,6 +4,7 @@ import amazingRace37Data from "../app/leagueData/AmazingRace_37.js"
 import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
 import amazingRace35LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_35.js"
 import amazingRace36LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_36.js"
+import amazingRace37LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_37.js"
 import bigBrother26LeagueConfiguration from "../app/leagueConfiguration/BigBrother_26.js"
 import survivor47LeagueConfiguration from "../app/leagueConfiguration/Survivor_47.js"
 import { Redis } from "@upstash/redis"
@@ -29,6 +30,7 @@ await recreateLeagueData("big_brother:26:", bigBrother26Data)
 // Create league configuration data
 await recreateLeagueConfigurationData("league_configuration:amazing_race:35", amazingRace35LeagueConfiguration)
 await recreateLeagueConfigurationData("league_configuration:amazing_race:36", amazingRace36LeagueConfiguration)
+await recreateLeagueConfigurationData("league_configuration:amazing_race:37", amazingRace37LeagueConfiguration)
 await recreateLeagueConfigurationData("league_configuration:big_brother:26", bigBrother26LeagueConfiguration)
 await recreateLeagueConfigurationData("league_configuration:survivor:47", survivor47LeagueConfiguration)
 
