@@ -2,8 +2,6 @@ import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import Team from "@/app/models/Team"
-import fs from "fs";
-import path from "path";
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
