@@ -210,5 +210,25 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         // Act
         const rachelsRoundScores = LeagueStanding.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, numberOfRounds, "testingRach", handicap);
 
+        // Assert
+        expect(rachelsRoundScores.length).toBe(numberOfRounds);
+
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting on contestant into the league
+        // round 0
+        expect(rachelsRoundScores[0].round).toBe(0);
+        expect(rachelsRoundScores[0].contestantRoundData[0].roundScore).toBe(120);
+        expect(rachelsRoundScores[0].contestantRoundData[0].totalScore).toBe(120);
+
+        // round 1
+        expect(rachelsRoundScores[1].round).toBe(1);
+        expect(rachelsRoundScores[1].contestantRoundData[0].roundScore).toBe(110);
+        expect(rachelsRoundScores[1].contestantRoundData[0].totalScore).toBe(230);
+
+        // round 2
+        expect(rachelsRoundScores[2].round).toBe(2);
+        expect(rachelsRoundScores[2].contestantRoundData[0].roundScore).toBe(90);
+        expect(rachelsRoundScores[2].contestantRoundData[0].totalScore).toBe(320);
     });
 });
