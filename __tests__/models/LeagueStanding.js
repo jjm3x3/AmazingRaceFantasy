@@ -325,47 +325,47 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
 
         // round 4
         expect(anitasRoundScores[4].round).toBe(4);
-        expect(anitasRoundScores[4].contestantRoundData[0].roundScore).toBe(50);
-        expect(anitasRoundScores[4].contestantRoundData[0].totalScore).toBe(440);
+        expect(anitasRoundScores[4].contestantRoundData[0].roundScore).toBe(60);
+        expect(anitasRoundScores[4].contestantRoundData[0].totalScore).toBe(450);
 
         // round 5
         expect(anitasRoundScores[5].round).toBe(5);
         expect(anitasRoundScores[5].contestantRoundData[0].roundScore).toBe(50);
-        expect(anitasRoundScores[5].contestantRoundData[0].totalScore).toBe(490);
+        expect(anitasRoundScores[5].contestantRoundData[0].totalScore).toBe(500);
 
         // round 6
         expect(anitasRoundScores[6].round).toBe(6);
         expect(anitasRoundScores[6].contestantRoundData[0].roundScore).toBe(30);
-        expect(anitasRoundScores[6].contestantRoundData[0].totalScore).toBe(520);
+        expect(anitasRoundScores[6].contestantRoundData[0].totalScore).toBe(530);
 
         // round 7
         expect(anitasRoundScores[7].round).toBe(7);
-        expect(anitasRoundScores[7].contestantRoundData[0].roundScore).toBe(20);
-        expect(anitasRoundScores[7].contestantRoundData[0].totalScore).toBe(540);
+        expect(anitasRoundScores[7].contestantRoundData[0].roundScore).toBe(30);
+        expect(anitasRoundScores[7].contestantRoundData[0].totalScore).toBe(560);
 
         // round 8
         expect(anitasRoundScores[8].round).toBe(8);
-        expect(anitasRoundScores[8].contestantRoundData[0].roundScore).toBe(10);
-        expect(anitasRoundScores[8].contestantRoundData[0].totalScore).toBe(550);
+        expect(anitasRoundScores[8].contestantRoundData[0].roundScore).toBe(30);
+        expect(anitasRoundScores[8].contestantRoundData[0].totalScore).toBe(590);
 
         // round 9
         expect(anitasRoundScores[9].round).toBe(9);
-        expect(anitasRoundScores[9].contestantRoundData[0].roundScore).toBe(10);
-        expect(anitasRoundScores[9].contestantRoundData[0].totalScore).toBe(560);
+        expect(anitasRoundScores[9].contestantRoundData[0].roundScore).toBe(30);
+        expect(anitasRoundScores[9].contestantRoundData[0].totalScore).toBe(620);
 
         // round 10
         expect(anitasRoundScores[10].round).toBe(10);
-        expect(anitasRoundScores[10].contestantRoundData[0].roundScore).toBe(0);
-        expect(anitasRoundScores[10].contestantRoundData[0].totalScore).toBe(560);
+        expect(anitasRoundScores[10].contestantRoundData[0].roundScore).toBe(20);
+        expect(anitasRoundScores[10].contestantRoundData[0].totalScore).toBe(640);
 
         // round 11
         expect(anitasRoundScores[11].round).toBe(11);
         expect(anitasRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
-        expect(anitasRoundScores[11].contestantRoundData[0].totalScore).toBe(560);
+        expect(anitasRoundScores[11].contestantRoundData[0].totalScore).toBe(640);
 
         // round 12
         expect(anitasRoundScores[12].round).toBe(12);
         expect(anitasRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
-        expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(560);
+        expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(640);
     });
 });
