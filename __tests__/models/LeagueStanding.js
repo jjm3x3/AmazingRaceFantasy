@@ -1,4 +1,4 @@
-import LeagueStanding from "../../app/models/LeagueStanding";
+import League from "@/app/models/League";
 import Team from "../../app/models/Team";
 
 describe("generateContestantRoundScores", () => {
@@ -8,7 +8,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 0;
 
         // Act
-        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "");
+        const result = League.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -21,7 +21,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 1;
 
         // Act
-        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "");
+        const result = League.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -36,7 +36,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 1;
 
         // Act
-        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "");
+        const result = League.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -54,7 +54,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 1;
 
         // Act
-        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "");
+        const result = League.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -76,7 +76,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 1;
 
         // Act
-        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "");
+        const result = League.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -98,7 +98,7 @@ describe("generateContestantRoundScores", () => {
         const rounds = 2;
 
         // Act
-        const result = LeagueStanding.generateContestantRoundScores(teamList, rounds, "");
+        const result = League.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -131,7 +131,7 @@ describe("addContestantRoundScores", () => {
         const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedContestantName2 = "contestant2";
-        const sut = new LeagueStanding();
+        const sut = new League();
 
         // Act
         sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
@@ -154,7 +154,7 @@ describe("addContestantRoundScores", () => {
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
         const rounds = 1;
         const expectedContestantName1 = "contestant1";
-        const sut = new LeagueStanding();
+        const sut = new League();
 
         // Act
         sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
@@ -176,7 +176,7 @@ describe("addContestantRoundScores", () => {
         const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedHandicap = -10;
-        const sut = new LeagueStanding();
+        const sut = new League();
 
         // Act
         sut.addContestantRoundScores(teamList, rounds, expectedContestantName1, expectedHandicap);
@@ -208,7 +208,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const handicap = 0;
 
         // Act
-        const rachelsRoundScores = LeagueStanding.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, numberOfRounds, "testingRach", handicap);
+        const rachelsRoundScores = League.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, numberOfRounds, "testingRach", handicap);
 
         // Assert
         expect(rachelsRoundScores.length).toBe(numberOfRounds);
@@ -295,7 +295,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const handicap = 0;
 
         // Act
-        const anitasRoundScores = LeagueStanding.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, numberOfRounds, "testingAnita", handicap);
+        const anitasRoundScores = League.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, numberOfRounds, "testingAnita", handicap);
 
         // Assert
         expect(anitasRoundScores.length).toBe(numberOfRounds);
@@ -383,7 +383,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const handicap = 0;
 
         // Act
-        const seansRoundScores = LeagueStanding.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, numberOfRounds, "testingSean", handicap);
+        const seansRoundScores = League.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, numberOfRounds, "testingSean", handicap);
 
         // Assert
         expect(seansRoundScores.length).toBe(numberOfRounds);
