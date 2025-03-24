@@ -379,7 +379,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 13;
+        const numberOfRounds = 15;
         const handicap = 0;
 
         // Act
