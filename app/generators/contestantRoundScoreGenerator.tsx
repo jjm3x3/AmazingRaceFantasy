@@ -23,7 +23,7 @@ export async function generateContestantRoundScores(
     }, {});
     const numberOfRounds = getNumberOfRounds(pageData);
 
-    const result: League = new League();
+    const result: League = new League(pageData);
 
     listOfContestantLeagueData.map(contestant => {
 

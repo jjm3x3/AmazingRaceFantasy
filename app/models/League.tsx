@@ -6,8 +6,9 @@ export default class League {
     rounds: IRound[];
     teamData: Team[];
 
-    constructor() {
+    constructor(teamData: Team[]) {
         this.rounds = [];
+        this.teamData = teamData;
     }
 
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
@@ -48,7 +49,7 @@ export default class League {
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
-        const result = new League();
+        const result = new League(contestantTeamsList);
         result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);
 
         return result.rounds;
