@@ -1,6 +1,6 @@
 import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
-import { getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import Team from "@/app/models/Team"
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
@@ -11,10 +11,10 @@ export const dynamicParams = false
 export async function generateStaticParams() {
   
     // Based on availability in leagueConfiguration
-    const leagueConfigurations = await getLeagueConfigurationData("league_configuration:*");
+    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
     const shows = [];
-    for(const leagueConfigurationData of leagueConfigurations){
-        const { leagueStatus, contestantLeagueDataKeyPrefix} = leagueConfigurationData;
+    for(const leagueConfigurationKey of leagueConfigurationKeys){
+        const { leagueStatus, contestantLeagueDataKeyPrefix} = await getLeagueConfigurationData(leagueConfigurationKey);
         const showNameAndSeason = contestantLeagueDataKeyPrefix.replace(":*", "").replaceAll("_", "-").replace(":", "-");
         const showPropertiesObj = {
             showNameAndSeason,
@@ -35,17 +35,16 @@ export default async function Contestants({ params }: {
     const showAndSeasonArr = showNameAndSeason.split("-");
     const showSeason = showAndSeasonArr.at(-1);
     showAndSeasonArr.pop();
-    const showNameArr = showAndSeasonArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
-    const showName = showNameArr.join("");
-    const friendlyShowName = showNameArr.join(" ");
-    const fileName = `${showName}_${showSeason}`;
+    const showName = showAndSeasonArr.join("_");
+    const friendlyShowName = showAndSeasonArr.join(" ");
     // "Dynamically" (still static site generated) retrieving modules
-    const leagueConfigurationData = await import(`../../../leagueConfiguration/${fileName}.js`);
+    console.log(`league_configuration:${showName}:${showSeason}`);
+    const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showName}:${showSeason}`);
     const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName } = leagueConfigurationData;
 
     const wikiContestants = await getWikipediaContestantData(wikiApiUrl, castPhrase);
     let final;
-    if(showName.match("AmazingRace")){
+    if(showName.match("amazing_race")){
         final = getTeamList(wikiContestants);
     } else {
         final = getCompetingEntityList(wikiContestants);
