@@ -2,7 +2,7 @@ import { ITableRowData } from "../dataSources/wikiFetch";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { getNumberOfRounds } from "../utils/teamListUtils";
 import Team from "../models/Team";
-import League from "../models/LeagueStanding";
+import League from "../models/League";
 
 interface Dictionary<T> {
     [Key: string]: T;

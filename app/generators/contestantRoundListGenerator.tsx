@@ -5,7 +5,7 @@ import Team from "../models/Team";
 import { getNumberOfRounds } from "../utils/teamListUtils";
 import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
-import League from "../models/LeagueStanding";
+import League from "../models/League";
 
 interface Dictionary<T> {
     [Key: string]: T;
