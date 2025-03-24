@@ -46,6 +46,19 @@ export default class League {
         }
     }
 
+    getNumberOfRounds(): number {
+        const seenOrders = new Set();
+        this.teamData.filter(
+            (t) => t.eliminationOrder !== Number.MAX_VALUE
+                && t.eliminationOrder !== 0
+        ).forEach((t) => {
+            seenOrders.add(t.eliminationOrder);
+        });
+
+        return seenOrders.size;
+    }
+
+
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
