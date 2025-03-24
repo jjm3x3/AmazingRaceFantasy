@@ -374,5 +374,86 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         // Arrange
         const seansRawTeamList = [{"teamName":"Cam Sullivan-Brown","relationship":"Physical therapist","isParticipating":false,"eliminationOrder":14},{"teamName":"Joseph Rodriguez","relationship":"Video store clerk","isParticipating":false,"eliminationOrder":7},{"teamName":"Leah Peters","relationship":"VIP cocktail server","isParticipating":false,"eliminationOrder":10},{"teamName":"Brooklyn Rivera","relationship":"Business administrator","isParticipating":false,"eliminationOrder":5},{"teamName":"Kenney Kelley","relationship":"Former undercover cop","isParticipating":false,"eliminationOrder":3},{"teamName":"T'kor Clottey","relationship":"Crochet business owner","isParticipating":false,"eliminationOrder":9},{"teamName":"Cedric Hodges","relationship":"Former marine","isParticipating":false,"eliminationOrder":4},{"teamName":"Matt Hardeman","relationship":"Tech sales rep","isParticipating":false,"eliminationOrder":1},{"teamName":"Makensy Manbeck","relationship":"Construction project manager","isParticipating":false,"eliminationOrder":15},{"teamName":"Kimo Apaka","relationship":"Mattress sales representative","isParticipating":false,"eliminationOrder":12},{"teamName":"Tucker Des Lauriers","relationship":"Marketing/sales executive","isParticipating":false,"eliminationOrder":6},{"teamName":"Quinn Martin","relationship":"Nurse recruiter","isParticipating":false,"eliminationOrder":8},{"teamName":"Angela Murray","relationship":"Real estate agent","isParticipating":false,"eliminationOrder":11},{"teamName":"Rubina Bernabe","relationship":"Event bartender","isParticipating":false,"eliminationOrder":13},{"teamName":"Lisa Weintraub","relationship":"Celebrity chef","isParticipating":false,"eliminationOrder":2},{"teamName":"Chelsie Baham","relationship":"Nonprofit director","isParticipating":true,"eliminationOrder":1.7976931348623157e+308}]
 
+
+        const seansParsedAndEmbelishedTeamList = seansRawTeamList.map(t => {
+            return new Team(t);
+        });
+
+        const numberOfRounds = 13;
+        const handicap = 0;
+
+        // Act
+        const seansRoundScores = LeagueStanding.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, numberOfRounds, "testingSean", handicap);
+
+        // Assert
+        expect(seansRoundScores.length).toBe(numberOfRounds);
+
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting on contestant into the league
+        // round 0
+        expect(seansRoundScores[0].round).toBe(0);
+        expect(seansRoundScores[0].contestantRoundData[0].roundScore).toBe(120);
+        expect(seansRoundScores[0].contestantRoundData[0].totalScore).toBe(120);
+
+        // round 1
+        expect(seansRoundScores[1].round).toBe(1);
+        expect(seansRoundScores[1].contestantRoundData[0].roundScore).toBe(110);
+        expect(seansRoundScores[1].contestantRoundData[0].totalScore).toBe(230);
+
+        // round 2
+        expect(seansRoundScores[2].round).toBe(2);
+        expect(seansRoundScores[2].contestantRoundData[0].roundScore).toBe(90);
+        expect(seansRoundScores[2].contestantRoundData[0].totalScore).toBe(320);
+
+        // round 3
+        expect(seansRoundScores[3].round).toBe(3);
+        expect(seansRoundScores[3].contestantRoundData[0].roundScore).toBe(70);
+        expect(seansRoundScores[3].contestantRoundData[0].totalScore).toBe(390);
+
+        // round 4
+        expect(seansRoundScores[4].round).toBe(4);
+        expect(seansRoundScores[4].contestantRoundData[0].roundScore).toBe(60);
+        expect(seansRoundScores[4].contestantRoundData[0].totalScore).toBe(450);
+
+        // round 5
+        expect(seansRoundScores[5].round).toBe(5);
+        expect(seansRoundScores[5].contestantRoundData[0].roundScore).toBe(50);
+        expect(seansRoundScores[5].contestantRoundData[0].totalScore).toBe(500);
+
+        // round 6
+        expect(seansRoundScores[6].round).toBe(6);
+        expect(seansRoundScores[6].contestantRoundData[0].roundScore).toBe(30);
+        expect(seansRoundScores[6].contestantRoundData[0].totalScore).toBe(530);
+
+        // round 7
+        expect(seansRoundScores[7].round).toBe(7);
+        expect(seansRoundScores[7].contestantRoundData[0].roundScore).toBe(30);
+        expect(seansRoundScores[7].contestantRoundData[0].totalScore).toBe(560);
+
+        // round 8
+        expect(seansRoundScores[8].round).toBe(8);
+        expect(seansRoundScores[8].contestantRoundData[0].roundScore).toBe(30);
+        expect(seansRoundScores[8].contestantRoundData[0].totalScore).toBe(590);
+
+        // round 9
+        expect(seansRoundScores[9].round).toBe(9);
+        expect(seansRoundScores[9].contestantRoundData[0].roundScore).toBe(30);
+        expect(seansRoundScores[9].contestantRoundData[0].totalScore).toBe(620);
+
+        // round 10
+        expect(seansRoundScores[10].round).toBe(10);
+        expect(seansRoundScores[10].contestantRoundData[0].roundScore).toBe(20);
+        expect(seansRoundScores[10].contestantRoundData[0].totalScore).toBe(640);
+
+        // round 11
+        expect(seansRoundScores[11].round).toBe(11);
+        expect(seansRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
+        expect(seansRoundScores[11].contestantRoundData[0].totalScore).toBe(640);
+
+        // round 12
+        expect(seansRoundScores[12].round).toBe(12);
+        expect(seansRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
+        expect(seansRoundScores[12].contestantRoundData[0].totalScore).toBe(640);
     });
 });
