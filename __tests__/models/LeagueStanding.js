@@ -281,4 +281,11 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(rachelsRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
         expect(rachelsRoundScores[12].contestantRoundData[0].totalScore).toBe(560);
     });
+
+    it("Should Score Anita correctly for Amazing Race 36", () => {
+
+        // Arrange
+        const anitasRawTeamList = [{"teamName":"Rod Gardner & Leticia Gardner","relationship":"Married","isParticipating":false,"eliminationOrder":11.5},{"teamName":"Ricky Rotandi & Cesar Aldrete","relationship":"Boyfriends","isParticipating":true,"eliminationOrder":0},{"teamName":"Juan Villa & Shane Bilek","relationship":"Military Pilots","isParticipating":false,"eliminationOrder":12.5},{"teamName":"Sunny Pulver & Bizzy Smith","relationship":"Firefighter Moms","isParticipating":false,"eliminationOrder":7},{"teamName":"Derek Williams & Shelisa Williams","relationship":"Grandparents","isParticipating":false,"eliminationOrder":6},{"teamName":"Michelle Clark & Sean Clark","relationship":"Married Aerobics Instructors","isParticipating":false,"eliminationOrder":4},{"teamName":"Yvonne Chavez & Melissa Main","relationship":"Girlfriends","isParticipating":false,"eliminationOrder":9},{"teamName":"Kishori Turner & Karishma Cordero","relationship":"Cousins","isParticipating":false,"eliminationOrder":5},{"teamName":"Anthony Smith & Bailey Smith","relationship":"Twins","isParticipating":false,"eliminationOrder":3},{"teamName":"Angie Butler & Danny Butler","relationship":"Mother & Son","isParticipating":false,"eliminationOrder":8},{"teamName":"Amber Craven & Vinny Cagungun","relationship":"Dating Nurses","isParticipating":false,"eliminationOrder":10},{"teamName":"Chris Foster & Mary Cardona-Foster","relationship":"Father & Daughter","isParticipating":false,"eliminationOrder":2},{"teamName":"Maya Mody & Rohan Mody","relationship":"Siblings","isParticipating":false,"eliminationOrder":1}]
+
+    });
 });
