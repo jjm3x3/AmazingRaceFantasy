@@ -27,10 +27,10 @@ await recreateLeagueData("amazing_race:37:", amazingRace37Data)
 await recreateLeagueData("big_brother:26:", bigBrother26Data)
 
 // Create league configuration data
-await recreateLeagueConfigurationData("league_configuration:amazing_race:35:", amazingRace35LeagueConfiguration)
-await recreateLeagueConfigurationData("league_configuration:amazing_race:36:", amazingRace36LeagueConfiguration)
-await recreateLeagueConfigurationData("league_configuration:big_brother:26:", bigBrother26LeagueConfiguration)
-await recreateLeagueConfigurationData("league_configuration:survivor:47:", survivor47LeagueConfiguration)
+await recreateLeagueConfigurationData("league_configuration:amazing_race:35", amazingRace35LeagueConfiguration)
+await recreateLeagueConfigurationData("league_configuration:amazing_race:36", amazingRace36LeagueConfiguration)
+await recreateLeagueConfigurationData("league_configuration:big_brother:26", bigBrother26LeagueConfiguration)
+await recreateLeagueConfigurationData("league_configuration:survivor:47", survivor47LeagueConfiguration)
 
 let fullCursor = await redis.scan("0", {match: "*"})
 console.log(fullCursor)
@@ -66,17 +66,17 @@ async function recreateLeagueData(leagueKeyPrefix, dataRepo) {
 }
 
 
-async function recreateLeagueConfigurationData(leagueKeyPrefix, dataRepo) {
+async function recreateLeagueConfigurationData(leagueConfigurationKey, dataRepo) {
 
-    const leagueConfigurationCursor = await redis.scan("0", {match: leagueKeyPrefix+"*"})
+    const leagueConfigurationCursor = await redis.scan("0", {match: leagueConfigurationKey+"*"})
 
     for (const aKey of leagueConfigurationCursor[1]) { //list of keys
         redis.del(aKey)
     }
 
-    const leagueConfigString = JSON.stringify(dataRepo)
-
-    console.log(`Setting league configuration data for '${leagueKeyPrefix}'`);
+    console.log(`Setting league configuration data for '${leagueConfigurationKey}'`);
     
-    await redis.json.set(leagueKeyPrefix, "$", leagueConfigString)
+    const leagueConfigString = JSON.stringify(dataRepo)
+    
+    await redis.json.set(leagueConfigurationKey, "$", leagueConfigString)
 }
