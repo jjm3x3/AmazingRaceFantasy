@@ -287,5 +287,85 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         // Arrange
         const anitasRawTeamList = [{"teamName":"Rod Gardner & Leticia Gardner","relationship":"Married","isParticipating":false,"eliminationOrder":11.5},{"teamName":"Ricky Rotandi & Cesar Aldrete","relationship":"Boyfriends","isParticipating":true,"eliminationOrder":0},{"teamName":"Juan Villa & Shane Bilek","relationship":"Military Pilots","isParticipating":false,"eliminationOrder":12.5},{"teamName":"Sunny Pulver & Bizzy Smith","relationship":"Firefighter Moms","isParticipating":false,"eliminationOrder":7},{"teamName":"Derek Williams & Shelisa Williams","relationship":"Grandparents","isParticipating":false,"eliminationOrder":6},{"teamName":"Michelle Clark & Sean Clark","relationship":"Married Aerobics Instructors","isParticipating":false,"eliminationOrder":4},{"teamName":"Yvonne Chavez & Melissa Main","relationship":"Girlfriends","isParticipating":false,"eliminationOrder":9},{"teamName":"Kishori Turner & Karishma Cordero","relationship":"Cousins","isParticipating":false,"eliminationOrder":5},{"teamName":"Anthony Smith & Bailey Smith","relationship":"Twins","isParticipating":false,"eliminationOrder":3},{"teamName":"Angie Butler & Danny Butler","relationship":"Mother & Son","isParticipating":false,"eliminationOrder":8},{"teamName":"Amber Craven & Vinny Cagungun","relationship":"Dating Nurses","isParticipating":false,"eliminationOrder":10},{"teamName":"Chris Foster & Mary Cardona-Foster","relationship":"Father & Daughter","isParticipating":false,"eliminationOrder":2},{"teamName":"Maya Mody & Rohan Mody","relationship":"Siblings","isParticipating":false,"eliminationOrder":1}]
 
+        const anitasParsedAndEmbelishedTeamList = anitasRawTeamList.map(t => {
+            return new Team(t);
+        });
+
+        const numberOfRounds = 13;
+        const handicap = 0;
+
+        // Act
+        const anitasRoundScores = LeagueStanding.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, numberOfRounds, "testingAnita", handicap);
+
+        // Assert
+        expect(anitasRoundScores.length).toBe(numberOfRounds);
+
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting on contestant into the league
+        // round 0
+        expect(anitasRoundScores[0].round).toBe(0);
+        expect(anitasRoundScores[0].contestantRoundData[0].roundScore).toBe(120);
+        expect(anitasRoundScores[0].contestantRoundData[0].totalScore).toBe(120);
+
+        // round 1
+        expect(anitasRoundScores[1].round).toBe(1);
+        expect(anitasRoundScores[1].contestantRoundData[0].roundScore).toBe(110);
+        expect(anitasRoundScores[1].contestantRoundData[0].totalScore).toBe(230);
+
+        // round 2
+        expect(anitasRoundScores[2].round).toBe(2);
+        expect(anitasRoundScores[2].contestantRoundData[0].roundScore).toBe(90);
+        expect(anitasRoundScores[2].contestantRoundData[0].totalScore).toBe(320);
+
+        // round 3
+        expect(anitasRoundScores[3].round).toBe(3);
+        expect(anitasRoundScores[3].contestantRoundData[0].roundScore).toBe(70);
+        expect(anitasRoundScores[3].contestantRoundData[0].totalScore).toBe(390);
+
+        // round 4
+        expect(anitasRoundScores[4].round).toBe(4);
+        expect(anitasRoundScores[4].contestantRoundData[0].roundScore).toBe(50);
+        expect(anitasRoundScores[4].contestantRoundData[0].totalScore).toBe(440);
+
+        // round 5
+        expect(anitasRoundScores[5].round).toBe(5);
+        expect(anitasRoundScores[5].contestantRoundData[0].roundScore).toBe(50);
+        expect(anitasRoundScores[5].contestantRoundData[0].totalScore).toBe(490);
+
+        // round 6
+        expect(anitasRoundScores[6].round).toBe(6);
+        expect(anitasRoundScores[6].contestantRoundData[0].roundScore).toBe(30);
+        expect(anitasRoundScores[6].contestantRoundData[0].totalScore).toBe(520);
+
+        // round 7
+        expect(anitasRoundScores[7].round).toBe(7);
+        expect(anitasRoundScores[7].contestantRoundData[0].roundScore).toBe(20);
+        expect(anitasRoundScores[7].contestantRoundData[0].totalScore).toBe(540);
+
+        // round 8
+        expect(anitasRoundScores[8].round).toBe(8);
+        expect(anitasRoundScores[8].contestantRoundData[0].roundScore).toBe(10);
+        expect(anitasRoundScores[8].contestantRoundData[0].totalScore).toBe(550);
+
+        // round 9
+        expect(anitasRoundScores[9].round).toBe(9);
+        expect(anitasRoundScores[9].contestantRoundData[0].roundScore).toBe(10);
+        expect(anitasRoundScores[9].contestantRoundData[0].totalScore).toBe(560);
+
+        // round 10
+        expect(anitasRoundScores[10].round).toBe(10);
+        expect(anitasRoundScores[10].contestantRoundData[0].roundScore).toBe(0);
+        expect(anitasRoundScores[10].contestantRoundData[0].totalScore).toBe(560);
+
+        // round 11
+        expect(anitasRoundScores[11].round).toBe(11);
+        expect(anitasRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
+        expect(anitasRoundScores[11].contestantRoundData[0].totalScore).toBe(560);
+
+        // round 12
+        expect(anitasRoundScores[12].round).toBe(12);
+        expect(anitasRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
+        expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(560);
     });
 });
