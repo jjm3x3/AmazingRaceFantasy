@@ -1,6 +1,6 @@
-import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
+import { getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import Team from "@/app/models/Team"
 import fs from "fs";
 import path from "path";
@@ -13,23 +13,17 @@ export const dynamicParams = false
 export async function generateStaticParams() {
   
     // Based on availability in leagueConfiguration
-    const pathToLeagueConfiguration = path.join(process.cwd(), "app", "leagueConfiguration");
-    const showPropPromises = fs.readdirSync(pathToLeagueConfiguration).map(async (file: string) => {
-        // Needed status for url
-        const leagueConfigurationData = await import(`../../../leagueConfiguration/${file}`);
-        const { leagueStatus } = leagueConfigurationData;
-        // Parses filename and converts it to url format
-        const { urlSlug: showNameAndSeason } = transformFilenameToSeasonNameRepo(file)
-        // Exporting properties as params
+    const leagueConfigurations = await getLeagueConfigurationData("league_configuration:*");
+    const shows = [];
+    for(const leagueConfigurationData of leagueConfigurations){
+        const { leagueStatus, contestantLeagueDataKeyPrefix} = leagueConfigurationData;
+        const showNameAndSeason = contestantLeagueDataKeyPrefix.replace(":*", "").replaceAll("_", "-").replace(":", "-");
         const showPropertiesObj = {
             showNameAndSeason,
             showStatus: leagueStatus
         }
-        return showPropertiesObj;
-    });
-
-    const shows = await Promise.all(showPropPromises);
-
+        shows.push(showPropertiesObj);
+    }
     return shows;
 }
 
