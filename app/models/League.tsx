@@ -4,6 +4,7 @@ import { shouldBeScored } from "../utils/teamListUtils";
 
 export default class League {
     rounds: IRound[];
+    teamData: Team[];
 
     constructor() {
         this.rounds = [];
