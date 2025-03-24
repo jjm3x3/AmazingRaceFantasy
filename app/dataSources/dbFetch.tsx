@@ -43,7 +43,7 @@ export async function getContestantData(keyPrefix: string): Promise<IContestantD
     return userList
 }
 
-export async function getLeagueConfigurationData(leagueConfigurationKey: string): Promise<ILeagueConfigurationData[]> {
+export async function getLeagueConfigurationData(leagueConfigurationKey: string): Promise<ILeagueConfigurationData> {
 
     if (leagueConfigurationKey === undefined) {
         throw new Error("Unable to getLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value\"");
@@ -53,16 +53,10 @@ export async function getLeagueConfigurationData(leagueConfigurationKey: string)
         url: process.env.KV_REST_API_URL,
         token: process.env.KV_REST_API_TOKEN
     })
-
-    const leagueConfigurationCursor = await redis.scan("0", {match: leagueConfigurationKey})
-    const leagueConfigurationKeys = leagueConfigurationCursor[1] // get's the list of keys in the cursor
-    const leagueConfigurationList = []
-    for (let i = 0; i < leagueConfigurationKeys.length; i++) {
-        const leagueConfigurationData: ILeagueConfigurationData | null = await redis.json.get(leagueConfigurationKeys[i])
-        if (leagueConfigurationData !== null) {
-            leagueConfigurationList.push(leagueConfigurationData);
-        }
+    const leagueConfigurationData: ILeagueConfigurationData | null = await redis.json.get(leagueConfigurationKey);
+    if (leagueConfigurationData !== null){
+        return leagueConfigurationData;
+    } else {
+        throw new Error("There is no league configuration found for the key provided");
     }
-
-    return leagueConfigurationList
 }
