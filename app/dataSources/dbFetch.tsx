@@ -7,6 +7,18 @@ export interface IContestantData {
     handicap: number
 }
 
+export interface ILeagueConfigurationData {
+    wikiPageUrl: string,
+    wikiApiUrl: string,
+    googleSheetUrl: string,
+    leagueStatus: string,
+    castPhrase: string,
+    preGoogleSheetsLinkText: string,
+    postGoogleSheetsLinkText: string,
+    competitingEntityName: string,
+    contestantLeagueDataKeyPrefix: string
+}
+
 export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
 
     if (keyPrefix === undefined) {
@@ -29,4 +41,22 @@ export async function getContestantData(keyPrefix: string): Promise<IContestantD
     }
 
     return userList
+}
+
+export async function getLeagueConfigurationData(leagueConfigurationKey: string): Promise<ILeagueConfigurationData> {
+
+    if (leagueConfigurationKey === undefined) {
+        throw new Error("Unable to getLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value\"");
+    }
+
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    })
+    const leagueConfigurationData: ILeagueConfigurationData | null = await redis.json.get(leagueConfigurationKey);
+    if (leagueConfigurationData !== null){
+        return leagueConfigurationData;
+    } else {
+        throw new Error("There is no league configuration found for the key provided");
+    }
 }

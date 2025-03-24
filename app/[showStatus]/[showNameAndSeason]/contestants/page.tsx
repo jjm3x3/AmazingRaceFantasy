@@ -1,6 +1,7 @@
 import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
+import { getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import Team from "@/app/models/Team"
 import fs from "fs";
 import path from "path";
@@ -43,17 +44,16 @@ export default async function Contestants({ params }: {
     const showAndSeasonArr = showNameAndSeason.split("-");
     const showSeason = showAndSeasonArr.at(-1);
     showAndSeasonArr.pop();
-    const showNameArr = showAndSeasonArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
-    const showName = showNameArr.join("");
-    const friendlyShowName = showNameArr.join(" ");
-    const fileName = `${showName}_${showSeason}`;
+    const showName = showAndSeasonArr.join("_");
+    const friendlyShowName = showAndSeasonArr.join(" ");
     // "Dynamically" (still static site generated) retrieving modules
-    const leagueConfigurationData = await import(`../../../leagueConfiguration/${fileName}.js`);
+    console.log(`league_configuration:${showName}:${showSeason}`);
+    const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showName}:${showSeason}`);
     const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName } = leagueConfigurationData;
 
     const wikiContestants = await getWikipediaContestantData(wikiApiUrl, castPhrase);
     let final;
-    if(showName.match("AmazingRace")){
+    if(showName.match("amazing_race")){
         final = getTeamList(wikiContestants);
     } else {
         final = getCompetingEntityList(wikiContestants);
