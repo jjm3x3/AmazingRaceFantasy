@@ -11,7 +11,7 @@ describe("Team construct", () => {
 });
 
 describe("Team isInPlay", () => {
-    it("should be true when elimination order is 0 reguardless of roundNumber (sparse)", () => {
+    it("should be true when elimination order is 0 reguardless of eliminationOrder (sparse)", () => {
         const aTeam = new Team({
             isParticipating: true,
             eliminationOrder: 0
@@ -29,7 +29,7 @@ describe("Team isInPlay", () => {
         }
     });
 
-    it("should be false if roundOrder and eliminationOrder are exactly the same", () => {
+    it("should be false if passed in eliminationOrder and instance eliminationOrder are exactly the same", () => {
 
         for (let i = 0 - 100; i < 100; i++) {
             if (i === 0) { continue; } // This was already coverd in the last test
@@ -45,7 +45,7 @@ describe("Team isInPlay", () => {
         }
     });
 
-    it("should be true if roundOrder is one less than eliminationOrder", () => {
+    it("should be true if passed in eliminationOrder is one less than instance eliminationOrder", () => {
 
         for (let i = 0 - 100; i < 100; i++) {
             if (i === 0) { continue; } // This was already coverd in the last test
