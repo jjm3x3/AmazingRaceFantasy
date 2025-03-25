@@ -38,7 +38,6 @@ export default async function Contestants({ params }: {
     const showName = showAndSeasonArr.join("_");
     const friendlyShowName = showAndSeasonArr.join(" ");
     // "Dynamically" (still static site generated) retrieving modules
-    console.log(`league_configuration:${showName}:${showSeason}`);
     const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showName}:${showSeason}`);
     const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName } = leagueConfigurationData;
 
