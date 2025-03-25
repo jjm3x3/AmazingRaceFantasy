@@ -2,7 +2,7 @@ import { ITableRowData } from "../dataSources/wikiFetch";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { getNumberOfRounds } from "../utils/teamListUtils";
 import Team from "../models/Team";
-import LeagueStanding from "../models/LeagueStanding";
+import League from "../models/League";
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -23,7 +23,7 @@ export async function generateContestantRoundScores(
     }, {});
     const numberOfRounds = getNumberOfRounds(pageData);
 
-    const result: LeagueStanding = new LeagueStanding();
+    const result: League = new League();
 
     listOfContestantLeagueData.map(contestant => {
 

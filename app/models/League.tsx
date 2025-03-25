@@ -2,7 +2,7 @@ import IRound from "./IRound";
 import Team from "./Team";
 import { shouldBeScored } from "../utils/teamListUtils";
 
-export default class LeagueStanding {
+export default class League {
     rounds: IRound[];
 
     constructor() {
@@ -47,7 +47,7 @@ export default class LeagueStanding {
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
-        const result = new LeagueStanding();
+        const result = new League();
         result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);
 
         return result.rounds;
