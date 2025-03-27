@@ -14,7 +14,7 @@ export async function generateStaticParams() {
     const leagueConfigurationKeys = await getLeagueConfigurationKeys();
     const shows = [];
     for(const leagueConfigurationKey of leagueConfigurationKeys){
-        const params = leagueConfigurationKey.replace("league_configuration:", "").replace(":*", "").replaceAll("_", "-").split(":");
+        const params = leagueConfigurationKey.replace("league_configuration:", "").replaceAll("_", "-").split(":");
         const showStatus = params.find(param => param === "active" || param === "archive");
         const showNameAndSeason = params.filter(param => param !== "active" && param !== "archive").join("-");
         const showPropertiesObj = {
