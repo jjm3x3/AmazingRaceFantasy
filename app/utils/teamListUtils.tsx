@@ -10,7 +10,7 @@ export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number
     return team.isInPlay(currentWeek) && !listHasTeamBeingEliminated;
 }
 
-export function getNumberOfRounds(teams: Team[]): number {
+function getUniqueEliminationOrders(teams: Team[]): Set {
     const seenOrders = new Set();
     teams.filter(
         (t) => t.eliminationOrder !== Number.MAX_VALUE
@@ -18,6 +18,11 @@ export function getNumberOfRounds(teams: Team[]): number {
     ).forEach((t) => {
         seenOrders.add(t.eliminationOrder);
     });
+    return seenOrders;
+}
+
+export function getNumberOfRounds(teams: Team[]): number {
+    const seenOrders = getUniqueEliminationOrders(teams);
 
     return seenOrders.size;
 }
