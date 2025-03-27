@@ -69,10 +69,16 @@ async function recreateLeagueData(leagueKeyPrefix, dataRepo) {
 
 
 async function recreateLeagueConfigurationData(leagueConfigurationKey, dataRepo) {
+    let leagueConfigurationCursor = await redis.scan("0", {match: leagueConfigurationKey+"*"});
+    let leagueConfigurationKeys = leagueConfigurationCursor[1];
+    let cursorStart = leagueConfigurationCursor[0];
+    while(cursorStart !== "0"){
+        leagueConfigurationCursor = await redis.scan(cursorStart, {match: leagueConfigurationKey+"*"});
+        leagueConfigurationKeys = leagueConfigurationKeys.concat(leagueConfigurationCursor[1]);
+        cursorStart = leagueConfigurationCursor[0];
+    }
 
-    const leagueConfigurationCursor = await redis.scan("0", {match: leagueConfigurationKey+"*"})
-
-    for (const aKey of leagueConfigurationCursor[1]) { //list of keys
+    for (const aKey of leagueConfigurationKeys) { //list of keys
         redis.del(aKey)
     }
 
