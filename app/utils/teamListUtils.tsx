@@ -14,7 +14,7 @@ function getRoundEliminationOrderMapping(teamList: Team[]): any {
 
     const setOfEliminationOrders = getUniqueEliminationOrders(teamList);
     const listOfEliminationOrders = Array.from(setOfEliminationOrders)
-    listOfEliminationOrders.sort((x, y) => x - y);
+    listOfEliminationOrders.sort((x, y) => Number(x) - Number(y));
 
     const mapping = {};
     listOfEliminationOrders.forEach((t, i) => {
