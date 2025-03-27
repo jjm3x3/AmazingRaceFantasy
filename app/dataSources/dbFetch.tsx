@@ -48,9 +48,14 @@ export async function getLeagueConfigurationKeys(): Promise<string[]> {
         url: process.env.KV_REST_API_URL,
         token: process.env.KV_REST_API_TOKEN
     });
-
-    const leagueConfigurationCursor = await redis.scan("0", {match: "league_configuration:*"});
-    const leagueConfigurationKeys = leagueConfigurationCursor[1];
+    let leagueConfigurationCursor = await redis.scan("0", {match: "league_configuration:*"});
+    let leagueConfigurationKeys = leagueConfigurationCursor[1];
+    let cursorStart = leagueConfigurationCursor[0];
+    while(cursorStart !== "0"){
+        leagueConfigurationCursor = await redis.scan(cursorStart, {match: "league_configuration:*"});
+        leagueConfigurationKeys = leagueConfigurationKeys.concat(leagueConfigurationCursor[1]);
+        cursorStart = leagueConfigurationCursor[0];
+    }
     if(leagueConfigurationKeys !== null){
         return leagueConfigurationKeys;
     } else {
