@@ -10,8 +10,8 @@ export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number
     return team.isInPlay(currentWeek) && !listHasTeamBeingEliminated;
 }
 
-function getUniqueEliminationOrders(teams: Team[]): Set {
-    const seenOrders = new Set();
+function getUniqueEliminationOrders(teams: Team[]): Set<number> {
+    const seenOrders = new Set<number>();
     teams.filter(
         (t) => t.eliminationOrder !== Number.MAX_VALUE
             && t.eliminationOrder !== 0
