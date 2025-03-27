@@ -11,7 +11,7 @@ describe("Team construct", () => {
 });
 
 describe("Team isInPlay", () => {
-    it("should be true when elimination order is 0 reguardless of roundNumber (sparse)", () => {
+    it("should be true when elimination order is 0 reguardless of eliminationOrder (sparse)", () => {
         const aTeam = new Team({
             isParticipating: true,
             eliminationOrder: 0
@@ -29,7 +29,7 @@ describe("Team isInPlay", () => {
         }
     });
 
-    it("should be false if roundOrder and eliminationOrder are exactly the same", () => {
+    it("should be false if passed in eliminationOrder and instance eliminationOrder are exactly the same", () => {
 
         for (let i = 0 - 100; i < 100; i++) {
             if (i === 0) { continue; } // This was already coverd in the last test
@@ -45,11 +45,7 @@ describe("Team isInPlay", () => {
         }
     });
 
-    // this is true because it assumes roundNumber is 0 indexed while
-    // eliminationOrder is 1 indexed. This also leads to the next oddity which
-    // is tested in the test w/ the same name but checking that the result is
-    // falsy when the roundNumber is eliminationOrder-2
-    it("should be false if roundOrder is one less than eliminationOrder", () => {
+    it("should be true if passed in eliminationOrder is one less than instance eliminationOrder", () => {
 
         for (let i = 0 - 100; i < 100; i++) {
             if (i === 0) { continue; } // This was already coverd in the last test
@@ -61,24 +57,7 @@ describe("Team isInPlay", () => {
 
             // Act, Assert
             expect(aTeam.eliminationOrder).toBe(i);
-            expect(aTeam.isInPlay(i-1)).toBeFalsy();
-        }
-    });
-
-    // See comment on "should be false if roundOrder is one less...
-    it("should be true if roundOrder is two less than eliminationOrder", () => {
-
-        for (let i = 0 - 100; i < 100; i++) {
-            if (i === 0) { continue; } // This was already coverd in the last test
-
-            // Arrange
-            const aTeam = new Team({
-                eliminationOrder: i
-            });
-
-            // Act, Assert
-            expect(aTeam.eliminationOrder).toBe(i);
-            expect(aTeam.isInPlay(i-2)).toBeTruthy();
+            expect(aTeam.isInPlay(i-1)).toBeTruthy();
         }
     });
 });
