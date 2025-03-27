@@ -1,5 +1,9 @@
 import Team from "../models/Team";
 
+interface RoundEliminationOrderMapping {
+    [Key: string]: number;
+}
+
 export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number): boolean {
 
     const teamPosition = teamList.length - teamList.indexOf(team);
