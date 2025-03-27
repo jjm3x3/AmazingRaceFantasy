@@ -20,7 +20,7 @@ function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrde
     const listOfEliminationOrders = Array.from(setOfEliminationOrders)
     listOfEliminationOrders.sort((x, y) => Number(x) - Number(y));
 
-    const mapping = {};
+    const mapping: RoundEliminationOrderMapping = {};
     listOfEliminationOrders.forEach((t, i) => {
         mapping[i] = Number(t);
     });
