@@ -22,7 +22,7 @@ function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrde
 
     const mapping = {};
     listOfEliminationOrders.forEach((t, i) => {
-        mapping[i] = t;
+        mapping[i] = Number(t);
     });
 
     return mapping;
