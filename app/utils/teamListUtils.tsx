@@ -14,7 +14,7 @@ export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number
     return team.isInPlay(currentWeek) && !listHasTeamBeingEliminated;
 }
 
-function getRoundEliminationOrderMapping(teamList: Team[]): any {
+function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrderMapping {
 
     const setOfEliminationOrders = getUniqueEliminationOrders(teamList);
     const listOfEliminationOrders = Array.from(setOfEliminationOrders)
