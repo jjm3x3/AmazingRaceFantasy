@@ -14,11 +14,12 @@ export async function generateStaticParams() {
     const leagueConfigurationKeys = await getLeagueConfigurationKeys();
     const shows = [];
     for(const leagueConfigurationKey of leagueConfigurationKeys){
-        const { leagueStatus, contestantLeagueDataKeyPrefix} = await getLeagueConfigurationData(leagueConfigurationKey);
-        const showNameAndSeason = contestantLeagueDataKeyPrefix.replace(":*", "").replaceAll("_", "-").replace(":", "-");
+        const params = leagueConfigurationKey.replace("league_configuration:", "").replace(":*", "").replaceAll("_", "-").split(':');
+        const showStatus = params.find(param => param === "active" || param === "archive");
+        const showNameAndSeason = params.filter(param => param !== "active" && param !== "archive").join('-');
         const showPropertiesObj = {
             showNameAndSeason,
-            showStatus: leagueStatus
+            showStatus
         }
         shows.push(showPropertiesObj);
     }

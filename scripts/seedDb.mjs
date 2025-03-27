@@ -28,11 +28,11 @@ await recreateLeagueData("amazing_race:37:", amazingRace37Data)
 await recreateLeagueData("big_brother:26:", bigBrother26Data)
 
 // Create league configuration data
-await recreateLeagueConfigurationData("league_configuration:amazing_race:35", amazingRace35LeagueConfiguration)
-await recreateLeagueConfigurationData("league_configuration:amazing_race:36", amazingRace36LeagueConfiguration)
-await recreateLeagueConfigurationData("league_configuration:amazing_race:37", amazingRace37LeagueConfiguration)
-await recreateLeagueConfigurationData("league_configuration:big_brother:26", bigBrother26LeagueConfiguration)
-await recreateLeagueConfigurationData("league_configuration:survivor:47", survivor47LeagueConfiguration)
+await recreateLeagueConfigurationData(`league_configuration:${amazingRace35LeagueConfiguration.leagueStatus}:amazing_race:35`, amazingRace35LeagueConfiguration)
+await recreateLeagueConfigurationData(`league_configuration:${amazingRace36LeagueConfiguration.leagueStatus}:amazing_race:36`, amazingRace36LeagueConfiguration)
+await recreateLeagueConfigurationData(`league_configuration:${amazingRace37LeagueConfiguration.leagueStatus}:amazing_race:37`, amazingRace37LeagueConfiguration)
+await recreateLeagueConfigurationData(`league_configuration:${bigBrother26LeagueConfiguration.leagueStatus}:big_brother:26`, bigBrother26LeagueConfiguration)
+await recreateLeagueConfigurationData(`league_configuration:${survivor47LeagueConfiguration.leagueStatus}:survivor:47`, survivor47LeagueConfiguration)
 
 let fullCursor = await redis.scan("0", {match: "*"})
 console.log(fullCursor)
