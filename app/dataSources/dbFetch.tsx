@@ -43,6 +43,26 @@ export async function getContestantData(keyPrefix: string): Promise<IContestantD
     return userList
 }
 
+export async function getLeagueConfigurationKeys(): Promise<string[]> {
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    });
+    let leagueConfigurationCursor = await redis.scan("0", {match: "league_configuration:*"});
+    let leagueConfigurationKeys = leagueConfigurationCursor[1];
+    let cursorStart = leagueConfigurationCursor[0];
+    while(cursorStart !== "0"){
+        leagueConfigurationCursor = await redis.scan(cursorStart, {match: "league_configuration:*"});
+        leagueConfigurationKeys = leagueConfigurationKeys.concat(leagueConfigurationCursor[1]);
+        cursorStart = leagueConfigurationCursor[0];
+    }
+    if(leagueConfigurationKeys !== null){
+        return leagueConfigurationKeys;
+    } else {
+        throw new Error("There are no league configurations in the database");
+    }
+}
+
 export async function getLeagueConfigurationData(leagueConfigurationKey: string): Promise<ILeagueConfigurationData> {
 
     if (leagueConfigurationKey === undefined) {
