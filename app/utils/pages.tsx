@@ -1,7 +1,6 @@
-import * as pagesModule from "./pages";
 import fs from "fs";
 import path from "path";
-import { transformFilenameToSeasonNameRepo } from "./leagueUtils"
+import { getLeagueConfigurationKeys, getContestantData } from "../dataSources/dbFetch";
 
 interface ILeagueLink {
     name: string
@@ -27,47 +26,51 @@ export function checkForSubpages (filename:string){
     return fs.existsSync(path.join(process.cwd(), "app", "leagueData", filename));
 }
 
-export function getPages(): ILeagueLink[] {
+export async function getPages(): Promise<ILeagueLink[]> {
     // Based on availability in leagueConfiguration
-    const filepaths = pagesModule.getPathsToMap();
+    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
     const activeLeaguePaths:Array<ILeagueLink> = [];
     const archiveLeaguePaths:Array<ILeagueLink> = [];
-    filepaths.map((file: string) => {
-        // Needed status for url
-        const { leagueStatus } = pagesModule.getLeagueConfigurationData(file);
-        // Parses filename and converts it to url format
-        const pageStrings = transformFilenameToSeasonNameRepo(file);
+    for(const leagueConfigurationKey of leagueConfigurationKeys){
+        const showKey = leagueConfigurationKey.replace("league_configuration:", "");
+        const params = showKey.replaceAll("_", "-").split(":");
+        const showStatus = params.find(param => param === "active" || param === "archive");
+        const showNameAndSeason = params.filter(param => param !== "active" && param !== "archive").join("-");
+        const friendlyShowName = params[1].split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+        let friendlyName = `${friendlyShowName} ${params[2]}`;
         const subpages:Array<IPage> = [];
         subpages.push({
             name: "Contestants",
-            path: `/${leagueStatus}/${pageStrings.urlSlug}/contestants`
+            path: `/${showStatus}/${showNameAndSeason}/contestants`
         });
-        if(pagesModule.checkForSubpages(file)){
+        const showContestantData = await getContestantData(`${showKey.replace(/(archive|active):/i, "")}:*`);
+        const hasContestantInfo = showContestantData.length;
+        if(hasContestantInfo){
             const scoringSubpage = {
                 name: "Scoring",
-                path: `/${leagueStatus}/${pageStrings.urlSlug}/scoring`
+                path: `/${showStatus}/${showNameAndSeason}/scoring`
             }
             const leagueStandingSubpage = {
                 name: "League Standing",
-                path: `/${leagueStatus}/${pageStrings.urlSlug}/league-standing`
+                path: `/${showStatus}/${showNameAndSeason}/league-standing`
             }
             subpages.push(scoringSubpage, leagueStandingSubpage);
         }
-        if(leagueStatus === "active"){
-            pageStrings.friendlyName = `Current (${pageStrings.friendlyName})`
+        if(showStatus === "active"){
+            friendlyName = `Current (${friendlyName})`
         }
-        //   Path object created
         const pathObj = {
-            name: pageStrings.friendlyName,
+            name: friendlyName,
             subpages: subpages
         }
-        if(leagueStatus === "active"){
+        if(showStatus === "active"){
             activeLeaguePaths.push(pathObj);
         } else {
             archiveLeaguePaths.push(pathObj);
         }
-    });
-    const paths:Array<ILeagueLink> = activeLeaguePaths.concat(archiveLeaguePaths);
+    }
+    const pathsPromises = [...activeLeaguePaths,...archiveLeaguePaths];
+    const paths:Array<ILeagueLink> = await Promise.all(pathsPromises);
     return paths;
 }
 
