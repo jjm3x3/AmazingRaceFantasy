@@ -1,6 +1,7 @@
 import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
-import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
+import { getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getUrlParams } from "@/app/utils/pages";
 import Team from "@/app/models/Team"
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
@@ -9,21 +10,8 @@ export const dynamicParams = false
 
 // Creates routes for scoring
 export async function generateStaticParams() {
-  
-    // Based on availability in leagueConfiguration
-    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
-    const shows = [];
-    for(const leagueConfigurationKey of leagueConfigurationKeys){
-        const params = leagueConfigurationKey.replace("league_configuration:", "").replaceAll("_", "-").split(":");
-        const showStatus = params.find(param => param === "active" || param === "archive");
-        const showNameAndSeason = params.filter(param => param !== "active" && param !== "archive").join("-");
-        const showPropertiesObj = {
-            showNameAndSeason,
-            showStatus
-        }
-        shows.push(showPropertiesObj);
-    }
-    return shows;
+    const params = await getUrlParams();
+    return params;
 }
 
 export default async function Contestants({ params }: {
