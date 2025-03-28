@@ -7,7 +7,7 @@ export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number
     const currentWeek = roundNumber+1;
     const listHasTeamBeingEliminated = teamPosition <= currentWeek;
 
-    return team.isInPlay(roundNumber) && !listHasTeamBeingEliminated;
+    return team.isInPlay(currentWeek) && !listHasTeamBeingEliminated;
 }
 
 export function getNumberOfRounds(teams: Team[]): number {

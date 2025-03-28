@@ -1,10 +1,7 @@
-import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
-import { getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import Team from "@/app/models/Team"
-import fs from "fs";
-import path from "path";
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
@@ -14,23 +11,18 @@ export const dynamicParams = false
 export async function generateStaticParams() {
   
     // Based on availability in leagueConfiguration
-    const pathToLeagueConfiguration = path.join(process.cwd(), "app", "leagueConfiguration");
-    const showPropPromises = fs.readdirSync(pathToLeagueConfiguration).map(async (file: string) => {
-        // Needed status for url
-        const leagueConfigurationData = await import(`../../../leagueConfiguration/${file}`);
-        const { leagueStatus } = leagueConfigurationData;
-        // Parses filename and converts it to url format
-        const { urlSlug: showNameAndSeason } = transformFilenameToSeasonNameRepo(file)
-        // Exporting properties as params
+    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
+    const shows = [];
+    for(const leagueConfigurationKey of leagueConfigurationKeys){
+        const params = leagueConfigurationKey.replace("league_configuration:", "").replaceAll("_", "-").split(":");
+        const showStatus = params.find(param => param === "active" || param === "archive");
+        const showNameAndSeason = params.filter(param => param !== "active" && param !== "archive").join("-");
         const showPropertiesObj = {
             showNameAndSeason,
-            showStatus: leagueStatus
+            showStatus
         }
-        return showPropertiesObj;
-    });
-
-    const shows = await Promise.all(showPropPromises);
-
+        shows.push(showPropertiesObj);
+    }
     return shows;
 }
 
@@ -47,7 +39,6 @@ export default async function Contestants({ params }: {
     const showName = showAndSeasonArr.join("_");
     const friendlyShowName = showAndSeasonArr.join(" ");
     // "Dynamically" (still static site generated) retrieving modules
-    console.log(`league_configuration:${showName}:${showSeason}`);
     const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showName}:${showSeason}`);
     const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName } = leagueConfigurationData;
 

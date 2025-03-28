@@ -28,4 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+      env:
+        KV_REST_API_URL: ${{ secrets.KV_REST_API_URL_TEST }}
+        KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN_TEST }}
     - run: npm test
