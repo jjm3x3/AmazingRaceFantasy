@@ -18,10 +18,6 @@ export function getPathsToMap (){
     return pathsToMap;
 }
 
-export function getLeagueConfigurationData (filename:string){
-    return require(`../leagueConfiguration/${filename}`);
-}
-
 export function checkForSubpages (filename:string){
     return fs.existsSync(path.join(process.cwd(), "app", "leagueData", filename));
 }
