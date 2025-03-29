@@ -138,5 +138,9 @@ describe("pages getUrlParams", () => {
         expect(ARParams.showStatus).toBe(ARLeagueStatus);
         expect(BBParams.showNameAndSeason).toBe("big-brother-26");
         expect(BBParams.showStatus).toBe(BBLeagueStatus);
+        const ARTestUrl = new URL(`https://test.com/${ARLeagueStatus}/${ARParams.showNameAndSeason}/subpage`);
+        expect(ARTestUrl).toBeTruthy();
+        const BBTestUrl = new URL(`https://test.com/${BBLeagueStatus}/${BBParams.showNameAndSeason}/subpage`);
+        expect(BBTestUrl).toBeTruthy();
     });
 });
