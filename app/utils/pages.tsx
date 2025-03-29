@@ -2,7 +2,6 @@ import * as pagesModule from "./pages";
 import fs from "fs";
 import path from "path";
 import { transformFilenameToSeasonNameRepo } from "./leagueUtils"
-import { getLeagueConfigurationKeys } from "../dataSources/dbFetch";
 
 interface ILeagueLink {
     name: string
@@ -72,11 +71,10 @@ export function getPages(): ILeagueLink[] {
     return paths;
 }
 
-export async function getUrlParams  (){
-    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
+export function getUrlParams (dataKeys:string[]){
     const shows = [];
-    for(const leagueConfigurationKey of leagueConfigurationKeys){
-        const params = leagueConfigurationKey.replace("league_configuration:", "").replaceAll("_", "-").split(":");
+    for(const dataKey of dataKeys){
+        const params = dataKey.replace("league_configuration:", "").replaceAll("_", "-").split(":");
         const showStatus = params.find((param:string) => param === "active" || param === "archive");
         const showNameAndSeason = params.filter((param:string) => param !== "active" && param !== "archive").join("-");
         const showPropertiesObj = {

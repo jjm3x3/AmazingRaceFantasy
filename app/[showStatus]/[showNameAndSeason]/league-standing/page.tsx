@@ -2,7 +2,7 @@ import { getWikipediaContestantDataFetcher } from "@/app/dataSources/wikiFetch"
 import LeagueStandingTable from "../../../components/leagueStandingTable/leagueStandingTable";
 import { getTeamList, getCompetingEntityList } from "@/app/utils/wikiQuery";
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
-import { getContestantData } from "@/app/dataSources/dbFetch";
+import { getContestantData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
@@ -10,7 +10,8 @@ export const dynamicParams = false
 
 // Creates routes for scoring
 export async function generateStaticParams() {
-    const params = await getUrlParams();
+    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
+    const params = await getUrlParams(leagueConfigurationKeys);
     return params;
 }
 

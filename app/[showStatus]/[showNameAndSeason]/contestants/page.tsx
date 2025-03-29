@@ -1,6 +1,6 @@
 import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
-import { getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
 import Team from "@/app/models/Team"
 
@@ -10,7 +10,8 @@ export const dynamicParams = false
 
 // Creates routes for scoring
 export async function generateStaticParams() {
-    const params = await getUrlParams();
+    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
+    const params = await getUrlParams(leagueConfigurationKeys);
     return params;
 }
 
