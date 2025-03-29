@@ -76,6 +76,21 @@ describe("teamListUtils shouldBeScored", () => {
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(1);
     });
+
+    it("Should be able to determine the find the appropriate eliminationOrder after a multi elimination round", () => {
+        // Arrange
+        const aTeam = {
+            isInPlay: jest.fn(),
+            eliminationOrder: 3
+        };
+        const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
+
+        // Act
+        shouldBeScored(teamList, aTeam, 1); // this is round 2, by 0 indexing
+
+        // Assert
+        expect(aTeam.isInPlay).toHaveBeenCalledWith(3);
+    });
 });
 
 describe("getNumberOfRounds", () => {
