@@ -2,12 +2,12 @@ import "./globals.scss";
 import { getPages } from "@/app/utils/pages";
 import Navigation from "./components/navigation/navigation";
 
-export default function Template({
+export default async function Template({
     children
 }: {
   children: React.ReactNode
 }) {
-    const pages = getPages();
+    const pages = await getPages();
     return (
         <>
             <header>

@@ -4,8 +4,8 @@ import ISubpage from "./models/ISubpage";
 import { getPages } from "@/app/utils/pages";
 import "./styles/homepage.scss";
 
-export default function Home() {
-    const pages = getPages() || [];
+export default async function Home() {
+    const pages = await getPages();
 
     return (
         <>
