@@ -95,6 +95,19 @@ describe("teamListUtils shouldBeScored", () => {
 
 describe("getUniqueEliminationOrders", () => {
     it("Should include even teams with partial eliminationOrders", () => {
+        // Arrange
+        const partialEliminationOrder = 12.5;
+        const aTeam = {
+            isInPlay: jest.fn(),
+            eliminationOrder: partialEliminationOrder
+        };
+        const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
+
+        // Act
+        const result = getUniqueEliminationOrders(teamList);
+
+        // Assert
+        expect(result).toContain(partialEliminationOrder);
     });
 });
 
