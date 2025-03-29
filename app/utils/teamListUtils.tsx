@@ -32,7 +32,7 @@ function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrde
     return mapping;
 }
 
-function getUniqueEliminationOrders(teams: Team[]): Set<number> {
+export function getUniqueEliminationOrders(teams: Team[]): Set<number> {
     const seenOrders = new Set<number>();
     teams.filter(
         (t) => t.eliminationOrder !== Number.MAX_VALUE
