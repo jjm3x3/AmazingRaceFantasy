@@ -127,18 +127,16 @@ describe("pages getPages", () =>  {
 
 describe("pages getUrlParams", () => {
     it("should get the url params as an object", () => {
-        const { leagueStatus: ARLeagueStatus, contestantLeagueDataKeyPrefix: ARKeyPrefix } = AmazingRaceConfigData();
-        const ARShowName = ARKeyPrefix.replace(":*","").replace(/(_|:)/g,"-");
-        const { leagueStatus: BBLeagueStatus, contestantLeagueDataKeyPrefix: BBKeyPrefix } = BigBrotherConfigData(); 
-        const BBShowName = BBKeyPrefix.replace(":*","").replace(/(_|:)/g,"-");
-        const dataKeys = [`league_configuration:${ARLeagueStatus}:${ARShowName}`, `league_configuration:${BBLeagueStatus}:${BBShowName}`];
+        const { leagueStatus: ARLeagueStatus } = AmazingRaceConfigData();
+        const { leagueStatus: BBLeagueStatus } = BigBrotherConfigData(); 
+        const dataKeys = [`league_configuration:${ARLeagueStatus}:amazing_race:36`, `league_configuration:${BBLeagueStatus}:big_brother:26`];
         const params = pagesModule.getUrlParams(dataKeys);
         const ARParams = params[0];
         const BBParams = params[1];
         expect(params.length).toBe(2);
-        expect(ARParams.showNameAndSeason).toBe(ARShowName);
+        expect(ARParams.showNameAndSeason).toBe("amazing-race-36");
         expect(ARParams.showStatus).toBe(ARLeagueStatus);
-        expect(BBParams.showNameAndSeason).toBe(BBShowName);
+        expect(BBParams.showNameAndSeason).toBe("big-brother-26");
         expect(BBParams.showStatus).toBe(BBLeagueStatus);
     });
 });
