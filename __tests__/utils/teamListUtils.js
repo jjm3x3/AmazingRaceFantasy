@@ -93,6 +93,11 @@ describe("teamListUtils shouldBeScored", () => {
     });
 });
 
+describe("getUniqueEliminationOrders", () => {
+    it("Should include even teams with partial eliminationOrders", () => {
+    });
+});
+
 describe("getNumberOfRounds", () => {
     it("should not ever return Number.MAX_VALUE", () => {
         //Arrange
