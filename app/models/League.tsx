@@ -1,6 +1,6 @@
 import IRound from "./IRound";
 import Team from "./Team";
-import { shouldBeScored } from "../utils/teamListUtils";
+import { shouldBeScored, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
 export default class League {
     rounds: IRound[];
@@ -46,17 +46,9 @@ export default class League {
         }
     }
 
-    getNumberOfRounds(): number {
-        const seenOrders = new Set();
-        this.teamData.filter(
-            (t) => t.eliminationOrder !== Number.MAX_VALUE
-                && t.eliminationOrder !== 0
-        ).forEach((t) => {
-            seenOrders.add(t.eliminationOrder);
-        });
+    private getNumberOfRounds(): number {
 
-        return seenOrders.size;
-    }
+        const seenOrders = getUniqueEliminationOrders(this.teamData);
 
 
 
