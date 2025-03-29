@@ -72,7 +72,7 @@ export function getPages(): ILeagueLink[] {
     return paths;
 }
 
-export const getUrlParams = async ()=> {
+export async function getUrlParams  (){
     const leagueConfigurationKeys = await getLeagueConfigurationKeys();
     const shows = [];
     for(const leagueConfigurationKey of leagueConfigurationKeys){
