@@ -1,4 +1,4 @@
-import { shouldBeScored, getNumberOfRounds } from "../../app/utils/teamListUtils";
+import { shouldBeScored, getUniqueEliminationOrders, getNumberOfRounds } from "../../app/utils/teamListUtils";
 
 describe("teamListUtils shouldBeScored", () => {
     it("should be false when there is exactly one team and we are on the first round", () => {
