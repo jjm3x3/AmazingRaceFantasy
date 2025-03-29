@@ -71,3 +71,18 @@ export function getPages(): ILeagueLink[] {
     return paths;
 }
 
+export function getUrlParams (dataKeys:string[]){
+    const shows = [];
+    for(const dataKey of dataKeys){
+        const params = dataKey.replace("league_configuration:", "").replaceAll("_", "-").split(":");
+        const showStatus = params.find((param:string) => param === "active" || param === "archive");
+        const showNameAndSeason = params.filter((param:string) => param !== "active" && param !== "archive").join("-");
+        const showPropertiesObj = {
+            showNameAndSeason,
+            showStatus
+        }
+        shows.push(showPropertiesObj);
+    }
+    return shows;
+}
+
