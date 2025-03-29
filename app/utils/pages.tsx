@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import { getLeagueConfigurationKeys, getContestantData } from "../dataSources/dbFetch";
 
 interface ILeagueLink {
@@ -10,20 +8,6 @@ interface ILeagueLink {
 interface IPage {
     name: string
     path: string
-}
-
-export function getPathsToMap (){
-    const pathToLeagueData = path.join(process.cwd(), "app", "leagueConfiguration");
-    const pathsToMap = fs.readdirSync(pathToLeagueData);
-    return pathsToMap;
-}
-
-export function getLeagueConfigurationData (filename:string){
-    return require(`../leagueConfiguration/${filename}`);
-}
-
-export function checkForSubpages (filename:string){
-    return fs.existsSync(path.join(process.cwd(), "app", "leagueData", filename));
 }
 
 export async function getPages(): Promise<ILeagueLink[]> {
