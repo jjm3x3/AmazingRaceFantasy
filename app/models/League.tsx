@@ -5,6 +5,7 @@ import { shouldBeScored, getUniqueEliminationOrders } from "../utils/teamListUti
 export default class League {
     rounds: IRound[];
     teamData: Team[];
+    numberOfRounds: number | null = null;
 
     constructor(teamData: Team[]) {
         this.rounds = [];
@@ -47,10 +48,16 @@ export default class League {
     }
 
     private getNumberOfRounds(): number {
+        if (this.numberOfRounds !== null) {
+            return this.numberOfRounds;
+        }
 
         const seenOrders = getUniqueEliminationOrders(this.teamData);
 
+        this.numberOfRounds = seenOrders.size;
 
+        return this.numberOfRounds;
+    }
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
