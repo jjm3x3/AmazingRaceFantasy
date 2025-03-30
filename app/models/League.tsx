@@ -47,7 +47,7 @@ export default class League {
         }
     }
 
-    private getNumberOfRounds(): number {
+    getNumberOfRounds(): number {
         if (this.numberOfRounds !== null) {
             return this.numberOfRounds;
         }
