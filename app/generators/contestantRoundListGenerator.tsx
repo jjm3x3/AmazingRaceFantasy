@@ -2,7 +2,6 @@ import { getTeamList } from "../utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
-import { getNumberOfRounds } from "../utils/teamListUtils";
 import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
 import League from "../models/League";
