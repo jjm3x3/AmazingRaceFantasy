@@ -1,6 +1,5 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
 import { IContestantData } from "@/app/dataSources/dbFetch";
-import { getNumberOfRounds } from "../utils/teamListUtils";
 import Team from "../models/Team";
 import League from "../models/League";
 
@@ -21,9 +20,9 @@ export async function generateContestantRoundScores(
 
         return acc;
     }, {});
-    const numberOfRounds = getNumberOfRounds(pageData);
 
-    const result: League = new League();
+    const result: League = new League(pageData);
+    const numberOfRounds = result.getNumberOfRounds();
 
     listOfContestantLeagueData.map(contestant => {
 

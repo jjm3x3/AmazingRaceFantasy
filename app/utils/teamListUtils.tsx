@@ -42,9 +42,3 @@ export function getUniqueEliminationOrders(teams: Team[]): Set<number> {
     return seenOrders;
 }
 
-export function getNumberOfRounds(teams: Team[]): number {
-    const seenOrders = getUniqueEliminationOrders(teams);
-
-    return seenOrders.size;
-}
-
