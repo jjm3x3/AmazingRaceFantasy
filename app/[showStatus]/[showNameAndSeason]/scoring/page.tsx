@@ -35,7 +35,7 @@ export default async function Scoring({ params }: {
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
 
     // Check for Amazing Race due to additional param
-    if(showName.match("AmazingRace")){
+    if(showName.match("amazing_race")){
         listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData)
     } else {
         listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, getCompetingEntityList)

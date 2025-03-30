@@ -16,7 +16,6 @@ export default async function generateListOfContestantRoundLists(
     listOfContestantLeagueData: IContestantData[],
     getCompetingEntityListFunction: (_: ITableRowData[]) => Team[] = getTeamList,
 ) {
-
     const wikiContestants = await dataFetcher();
     const pageData = getCompetingEntityListFunction(wikiContestants);
 
@@ -33,9 +32,7 @@ export default async function generateListOfContestantRoundLists(
     const perfectScoreHandicap = 0;
     const roundScores: IRound[] = League.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap);
 
-
     return listOfContestantLeagueData.map(contestant => {
-
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
             const teamKey = Team.getKey(x);
             const foundTeam = teamDictionary[teamKey];
