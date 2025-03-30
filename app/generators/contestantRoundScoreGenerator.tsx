@@ -21,9 +21,9 @@ export async function generateContestantRoundScores(
 
         return acc;
     }, {});
-    const numberOfRounds = getNumberOfRounds(pageData);
 
     const result: League = new League(pageData);
+    const numberOfRounds = result.getNumberOfRounds();
 
     listOfContestantLeagueData.map(contestant => {
 
