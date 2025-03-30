@@ -25,7 +25,8 @@ export default async function generateListOfContestantRoundLists(
         return acc;
     }, {});
 
-    const numberOfRounds = getNumberOfRounds(pageData);
+    const league = new League(pageData);
+    const numberOfRounds = league.getNumberOfRounds();
 
     const reverseTeamsList = [...pageData].reverse();
 
