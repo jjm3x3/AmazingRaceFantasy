@@ -13,13 +13,14 @@ interface IPage {
 interface PageInformation {
     showStatus: string, 
     showNameAndSeason: string,
-    friendlyName: string
+    friendlyName: string,
+    contestantDataKey: string
 }
 
 function constructPageInformation(leagueConfigurationKey:string){
     const showKey = leagueConfigurationKey.replace("league_configuration:", "");
     const params = showKey.replaceAll("_", "-").split(":");
-    const showStatus = params.find(param => param === "active" || param === "archive");
+    const showStatus = params.filter(param => param === "active" || param === "archive")[0];
     const showNameAndSeason = params.filter(param => param !== "active" && param !== "archive").join("-");
     const friendlyShowName = params[1].split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
     const friendlyName = `${friendlyShowName} ${params[2]}`;
@@ -53,23 +54,27 @@ function generateSubpages (pageInformation:PageInformation, showContestantData:I
     return subpages;
 }
 
+function generatePathObj(pageData:PageInformation, showContestantData:IContestantData[]){
+    const subpages:Array<IPage> = generateSubpages(pageData, showContestantData);
+    if(pageData.showStatus === "active"){
+        pageData.friendlyName = `Current (${pageData.friendlyName})`
+    }
+    return {
+        name: pageData.friendlyName,
+        subpages: subpages
+    }
+}
+
 export async function getPages(): Promise<ILeagueLink[]> {
     // Based on availability in leagueConfiguration
     const leagueConfigurationKeys = await getLeagueConfigurationKeys();
     const activeLeaguePaths:Array<ILeagueLink> = [];
     const archiveLeaguePaths:Array<ILeagueLink> = [];
     for(const leagueConfigurationKey of leagueConfigurationKeys){
-        const pageInformation = constructPageInformation(leagueConfigurationKey);
-        const showContestantData = await getContestantData(pageInformation.contestantDataKey);
-        const subpages:Array<IPage> = generateSubpages(pageInformation, showContestantData);
-        if(pageInformation.showStatus === "active"){
-            pageInformation.friendlyName = `Current (${pageInformation.friendlyName})`
-        }
-        const pathObj = {
-            name: pageInformation.friendlyName,
-            subpages: subpages
-        }
-        if(pageInformation.showStatus === "active"){
+        const pageData:PageInformation = constructPageInformation(leagueConfigurationKey);
+        const showContestantData = await getContestantData(pageData.contestantDataKey);
+        const pathObj =  generatePathObj(pageData, showContestantData);
+        if(pageData.showStatus === "active"){
             activeLeaguePaths.push(pathObj);
         } else {
             archiveLeaguePaths.push(pathObj);
