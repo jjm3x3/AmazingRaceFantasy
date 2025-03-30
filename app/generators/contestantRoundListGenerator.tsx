@@ -2,7 +2,6 @@ import { getTeamList } from "../utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
-import { getNumberOfRounds } from "../utils/teamListUtils";
 import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
 import League from "../models/League";
@@ -25,7 +24,8 @@ export default async function generateListOfContestantRoundLists(
         return acc;
     }, {});
 
-    const numberOfRounds = getNumberOfRounds(pageData);
+    const league = new League(pageData);
+    const numberOfRounds = league.getNumberOfRounds();
 
     const reverseTeamsList = [...pageData].reverse();
 

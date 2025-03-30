@@ -1,12 +1,15 @@
 import IRound from "./IRound";
 import Team from "./Team";
-import { shouldBeScored } from "../utils/teamListUtils";
+import { shouldBeScored, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
 export default class League {
     rounds: IRound[];
+    teamData: Team[];
+    numberOfRounds: number | null = null;
 
-    constructor() {
+    constructor(teamData: Team[]) {
         this.rounds = [];
+        this.teamData = teamData;
     }
 
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
@@ -44,10 +47,21 @@ export default class League {
         }
     }
 
+    getNumberOfRounds(): number {
+        if (this.numberOfRounds !== null) {
+            return this.numberOfRounds;
+        }
+
+        const seenOrders = getUniqueEliminationOrders(this.teamData);
+
+        this.numberOfRounds = seenOrders.size;
+
+        return this.numberOfRounds;
+    }
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
-        const result = new League();
+        const result = new League(contestantTeamsList);
         result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);
 
         return result.rounds;
