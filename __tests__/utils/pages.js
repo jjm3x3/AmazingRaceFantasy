@@ -124,3 +124,23 @@ describe("pages getPages", () =>  {
         expect(amazingRaceSubpages[2].path).toBe("/archive/amazing-race-36/league-standing");
     });
 });
+
+describe("pages getUrlParams", () => {
+    it("should get the url params as an object", () => {
+        const { leagueStatus: ARLeagueStatus } = AmazingRaceConfigData();
+        const { leagueStatus: BBLeagueStatus } = BigBrotherConfigData(); 
+        const dataKeys = [`league_configuration:${ARLeagueStatus}:amazing_race:36`, `league_configuration:${BBLeagueStatus}:big_brother:26`];
+        const params = pagesModule.getUrlParams(dataKeys);
+        const ARParams = params[0];
+        const BBParams = params[1];
+        expect(params.length).toBe(2);
+        expect(ARParams.showNameAndSeason).toBe("amazing-race-36");
+        expect(ARParams.showStatus).toBe(ARLeagueStatus);
+        expect(BBParams.showNameAndSeason).toBe("big-brother-26");
+        expect(BBParams.showStatus).toBe(BBLeagueStatus);
+        const ARTestUrl = new URL(`https://test.com/${ARLeagueStatus}/${ARParams.showNameAndSeason}/subpage`);
+        expect(ARTestUrl).toBeTruthy();
+        const BBTestUrl = new URL(`https://test.com/${BBLeagueStatus}/${BBParams.showNameAndSeason}/subpage`);
+        expect(BBTestUrl).toBeTruthy();
+    });
+});

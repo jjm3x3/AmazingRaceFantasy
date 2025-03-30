@@ -1,4 +1,4 @@
-import { shouldBeScored, getNumberOfRounds } from "../../app/utils/teamListUtils";
+import { shouldBeScored, getUniqueEliminationOrders, getNumberOfRounds } from "../../app/utils/teamListUtils";
 
 describe("teamListUtils shouldBeScored", () => {
     it("should be false when there is exactly one team and we are on the first round", () => {
@@ -60,6 +60,54 @@ describe("teamListUtils shouldBeScored", () => {
 
         // Assert
         expect(result).toBeTruthy();
+    });
+
+    it("Should be able to determine the round even with eliminationOrder being 1 indexed", () => {
+        // Arrange
+        const aTeam = {
+            isInPlay: jest.fn(),
+            eliminationOrder: 1
+        };
+        const teamList = [aTeam, {}];
+
+        // Act
+        shouldBeScored(teamList, aTeam, 0);
+
+        // Assert
+        expect(aTeam.isInPlay).toHaveBeenCalledWith(1);
+    });
+
+    it("Should be able to determine the find the appropriate eliminationOrder after a multi elimination round", () => {
+        // Arrange
+        const aTeam = {
+            isInPlay: jest.fn(),
+            eliminationOrder: 3
+        };
+        const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
+
+        // Act
+        shouldBeScored(teamList, aTeam, 1); // this is round 2, by 0 indexing
+
+        // Assert
+        expect(aTeam.isInPlay).toHaveBeenCalledWith(3);
+    });
+});
+
+describe("getUniqueEliminationOrders", () => {
+    it("Should include even teams with partial eliminationOrders", () => {
+        // Arrange
+        const partialEliminationOrder = 12.5;
+        const aTeam = {
+            isInPlay: jest.fn(),
+            eliminationOrder: partialEliminationOrder
+        };
+        const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
+
+        // Act
+        const result = getUniqueEliminationOrders(teamList);
+
+        // Assert
+        expect(result).toContain(partialEliminationOrder);
     });
 });
 

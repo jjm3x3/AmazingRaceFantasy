@@ -1,35 +1,18 @@
-import { transformFilenameToSeasonNameRepo } from "../../../utils/leagueUtils"
 import ContestantSelector from "../../../components/contestantSelector"
 import { getCompetingEntityList } from "../../../utils/wikiQuery"
 import { getWikipediaContestantDataFetcher } from "../../../dataSources/wikiFetch"
 import generateListOfContestantRoundLists from "../../../generators/contestantRoundListGenerator"
-import { getContestantData } from "@/app/dataSources/dbFetch"
-import fs from "fs";
-import path from "path";
+import { getContestantData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch"
+import { getUrlParams } from "@/app/utils/pages"
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
 
 // Creates routes for scoring
 export async function generateStaticParams() {
-    
-    // Based on availability in leagueData
-    const pathToLeagueData = path.join(process.cwd(), "app", "leagueData");
-    const showPropPromises = fs.readdirSync(pathToLeagueData).map(async (file: string) => {
-        // Needed status for url
-        const leagueConfigurationData = await import(`../../../leagueConfiguration/${file}`);
-        const { leagueStatus } = leagueConfigurationData;
-        // Parses filename and converts it to url format
-        const { urlSlug: showNameAndSeason } = transformFilenameToSeasonNameRepo(file)
-        // Exporting properties as params
-        const showPropertiesObj = {
-            showNameAndSeason,
-            showStatus: leagueStatus
-        }
-        return showPropertiesObj;
-    });
-    const shows =  await Promise.all(showPropPromises);
-    return shows;
+    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
+    const params = await getUrlParams(leagueConfigurationKeys);
+    return params;
 }
 
 export default async function Scoring({ params }: {
