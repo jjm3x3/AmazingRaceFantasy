@@ -20,7 +20,7 @@ export default async function Contestants({ params }: {
   }) {
 
     // Wait for parsing and retrieving params
-    const { showNameAndSeason } = await params;
+    const { showNameAndSeason, showStatus } = await params;
     // Formatting to file naming convention
     const showAndSeasonArr = showNameAndSeason.split("-");
     const showSeason = showAndSeasonArr.at(-1);
@@ -28,7 +28,7 @@ export default async function Contestants({ params }: {
     const showName = showAndSeasonArr.join("_");
     const friendlyShowName = showAndSeasonArr.join(" ");
     // "Dynamically" (still static site generated) retrieving modules
-    const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showName}:${showSeason}`);
+    const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
     const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName } = leagueConfigurationData;
 
     const wikiContestants = await getWikipediaContestantData(wikiApiUrl, castPhrase);
