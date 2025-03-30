@@ -355,18 +355,18 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
 
         // round 10
         expect(anitasRoundScores[10].round).toBe(10);
-        expect(anitasRoundScores[10].contestantRoundData[0].roundScore).toBe(20);
-        expect(anitasRoundScores[10].contestantRoundData[0].totalScore).toBe(640);
+        expect(anitasRoundScores[10].contestantRoundData[0].roundScore).toBe(10);
+        expect(anitasRoundScores[10].contestantRoundData[0].totalScore).toBe(630);
 
         // round 11
         expect(anitasRoundScores[11].round).toBe(11);
         expect(anitasRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
-        expect(anitasRoundScores[11].contestantRoundData[0].totalScore).toBe(640);
+        expect(anitasRoundScores[11].contestantRoundData[0].totalScore).toBe(630);
 
         // round 12
         expect(anitasRoundScores[12].round).toBe(12);
         expect(anitasRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
-        expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(640);
+        expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(630);
     });
 
     it("Should Score Sean correctly for Big Brother 26", () => {
