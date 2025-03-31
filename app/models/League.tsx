@@ -47,27 +47,10 @@ export default class League {
 
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
-        let grandTotal = handicap === undefined ? 0 : handicap;
-        for(let i = 0; i < numberOfRounds; i++) {
-            const currentRound = this.rounds[i];
-            const elimOrder = currentRound.eliminationOrder;
-            const countOfTeamsElimedThisFar = currentRound.teamsEliminatedSoFar;
-            const roundScore = contestantTeamsList.reduce(
-                (acc: number, x: Team) => {
-                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, elimOrder, countOfTeamsElimedThisFar);
-    
-                    return teamShouldBeScored ? acc + 10 : acc;
-                }, 0);
-
-            grandTotal += roundScore;
-
-            currentRound.contestantRoundData.push({
-                name: contestantName,
-                roundScore: roundScore,
-                totalScore: grandTotal
-            });
-
-        }
+        this.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, elimOrder, countOfTeamsElimedThisFar, contestantLeagueData) => {
+            const currentRound = this.rounds[roundNumber]
+            currentRound.contestantRoundData.push(contestantLeagueData);
+        });
     }
 
     private calculateContestantRoundScores(
@@ -111,10 +94,10 @@ export default class League {
         }
 
         const result: IRound[] = [];
-        this.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, eliminationOrder, teamsElimedSoFar, contestantLeagueData) => {
+        this.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, elimOrder, teamsElimedSoFar, contestantLeagueData) => {
             result.push({
                 round: roundNumber,
-                eliminationOrder: eliminationOrder,
+                eliminationOrder: elimOrder,
                 teamsEliminatedSoFar: teamsElimedSoFar,
                 contestantRoundData: [contestantLeagueData]
             });
