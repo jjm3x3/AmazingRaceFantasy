@@ -1,4 +1,5 @@
 import IRound from "./IRound";
+import IContestantRoundData from "./IContestantRoundData";
 import Team from "./Team";
 import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
@@ -66,6 +67,33 @@ export default class League {
                 totalScore: grandTotal
             });
 
+        }
+    }
+
+    private calculateContestantRoundScores(
+        contestantTeamsList: Team[],
+        numberOfRounds: number,
+        contestantName: string,
+        handicap: number,
+        addToRoundList: (_n: number, _crd: IContestantRoundData) => void
+    ): void {
+
+        let grandTotal = handicap === undefined ? 0 : handicap;
+        for(let i = 0; i < numberOfRounds; i++) {
+            const roundScore = contestantTeamsList.reduce(
+                (acc: number, x: Team) => {
+                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i);
+    
+                    return teamShouldBeScored ? acc + 10 : acc;
+                }, 0);
+
+            grandTotal += roundScore;
+
+            addToRoundList(i, {
+                name: contestantName,
+                roundScore: roundScore,
+                totalScore: grandTotal
+            });
         }
     }
 
