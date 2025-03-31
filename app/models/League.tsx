@@ -87,7 +87,7 @@ export default class League {
         return this.numberOfRounds;
     }
 
-    generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
+    generateContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): IRound[] {
 
         if (numberOfRounds > contestantTeamsList.length) {
             throw new Error("Asking for more rounds that the number of teams in the list");

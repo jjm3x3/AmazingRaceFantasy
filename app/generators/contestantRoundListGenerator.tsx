@@ -25,12 +25,11 @@ export default async function generateListOfContestantRoundLists(
     }, {});
 
     const league = new League(pageData);
-    const numberOfRounds = league.getNumberOfRounds();
 
     const reverseTeamsList = [...pageData].reverse();
 
     const perfectScoreHandicap = 0;
-    const roundScores: IRound[] = league.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap);
+    const roundScores: IRound[] = league.generateContestantRoundScores(reverseTeamsList, "*perfect*", perfectScoreHandicap);
 
     return listOfContestantLeagueData.map(contestant => {
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
@@ -39,7 +38,7 @@ export default async function generateListOfContestantRoundLists(
             return foundTeam;
         });
 
-        const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name, contestant.handicap);
+        const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
 
         return {
             key: contestant.name,
