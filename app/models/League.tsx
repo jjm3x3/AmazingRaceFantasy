@@ -47,7 +47,7 @@ export default class League {
 
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
-        this.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, elimOrder, countOfTeamsElimedThisFar, contestantLeagueData) => {
+        this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, elimOrder, countOfTeamsElimedThisFar, contestantLeagueData) => {
             const currentRound = this.rounds[roundNumber]
             currentRound.contestantRoundData.push(contestantLeagueData);
         });
@@ -55,13 +55,13 @@ export default class League {
 
     private calculateContestantRoundScores(
         contestantTeamsList: Team[],
-        numberOfRounds: number,
         contestantName: string,
         handicap: number,
         addToRoundList: (_n: number, _eo: number, _cot: number, _crd: IContestantRoundData) => void
     ): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
+        const numberOfRounds = this.getNumberOfRounds();
         for(let i = 0; i < numberOfRounds; i++) {
             const currentRound = this.rounds[i];
             const elimOrder = currentRound.eliminationOrder;
@@ -94,7 +94,7 @@ export default class League {
         }
 
         const result: IRound[] = [];
-        this.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, elimOrder, teamsElimedSoFar, contestantLeagueData) => {
+        this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, elimOrder, teamsElimedSoFar, contestantLeagueData) => {
             result.push({
                 round: roundNumber,
                 eliminationOrder: elimOrder,
