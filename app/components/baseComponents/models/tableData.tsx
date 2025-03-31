@@ -4,9 +4,10 @@ export interface TableFooterItem {
 }
 
 export interface TableRowItem {
-    rank: string,
+    rank?: number,
     name: string,
-    totalScore: number
+    totalScore: number,
+    roundScore?: number
 }
 
 export interface TableData {
