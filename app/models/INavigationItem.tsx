@@ -25,6 +25,6 @@ export default interface INavigationItem{
     inputAttr: IInputAttribute
     labelAttr: ILabelAttribute
     listAttr: IListAttribute
-    children: any
+    children: HTMLElement
     hasSubpages: boolean
 };
