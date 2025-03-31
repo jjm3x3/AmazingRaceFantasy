@@ -45,7 +45,7 @@ export default class League {
         }
     }
 
-    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
+    addContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): void {
 
         this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, elimOrder, countOfTeamsElimedThisFar, contestantLeagueData) => {
             const currentRound = this.rounds[roundNumber]
