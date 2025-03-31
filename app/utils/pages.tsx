@@ -39,7 +39,7 @@ function generateSubpages (pageInformation:PageInformation, showContestantData:I
         name: "Contestants",
         path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/contestants`
     });
-    const hasContestantInfo = showContestantData.length;
+    const hasContestantInfo = !!showContestantData && showContestantData.length;
     if(hasContestantInfo){
         const scoringSubpage = {
             name: "Scoring",
@@ -73,7 +73,7 @@ export async function getPages(): Promise<ILeagueLink[]> {
     for(const leagueConfigurationKey of leagueConfigurationKeys){
         const pageData:PageInformation = constructPageInformation(leagueConfigurationKey);
         const showContestantData = await getContestantData(pageData.contestantDataKey);
-        const pathObj =  generatePathObj(pageData, showContestantData);
+        const pathObj = generatePathObj(pageData, showContestantData);
         if(pageData.showStatus === "active"){
             activeLeaguePaths.push(pathObj);
         } else {
