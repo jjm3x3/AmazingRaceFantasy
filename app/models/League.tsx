@@ -110,10 +110,18 @@ export default class League {
             throw new Error("Asking for more rounds that the number of teams in the list");
         }
 
-        const result = new League(contestantTeamsList);
-        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);
+        const league = new League(contestantTeamsList);
+        const result: IRound[] = [];
+        league.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, eliminationOrder, teamsElimedSoFar, contestantLeagueData) => {
+            result.push({
+                round: roundNumber,
+                eliminationOrder: eliminationOrder,
+                teamsEliminatedSoFar: teamsElimedSoFar,
+                contestantRoundData: [contestantLeagueData]
+            });
+        });
 
-        return result.rounds;
+        return result;
     }
 } 
 
