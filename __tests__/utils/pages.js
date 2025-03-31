@@ -11,8 +11,8 @@ const AmazingRaceConfigData = () => {
         postGoogleSheetsLinkText: "which was populated using a google form.",
         competitingEntityName: "teams",
         contestantLeagueDataKeyPrefix: "amazing_race:36:*"
-    }
-}
+    };
+};
 
 const BigBrotherConfigData = () => {
     return { 
@@ -25,8 +25,8 @@ const BigBrotherConfigData = () => {
         postGoogleSheetsLinkText: "which was populated using a google form.",
         competitingEntityName: "house guests",
         contestantLeagueDataKeyPrefix: "big_brother:26:*"
-    }    
-}
+    };
+};
 
 const AmazingRaceLeagueData = ()=> {
     // Contestant Ranking
@@ -74,12 +74,12 @@ const AmazingRaceLeagueData = ()=> {
         }
     ];
     return CONTESTANT_LEAGUE_DATA;
-}
+};
 
 const dataObject = {
     BigBrother_26: {leagueConfig: BigBrotherConfigData()},
     AmazingRace_36: {leagueConfig: AmazingRaceConfigData(), leagueData: AmazingRaceLeagueData()}
-}
+};
 
 jest.mock("../../app/dataSources/dbFetch", ()=> {
     return {
@@ -99,8 +99,8 @@ jest.mock("../../app/dataSources/dbFetch", ()=> {
         getLeagueConfigurationData: jest.fn().mockImplementation(filename => {
             return dataObject[filename].leagueConfig;
         })
-    }
-})
+    };
+});
 
 describe("pages getPages", () =>  {
     it("should return appropriate data order based on league status", async () => {
@@ -109,6 +109,7 @@ describe("pages getPages", () =>  {
         expect(pages[0].name).toBe("Current (Big Brother 26)");
         expect(pages[1].name).toBe("Amazing Race 36");
     });
+    
     it("should have subpages based on leagueConfig", async ()=> {
         const pages = await pagesModule.getPages();
         const bigBrotherSubpages = pages[0].subpages;
