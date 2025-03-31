@@ -92,10 +92,16 @@ export default class League {
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
-        const result = new League(contestantTeamsList);
-        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);
+        const league = new League(contestantTeamsList);
+        const result: IRound[] = [];
+        league.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, contestantLeagueData) => {
+            result.push({
+                round: roundNumber,
+                contestantRoundData: [contestantLeagueData]
+            });
+        });
 
-        return result.rounds;
+        return result;
     }
 } 
 
