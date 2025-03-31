@@ -20,8 +20,8 @@ interface PageInformation {
 function constructPageInformation(leagueConfigurationKey:string){
     const showKey = leagueConfigurationKey.replace("league_configuration:", "");
     const params = showKey.replaceAll("_", "-").split(":");
-    const showStatus = params.filter(param => param === "active" || param === "archive")[0];
-    const showNameAndSeason = params.filter(param => param !== "active" && param !== "archive").join("-");
+    const showStatus = params[0];
+    const showNameAndSeason = `${params[1]}-${params[2]}`;
     const friendlyShowName = params[1].split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
     const friendlyName = `${friendlyShowName} ${params[2]}`;
     const contestantDataKey = `${showKey.replace(/(archive|active):/i, "")}:*`;
