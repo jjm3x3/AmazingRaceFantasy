@@ -71,7 +71,7 @@ export default class League {
         return this.numberOfRounds;
     }
 
-    generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
+    generateContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): IRound[] {
 
         const result: IRound[] = [];
         this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, contestantLeagueData) => {
