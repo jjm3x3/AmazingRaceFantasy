@@ -13,7 +13,7 @@ export default class League {
         this.teamData = teamData;
     }
 
-    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
+    addContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): void {
 
         this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, contestantLeagueData) => {
             if (this.rounds.length > roundNumber) {
