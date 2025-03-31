@@ -15,7 +15,7 @@ export default class League {
 
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
-        this.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, contestantLeagueData) => {
+        this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, contestantLeagueData) => {
             if (this.rounds.length > roundNumber) {
                 const currentRound = this.rounds[roundNumber];
                 currentRound.contestantRoundData.push(contestantLeagueData);
@@ -31,7 +31,6 @@ export default class League {
 
     private calculateContestantRoundScores(
         contestantTeamsList: Team[],
-        numberOfRounds: number,
         contestantName: string,
         handicap: number,
         addToRoundList: (_n: number, _crd: IContestantRoundData) => void
@@ -39,6 +38,7 @@ export default class League {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
         const roundElimMapping = getRoundEliminationOrderMapping(this.teamData);
+        const numberOfRounds = this.getNumberOfRounds();
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
@@ -74,7 +74,7 @@ export default class League {
     generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
         const result: IRound[] = [];
-        this.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, contestantLeagueData) => {
+        this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, contestantLeagueData) => {
             result.push({
                 round: roundNumber,
                 contestantRoundData: [contestantLeagueData]
