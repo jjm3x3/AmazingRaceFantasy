@@ -1,16 +1,17 @@
 export interface TableFooterItem {
     footerValue: string,
     cellWidth: number
-
 }
 
-export interface TableFooter {
-    rows: TableFooterItem[]
+export interface TableRowItem {
+    rank: string,
+    name: string,
+    totalScore: number
 }
 
 export interface TableData {
     caption?: string, 
     columnNames: Array<string>,
-    rows: any[],
-    tableFooter?: TableFooter[]
+    rows: TableRowItem[],
+    tableFooterContent?: TableFooterItem[]
 }

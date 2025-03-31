@@ -1,8 +1,7 @@
-import { TableData }  from "../../models/tableData";
+import { TableData, TableRowItem, TableFooterItem }  from "../../models/tableData";
 import styles from "./table.module.scss";
 
-
-const getTableRow = (tableRow:any={})=> {
+const getTableRow = (tableRow: TableRowItem)=> {
     return <tr className={styles.tableRow}>
         <th className={styles.tableCell}>{tableRow.rank}</th>
         <td className={styles.tableCell}>{tableRow.name}</td>
@@ -13,16 +12,25 @@ const getTableRow = (tableRow:any={})=> {
 export default function Table({tableData, tableClassName}:{ tableData: TableData, tableClassName?:string }){
     let headerRow;
     if(tableData.columnNames){
-        const headerColumnNames = tableData.columnNames.map((columnValue, index) => <th className={styles.tableCell} key={`headerTableCol-${index}`} scope="col"><strong>{columnValue}</strong></th>);
+        const headerColumnNames = tableData.columnNames.map((columnValue: string, index: number) => 
+            <th className={styles.tableCell} 
+                key={`headerTableCol-${index}`} 
+                scope="col"><strong>{columnValue}</strong>
+            </th>);
         headerRow = <thead><tr className={styles.tableHeaderRow}>{headerColumnNames}</tr></thead>;
     }
-    const tableRows = tableData.rows.map((tableRow) => {
+    const tableRows = tableData.rows.map((tableRow: TableRowItem) => {
         return getTableRow(tableRow);
     });
     let footerRow;
-    if(tableData.tableFooter){
-        const footerRows = getTableRow(tableData.tableFooter);
-        footerRow = <tfoot>{footerRows}</tfoot>;
+    if(tableData.tableFooterContent){
+        const footerContent = tableData.tableFooterContent.map((footerCellDetails: TableFooterItem, index: number) => 
+            <td colSpan={footerCellDetails.cellWidth} 
+                className={styles.tableCell} 
+                key={`tableFooterRow-${index}`}>
+                <strong>{footerCellDetails.footerValue}</strong>
+            </td>);
+        footerRow = <tfoot><tr>{footerContent}</tr></tfoot>;
     }
     const classes = [styles.table, tableClassName].join(" ");
     return (
@@ -30,7 +38,7 @@ export default function Table({tableData, tableClassName}:{ tableData: TableData
             {tableData.caption && <caption>{tableData.caption}</caption>}
             {tableData.columnNames && headerRow}
             {tableRows}
-            {tableData.tableFooter && footerRow}
+            {tableData.tableFooterContent && footerRow}
         </table>
     );
 }
