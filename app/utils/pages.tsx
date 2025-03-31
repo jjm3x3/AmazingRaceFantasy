@@ -79,8 +79,7 @@ export async function getPages(): Promise<ILeagueLink[]> {
             archiveLeaguePaths.push(pathObj);
         }
     }
-    const pathsPromises = [...activeLeaguePaths,...archiveLeaguePaths];
-    const paths:Array<ILeagueLink> = await Promise.all(pathsPromises);
+    const paths:Array<ILeagueLink> = [...activeLeaguePaths,...archiveLeaguePaths];
     return paths;
 }
 
