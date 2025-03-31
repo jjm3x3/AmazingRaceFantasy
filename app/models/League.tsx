@@ -104,15 +104,14 @@ export default class League {
         return this.numberOfRounds;
     }
 
-    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
+    generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
 
         if (numberOfRounds > contestantTeamsList.length) {
             throw new Error("Asking for more rounds that the number of teams in the list");
         }
 
-        const league = new League(contestantTeamsList);
         const result: IRound[] = [];
-        league.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, eliminationOrder, teamsElimedSoFar, contestantLeagueData) => {
+        this.calculateContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap, (roundNumber, eliminationOrder, teamsElimedSoFar, contestantLeagueData) => {
             result.push({
                 round: roundNumber,
                 eliminationOrder: eliminationOrder,

@@ -30,7 +30,7 @@ export default async function generateListOfContestantRoundLists(
     const reverseTeamsList = [...pageData].reverse();
 
     const perfectScoreHandicap = 0;
-    const roundScores: IRound[] = League.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap);
+    const roundScores: IRound[] = league.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap);
 
     return listOfContestantLeagueData.map(contestant => {
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
@@ -39,7 +39,7 @@ export default async function generateListOfContestantRoundLists(
             return foundTeam;
         });
 
-        const contestantRoundScores: IRound[] = League.generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name, contestant.handicap);
+        const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name, contestant.handicap);
 
         return {
             key: contestant.name,
