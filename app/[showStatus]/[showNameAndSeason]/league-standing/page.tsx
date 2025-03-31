@@ -31,7 +31,7 @@ export default async function LeagueStanding({ params }: {
     const dataFetcher = getWikipediaContestantDataFetcher(wikiApiUrl, castPhrase);
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
 
-    const getEntityFn = showName.match("AmazingRace") ? getTeamList : getCompetingEntityList;
+    const getEntityFn = showName.match("amazing_race") ? getTeamList : getCompetingEntityList;
     
     const contestantsScores = await generateContestantRoundScores(dataFetcher, getEntityFn, contestantRoundData);
     return (

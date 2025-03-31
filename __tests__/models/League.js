@@ -193,6 +193,68 @@ describe("addContestantRoundScores", () => {
     });
 });
 
+describe("getNumberOfRounds", () => {
+    it("should not ever return Number.MAX_VALUE", () => {
+        //Arrange
+        const teamList = [{eliminationOrder: 1}, {eliminationOrder:2}, {eliminationOrder: Number.MAX_VALUE}];
+        const league = new League(teamList);
+
+        // Act
+        const result = league.getNumberOfRounds();
+
+        // Assert
+        expect(result).not.toBe(Number.MAX_VALUE);
+    });
+
+    it("Should return the number of unique eliminationOrders", () => {
+        //Arrange
+        const teamList = [
+            {eliminationOrder: 1},
+            {eliminationOrder: 1},
+            {eliminationOrder: 3},
+        ];
+        const league = new League(teamList);
+
+        // Act
+        const result = league.getNumberOfRounds();
+
+        // Assert
+        expect(result).toBe(2);
+    });
+
+    it("Should not countin Number.MAX_VALUE as a unique number", () => {
+        //Arrange
+        const teamList = [
+            {eliminationOrder: 1},
+            {eliminationOrder: 3},
+            {eliminationOrder: Number.MAX_VALUE}
+        ];
+        const league = new League(teamList);
+
+        // Act
+        const result = league.getNumberOfRounds();
+
+        // Assert
+        expect(result).toBe(2);
+    });
+
+    it("Should not countin 0 as a unique number", () => {
+        //Arrange
+        const teamList = [
+            {eliminationOrder: 1},
+            {eliminationOrder: 3},
+            {eliminationOrder: 0}
+        ];
+        const league = new League(teamList);
+
+        // Act
+        const result = league.getNumberOfRounds();
+
+        // Assert
+        expect(result).toBe(2);
+    });
+});
+
 describe("Regression Tests Checking Scoring of Archived Leagues", () => {
 
     it("Should Score Rachel correctly for Amazing Race 35", () => {
