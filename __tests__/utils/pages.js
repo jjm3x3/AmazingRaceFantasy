@@ -84,12 +84,12 @@ const dataObject = {
 jest.mock("../../app/dataSources/dbFetch", ()=> {
     return {
         ...jest.requireActual("../../app/dataSources/dbFetch"),
-        getContestantData: jest.fn().mockImplementation((keyPrefix) => {
+        hasContestantData: jest.fn().mockImplementation((keyPrefix) => {
             const dataObjKeyArr = keyPrefix.replace(":*", "").split(":");
             const formattedShowName = dataObjKeyArr[0].split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
             const showSeason = dataObjKeyArr[1];
             const dataObjKey =`${formattedShowName}_${showSeason}`;
-            return dataObject[dataObjKey].leagueData;
+            return dataObject[dataObjKey].leagueData ? true : false;
         }),
         getLeagueConfigurationKeys: jest.fn().mockImplementation(()=> {
             const ARLeagueConfigKey = `league_configuration:${dataObject.AmazingRace_36.leagueConfig.leagueStatus}:amazing_race:36`;
