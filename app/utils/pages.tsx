@@ -1,4 +1,4 @@
-import { getLeagueConfigurationKeys, getContestantData, IContestantData } from "../dataSources/dbFetch";
+import { getLeagueConfigurationKeys, hasContestantData } from "../dataSources/dbFetch";
 
 interface ILeagueLink {
     name: string
@@ -33,14 +33,13 @@ function constructPageInformation(leagueConfigurationKey:string){
     }
 }
 
-function generateSubpages (pageInformation:PageInformation, showContestantData:IContestantData[]){
+function generateSubpages (pageInformation:PageInformation, hasContestantData:boolean){
     const subpages:Array<IPage> = [];
     subpages.push({
         name: "Contestants",
         path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/contestants`
     });
-    const hasContestantInfo = !!showContestantData && showContestantData.length;
-    if(hasContestantInfo){
+    if(hasContestantData){
         const scoringSubpage = {
             name: "Scoring",
             path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/scoring`
@@ -54,8 +53,8 @@ function generateSubpages (pageInformation:PageInformation, showContestantData:I
     return subpages;
 }
 
-function generatePathObj(pageData:PageInformation, showContestantData:IContestantData[]){
-    const subpages:Array<IPage> = generateSubpages(pageData, showContestantData);
+function generatePathObj(pageData:PageInformation, hasContestantData:boolean){
+    const subpages:Array<IPage> = generateSubpages(pageData, hasContestantData);
     if(pageData.showStatus === "active"){
         pageData.friendlyName = `Current (${pageData.friendlyName})`
     }
@@ -72,7 +71,7 @@ export async function getPages(): Promise<ILeagueLink[]> {
     const archiveLeaguePaths:Array<ILeagueLink> = [];
     for(const leagueConfigurationKey of leagueConfigurationKeys){
         const pageData:PageInformation = constructPageInformation(leagueConfigurationKey);
-        const showContestantData = await getContestantData(pageData.contestantDataKey);
+        const showContestantData = await hasContestantData(pageData.contestantDataKey);
         const pathObj = generatePathObj(pageData, showContestantData);
         if(pageData.showStatus === "active"){
             activeLeaguePaths.push(pathObj);
