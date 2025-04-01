@@ -15,7 +15,8 @@ interface TableDataItem {
 
 export default async function LeagueStandingTable({ contestantsScores }:{ contestantsScores: TableDataItem[] }){
     const tableColumnNames: string[] = ["Rank", "Name", "Score"];
-    const mostRecentScore = contestantsScores[contestantsScores.length - 1];
+    const defaultTableDataItem: TableDataItem = Object.create(null);
+    const mostRecentScore = contestantsScores.at(-1) ?? defaultTableDataItem;
     const tableData = {
         columnNames: tableColumnNames,
         rows: mostRecentScore.contestantRoundData
