@@ -34,28 +34,30 @@ function constructPageInformation(leagueConfigurationKey:string){
     }
 }
 
-function generateSubpages (pageInformation:PageInformation, hasContestantData:boolean){
+function generateContestantSubpage(pageInformation:PageInformation){
     const subpages:Array<IPage> = [];
     subpages.push({
         name: "Contestants",
         path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/contestants`
     });
-    if(hasContestantData){
-        const scoringSubpage = {
-            name: "Scoring",
-            path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/scoring`
-        }
-        const leagueStandingSubpage = {
-            name: "League Standing",
-            path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/league-standing`
-        }
-        subpages.push(scoringSubpage, leagueStandingSubpage);
-    }
     return subpages;
 }
 
-function generatePathObj(pageData:PageInformation, hasContestantData:boolean){
-    const subpages:Array<IPage> = generateSubpages(pageData, hasContestantData);
+function generateScoringAndLeagueSubpages(pageInformation:PageInformation){
+    const subpages:Array<IPage> = [];
+    const scoringSubpage = {
+        name: "Scoring",
+        path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/scoring`
+    }
+    const leagueStandingSubpage = {
+        name: "League Standing",
+        path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/league-standing`
+    }
+    subpages.push(scoringSubpage, leagueStandingSubpage);
+    return subpages;
+}
+
+function generatePathObj(pageData:PageInformation, subpages: Array<IPage>){
     if(pageData.showStatus === "active"){
         pageData.friendlyName = `Current (${pageData.friendlyName})`
     }
@@ -72,9 +74,15 @@ export async function getPages(): Promise<ILeagueLink[]> {
     const archiveLeaguePaths:Array<ILeagueLink> = [];
     for(const leagueConfigurationKey of leagueConfigurationKeys){
         const pageData: PageInformation = constructPageInformation(leagueConfigurationKey);
-        const showContestantData = await hasContestantData(pageData.contestantDataKey);
-        const pathObj = generatePathObj(pageData, showContestantData);
+        const hasShowContestantData = await hasContestantData(pageData.contestantDataKey);
+        let subpages:Array<IPage> = generateContestantSubpage(pageData);
+        if(hasShowContestantData){
+            const hasContestantDataSubpages:Array<IPage> = generateScoringAndLeagueSubpages(pageData);
+            subpages = subpages.concat(hasContestantDataSubpages);
+        }
+        const pathObj = generatePathObj(pageData, subpages);
         if(pageData.showStatus === "active"){
+            pageData.friendlyName = `Current (${pageData.friendlyName})`
             activeLeaguePaths.push(pathObj);
         } else {
             archiveLeaguePaths.push(pathObj);
