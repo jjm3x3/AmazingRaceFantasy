@@ -17,6 +17,7 @@ interface PageInformation {
     contestantDataKey: string
 }
 
+// Example leagueConfigurationKey value: league_configuration:active:big_brother:26
 function constructPageInformation(leagueConfigurationKey:string){
     const showKey = leagueConfigurationKey.replace("league_configuration:", "");
     const params = showKey.replaceAll("_", "-").split(":");
