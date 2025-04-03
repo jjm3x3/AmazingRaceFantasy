@@ -71,7 +71,7 @@ export async function getPages(): Promise<ILeagueLink[]> {
     const activeLeaguePaths:Array<ILeagueLink> = [];
     const archiveLeaguePaths:Array<ILeagueLink> = [];
     for(const leagueConfigurationKey of leagueConfigurationKeys){
-        const pageData:PageInformation = constructPageInformation(leagueConfigurationKey);
+        const pageData: PageInformation = constructPageInformation(leagueConfigurationKey);
         const showContestantData = await hasContestantData(pageData.contestantDataKey);
         const pathObj = generatePathObj(pageData, showContestantData);
         if(pageData.showStatus === "active"){
