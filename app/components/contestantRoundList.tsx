@@ -18,6 +18,8 @@ export default function ContestantRoundList({
         contestantName: string
     }) {
 
+    const roundElimMapping = getRoundEliminationOrderMapping(perfectTeamList);
+
     return (<>
         <div className="text-center">
             {perfectRoundScores.map((round: IRound, roundNumber: number) => {
