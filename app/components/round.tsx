@@ -29,12 +29,14 @@ export default function Round({
                 <TeamList
                     teamList={perfectTeamList}
                     roundNumber={roundNumber}
+                    eliminationOrder={eliminationOrder}
                 />
             </div>
             <div className="basis-1/2">
                 <TeamList
                     teamList={contestantTeamList}
                     roundNumber={roundNumber}
+                    eliminationOrder={eliminationOrder}
                 />
             </div>
         </div>

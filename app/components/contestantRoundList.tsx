@@ -41,6 +41,7 @@ export default function ContestantRoundList({
                 return <Round
                     key={"round"+roundNumber}
                     roundNumber={roundNumber}
+                    eliminationOrder={elimOrder}
                     perfectTeamList={perfectTeamList}
                     contestantTeamList={contestantTeamList}
                     perfectWeekScore={perfectScore}
