@@ -26,10 +26,16 @@ export default function Round({
         <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {roundNumber+1}</h2>
         <div className="text-center flex">
             <div className="basis-1/2">
-                <TeamList teamList={perfectTeamList} roundNumber={roundNumber} />
+                <TeamList
+                    teamList={perfectTeamList}
+                    roundNumber={roundNumber}
+                />
             </div>
             <div className="basis-1/2">
-                <TeamList teamList={contestantTeamList} roundNumber={roundNumber} />
+                <TeamList
+                    teamList={contestantTeamList}
+                    roundNumber={roundNumber}
+                />
             </div>
         </div>
         <br/>
