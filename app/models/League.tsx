@@ -19,6 +19,8 @@ export default class League {
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
+                    const elimOrder = roundElimMapping[i];
+
                     const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i);
     
                     return teamShouldBeScored ? acc + 10 : acc;
