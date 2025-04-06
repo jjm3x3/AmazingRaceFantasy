@@ -36,6 +36,8 @@ export default function ContestantRoundList({
                 const contestantRoundScore = filteredContestantRound.roundScore;
                 const contestantGrandTotal = filteredContestantRound.totalScore;
 
+                const elimOrder = roundElimMapping[roundNumber];
+
                 return <Round
                     key={"round"+roundNumber}
                     roundNumber={roundNumber}
