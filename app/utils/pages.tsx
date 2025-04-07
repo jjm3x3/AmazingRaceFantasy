@@ -1,7 +1,4 @@
-import * as pagesModule from "./pages";
-import fs from "fs";
-import path from "path";
-import { transformFilenameToSeasonNameRepo } from "./leagueUtils"
+import { getLeagueConfigurationKeys, hasContestantData } from "../dataSources/dbFetch";
 
 interface ILeagueLink {
     name: string
@@ -13,61 +10,85 @@ interface IPage {
     path: string
 }
 
-export function getPathsToMap (){
-    const pathToLeagueData = path.join(process.cwd(), "app", "leagueConfiguration");
-    const pathsToMap = fs.readdirSync(pathToLeagueData);
-    return pathsToMap;
+interface PageInformation {
+    showStatus: string, 
+    showNameAndSeason: string,
+    friendlyName: string,
+    contestantDataKey: string
 }
 
-export function getLeagueConfigurationData (filename:string){
-    return require(`../leagueConfiguration/${filename}`);
+// Example leagueConfigurationKey value: league_configuration:active:big_brother:26
+function constructPageInformation(leagueConfigurationKey:string){
+    const showKey = leagueConfigurationKey.replace("league_configuration:", "");
+    const params = showKey.replaceAll("_", "-").split(":");
+    const showStatus = params[0];
+    const showNameAndSeason = `${params[1]}-${params[2]}`;
+    const friendlyShowName = params[1].split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+    const friendlyName = `${friendlyShowName} ${params[2]}`;
+    const contestantDataKey = `${showKey.replace(/(archive|active):/i, "")}:*`;
+    return {
+        contestantDataKey,
+        showStatus,
+        showNameAndSeason,
+        friendlyName
+    }
 }
 
-export function checkForSubpages (filename:string){
-    return fs.existsSync(path.join(process.cwd(), "app", "leagueData", filename));
+function generateContestantSubpage(pageInformation:PageInformation){
+    const subpages:Array<IPage> = [];
+    subpages.push({
+        name: "Contestants",
+        path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/contestants`
+    });
+    return subpages;
 }
 
-export function getPages(): ILeagueLink[] {
+function generateScoringAndLeagueSubpages(pageInformation:PageInformation){
+    const subpages:Array<IPage> = [];
+    const scoringSubpage = {
+        name: "Scoring",
+        path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/scoring`
+    }
+    const leagueStandingSubpage = {
+        name: "League Standing",
+        path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/league-standing`
+    }
+    subpages.push(scoringSubpage, leagueStandingSubpage);
+    return subpages;
+}
+
+function generatePathObj(pageData:PageInformation, subpages: Array<IPage>){
+    if(pageData.showStatus === "active"){
+        pageData.friendlyName = `Current (${pageData.friendlyName})`
+    }
+    return {
+        name: pageData.friendlyName,
+        subpages: subpages
+    }
+}
+
+export async function getPages(): Promise<ILeagueLink[]> {
     // Based on availability in leagueConfiguration
-    const filepaths = pagesModule.getPathsToMap();
+    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
     const activeLeaguePaths:Array<ILeagueLink> = [];
     const archiveLeaguePaths:Array<ILeagueLink> = [];
-    filepaths.map((file: string) => {
-        // Needed status for url
-        const { leagueStatus } = pagesModule.getLeagueConfigurationData(file);
-        // Parses filename and converts it to url format
-        const pageStrings = transformFilenameToSeasonNameRepo(file);
-        const subpages:Array<IPage> = [];
-        subpages.push({
-            name: "Contestants",
-            path: `/${leagueStatus}/${pageStrings.urlSlug}/contestants`
-        });
-        if(pagesModule.checkForSubpages(file)){
-            const scoringSubpage = {
-                name: "Scoring",
-                path: `/${leagueStatus}/${pageStrings.urlSlug}/scoring`
-            }
-            const leagueStandingSubpage = {
-                name: "League Standing",
-                path: `/${leagueStatus}/${pageStrings.urlSlug}/league-standing`
-            }
-            subpages.push(scoringSubpage, leagueStandingSubpage);
+    for(const leagueConfigurationKey of leagueConfigurationKeys){
+        const pageData: PageInformation = constructPageInformation(leagueConfigurationKey);
+        const contestantDataExists = await hasContestantData(pageData.contestantDataKey);
+        let subpages:Array<IPage> = generateContestantSubpage(pageData);
+        if(contestantDataExists){
+            const contestantDataExistsSubpages:Array<IPage> = generateScoringAndLeagueSubpages(pageData);
+            subpages = subpages.concat(contestantDataExistsSubpages);
         }
-        if(leagueStatus === "active"){
-            pageStrings.friendlyName = `Current (${pageStrings.friendlyName})`
-        }
-        //   Path object created
-        const pathObj = {
-            name: pageStrings.friendlyName,
-            subpages: subpages
-        }
-        if(leagueStatus === "active"){
+        const pathObj = generatePathObj(pageData, subpages);
+        if(pageData.showStatus === "active"){
+            pageData.friendlyName = `Current (${pageData.friendlyName})`
             activeLeaguePaths.push(pathObj);
         } else {
             archiveLeaguePaths.push(pathObj);
         }
-    });
-    const paths:Array<ILeagueLink> = activeLeaguePaths.concat(archiveLeaguePaths);
+    }
+    const paths:Array<ILeagueLink> = [...activeLeaguePaths,...archiveLeaguePaths];
     return paths;
 }
 

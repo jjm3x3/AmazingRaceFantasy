@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 interface IAriaAttr {
     controls: string
 }
@@ -25,6 +27,6 @@ export default interface INavigationItem{
     inputAttr: IInputAttribute
     labelAttr: ILabelAttribute
     listAttr: IListAttribute
-    children: any
+    children: ReactNode
     hasSubpages: boolean
 };
