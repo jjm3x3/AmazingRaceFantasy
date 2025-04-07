@@ -11,8 +11,8 @@ const AmazingRaceConfigData = () => {
         postGoogleSheetsLinkText: "which was populated using a google form.",
         competitingEntityName: "teams",
         contestantLeagueDataKeyPrefix: "amazing_race:36:*"
-    }
-}
+    };
+};
 
 const BigBrotherConfigData = () => {
     return { 
@@ -25,8 +25,8 @@ const BigBrotherConfigData = () => {
         postGoogleSheetsLinkText: "which was populated using a google form.",
         competitingEntityName: "house guests",
         contestantLeagueDataKeyPrefix: "big_brother:26:*"
-    }    
-}
+    };
+};
 
 const AmazingRaceLeagueData = ()=> {
     // Contestant Ranking
@@ -73,36 +73,45 @@ const AmazingRaceLeagueData = ()=> {
             handicap: -80
         }
     ];
-    return { CONTESTANT_LEAGUE_DATA };
-}
+    return CONTESTANT_LEAGUE_DATA;
+};
 
 const dataObject = {
     BigBrother_26: {leagueConfig: BigBrotherConfigData()},
     AmazingRace_36: {leagueConfig: AmazingRaceConfigData(), leagueData: AmazingRaceLeagueData()}
-}
+};
 
-jest.mock("../../app/utils/pages", () => {
+jest.mock("../../app/dataSources/dbFetch", ()=> {
     return {
-        ...jest.requireActual("../../app/utils/pages"),
-        getPathsToMap: jest.fn().mockImplementation(()=> { return Object.keys(dataObject)}),
+        ...jest.requireActual("../../app/dataSources/dbFetch"),
+        hasContestantData: jest.fn().mockImplementation((keyPrefix) => {
+            const dataObjKeyArr = keyPrefix.replace(":*", "").split(":");
+            const formattedShowName = dataObjKeyArr[0].split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
+            const showSeason = dataObjKeyArr[1];
+            const dataObjKey =`${formattedShowName}_${showSeason}`;
+            return dataObject[dataObjKey].leagueData ? true : false;
+        }),
+        getLeagueConfigurationKeys: jest.fn().mockImplementation(()=> {
+            const ARLeagueConfigKey = `league_configuration:${dataObject.AmazingRace_36.leagueConfig.leagueStatus}:amazing_race:36`;
+            const BBLeagueConfigKey = `league_configuration:${dataObject.BigBrother_26.leagueConfig.leagueStatus}:big_brother:26`;
+            return [ARLeagueConfigKey, BBLeagueConfigKey];
+        }),
         getLeagueConfigurationData: jest.fn().mockImplementation(filename => {
             return dataObject[filename].leagueConfig;
-        }),
-        checkForSubpages: jest.fn().mockImplementation(filename => {
-            return Object.prototype.hasOwnProperty.call(dataObject[filename], "leagueData");
         })
     };
 });
 
 describe("pages getPages", () =>  {
-    it("should return appropriate data order based on league status", () => {
-        const pages = pagesModule.getPages();
+    it("should return appropriate data order based on league status", async () => {
+        const pages = await pagesModule.getPages();
         expect(pages.length).toBe(2);
         expect(pages[0].name).toBe("Current (Big Brother 26)");
         expect(pages[1].name).toBe("Amazing Race 36");
     });
-    it("should have subpages based on leagueConfig", ()=> {
-        const pages = pagesModule.getPages();
+    
+    it("should have subpages based on leagueConfig", async ()=> {
+        const pages = await pagesModule.getPages();
         const bigBrotherSubpages = pages[0].subpages;
         // Check for leagues based on leagueConfig
         expect(bigBrotherSubpages.length).toBe(1);
@@ -114,8 +123,8 @@ describe("pages getPages", () =>  {
         expect(amazingRaceSubpages[0].path).toBe("/archive/amazing-race-36/contestants");
     });
 
-    it("should have subpages based on leagueData", ()=> {
-        const pages = pagesModule.getPages();
+    it("should have subpages based on leagueData", async ()=> {
+        const pages = await pagesModule.getPages();
         // Check for leagues based on leagueData
         const amazingRaceSubpages = pages[1].subpages;
         expect(amazingRaceSubpages[1].name).toBe("Scoring");
