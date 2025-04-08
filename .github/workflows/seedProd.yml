@@ -28,7 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm seed:prod
+    - run: npm run seed:prod
       env:
         KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
         KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
