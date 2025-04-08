@@ -4,8 +4,10 @@
 name: Seed Production DB
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: [Node.js CI]
+    types: [completed]
+    branches: [main]
 
 jobs:
   seed:
