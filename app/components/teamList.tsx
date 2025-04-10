@@ -15,7 +15,7 @@ export default function TeamList({
         {teamList.map(t => {
             return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
                 <p key={t.teamName+roundNumber}>
-                    {shouldBeScored(teamList, t, roundNumber) ? t.friendlyName() : <s>{t.friendlyName()}</s> }
+                    {shouldBeScored(teamList, t, roundNumber, eliminationOrder) ? t.friendlyName() : <s>{t.friendlyName()}</s> }
                 </p>
             </Fragment>);
         })}

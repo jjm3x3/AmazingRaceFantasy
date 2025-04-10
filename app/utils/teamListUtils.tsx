@@ -4,7 +4,7 @@ interface RoundEliminationOrderMapping {
     [Key: string]: number;
 }
 
-export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number): boolean {
+export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number, eliminationOrder): boolean {
 
     const teamPosition = teamList.length - teamList.indexOf(team);
 

@@ -21,7 +21,7 @@ export default class League {
                 (acc: number, x: Team) => {
                     const elimOrder = roundElimMapping[i];
 
-                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i);
+                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i, elimOrder);
     
                     return teamShouldBeScored ? acc + 10 : acc;
                 }, 0);
