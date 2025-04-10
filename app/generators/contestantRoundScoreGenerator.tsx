@@ -22,7 +22,6 @@ export async function generateContestantRoundScores(
     }, {});
 
     const result: League = new League(pageData);
-    const numberOfRounds = result.getNumberOfRounds();
 
     listOfContestantLeagueData.map(contestant => {
 
@@ -31,7 +30,7 @@ export async function generateContestantRoundScores(
             return foundTeam;
         });
 
-        result.addContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name, contestant.handicap);
+        result.addContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
 
     });
 

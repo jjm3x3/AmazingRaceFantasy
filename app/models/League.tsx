@@ -1,4 +1,5 @@
 import IRound from "./IRound";
+import IContestantRoundData from "./IContestantRoundData";
 import Team from "./Team";
 import { shouldBeScored, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
@@ -12,9 +13,32 @@ export default class League {
         this.teamData = teamData;
     }
 
-    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
+    addContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): void {
+
+        this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, contestantLeagueData) => {
+            if (this.rounds.length > roundNumber) {
+                const currentRound = this.rounds[roundNumber];
+                currentRound.contestantRoundData.push(contestantLeagueData);
+            }
+            else {
+                this.rounds.push({
+                    round:roundNumber,
+                    contestantRoundData: [contestantLeagueData]
+                });
+            }
+
+        });
+    }
+
+    private calculateContestantRoundScores(
+        contestantTeamsList: Team[],
+        contestantName: string,
+        handicap: number,
+        addToRoundList: (_n: number, _crd: IContestantRoundData) => void
+    ): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
+        const numberOfRounds = this.getNumberOfRounds();
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
@@ -25,25 +49,11 @@ export default class League {
 
             grandTotal += roundScore;
 
-            if (this.rounds.length > i) {
-                const currentRound = this.rounds[i];
-                currentRound.contestantRoundData.push({
-                    name: contestantName,
-                    roundScore: roundScore,
-                    totalScore: grandTotal
-                });
-            }
-            else {
-                this.rounds.push({
-                    round:i,
-                    contestantRoundData: [{
-                        name: contestantName,
-                        roundScore: roundScore,
-                        totalScore: grandTotal
-                    }]
-                });
-            }
-
+            addToRoundList(i, {
+                name: contestantName,
+                roundScore: roundScore,
+                totalScore: grandTotal
+            });
         }
     }
 
@@ -59,12 +69,17 @@ export default class League {
         return this.numberOfRounds;
     }
 
-    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
+    generateContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): IRound[] {
 
-        const result = new League(contestantTeamsList);
-        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);
+        const result: IRound[] = [];
+        this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, contestantLeagueData) => {
+            result.push({
+                round: roundNumber,
+                contestantRoundData: [contestantLeagueData]
+            });
+        });
 
-        return result.rounds;
+        return result;
     }
 } 
 
