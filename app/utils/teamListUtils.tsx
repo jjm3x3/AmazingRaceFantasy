@@ -11,11 +11,7 @@ export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number
     const currentWeek = roundNumber+1;
     const listHasTeamBeingEliminated = teamPosition <= currentWeek;
 
-    const roundElimMapping = getRoundEliminationOrderMapping(teamList);
-
-    const elimOrder = roundElimMapping[roundNumber];
-
-    return team.isInPlay(elimOrder) && !listHasTeamBeingEliminated;
+    return team.isInPlay(eliminationOrder) && !listHasTeamBeingEliminated;
 }
 
 export function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrderMapping {
