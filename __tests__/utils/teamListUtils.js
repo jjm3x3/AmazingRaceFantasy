@@ -71,7 +71,7 @@ describe("teamListUtils shouldBeScored", () => {
         const teamList = [aTeam, {}];
 
         // Act
-        shouldBeScored(teamList, aTeam, 0);
+        shouldBeScored(teamList, aTeam, 0, 1); // the last argument is now just the current elimOrder
 
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(1);
@@ -86,7 +86,7 @@ describe("teamListUtils shouldBeScored", () => {
         const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
 
         // Act
-        shouldBeScored(teamList, aTeam, 1); // this is round 2, by 0 indexing
+        shouldBeScored(teamList, aTeam, 1, 3); // the last argument is now just the current elimOrder
 
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(3);

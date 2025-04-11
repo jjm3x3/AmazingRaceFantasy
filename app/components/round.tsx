@@ -4,6 +4,7 @@ import Team from "../models/Team";
 
 export default function Round({
     roundNumber,
+    eliminationOrder,
     perfectTeamList,
     contestantTeamList,
     perfectWeekScore,
@@ -12,6 +13,7 @@ export default function Round({
     contestantGrandTotal
 }: {
         roundNumber: number
+        eliminationOrder: number
         perfectTeamList: Team[]
         contestantTeamList: Team[]
         perfectWeekScore: number
@@ -24,10 +26,18 @@ export default function Round({
         <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {roundNumber+1}</h2>
         <div className="text-center flex">
             <div className="basis-1/2">
-                <TeamList teamList={perfectTeamList} roundNumber={roundNumber} />
+                <TeamList
+                    teamList={perfectTeamList}
+                    roundNumber={roundNumber}
+                    eliminationOrder={eliminationOrder}
+                />
             </div>
             <div className="basis-1/2">
-                <TeamList teamList={contestantTeamList} roundNumber={roundNumber} />
+                <TeamList
+                    teamList={contestantTeamList}
+                    roundNumber={roundNumber}
+                    eliminationOrder={eliminationOrder}
+                />
             </div>
         </div>
         <br/>
