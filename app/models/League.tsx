@@ -1,6 +1,6 @@
 import IRound from "./IRound";
 import Team from "./Team";
-import { shouldBeScored, getUniqueEliminationOrders } from "../utils/teamListUtils";
+import { shouldBeScored, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
 export default class League {
     rounds: IRound[];
@@ -15,10 +15,13 @@ export default class League {
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
+        const roundElimMapping = getRoundEliminationOrderMapping(this.teamData);
         for(let i = 0; i < numberOfRounds; i++) {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
-                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i);
+                    const elimOrder = roundElimMapping[i];
+
+                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i, elimOrder);
     
                     return teamShouldBeScored ? acc + 10 : acc;
                 }, 0);
