@@ -131,7 +131,7 @@ describe("addContestantRoundScores", () => {
         const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedContestantName2 = "contestant2";
-        const sut = new League();
+        const sut = new League(teamList);
 
         // Act
         sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
@@ -154,7 +154,7 @@ describe("addContestantRoundScores", () => {
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
         const rounds = 1;
         const expectedContestantName1 = "contestant1";
-        const sut = new League();
+        const sut = new League(teamList);
 
         // Act
         sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
@@ -176,7 +176,7 @@ describe("addContestantRoundScores", () => {
         const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedHandicap = -10;
-        const sut = new League();
+        const sut = new League(teamList);
 
         // Act
         sut.addContestantRoundScores(teamList, rounds, expectedContestantName1, expectedHandicap);
