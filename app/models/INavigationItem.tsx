@@ -12,7 +12,7 @@ interface IInputAttribute {
 interface ILabelAttribute {
     id: string
     classes: string
-    aria: IAriaAttr
+    aria?: IAriaAttr
     testId: string
     content: React.ReactNode
 }
@@ -26,7 +26,7 @@ interface IListAttribute {
 export default interface INavigationItem{ 
     inputAttr: IInputAttribute
     labelAttr: ILabelAttribute
-    listAttr: IListAttribute
-    childElements: ReactNode
-    hasSubpages: boolean
+    listAttr?: IListAttribute
+    childElements?: ReactNode
+    hasSubpages?: boolean
 };

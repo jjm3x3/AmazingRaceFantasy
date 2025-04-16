@@ -1,6 +1,6 @@
 import { useState } from "react";
 import INavigationItem from "@/app/models/INavigationItem";
-export default function NavigationItem({ inputAttr, labelAttr, listAttr, childElements, hasSubpages }: INavigationItem) {
+export default function NavigationItem({ inputAttr, labelAttr, listAttr, childElements, hasSubpages=false }: INavigationItem) {
     const [isHidden, setIsHidden] = useState(true);
     return (<>
         <input 
@@ -12,9 +12,9 @@ export default function NavigationItem({ inputAttr, labelAttr, listAttr, childEl
         <label 
             htmlFor={inputAttr.id}
             id={labelAttr.id}
-            aria-controls={labelAttr.aria.controls}
+            aria-controls={labelAttr?.aria?.controls}
             data-testid={labelAttr.testId}
             className={labelAttr.classes }>{labelAttr.content}</label>
-        {hasSubpages && <ul className={listAttr.classes}  id={listAttr.id} data-testid={listAttr.testId} aria-hidden={isHidden} hidden={isHidden}>{childElements}</ul>}
+        {hasSubpages && <ul className={listAttr?.classes}  id={listAttr?.id} data-testid={listAttr?.testId} aria-hidden={isHidden} hidden={isHidden}>{childElements}</ul>}
     </>);
 }
