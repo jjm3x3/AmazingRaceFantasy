@@ -52,9 +52,10 @@ describe("teamListUtils shouldBeScored", () => {
         const teamList = [{}, aTeam];
         const roundNumber = 1;
         const eliminationOrder = 2;
+        const numberOfEliminations = 2;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
 
         // Assert
         expect(result).toBeFalsy();
