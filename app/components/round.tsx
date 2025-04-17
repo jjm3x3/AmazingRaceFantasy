@@ -5,6 +5,7 @@ import Team from "../models/Team";
 export default function Round({
     roundNumber,
     eliminationOrder,
+    teamsEliminatedSoFar,
     perfectTeamList,
     contestantTeamList,
     perfectWeekScore,
@@ -14,6 +15,7 @@ export default function Round({
 }: {
         roundNumber: number
         eliminationOrder: number
+        teamsEliminatedSoFar: number
         perfectTeamList: Team[]
         contestantTeamList: Team[]
         perfectWeekScore: number
@@ -30,6 +32,7 @@ export default function Round({
                     teamList={perfectTeamList}
                     roundNumber={roundNumber}
                     eliminationOrder={eliminationOrder}
+                    teamsEliminatedSoFar={teamsEliminatedSoFar}
                 />
             </div>
             <div className="basis-1/2">
@@ -37,6 +40,7 @@ export default function Round({
                     teamList={contestantTeamList}
                     roundNumber={roundNumber}
                     eliminationOrder={eliminationOrder}
+                    teamsEliminatedSoFar={teamsEliminatedSoFar}
                 />
             </div>
         </div>
