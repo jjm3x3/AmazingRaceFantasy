@@ -7,9 +7,12 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [aTeam];
+        const roundNumber = 0;
+        const eliminationOrder = 1;
+        const numberOfEliminations = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
 
         // Assert
         expect(result).toBeFalsy();
