@@ -1,4 +1,4 @@
-import { getRoundEliminationOrderMapping } from "@/app/utils/teamListUtils"
+import { getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping } from "@/app/utils/teamListUtils"
 import Round from "./round";
 import Team from "../models/Team";
 import IRound from "../models/IRound";
