@@ -61,6 +61,24 @@ describe("teamListUtils shouldBeScored", () => {
         expect(result).toBeFalsy();
     });
 
+    it("should be false when the target team is in the 2nd position or second from the end of array and its the first round but the number of teams elimed is 2", () => {
+
+        // Arrange
+        const aTeam = {
+            isInPlay: (_round) => true
+        };
+        const teamList = [aTeam, {}];
+        const roundNumber = 0;
+        const eliminationOrder = 1; // doesn't really matter because we are mocking isInPlay
+        const numberOfEliminations = 2;
+
+        // Act
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
+
+        // Assert
+        expect(result).toBeFalsy();
+    });
+
     it("should be true when the target team is in the 2nd position or second from the end of array and its the first round", () => {
         // Arrange
         const aTeam = {
