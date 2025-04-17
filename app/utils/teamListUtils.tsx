@@ -4,12 +4,11 @@ interface RoundEliminationOrderMapping {
     [Key: string]: number;
 }
 
-export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number, eliminationOrder: number, totaleliminationssofar: number): boolean {
+export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number, eliminationOrder: number, totalEliminationsSoFar: number): boolean {
 
     const teamPosition = teamList.length - teamList.indexOf(team);
 
-    const currentWeek = roundNumber+1;
-    const listHasTeamBeingEliminated = teamPosition <= currentWeek;
+    const listHasTeamBeingEliminated = teamPosition <= totalEliminationsSoFar;
 
     return team.isInPlay(eliminationOrder) && !listHasTeamBeingEliminated;
 }
