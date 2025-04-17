@@ -17,9 +17,9 @@ export default class League {
         let grandTotal = handicap === undefined ? 0 : handicap;
         const roundElimMapping = getRoundEliminationOrderMapping(this.teamData);
         for(let i = 0; i < numberOfRounds; i++) {
+            const elimOrder = roundElimMapping[i];
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
-                    const elimOrder = roundElimMapping[i];
 
                     const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i, elimOrder);
     
