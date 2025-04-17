@@ -1,6 +1,6 @@
 import IRound from "./IRound";
 import Team from "./Team";
-import { shouldBeScored, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
+import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
 export default class League {
     rounds: IRound[];
