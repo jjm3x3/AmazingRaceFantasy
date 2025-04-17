@@ -5,11 +5,13 @@ import { shouldBeScored } from "../utils/teamListUtils";
 export default function TeamList({
     teamList,
     roundNumber,
-    eliminationOrder
+    eliminationOrder,
+    teamsEliminatedSoFar
 }: {
     teamList: Team[],
     roundNumber: number
     eliminationOrder: number
+    teamsEliminatedSoFar: number
 }) {
     return <div>
         {teamList.map(t => {

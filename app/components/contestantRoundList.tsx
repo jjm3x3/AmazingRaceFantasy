@@ -55,6 +55,7 @@ export default function ContestantRoundList({
                     key={"round"+roundNumber}
                     roundNumber={roundNumber}
                     eliminationOrder={elimOrder}
+                    teamsEliminatedSoFar={countOfTeamsElimedThisFar}
                     perfectTeamList={perfectTeamList}
                     contestantTeamList={contestantTeamList}
                     perfectWeekScore={perfectScore}
