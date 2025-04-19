@@ -1,8 +1,12 @@
-import { getRoundEliminationOrderMapping } from "@/app/utils/teamListUtils"
+import { getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping } from "@/app/utils/teamListUtils"
 import Round from "./round";
 import Team from "../models/Team";
 import IRound from "../models/IRound";
 import IContestantRoundData from "../models/IContestantRoundData";
+
+interface RoundEliminationCountMapping {
+    [key: number]: number;
+}
 
 export default function ContestantRoundList({
     perfectRoundScores,
@@ -19,6 +23,7 @@ export default function ContestantRoundList({
     }) {
 
     const roundElimMapping = getRoundEliminationOrderMapping(perfectTeamList);
+    const teamsElimedThisFar: RoundEliminationCountMapping = {};
 
     return (<>
         <div className="text-center">
@@ -38,10 +43,19 @@ export default function ContestantRoundList({
 
                 const elimOrder = roundElimMapping[roundNumber];
 
+                const teamsElimedThisRound = getNumberOfTeamsToEliminate(perfectTeamList, elimOrder);
+                if (roundNumber === 0) {
+                    teamsElimedThisFar[roundNumber] = teamsElimedThisRound;
+                } else {
+                    teamsElimedThisFar[roundNumber] = teamsElimedThisFar[roundNumber-1] + teamsElimedThisRound;
+                }
+                const countOfTeamsElimedThisFar = teamsElimedThisFar[roundNumber];
+
                 return <Round
                     key={"round"+roundNumber}
                     roundNumber={roundNumber}
                     eliminationOrder={elimOrder}
+                    teamsEliminatedSoFar={countOfTeamsElimedThisFar}
                     perfectTeamList={perfectTeamList}
                     contestantTeamList={contestantTeamList}
                     perfectWeekScore={perfectScore}

@@ -7,16 +7,19 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [aTeam];
+        const roundNumber = 0;
+        const eliminationOrder = 1;
+        const numberOfEliminations = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
 
         // Assert
         expect(result).toBeFalsy();
     });
 
     it("should be false when the target team is at the end of array and its the first round", () => {
-        // Note: being at the end of the array assums that that team should he
+        // Note: being at the end of the array assumes that that team should be
         //   eliminated first
         // Note2: rounds are 0 indexed so the first round is 0
 
@@ -25,9 +28,12 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [{}, aTeam];
+        const roundNumber = 0;
+        const eliminationOrder = 1;
+        const numberOfEliminations = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
 
         // Assert
         expect(result).toBeFalsy();
@@ -40,9 +46,30 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [{}, aTeam];
+        const roundNumber = 1;
+        const eliminationOrder = 2;
+        const numberOfEliminations = 2;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 1);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
+
+        // Assert
+        expect(result).toBeFalsy();
+    });
+
+    it("should be false when the target team is in the 2nd position or second from the end of array and its the first round but the number of teams elimed is 2", () => {
+
+        // Arrange
+        const aTeam = {
+            isInPlay: (_round) => true
+        };
+        const teamList = [aTeam, {}];
+        const roundNumber = 0;
+        const eliminationOrder = 1; // doesn't really matter because we are mocking isInPlay
+        const numberOfEliminations = 2;
+
+        // Act
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
 
         // Assert
         expect(result).toBeFalsy();
