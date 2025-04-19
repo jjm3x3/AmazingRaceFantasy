@@ -7,9 +7,10 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [aTeam];
+        const roundNumber = 0;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber);
 
         // Assert
         expect(result).toBeFalsy();
@@ -25,9 +26,10 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [{}, aTeam];
+        const roundNumber = 0;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber);
 
         // Assert
         expect(result).toBeFalsy();
@@ -40,9 +42,10 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [{}, aTeam];
+        const roundNumber = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 1);
+        const result = shouldBeScored(teamList, aTeam, roundNumber);
 
         // Assert
         expect(result).toBeFalsy();
@@ -54,9 +57,10 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [aTeam, {}];
+        const roundNumber = 0;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber);
 
         // Assert
         expect(result).toBeTruthy();
@@ -68,9 +72,10 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: jest.fn(),
         };
         const teamList = [aTeam, {}];
+        const roundNumber = 0;
 
         // Act
-        shouldBeScored(teamList, aTeam, 0, 1); // the last argument is now just the current elimOrder
+        shouldBeScored(teamList, aTeam, roundNumber, 1); // the last argument is now just the current elimOrder
 
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(1);
@@ -82,9 +87,10 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: jest.fn(),
         };
         const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
+        const roundNumber = 1;
 
         // Act
-        shouldBeScored(teamList, aTeam, 1, 3); // the last argument is now just the current elimOrder
+        shouldBeScored(teamList, aTeam, roundNumber, 3); // the last argument is now just the current elimOrder
 
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(3);
