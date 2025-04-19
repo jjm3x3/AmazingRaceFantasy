@@ -4,13 +4,14 @@ describe("teamListUtils shouldBeScored", () => {
     it("should be false when there is exactly one team and we are on the first round", () => {
         // Arrange
         const aTeam = {
-            isInPlay: (_round) => true
+            isInPlay: (_round) => true,
         };
         const teamList = [aTeam];
         const roundNumber = 0;
+        const eliminationOrder = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, roundNumber);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(result).toBeFalsy();
@@ -23,13 +24,14 @@ describe("teamListUtils shouldBeScored", () => {
 
         // Arrange
         const aTeam = {
-            isInPlay: (_round) => true
+            isInPlay: (_round) => true,
         };
         const teamList = [{}, aTeam];
         const roundNumber = 0;
+        const eliminationOrder = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, roundNumber);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(result).toBeFalsy();
@@ -43,9 +45,10 @@ describe("teamListUtils shouldBeScored", () => {
         };
         const teamList = [{}, aTeam];
         const roundNumber = 1;
+        const eliminationOrder = 2;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, roundNumber);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(result).toBeFalsy();
@@ -58,9 +61,10 @@ describe("teamListUtils shouldBeScored", () => {
         };
         const teamList = [aTeam, {}];
         const roundNumber = 0;
+        const eliminationOrder = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, roundNumber);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(result).toBeTruthy();
