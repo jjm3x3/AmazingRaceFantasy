@@ -87,9 +87,10 @@ describe("teamListUtils shouldBeScored", () => {
         const teamList = [aTeam, {}];
         const roundNumber = 0;
         const eliminationOrder = 1;
+        const numberOfEliminations = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
 
         // Assert
         expect(result).toBeTruthy();
@@ -103,9 +104,10 @@ describe("teamListUtils shouldBeScored", () => {
         const teamList = [aTeam, {}];
         const roundNumber = 0;
         const eliminationOrder = 1;
+        const numberOfEliminations = 1; // doesn't much matter
 
         // Act
-        shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
+        shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
 
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(1);
@@ -119,9 +121,10 @@ describe("teamListUtils shouldBeScored", () => {
         const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
         const roundNumber = 1;
         const eliminationOrder = 3;
+        const numberOfEliminations = 3; // doesn't matter much, just is inline with expected state
 
         // Act
-        shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
+        shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder, numberOfEliminations);
 
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(3);
