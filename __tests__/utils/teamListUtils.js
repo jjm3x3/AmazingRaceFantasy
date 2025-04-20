@@ -1,10 +1,12 @@
 import { shouldBeScored, getUniqueEliminationOrders } from "../../app/utils/teamListUtils";
 
 describe("teamListUtils shouldBeScored", () => {
-    it("should be false when there is exactly one team and we are on the first round", () => {
+
+    it.each([true, false]
+    )("should be false when there is exactly one team and we are on the first round", (isInPlay) => {
         // Arrange
         const aTeam = {
-            isInPlay: (_round) => true,
+            isInPlay: (_round) => isInPlay
         };
         const teamList = [aTeam];
         const roundNumber = 0;
