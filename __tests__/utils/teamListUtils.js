@@ -19,14 +19,15 @@ describe("teamListUtils shouldBeScored", () => {
         expect(result).toBeFalsy();
     });
 
-    it("should be false when the target team is at the end of array and its the first round", () => {
+    it.each([true, false]
+    )("should be false when the target team is at the end of array and its the first round", (isInPlay) => {
         // Note: being at the end of the array assumes that that team should be
         //   eliminated first
         // Note2: rounds are 0 indexed so the first round is 0
 
         // Arrange
         const aTeam = {
-            isInPlay: (_round) => true,
+            isInPlay: (_round) => isInPlay
         };
         const teamList = [{}, aTeam];
         const roundNumber = 0;
@@ -39,11 +40,12 @@ describe("teamListUtils shouldBeScored", () => {
         expect(result).toBeFalsy();
     });
 
-    it("should be false when the target team is at the end of array and its the second round round", () => {
+    it.each([true, false]
+    )("should be false when the target team is at the end of array and its the second round round", (isInPlay) => {
 
         // Arrange
         const aTeam = {
-            isInPlay: (_round) => true
+            isInPlay: (_round) => isInPlay
         };
         const teamList = [{}, aTeam];
         const roundNumber = 1;
