@@ -3,7 +3,7 @@ import { shouldBeScored, getUniqueEliminationOrders } from "../../app/utils/team
 describe("teamListUtils shouldBeScored", () => {
 
     it.each([true, false]
-    )("should be false when there is exactly one team and we are on the first round", (isInPlay) => {
+    )("should be false when there is exactly one team and one elimination", (isInPlay) => {
         // Arrange
         const aTeam = {
             isInPlay: (_round) => isInPlay
@@ -21,7 +21,7 @@ describe("teamListUtils shouldBeScored", () => {
     });
 
     it.each([true, false]
-    )("should be false when the target team is at the end of array and its the first round", (isInPlay) => {
+    )("should be false when the target team is at the end of array and there is one elimination", (isInPlay) => {
         // Note: being at the end of the array assumes that that team should be
         //   eliminated first
         // Note2: rounds are 0 indexed so the first round is 0
@@ -43,7 +43,7 @@ describe("teamListUtils shouldBeScored", () => {
     });
 
     it.each([true, false]
-    )("should be false when the target team is at the end of array and its the second round round", (isInPlay) => {
+    )("should be false when the target team is at the end of array and there are two eliminations", (isInPlay) => {
 
         // Arrange
         const aTeam = {
@@ -79,7 +79,7 @@ describe("teamListUtils shouldBeScored", () => {
         expect(result).toBeFalsy();
     });
 
-    it("should be true when the target team is in the 2nd position or second from the end of array and its the first round", () => {
+    it("should be true when the target team is in the 2nd position or second from the end of array and there is only one elimination", () => {
         // Arrange
         const aTeam = {
             isInPlay: (_round) => true
