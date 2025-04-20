@@ -66,7 +66,6 @@ describe("teamListUtils shouldBeScored", () => {
         // Arrange
         const aTeam = {
             isInPlay: jest.fn(),
-            eliminationOrder: 1
         };
         const teamList = [aTeam, {}];
 
@@ -81,7 +80,6 @@ describe("teamListUtils shouldBeScored", () => {
         // Arrange
         const aTeam = {
             isInPlay: jest.fn(),
-            eliminationOrder: 3
         };
         const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
 
