@@ -33,7 +33,7 @@ export default class League {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
 
-                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i, elimOrder, countOfTeamsElimedThisFar);
+                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, elimOrder, countOfTeamsElimedThisFar);
     
                     return teamShouldBeScored ? acc + 10 : acc;
                 }, 0);
