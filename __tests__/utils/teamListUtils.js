@@ -1,48 +1,58 @@
 import { shouldBeScored, getUniqueEliminationOrders } from "../../app/utils/teamListUtils";
 
 describe("teamListUtils shouldBeScored", () => {
-    it("should be false when there is exactly one team and we are on the first round", () => {
+
+    it.each([true, false]
+    )("should be false when there is exactly one team and we are on the first round", (isInPlay) => {
         // Arrange
         const aTeam = {
-            isInPlay: (_round) => true
+            isInPlay: (_round) => isInPlay
         };
         const teamList = [aTeam];
+        const roundNumber = 0;
+        const eliminationOrder = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(result).toBeFalsy();
     });
 
-    it("should be false when the target team is at the end of array and its the first round", () => {
-        // Note: being at the end of the array assums that that team should he
+    it.each([true, false]
+    )("should be false when the target team is at the end of array and its the first round", (isInPlay) => {
+        // Note: being at the end of the array assumes that that team should be
         //   eliminated first
         // Note2: rounds are 0 indexed so the first round is 0
 
         // Arrange
         const aTeam = {
-            isInPlay: (_round) => true
+            isInPlay: (_round) => isInPlay
         };
         const teamList = [{}, aTeam];
+        const roundNumber = 0;
+        const eliminationOrder = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(result).toBeFalsy();
     });
 
-    it("should be false when the target team is at the end of array and its the second round round", () => {
+    it.each([true, false]
+    )("should be false when the target team is at the end of array and its the second round round", (isInPlay) => {
 
         // Arrange
         const aTeam = {
-            isInPlay: (_round) => true
+            isInPlay: (_round) => isInPlay
         };
         const teamList = [{}, aTeam];
+        const roundNumber = 1;
+        const eliminationOrder = 2;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 1);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(result).toBeFalsy();
@@ -54,9 +64,11 @@ describe("teamListUtils shouldBeScored", () => {
             isInPlay: (_round) => true
         };
         const teamList = [aTeam, {}];
+        const roundNumber = 0;
+        const eliminationOrder = 1;
 
         // Act
-        const result = shouldBeScored(teamList, aTeam, 0);
+        const result = shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(result).toBeTruthy();
@@ -66,12 +78,13 @@ describe("teamListUtils shouldBeScored", () => {
         // Arrange
         const aTeam = {
             isInPlay: jest.fn(),
-            eliminationOrder: 1
         };
         const teamList = [aTeam, {}];
+        const roundNumber = 0;
+        const eliminationOrder = 1;
 
         // Act
-        shouldBeScored(teamList, aTeam, 0, 1); // the last argument is now just the current elimOrder
+        shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(1);
@@ -81,12 +94,13 @@ describe("teamListUtils shouldBeScored", () => {
         // Arrange
         const aTeam = {
             isInPlay: jest.fn(),
-            eliminationOrder: 3
         };
         const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
+        const roundNumber = 1;
+        const eliminationOrder = 3;
 
         // Act
-        shouldBeScored(teamList, aTeam, 1, 3); // the last argument is now just the current elimOrder
+        shouldBeScored(teamList, aTeam, roundNumber, eliminationOrder);
 
         // Assert
         expect(aTeam.isInPlay).toHaveBeenCalledWith(3);
