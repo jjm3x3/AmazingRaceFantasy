@@ -61,7 +61,7 @@ describe("teamListUtils shouldBeScored", () => {
         expect(result).toBeFalsy();
     });
 
-    it("should be false when the target team is in the 2nd position or second from the end of array and its the first round but the number of teams elimed is 2", () => {
+    it("should be false when the target team is in the 2nd position or second from the end of array and there are two eliminations", () => {
 
         // Arrange
         const aTeam = {
