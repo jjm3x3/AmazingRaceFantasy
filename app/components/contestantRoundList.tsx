@@ -22,8 +22,6 @@ export default function ContestantRoundList({
         contestantName: string
     }) {
 
-    const teamsElimedThisFar: RoundEliminationCountMapping = {};
-
     return (<>
         <div className="text-center">
             {perfectRoundScores.map((round: IRound, roundNumber: number) => {
@@ -41,13 +39,6 @@ export default function ContestantRoundList({
                 const contestantGrandTotal = filteredContestantRound.totalScore;
 
                 const elimOrder = round.eliminationOrder;
-
-                const teamsElimedThisRound = getNumberOfTeamsToEliminate(perfectTeamList, elimOrder);
-                if (roundNumber === 0) {
-                    teamsElimedThisFar[roundNumber] = teamsElimedThisRound;
-                } else {
-                    teamsElimedThisFar[roundNumber] = teamsElimedThisFar[roundNumber-1] + teamsElimedThisRound;
-                }
                 const countOfTeamsElimedThisFar = round.teamsEliminatedSoFar;
 
                 return <Round
