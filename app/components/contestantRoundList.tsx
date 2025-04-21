@@ -1,4 +1,3 @@
-import { getNumberOfTeamsToEliminate } from "@/app/utils/teamListUtils"
 import Round from "./round";
 import Team from "../models/Team";
 import IRound from "../models/IRound";
