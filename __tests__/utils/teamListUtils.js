@@ -1,4 +1,4 @@
-import { shouldBeScored, getUniqueEliminationOrders } from "../../app/utils/teamListUtils";
+import { shouldBeScored, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../../app/utils/teamListUtils";
 
 describe("teamListUtils shouldBeScored", () => {
 
