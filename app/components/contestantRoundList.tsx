@@ -22,7 +22,6 @@ export default function ContestantRoundList({
         contestantName: string
     }) {
 
-    const roundElimMapping = getRoundEliminationOrderMapping(perfectTeamList);
     const teamsElimedThisFar: RoundEliminationCountMapping = {};
 
     return (<>
