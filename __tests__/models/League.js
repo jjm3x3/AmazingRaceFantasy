@@ -48,7 +48,7 @@ describe("generateContestantRoundScores", () => {
     it("Should output some score when there is one", () => {
         // Arrange
         let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2];
         const rounds = 1;
@@ -70,7 +70,7 @@ describe("generateContestantRoundScores", () => {
         // Arrange
         let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
         let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
         const rounds = 1;
@@ -91,8 +91,8 @@ describe("generateContestantRoundScores", () => {
     it("Should accumulate total score over multiple rounds and should remove at least one team per round", () => {
         // Arrange
         let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 2});
+        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
         const rounds = 2;
@@ -123,7 +123,7 @@ describe("addContestantRoundScores", () => {
 
     let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
     let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-    let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+    let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
     it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
         // Arrange
