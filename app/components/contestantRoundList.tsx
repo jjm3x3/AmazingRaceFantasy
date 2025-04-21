@@ -4,10 +4,6 @@ import Team from "../models/Team";
 import IRound from "../models/IRound";
 import IContestantRoundData from "../models/IContestantRoundData";
 
-interface RoundEliminationCountMapping {
-    [key: number]: number;
-}
-
 export default function ContestantRoundList({
     perfectRoundScores,
     contestantRoundScores,
