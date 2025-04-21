@@ -51,6 +51,8 @@ export default class League {
             else {
                 this.rounds.push({
                     round:i,
+                    eliminationOrder: elimOrder,
+                    teamsEliminatedSoFar: countOfTeamsElimedThisFar,
                     contestantRoundData: [{
                         name: contestantName,
                         roundScore: roundScore,
