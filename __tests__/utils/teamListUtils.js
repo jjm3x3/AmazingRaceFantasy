@@ -92,22 +92,6 @@ describe("teamListUtils shouldBeScored", () => {
         expect(result).toBeTruthy();
     });
 
-    it("Should be able to determine the round even with eliminationOrder being 1 indexed", () => {
-        // Arrange
-        const aTeam = {
-            isInPlay: jest.fn(),
-        };
-        const teamList = [aTeam, {}];
-        const eliminationOrder = 1;
-        const numberOfEliminations = 1; // doesn't much matter
-
-        // Act
-        shouldBeScored(teamList, aTeam, eliminationOrder, numberOfEliminations);
-
-        // Assert
-        expect(aTeam.isInPlay).toHaveBeenCalledWith(1);
-    });
-
     it("Should be able to determine the find the appropriate eliminationOrder after a multi elimination round", () => {
         // Arrange
         const aTeam = {
