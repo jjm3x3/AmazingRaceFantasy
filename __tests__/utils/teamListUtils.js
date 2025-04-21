@@ -1,4 +1,5 @@
 import { shouldBeScored, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../../app/utils/teamListUtils";
+import Team from "@/app/models/Team";
 
 describe("teamListUtils shouldBeScored", () => {
 
