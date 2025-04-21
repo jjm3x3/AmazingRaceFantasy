@@ -126,6 +126,22 @@ describe("getRoundEliminationOrderMapping", () => {
         // Assert
         expect(mapping[0]).toBe(1);
     });
+
+    it("Should be able to determine the find the appropriate eliminationOrder after a multi elimination round", () => {
+
+        // Arrange
+        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 3});
+        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
+        let exampleTeam3 = new Team({teamName: "name3_1 & name3_2", isParticipating: false, eliminationOrder: 1});
+
+        const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
+
+        // Act
+        const mapping = getRoundEliminationOrderMapping(teamList);
+
+        // Assert
+        expect(mapping[1]).toBe(3);
+    });
 });
 
 describe("getUniqueEliminationOrders", () => {
