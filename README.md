@@ -1,3 +1,7 @@
+# X Factor Fantasy
+
+X Factor Fantasy provides a space to create fantasy leagues for reality game shows. Currently, we support Amazing Race and Big Brother, with Survivor being in the works. The site runs on NextJS, React, and Redis, reading data from the relevant Wikipedia pages.
+
 ## Getting Started
 
 We have two key phrases that we use throughout the app:
@@ -16,7 +20,7 @@ We have two key phrases that we use throughout the app:
 
 Since we do not have authentication or authorization on the site for now, all data stored in the backend has been stored in source [see leagueData](https://github.com/jjm3x3/AmazingRaceFantasy/tree/main/app/leagueData) and in our database. We have created two new npm stages under the ["scripts" section of package.json](https://docs.npmjs.com/cli/v7/using-npm/scripts). They are `seed:dev` and `seed:prod`, which will run the [seedDb script](https://github.com/jjm3x3/AmazingRaceFantasy/blob/main/scripts/seedDb.mjs).
 
-#### How to run
+### How to run
 
 1. Put secrets in appropriate `.env*` file.
     - _If you are authenticated to Vercel and have the vercel CLI installed_
