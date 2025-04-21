@@ -41,7 +41,7 @@ export default function ContestantRoundList({
                 const contestantRoundScore = filteredContestantRound.roundScore;
                 const contestantGrandTotal = filteredContestantRound.totalScore;
 
-                const elimOrder = roundElimMapping[roundNumber];
+                const elimOrder = round.eliminationOrder;
 
                 const teamsElimedThisRound = getNumberOfTeamsToEliminate(perfectTeamList, elimOrder);
                 if (roundNumber === 0) {
