@@ -4,7 +4,7 @@ import Link from "next/link";
 import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
 import NavigationItem from "./navigation-item";
-import Script from 'next/script';
+import Script from "next/script";
 
 export default function Navigation({ pages }: {
     pages: IPage[]
@@ -60,7 +60,7 @@ export default function Navigation({ pages }: {
                     })} />
                 </li>);
             })}
-            <li key={"nav-toplevellink-login"}>
+        <li key={"nav-toplevellink-login"}>
             <div id="g_id_onload"
                 data-client_id="339861119825-23nsue74j0td0acsiecpne0a8jejon8s.apps.googleusercontent.com"
                 data-context="signin"
@@ -79,7 +79,7 @@ export default function Navigation({ pages }: {
                 data-size="medium"
                 data-logo_alignment="left">
             </div>
-            </li>
+        </li>
         </>} />
     </nav>);
 }
