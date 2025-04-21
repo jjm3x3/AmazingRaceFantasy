@@ -4,6 +4,7 @@ import Link from "next/link";
 import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
 import NavigationItem from "./navigation-item";
+import Script from 'next/script';
 
 export default function Navigation({ pages }: {
     pages: IPage[]
@@ -27,6 +28,7 @@ export default function Navigation({ pages }: {
         classes: ""
     };
     return (<nav id={styles["navigation"]} data-testid="navigation">
+        <Script src="https://accounts.google.com/gsi/client" />
         <NavigationItem inputAttr={rootNavInputAttr} labelAttr={rootNavLabelAttr} listAttr={rootNavListAttr} hasSubpages={ pages.length > 0} childElements={<>{
             pages.map((page: IPage) => {
                 const keyName = page.name.toLowerCase().replaceAll(" ", "-");
@@ -58,7 +60,26 @@ export default function Navigation({ pages }: {
                     })} />
                 </li>);
             })}
-        <li key={"nav-toplevellink-login"}><p className={styles["top-level-link"]}>Login</p></li>
+            <li key={"nav-toplevellink-login"}>
+            <div id="g_id_onload"
+                data-client_id="339861119825-23nsue74j0td0acsiecpne0a8jejon8s.apps.googleusercontent.com"
+                data-context="signin"
+                data-ux_mode="popup"
+                data-callback={(res)=> {
+                    console.log(res);
+                }}
+                data-auto_prompt="false">
+            </div>
+
+            <div className="g_id_signin"
+                data-type="standard"
+                data-shape="rectangular"
+                data-theme="outline"
+                data-text="signin_with"
+                data-size="medium"
+                data-logo_alignment="left">
+            </div>
+            </li>
         </>} />
     </nav>);
 }
