@@ -92,20 +92,21 @@ describe("teamListUtils shouldBeScored", () => {
         expect(result).toBeTruthy();
     });
 
-    it("Should be able to determine the find the appropriate eliminationOrder after a multi elimination round", () => {
+    it.each([1,3]
+    )("Should call team.isInPlay with the eliminationOrder passed in", (elimOrder) => {
         // Arrange
         const aTeam = {
             isInPlay: jest.fn(),
         };
         const teamList = [aTeam, { eliminationOrder: 1 }, { eliminationOrder: 1 }];
-        const eliminationOrder = 3;
+        const eliminationOrder = elimOrder;
         const numberOfEliminations = 3; // doesn't matter much, just is inline with expected state
 
         // Act
         shouldBeScored(teamList, aTeam, eliminationOrder, numberOfEliminations);
 
         // Assert
-        expect(aTeam.isInPlay).toHaveBeenCalledWith(3);
+        expect(aTeam.isInPlay).toHaveBeenCalledWith(eliminationOrder);
     });
 });
 
