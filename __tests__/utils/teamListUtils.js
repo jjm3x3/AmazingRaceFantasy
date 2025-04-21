@@ -125,6 +125,25 @@ describe("teamListUtils shouldBeScored", () => {
     });
 });
 
+describe("getRoundEliminationOrderMapping", () => {
+
+    it("Should be able to produce a mapping which includes round 0", () => {
+
+        // Arrange
+        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam3 = new Team({teamName: "name3_1 & name3_2", isParticipating: false, eliminationOrder: 1});
+
+        const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
+
+        // Act
+        const mapping = getRoundEliminationOrderMapping(teamList);
+
+        // Assert
+        expect(mapping[0]).toBe(1);
+    });
+});
+
 describe("getUniqueEliminationOrders", () => {
     it("Should include even teams with partial eliminationOrders", () => {
         // Arrange
