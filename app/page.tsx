@@ -13,9 +13,6 @@ export default async function Home() {
                 <p>
                     The league for The Amazing Race 37 is already underway. Stay tuned to see how you fair. If you would still like to join this or future leagues, feel free to email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>.
                 </p>
-                <p>
-                    We are aware of an issue effecting the current Amazing Race league. Fix coming soon!
-                </p>
             </div>
             {pages.map((p: IPage) => { 
                 const keyName = p.name.toLowerCase().replaceAll(" ", "-");
