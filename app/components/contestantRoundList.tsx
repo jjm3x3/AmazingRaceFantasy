@@ -48,7 +48,7 @@ export default function ContestantRoundList({
                 } else {
                     teamsElimedThisFar[roundNumber] = teamsElimedThisFar[roundNumber-1] + teamsElimedThisRound;
                 }
-                const countOfTeamsElimedThisFar = teamsElimedThisFar[roundNumber];
+                const countOfTeamsElimedThisFar = round.teamsEliminatedSoFar;
 
                 return <Round
                     key={"round"+roundNumber}
