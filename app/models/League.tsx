@@ -9,7 +9,7 @@ interface RoundEliminationCountMapping {
 export default class League {
     rounds: IRound[];
     teamData: Team[];
-    numberOfRounds: number | null = null;
+    numberOfRounds: number;
 
     constructor(teamData: Team[]) {
         this.rounds = [];
