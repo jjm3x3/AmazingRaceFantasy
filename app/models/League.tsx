@@ -70,14 +70,6 @@ export default class League {
     }
 
     getNumberOfRounds(): number {
-        if (this.numberOfRounds !== null) {
-            return this.numberOfRounds;
-        }
-
-        const seenOrders = getUniqueEliminationOrders(this.teamData);
-
-        this.numberOfRounds = seenOrders.size;
-
         return this.numberOfRounds;
     }
 
