@@ -15,13 +15,14 @@ export default class League {
         this.rounds = [];
         this.teamData = teamData;
 
+        const seenOrders = getUniqueEliminationOrders(this.teamData);
+
+        this.numberOfRounds = seenOrders.size;
+
         this.setupLeague();
     }
 
     private setupLeague() {
-        const seenOrders = getUniqueEliminationOrders(this.teamData);
-
-        this.numberOfRounds = seenOrders.size;
 
         const roundElimMapping = getRoundEliminationOrderMapping(this.teamData);
         const teamsElimedThisFar: RoundEliminationCountMapping = {};
