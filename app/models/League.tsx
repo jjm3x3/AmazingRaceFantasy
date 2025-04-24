@@ -46,20 +46,12 @@ export default class League {
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
-        const roundElimMapping = getRoundEliminationOrderMapping(this.teamData);
-        const teamsElimedThisFar: RoundEliminationCountMapping = {};
         for(let i = 0; i < numberOfRounds; i++) {
-            const elimOrder = roundElimMapping[i];
-            const teamsElimedThisRound = getNumberOfTeamsToEliminate(this.teamData, elimOrder);
-            if (i === 0) {
-                teamsElimedThisFar[i] = teamsElimedThisRound;
-            } else {
-                teamsElimedThisFar[i] = teamsElimedThisFar[i-1] + teamsElimedThisRound;
-            }
-            const countOfTeamsElimedThisFar = teamsElimedThisFar[i];
+            const currentRound = this.rounds[i];
+            const elimOrder = currentRound.eliminationOrder;
+            const countOfTeamsElimedThisFar = currentRound.teamsEliminatedSoFar;
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
-
                     const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, elimOrder, countOfTeamsElimedThisFar);
     
                     return teamShouldBeScored ? acc + 10 : acc;
@@ -67,26 +59,11 @@ export default class League {
 
             grandTotal += roundScore;
 
-            if (this.rounds.length > i) {
-                const currentRound = this.rounds[i];
-                currentRound.contestantRoundData.push({
-                    name: contestantName,
-                    roundScore: roundScore,
-                    totalScore: grandTotal
-                });
-            }
-            else {
-                this.rounds.push({
-                    round:i,
-                    eliminationOrder: elimOrder,
-                    teamsEliminatedSoFar: countOfTeamsElimedThisFar,
-                    contestantRoundData: [{
-                        name: contestantName,
-                        roundScore: roundScore,
-                        totalScore: grandTotal
-                    }]
-                });
-            }
+            currentRound.contestantRoundData.push({
+                name: contestantName,
+                roundScore: roundScore,
+                totalScore: grandTotal
+            });
 
         }
     }
