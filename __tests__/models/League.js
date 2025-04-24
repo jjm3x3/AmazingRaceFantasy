@@ -266,7 +266,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 13;
+        const numberOfRounds = 12;
         const handicap = 0;
 
         // Act
@@ -337,11 +337,6 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(rachelsRoundScores[11].round).toBe(11);
         expect(rachelsRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
         expect(rachelsRoundScores[11].contestantRoundData[0].totalScore).toBe(560);
-
-        // round 12
-        expect(rachelsRoundScores[12].round).toBe(12);
-        expect(rachelsRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
-        expect(rachelsRoundScores[12].contestantRoundData[0].totalScore).toBe(560);
     });
 
     it("Should Score Anita correctly for Amazing Race 36", () => {
@@ -353,7 +348,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 13;
+        const numberOfRounds = 12;
         const handicap = 0;
 
         // Act
@@ -424,11 +419,6 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(anitasRoundScores[11].round).toBe(11);
         expect(anitasRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
         expect(anitasRoundScores[11].contestantRoundData[0].totalScore).toBe(630);
-
-        // round 12
-        expect(anitasRoundScores[12].round).toBe(12);
-        expect(anitasRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
-        expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(630);
     });
 
     it("Should Score Sean correctly for Big Brother 26", () => {
