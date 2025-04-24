@@ -14,6 +14,8 @@ export default class League {
     constructor(teamData: Team[]) {
         this.rounds = [];
         this.teamData = teamData;
+
+        this.setupLeague();
     }
 
     private setupLeague() {
