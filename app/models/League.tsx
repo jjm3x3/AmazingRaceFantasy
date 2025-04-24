@@ -16,6 +16,31 @@ export default class League {
         this.teamData = teamData;
     }
 
+    private setupLeague() {
+        const seenOrders = getUniqueEliminationOrders(this.teamData);
+
+        this.numberOfRounds = seenOrders.size;
+
+        const roundElimMapping = getRoundEliminationOrderMapping(this.teamData);
+        const teamsElimedThisFar: RoundEliminationCountMapping = {};
+        for(let i = 0; i < this.numberOfRounds; i++) {
+            const elimOrder = roundElimMapping[i];
+            const teamsElimedThisRound = getNumberOfTeamsToEliminate(this.teamData, elimOrder);
+            if (i === 0) {
+                teamsElimedThisFar[i] = teamsElimedThisRound;
+            } else {
+                teamsElimedThisFar[i] = teamsElimedThisFar[i-1] + teamsElimedThisRound;
+            }
+            const countOfTeamsElimedThisFar = teamsElimedThisFar[i];
+            this.rounds.push({
+                round: i,
+                eliminationOrder: elimOrder,
+                teamsEliminatedSoFar: countOfTeamsElimedThisFar,
+                contestantRoundData: []
+            });
+        }
+    }
+
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
