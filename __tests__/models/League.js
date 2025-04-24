@@ -25,9 +25,6 @@ describe("generateContestantRoundScores", () => {
 
         // Assert
         expect(resultFunc).toThrow();
-        //expect(result.length).toBe(1);
-        //expect(result[0].contestantRoundData).not.toBeNull();
-        //expect(result[0].contestantRoundData.length).toBe(1);
     });
 
     it("Should work with one round and one team in the ranking", () => {
