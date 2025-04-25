@@ -27,9 +27,9 @@ export default function Navigation({ pages }: {
         classes: ""
     };
     return (<nav id={styles["navigation"]} data-testid="navigation">
-        <NavigationItem inputAttr={rootNavInputAttr} labelAttr={rootNavLabelAttr} listAttr={rootNavListAttr} hasSubpages={ pages.length > 0} children={pages.map((page: IPage) => {
+        <NavigationItem inputAttr={rootNavInputAttr} labelAttr={rootNavLabelAttr} listAttr={rootNavListAttr} hasSubpages={ pages.length > 0} childElements={pages.map((page: IPage) => {
             const keyName = page.name.toLowerCase().replaceAll(" ", "-");
-            const hasSubpages = page.hasOwnProperty("subpages") && page.subpages.length > 0;
+            const hasSubpages = page?.subpages && page.subpages.length > 0;
             const subpageInputAttr = {
                 id: `subpage-${keyName}-input`,
                 classes: styles["nav-subpages-toggle"],
@@ -49,7 +49,7 @@ export default function Navigation({ pages }: {
                 classes: styles["nav-subpages-list"]
             };
             return (<li key={`nav-toplevellink-${keyName}`} className={styles["nav-toplevel-page"]}>
-                <NavigationItem hasSubpages={hasSubpages }  inputAttr={subpageInputAttr } labelAttr={subpageLabelAttr } listAttr={ subpageListAttr} children={page.subpages.map((subpage: ISubpage) => {
+                <NavigationItem hasSubpages={hasSubpages }  inputAttr={subpageInputAttr } labelAttr={subpageLabelAttr } listAttr={ subpageListAttr} childElements={page.subpages.map((subpage: ISubpage) => {
                     const subpageKeyName = subpage.name.toLowerCase().replaceAll(" ", "-");
                     return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>
                         <Link href={subpage.path} className={styles["sub-level-link"]}>{subpage.name}</Link>

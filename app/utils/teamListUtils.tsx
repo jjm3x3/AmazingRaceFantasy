@@ -4,21 +4,26 @@ interface RoundEliminationOrderMapping {
     [Key: string]: number;
 }
 
-export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number): boolean {
+export function shouldBeScored(teamList: Team[], team: Team, eliminationOrder: number, totalEliminationsSoFar: number): boolean {
 
     const teamPosition = teamList.length - teamList.indexOf(team);
 
-    const currentWeek = roundNumber+1;
-    const listHasTeamBeingEliminated = teamPosition <= currentWeek;
+    const listHasTeamBeingEliminated = teamPosition <= totalEliminationsSoFar;
 
-    const roundElimMapping = getRoundEliminationOrderMapping(teamList);
-
-    const elimOrder = roundElimMapping[roundNumber];
-
-    return team.isInPlay(elimOrder) && !listHasTeamBeingEliminated;
+    return team.isInPlay(eliminationOrder) && !listHasTeamBeingEliminated;
 }
 
-function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrderMapping {
+export function getNumberOfTeamsToEliminate(teamList: Team[], elimOrder: number): number {
+    return teamList.reduce((count: number, team: Team) => {
+        if (team.eliminationOrder === elimOrder) {
+            count += 1;
+        }
+
+        return count;
+    }, 0);
+}
+
+export function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrderMapping {
     const setOfEliminationOrders = getUniqueEliminationOrders(teamList);
     const listOfEliminationOrders = Array.from(setOfEliminationOrders)
     listOfEliminationOrders.sort((x, y) => Number(x) - Number(y));

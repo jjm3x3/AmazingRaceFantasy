@@ -33,9 +33,14 @@ export default function ContestantRoundList({
                 const contestantRoundScore = filteredContestantRound.roundScore;
                 const contestantGrandTotal = filteredContestantRound.totalScore;
 
+                const elimOrder = round.eliminationOrder;
+                const countOfTeamsElimedThisFar = round.teamsEliminatedSoFar;
+
                 return <Round
                     key={"round"+roundNumber}
                     roundNumber={roundNumber}
+                    eliminationOrder={elimOrder}
+                    teamsEliminatedSoFar={countOfTeamsElimedThisFar}
                     perfectTeamList={perfectTeamList}
                     contestantTeamList={contestantTeamList}
                     perfectWeekScore={perfectScore}

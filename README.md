@@ -1,3 +1,7 @@
+# X Factor Fantasy
+
+X Factor Fantasy provides a space to create fantasy leagues for reality game shows. Currently, we support Amazing Race and Big Brother, with Survivor being in the works. The site runs on NextJS, React, and Redis, reading data from the relevant Wikipedia pages.
+
 ## Getting Started
 
 We have two key phrases that we use throughout the app:

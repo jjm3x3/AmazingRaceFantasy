@@ -1,6 +1,10 @@
 import IRound from "./IRound";
 import Team from "./Team";
-import { shouldBeScored, getUniqueEliminationOrders } from "../utils/teamListUtils";
+import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
+
+interface RoundEliminationCountMapping {
+    [key: number]: number;
+}
 
 export default class League {
     rounds: IRound[];
@@ -15,10 +19,21 @@ export default class League {
     addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
+        const roundElimMapping = getRoundEliminationOrderMapping(this.teamData);
+        const teamsElimedThisFar: RoundEliminationCountMapping = {};
         for(let i = 0; i < numberOfRounds; i++) {
+            const elimOrder = roundElimMapping[i];
+            const teamsElimedThisRound = getNumberOfTeamsToEliminate(this.teamData, elimOrder);
+            if (i === 0) {
+                teamsElimedThisFar[i] = teamsElimedThisRound;
+            } else {
+                teamsElimedThisFar[i] = teamsElimedThisFar[i-1] + teamsElimedThisRound;
+            }
+            const countOfTeamsElimedThisFar = teamsElimedThisFar[i];
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
-                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i);
+
+                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, elimOrder, countOfTeamsElimedThisFar);
     
                     return teamShouldBeScored ? acc + 10 : acc;
                 }, 0);
@@ -36,6 +51,8 @@ export default class League {
             else {
                 this.rounds.push({
                     round:i,
+                    eliminationOrder: elimOrder,
+                    teamsEliminatedSoFar: countOfTeamsElimedThisFar,
                     contestantRoundData: [{
                         name: contestantName,
                         roundScore: roundScore,
