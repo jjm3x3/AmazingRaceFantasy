@@ -47,10 +47,15 @@ export default class League {
 
     addContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): void {
 
-        this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, elimOrder, countOfTeamsElimedThisFar, contestantLeagueData) => {
-            const currentRound = this.rounds[roundNumber]
-            currentRound.contestantRoundData.push(contestantLeagueData);
-        });
+        this.calculateContestantRoundScores(
+            contestantTeamsList,
+            contestantName,
+            handicap,
+            (roundNumber, elimOrder, countOfTeamsElimedThisFar, contestantLeagueData) => {
+                const currentRound = this.rounds[roundNumber]
+                currentRound.contestantRoundData.push(contestantLeagueData);
+            }
+        );
     }
 
     private calculateContestantRoundScores(
@@ -94,14 +99,19 @@ export default class League {
         }
 
         const result: IRound[] = [];
-        this.calculateContestantRoundScores(contestantTeamsList, contestantName, handicap, (roundNumber, elimOrder, teamsElimedSoFar, contestantLeagueData) => {
-            result.push({
-                round: roundNumber,
-                eliminationOrder: elimOrder,
-                teamsEliminatedSoFar: teamsElimedSoFar,
-                contestantRoundData: [contestantLeagueData]
-            });
-        });
+        this.calculateContestantRoundScores(
+            contestantTeamsList,
+            contestantName,
+            handicap,
+            (roundNumber, elimOrder, teamsElimedSoFar, contestantLeagueData) => {
+                result.push({
+                    round: roundNumber,
+                    eliminationOrder: elimOrder,
+                    teamsEliminatedSoFar: teamsElimedSoFar,
+                    contestantRoundData: [contestantLeagueData]
+                });
+            }
+        );
 
         return result;
     }
