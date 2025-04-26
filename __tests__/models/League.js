@@ -263,9 +263,10 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
 
         const numberOfRounds = 12;
         const handicap = 0;
+        const sut = new League(rachelsParsedAndEmbelishedTeamList);
 
         // Act
-        const rachelsRoundScores = League.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, numberOfRounds, "testingRach", handicap);
+        const rachelsRoundScores = sut.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, numberOfRounds, "testingRach", handicap);
 
         // Assert
         expect(rachelsRoundScores.length).toBe(numberOfRounds);
@@ -345,9 +346,10 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
 
         const numberOfRounds = 12;
         const handicap = 0;
+        const sut = new League(anitasParsedAndEmbelishedTeamList);
 
         // Act
-        const anitasRoundScores = League.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, numberOfRounds, "testingAnita", handicap);
+        const anitasRoundScores = sut.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, numberOfRounds, "testingAnita", handicap);
 
         // Assert
         expect(anitasRoundScores.length).toBe(numberOfRounds);
@@ -428,9 +430,10 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
 
         const numberOfRounds = 15;
         const handicap = 0;
+        const sut = new League(seansParsedAndEmbelishedTeamList);
 
         // Act
-        const seansRoundScores = League.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, numberOfRounds, "testingSean", handicap);
+        const seansRoundScores = sut.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, numberOfRounds, "testingSean", handicap);
 
         // Assert
         expect(seansRoundScores.length).toBe(numberOfRounds);
