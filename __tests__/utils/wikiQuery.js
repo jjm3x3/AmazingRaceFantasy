@@ -1,4 +1,4 @@
-import { getTeamList, isPartialContestantData, getCompetingEntityList } from "../../app/utils/wikiQuery";
+import { getTeamList, isPartialContestantData, getCompetingEntityList, stripTableHeader } from "../../app/utils/wikiQuery";
 
 describe("getTeamList", () => {
     it("should run", () => {
