@@ -126,14 +126,13 @@ describe("addContestantRoundScores", () => {
     it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedContestantName2 = "contestant2";
         const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName2);
+        sut.addContestantRoundScores(teamList, expectedContestantName1);
+        sut.addContestantRoundScores(teamList, expectedContestantName2);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -150,12 +149,11 @@ describe("addContestantRoundScores", () => {
     it("Should not break if handicap is not passed", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
+        sut.addContestantRoundScores(teamList, expectedContestantName1);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -171,13 +169,12 @@ describe("addContestantRoundScores", () => {
     it("Should modify totalScore if handicap is not passed", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedHandicap = -10;
         const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1, expectedHandicap);
+        sut.addContestantRoundScores(teamList, expectedContestantName1, expectedHandicap);
 
         // Assert
         expect(sut).not.toBeNull();
