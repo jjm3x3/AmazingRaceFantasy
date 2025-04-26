@@ -787,4 +787,26 @@ describe("stripTableHeader", () => {
         expect(result).not.toBeNull();
         expect(result.length).toBe(1);
     });
+
+    it("Should not strip a knwon good row with partially populated contetantData", () => {
+
+        // Arrange
+        const knownGoodRow = {
+            name: "John Franklin",
+            name2: "John Franklin",
+            col1: "27",
+            col2: "Mountain View, California",
+            col3: "",
+            col4: "",
+            col5: ""
+        };
+        const tableRowDataList = [knownGoodRow];
+
+        // Act
+        const result = stripTableHeader(tableRowDataList);
+
+        // Assert
+        expect(result).not.toBeNull();
+        expect(result.length).toBe(1);
+    });
 });
