@@ -17,11 +17,12 @@ describe("generateContestantRoundScores", () => {
 
     it("Should throw an error when asking for more rounds then there are teams in the list", () => {
         // Arrange
-        const teamList  = [];
+        const teamList  = [{name: "some team name"}];
+        const contestantTeamList = []
         const sut = new League(teamList);
 
         // Act
-        const resultFunc = () => sut.generateContestantRoundScores(teamList, "");
+        const resultFunc = () => sut.generateContestantRoundScores(contestantTeamList, "");
 
         // Assert
         expect(resultFunc).toThrow("more rounds");
