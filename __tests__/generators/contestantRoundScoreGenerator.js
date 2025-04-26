@@ -9,5 +9,8 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
                 [{"name":"someTeamName"}]
             );
         });
+
+        // Act
+        generateContestantRoundScores(testDataFetcher);
     });
 });
