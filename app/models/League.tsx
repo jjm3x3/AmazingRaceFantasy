@@ -75,21 +75,24 @@ export default class League {
         numberOfRounds: number,
         contestantName: string,
         handicap: number,
-        addToRoundList: (_n: number, _crd: IContestantRoundData) => void
+        addToRoundList: (_n: number, _eo: number, _cot: number, _crd: IContestantRoundData) => void
     ): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
         for(let i = 0; i < numberOfRounds; i++) {
+            const currentRound = this.rounds[i];
+            const elimOrder = currentRound.eliminationOrder;
+            const countOfTeamsElimedThisFar = currentRound.teamsEliminatedSoFar;
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
-                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, i);
-    
+                    const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, elimOrder, countOfTeamsElimedThisFar);
+
                     return teamShouldBeScored ? acc + 10 : acc;
                 }, 0);
 
             grandTotal += roundScore;
 
-            addToRoundList(i, {
+            addToRoundList(i, elimOrder, countOfTeamsElimedThisFar, {
                 name: contestantName,
                 roundScore: roundScore,
                 totalScore: grandTotal
