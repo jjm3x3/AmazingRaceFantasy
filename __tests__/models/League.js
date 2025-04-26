@@ -266,7 +266,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const sut = new League(rachelsParsedAndEmbelishedTeamList);
 
         // Act
-        const rachelsRoundScores = sut.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, numberOfRounds, "testingRach", handicap);
+        const rachelsRoundScores = sut.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, "testingRach", handicap);
 
         // Assert
         expect(rachelsRoundScores.length).toBe(numberOfRounds);
@@ -349,7 +349,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const sut = new League(anitasParsedAndEmbelishedTeamList);
 
         // Act
-        const anitasRoundScores = sut.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, numberOfRounds, "testingAnita", handicap);
+        const anitasRoundScores = sut.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, "testingAnita", handicap);
 
         // Assert
         expect(anitasRoundScores.length).toBe(numberOfRounds);
@@ -433,7 +433,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const sut = new League(seansParsedAndEmbelishedTeamList);
 
         // Act
-        const seansRoundScores = sut.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, numberOfRounds, "testingSean", handicap);
+        const seansRoundScores = sut.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, "testingSean", handicap);
 
         // Assert
         expect(seansRoundScores.length).toBe(numberOfRounds);
