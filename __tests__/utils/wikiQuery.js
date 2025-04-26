@@ -746,5 +746,23 @@ describe("stripTableHeader", () => {
 
     it("Should stip a known header row out of a list of tableRowData", () => {
 
+        // Arrange
+        const knownHeaderRow = {
+            name: "",
+            name2: "Contestants\nAge\nRelationship\nHometown\nStatus",
+            col1: "",
+            col2: "",
+            col3: "",
+            col4: "",
+            col5: ""
+        };
+        const tableRowDataList = [knownHeaderRow];
+
+        // Act
+        const result = stripTableHeader(tableRowDataList);
+
+        // Assert
+        expect(result).not.toBeNull();
+        expect(result.length).toBe(0);
     });
 });
