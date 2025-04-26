@@ -21,6 +21,6 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         const listOfContetantLeagueData = [rachelsContestantLeagueData]
 
         // Act
-        generateContestantRoundScores(testDataFetcher, getTeamList);
+        generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
     });
 });
