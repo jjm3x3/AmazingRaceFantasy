@@ -192,7 +192,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] 
     return contestantsSortedByEliminationOrder;
 }
 
-export function stripTableHeader(competingEntityData :ITableRowData[]) {
+export function stripTableHeader(competingEntityData :ITableRowData[]): ITableRowData[] {
     return competingEntityData.filter(x => {
         return !(x.name === ""
             && (x.name2.includes("\n")
