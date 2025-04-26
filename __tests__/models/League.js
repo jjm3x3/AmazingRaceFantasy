@@ -261,7 +261,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 12;
+        const expectedNumberOfRounds = 12;
         const handicap = 0;
         const sut = new League(rachelsParsedAndEmbelishedTeamList);
 
@@ -269,7 +269,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const rachelsRoundScores = sut.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, "testingRach", handicap);
 
         // Assert
-        expect(rachelsRoundScores.length).toBe(numberOfRounds);
+        expect(rachelsRoundScores.length).toBe(expectedNumberOfRounds);
 
 
         // Note: we are always pulling the 0th contestantRoundData because we
@@ -344,7 +344,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 12;
+        const expectedNumberOfRounds = 12;
         const handicap = 0;
         const sut = new League(anitasParsedAndEmbelishedTeamList);
 
@@ -352,7 +352,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const anitasRoundScores = sut.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, "testingAnita", handicap);
 
         // Assert
-        expect(anitasRoundScores.length).toBe(numberOfRounds);
+        expect(anitasRoundScores.length).toBe(expectedNumberOfRounds);
 
 
         // Note: we are always pulling the 0th contestantRoundData because we
@@ -428,7 +428,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 15;
+        const expectedNumberOfRounds = 15;
         const handicap = 0;
         const sut = new League(seansParsedAndEmbelishedTeamList);
 
@@ -436,7 +436,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const seansRoundScores = sut.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, "testingSean", handicap);
 
         // Assert
-        expect(seansRoundScores.length).toBe(numberOfRounds);
+        expect(seansRoundScores.length).toBe(expectedNumberOfRounds);
 
         // Note: we are always pulling the 0th contestantRoundData because we
         // are only inserting on contestant into the league
