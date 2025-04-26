@@ -24,7 +24,7 @@ describe("generateContestantRoundScores", () => {
         const resultFunc = () => League.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
-        expect(resultFunc).toThrow();
+        expect(resultFunc).toThrow("more rounds");
     });
 
     it("Should work with one round and one team in the ranking", () => {
