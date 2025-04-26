@@ -6,9 +6,10 @@ describe("generateContestantRoundScores", () => {
         // Arrange
         const teamList  = [];
         const rounds = 0;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -19,9 +20,10 @@ describe("generateContestantRoundScores", () => {
         // Arrange
         const teamList  = [];
         const rounds = 1;
+        const sut = new League(teamList);
 
         // Act
-        const resultFunc = () => League.generateContestantRoundScores(teamList, rounds, "");
+        const resultFunc = () => sut.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(resultFunc).toThrow("more rounds");
@@ -31,9 +33,10 @@ describe("generateContestantRoundScores", () => {
         // Arrange
         const teamList = [new Team({teamName: "name1_1 & name1_2"})];
         const rounds = 1;
+        const sut = new League(teamList)
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -49,9 +52,10 @@ describe("generateContestantRoundScores", () => {
 
         const teamList = [exampleTeam, exampleTeam2];
         const rounds = 1;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -71,9 +75,10 @@ describe("generateContestantRoundScores", () => {
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
         const rounds = 1;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -93,9 +98,10 @@ describe("generateContestantRoundScores", () => {
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
         const rounds = 2;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
         expect(result).not.toBeNull();
