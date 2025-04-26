@@ -741,3 +741,7 @@ describe("getCompetingEntityList", () => {
         expect(result.map(x => x.eliminationOrder)).not.toContain(0);
     });
 });
+
+describe("stripTableHeader", () => {
+
+});
