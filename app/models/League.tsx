@@ -9,19 +9,24 @@ interface RoundEliminationCountMapping {
 export default class League {
     rounds: IRound[];
     teamData: Team[];
-    numberOfRounds: number | null = null;
+    numberOfRounds: number;
 
     constructor(teamData: Team[]) {
         this.rounds = [];
         this.teamData = teamData;
+
+        const seenOrders = getUniqueEliminationOrders(this.teamData);
+
+        this.numberOfRounds = seenOrders.size;
+
+        this.setupLeague();
     }
 
-    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
+    private setupLeague() {
 
-        let grandTotal = handicap === undefined ? 0 : handicap;
         const roundElimMapping = getRoundEliminationOrderMapping(this.teamData);
         const teamsElimedThisFar: RoundEliminationCountMapping = {};
-        for(let i = 0; i < numberOfRounds; i++) {
+        for(let i = 0; i < this.numberOfRounds; i++) {
             const elimOrder = roundElimMapping[i];
             const teamsElimedThisRound = getNumberOfTeamsToEliminate(this.teamData, elimOrder);
             if (i === 0) {
@@ -30,9 +35,24 @@ export default class League {
                 teamsElimedThisFar[i] = teamsElimedThisFar[i-1] + teamsElimedThisRound;
             }
             const countOfTeamsElimedThisFar = teamsElimedThisFar[i];
+            this.rounds.push({
+                round: i,
+                eliminationOrder: elimOrder,
+                teamsEliminatedSoFar: countOfTeamsElimedThisFar,
+                contestantRoundData: []
+            });
+        }
+    }
+
+    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
+
+        let grandTotal = handicap === undefined ? 0 : handicap;
+        for(let i = 0; i < numberOfRounds; i++) {
+            const currentRound = this.rounds[i];
+            const elimOrder = currentRound.eliminationOrder;
+            const countOfTeamsElimedThisFar = currentRound.teamsEliminatedSoFar;
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
-
                     const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, elimOrder, countOfTeamsElimedThisFar);
     
                     return teamShouldBeScored ? acc + 10 : acc;
@@ -40,43 +60,24 @@ export default class League {
 
             grandTotal += roundScore;
 
-            if (this.rounds.length > i) {
-                const currentRound = this.rounds[i];
-                currentRound.contestantRoundData.push({
-                    name: contestantName,
-                    roundScore: roundScore,
-                    totalScore: grandTotal
-                });
-            }
-            else {
-                this.rounds.push({
-                    round:i,
-                    eliminationOrder: elimOrder,
-                    teamsEliminatedSoFar: countOfTeamsElimedThisFar,
-                    contestantRoundData: [{
-                        name: contestantName,
-                        roundScore: roundScore,
-                        totalScore: grandTotal
-                    }]
-                });
-            }
+            currentRound.contestantRoundData.push({
+                name: contestantName,
+                roundScore: roundScore,
+                totalScore: grandTotal
+            });
 
         }
     }
 
     getNumberOfRounds(): number {
-        if (this.numberOfRounds !== null) {
-            return this.numberOfRounds;
-        }
-
-        const seenOrders = getUniqueEliminationOrders(this.teamData);
-
-        this.numberOfRounds = seenOrders.size;
-
         return this.numberOfRounds;
     }
 
     static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
+
+        if (numberOfRounds > contestantTeamsList.length) {
+            throw new Error("Asking for more rounds that the number of teams in the list");
+        }
 
         const result = new League(contestantTeamsList);
         result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);

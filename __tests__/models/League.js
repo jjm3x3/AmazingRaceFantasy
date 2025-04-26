@@ -15,19 +15,16 @@ describe("generateContestantRoundScores", () => {
         expect(result.length).toBe(0);
     });
 
-    it("Should work with one round", () => {
+    it("Should throw an error when asking for more rounds then there are teams in the list", () => {
         // Arrange
         const teamList  = [];
         const rounds = 1;
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const resultFunc = () => League.generateContestantRoundScores(teamList, rounds, "");
 
         // Assert
-        expect(result).not.toBeNull();
-        expect(result.length).toBe(1);
-        expect(result[0].contestantRoundData).not.toBeNull();
-        expect(result[0].contestantRoundData.length).toBe(1);
+        expect(resultFunc).toThrow();
     });
 
     it("Should work with one round and one team in the ranking", () => {
@@ -266,7 +263,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 13;
+        const numberOfRounds = 12;
         const handicap = 0;
 
         // Act
@@ -337,11 +334,6 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(rachelsRoundScores[11].round).toBe(11);
         expect(rachelsRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
         expect(rachelsRoundScores[11].contestantRoundData[0].totalScore).toBe(560);
-
-        // round 12
-        expect(rachelsRoundScores[12].round).toBe(12);
-        expect(rachelsRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
-        expect(rachelsRoundScores[12].contestantRoundData[0].totalScore).toBe(560);
     });
 
     it("Should Score Anita correctly for Amazing Race 36", () => {
@@ -353,7 +345,7 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 13;
+        const numberOfRounds = 12;
         const handicap = 0;
 
         // Act
@@ -424,11 +416,6 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(anitasRoundScores[11].round).toBe(11);
         expect(anitasRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
         expect(anitasRoundScores[11].contestantRoundData[0].totalScore).toBe(630);
-
-        // round 12
-        expect(anitasRoundScores[12].round).toBe(12);
-        expect(anitasRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
-        expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(630);
     });
 
     it("Should Score Sean correctly for Big Brother 26", () => {
