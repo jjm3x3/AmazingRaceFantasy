@@ -12,6 +12,6 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         });
 
         // Act
-        generateContestantRoundScores(testDataFetcher);
+        generateContestantRoundScores(testDataFetcher, getTeamList);
     });
 });
