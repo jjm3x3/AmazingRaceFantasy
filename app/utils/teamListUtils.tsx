@@ -1,4 +1,4 @@
-import CompetingEntity from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 
 interface RoundEliminationOrderMapping {
     [Key: string]: number;

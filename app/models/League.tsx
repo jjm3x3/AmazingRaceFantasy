@@ -1,6 +1,6 @@
 import IRound from "./IRound";
 import IContestantRoundData from "./IContestantRoundData";
-import CompetingEntity from "./Team";
+import CompetingEntity from "./CompetingEntity";
 import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
 interface RoundEliminationCountMapping {

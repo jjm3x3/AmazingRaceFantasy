@@ -1,7 +1,7 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
 import { stripTableHeader } from "@/app/utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
-import CompetingEntity from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 import League from "../models/League";
 
 interface Dictionary<T> {

@@ -1,5 +1,5 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
-import CompetingEntity from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 
 export function getTeamList(contestantData :ITableRowData[]): CompetingEntity[] {
 

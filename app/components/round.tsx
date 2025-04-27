@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import TeamList from "../components/teamList";
-import CompetingEntity from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 
 export default function Round({
     roundNumber,

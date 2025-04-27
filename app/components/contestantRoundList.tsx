@@ -1,5 +1,5 @@
 import Round from "./round";
-import CompetingEntity from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 import IRound from "../models/IRound";
 import IContestantRoundData from "../models/IContestantRoundData";
 

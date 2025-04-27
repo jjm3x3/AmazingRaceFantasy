@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import CompetingEntity from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 import { shouldBeScored } from "../utils/teamListUtils";
 
 export default function TeamList({

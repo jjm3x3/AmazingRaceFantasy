@@ -1,7 +1,7 @@
 import { getTeamList, stripTableHeader } from "../utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { ITableRowData } from "../dataSources/wikiFetch";
-import CompetingEntity from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
 import League from "../models/League";
