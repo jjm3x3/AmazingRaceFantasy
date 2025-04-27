@@ -60,7 +60,7 @@ export default function Navigation({ pages }: {
                     })} />
                 </li>);
             })}
-        <li key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
+        <li className={styles["top-level-link"]} key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
         </>} />
     </nav>);
 }

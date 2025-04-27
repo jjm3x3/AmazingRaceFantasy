@@ -1,5 +1,5 @@
-import { OAuth2Client } from 'google-auth-library';
-import { NextRequest, NextResponse } from 'next/server';
+import { OAuth2Client } from "google-auth-library";
+import { NextRequest, NextResponse } from "next/server";
 const client = new OAuth2Client();
 
 export async function POST(request: NextRequest) {

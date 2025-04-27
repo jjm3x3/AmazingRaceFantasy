@@ -26,30 +26,22 @@ export default function GoogleLoginButton(){
             const parent = document.getElementById("google_login_btn");
             google.accounts.id.renderButton(parent, {
                 theme: "outline",
-                size: "large"
+                text: "signin",
+                size: "medium"
             });
         }
     }, [isWindowLoaded]);
     
     function handleCredentialResponse(response:GoogleLogin) {
-        const responsePayload = decodeJwtResponse(response.credential);
-   
-        console.log("ID: " + responsePayload.sub);
-        console.log("Full Name: " + responsePayload.name);
-        console.log("Given Name: " + responsePayload.given_name);
-        console.log("Family Name: " + responsePayload.family_name);
-        console.log("Image URL: " + responsePayload.picture);
-        console.log("Email: " + responsePayload.email);
+        fetch("/api/login", {
+            method: "POST",
+            body: JSON.stringify({ token: response.credential }),
+        }).then(handleLogin);
     }
-   
-    function decodeJwtResponse(token:string) {
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        const jsonPayload = decodeURIComponent(atob(base64).split("").map(function(c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(""));
-   
-        return JSON.parse(jsonPayload);
+
+    async function handleLogin(response: Response) {
+        const data = await response.json();
+        console.log(data);
     }
 
     return (<>
