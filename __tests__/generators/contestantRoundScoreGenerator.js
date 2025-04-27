@@ -28,5 +28,21 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
 
         // Assert
         expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(rachelsContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(120);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(120);
+
+        //// round 1..10 not testing because we aren't using them today
+
+        // round 11
+        expect(result.rounds[11].round).toBe(11);
+        expect(result.rounds[11].contestantRoundData[0].name).toBe(rachelsContestantLeagueData.name);
+        expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(560);
     });
 });
