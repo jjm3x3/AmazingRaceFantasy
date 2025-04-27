@@ -1,10 +1,10 @@
-import Team from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 
 interface RoundEliminationOrderMapping {
     [Key: string]: number;
 }
 
-export function shouldBeScored(teamList: Team[], team: Team, eliminationOrder: number, totalEliminationsSoFar: number): boolean {
+export function shouldBeScored(teamList: CompetingEntity[], team: CompetingEntity, eliminationOrder: number, totalEliminationsSoFar: number): boolean {
 
     const teamPosition = teamList.length - teamList.indexOf(team);
 
@@ -13,8 +13,8 @@ export function shouldBeScored(teamList: Team[], team: Team, eliminationOrder: n
     return team.isInPlay(eliminationOrder) && !listHasTeamBeingEliminated;
 }
 
-export function getNumberOfTeamsToEliminate(teamList: Team[], elimOrder: number): number {
-    return teamList.reduce((count: number, team: Team) => {
+export function getNumberOfTeamsToEliminate(teamList: CompetingEntity[], elimOrder: number): number {
+    return teamList.reduce((count: number, team: CompetingEntity) => {
         if (team.eliminationOrder === elimOrder) {
             count += 1;
         }
@@ -23,7 +23,7 @@ export function getNumberOfTeamsToEliminate(teamList: Team[], elimOrder: number)
     }, 0);
 }
 
-export function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrderMapping {
+export function getRoundEliminationOrderMapping(teamList: CompetingEntity[]): RoundEliminationOrderMapping {
     const setOfEliminationOrders = getUniqueEliminationOrders(teamList);
     const listOfEliminationOrders = Array.from(setOfEliminationOrders)
     listOfEliminationOrders.sort((x, y) => Number(x) - Number(y));
@@ -36,7 +36,7 @@ export function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminat
     return mapping;
 }
 
-export function getUniqueEliminationOrders(teams: Team[]): Set<number> {
+export function getUniqueEliminationOrders(teams: CompetingEntity[]): Set<number> {
     const seenOrders = new Set<number>();
     teams.filter(
         (t) => t.eliminationOrder !== Number.MAX_VALUE

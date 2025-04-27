@@ -1,9 +1,9 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
-import Team from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 
-export function getTeamList(contestantData :ITableRowData[]): Team[] {
+export function getTeamList(contestantData :ITableRowData[]): CompetingEntity[] {
 
-    const contestants: Team[] = [];
+    const contestants: CompetingEntity[] = [];
 
     let firstContestantFound: boolean = false;
     let teamStarted: boolean = false;
@@ -40,7 +40,7 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
                 eliminationOrder = (contestantData.length/2) - 1;
             }
 
-            const contestant: Team = new Team({
+            const contestant: CompetingEntity = new CompetingEntity({
                 teamName: teamName,
                 relationship: element.col2,
                 isParticipating,
@@ -79,7 +79,7 @@ interface BBHouseGuest {
     exitedDay: number
 }
 
-export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] {
+export function getCompetingEntityList(contestantData :ITableRowData[]): CompetingEntity[] {
 
     const contestants: BBHouseGuest[] = [];
     let previousExitDay: number = 0;
@@ -165,7 +165,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] 
             eliminationOrderCounter++;
         }
 
-        return new Team({
+        return new CompetingEntity({
             teamName: contestant.teamName,
             relationship: contestant.relationship,
             isParticipating: contestant.isParticipating,

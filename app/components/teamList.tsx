@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import Team from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 import { shouldBeScored } from "../utils/teamListUtils";
 
 export default function TeamList({
@@ -8,7 +8,7 @@ export default function TeamList({
     eliminationOrder,
     teamsEliminatedSoFar
 }: {
-    teamList: Team[],
+    teamList: CompetingEntity[],
     roundNumber: number
     eliminationOrder: number
     teamsEliminatedSoFar: number

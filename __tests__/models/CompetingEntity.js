@@ -1,8 +1,8 @@
-import Team from "../../app/models/Team";
+import CompetingEntity from "@/app/models/CompetingEntity";
 
 describe("Team construct", () => {
     it("should construct", () => {
-        const aTeam = new Team({
+        const aTeam = new CompetingEntity({
             teamName: "aTeamName"
         });
 
@@ -12,7 +12,7 @@ describe("Team construct", () => {
 
 describe("Team isInPlay", () => {
     it("should be true when elimination order is 0 reguardless of eliminationOrder (sparse)", () => {
-        const aTeam = new Team({
+        const aTeam = new CompetingEntity({
             isParticipating: true,
             eliminationOrder: 0
         });
@@ -35,7 +35,7 @@ describe("Team isInPlay", () => {
             if (i === 0) { continue; } // This was already coverd in the last test
 
             // Arrange
-            const aTeam = new Team({
+            const aTeam = new CompetingEntity({
                 eliminationOrder: i
             });
 
@@ -51,7 +51,7 @@ describe("Team isInPlay", () => {
             if (i === 0) { continue; } // This was already coverd in the last test
 
             // Arrange
-            const aTeam = new Team({
+            const aTeam = new CompetingEntity({
                 eliminationOrder: i
             });
 
@@ -70,8 +70,8 @@ describe("Team static getKey", () => {
         const orderingTwo = "Bname two & Aname one";
 
         // Act
-        const resultOne = Team.getKey(orderingOne);
-        const resultTwo = Team.getKey(orderingTwo);
+        const resultOne = CompetingEntity.getKey(orderingOne);
+        const resultTwo = CompetingEntity.getKey(orderingTwo);
 
         // Assert
         expect(resultOne).toBe(resultTwo);
@@ -84,8 +84,8 @@ describe("Team static getKey", () => {
         const testTeamName = "Aname one & Bname two   ";
 
         // Act
-        const expectedResult = Team.getKey(expectedTeamName);
-        const testResult = Team.getKey(testTeamName);
+        const expectedResult = CompetingEntity.getKey(expectedTeamName);
+        const testResult = CompetingEntity.getKey(testTeamName);
 
         // Assert
         expect(testResult).toBe(expectedResult);
@@ -98,8 +98,8 @@ describe("Team static getKey", () => {
         const testTeamName = "   Aname one & Bname two";
 
         // Act
-        const expectedResult = Team.getKey(expectedTeamName);
-        const testResult = Team.getKey(testTeamName);
+        const expectedResult = CompetingEntity.getKey(expectedTeamName);
+        const testResult = CompetingEntity.getKey(testTeamName);
 
         // Assert
         expect(testResult).toBe(expectedResult);
@@ -110,7 +110,7 @@ describe("Team static getKey", () => {
         var input = "firstName \"nickname\" lastName";
 
         // Act
-        const result = Team.getKey(input);
+        const result = CompetingEntity.getKey(input);
 
         // Assert
         expect(result).toEqual(expect.not.stringContaining("\""));
@@ -121,7 +121,7 @@ describe("Team static getKey", () => {
         var input = "firstName lastName";
 
         // Act
-        const result = Team.getKey(input);
+        const result = CompetingEntity.getKey(input);
 
         // Assert
         expect(result).toEqual(expect.not.stringContaining(" "));
@@ -133,7 +133,7 @@ describe("Team friendlyName", () => {
 
         // Arrange
         const expectedFirstName = "Anna Leigh";
-        const sut = new Team({teamName: expectedFirstName + " lastname & Partner Person"});
+        const sut = new CompetingEntity({teamName: expectedFirstName + " lastname & Partner Person"});
 
         // Act
         const result = sut.friendlyName();
@@ -147,7 +147,7 @@ describe("Team friendlyName", () => {
         // Arrange
         const expectedFirstFirstName = "Bob";
         const expectedSecondFirstName = "Partner";
-        const sut = new Team({
+        const sut = new CompetingEntity({
             teamName: expectedFirstFirstName + " Lob Law & " + expectedSecondFirstName +" Peter Piper"
         });
 
@@ -164,7 +164,7 @@ describe("Team friendlyName", () => {
 
         // Arrange
         const fullName = "some long name \"with\" \"quotes\"";
-        const sut = new Team({teamName: fullName});
+        const sut = new CompetingEntity({teamName: fullName});
 
         // Act
         const result = sut.friendlyName();
