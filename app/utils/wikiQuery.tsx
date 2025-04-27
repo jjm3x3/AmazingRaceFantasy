@@ -106,19 +106,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] 
         let eliminationOrder = 0;
         let isWinner = false;
 
-        // for amazing-race
-        if (status.toLowerCase().includes("eliminated")) {
-            isParticipating = false;
-            eliminationOrder = Number(status.match(/Eliminated (\d+)/i)![1]);
-        } else if (status.toLowerCase().includes("third")) {
-            isParticipating = false;
-            eliminationOrder = (contestantData.length/2) - 2;
-        } else if (status.toLowerCase().includes("runners-up")) {
-            isParticipating = false;
-            eliminationOrder = (contestantData.length/2) - 1;
-        }
-        // for big-brother
-        else if (status.toLowerCase().includes("evicted")) {
+        if (status.toLowerCase().includes("evicted")) {
             isParticipating = false;
             const statusMatches = status.match(/Evicted\W*Day (\d+)/i);
             eliminationOrder = Number(statusMatches![1]);
