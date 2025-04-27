@@ -7,17 +7,15 @@ interface GoogleLogin {
 }
 
 export default function GoogleLoginButton(){
-    const [isWindowLoaded, setIsWindowLoaded] = useState(false);
+    const [scriptLoaded, setScriptLoaded] = useState(false);
+    const handleScriptLoad = () => {
+        setScriptLoaded(true);
+    };
+
     const googleLoginRef = useRef(null);
 
     useEffect(()=> {
-        if(typeof window !== "undefined"){
-            setIsWindowLoaded(true)
-        }
-    }, [typeof window]);
-
-    useEffect(()=> {
-        if(isWindowLoaded){
+        if(scriptLoaded){
             const google = window.google;
             google.accounts.id.initialize({
                 client_id: "708154320268-432vdrg2g0h1652frag5vbu8r8qi4ers.apps.googleusercontent.com",
@@ -36,7 +34,7 @@ export default function GoogleLoginButton(){
                 });
             }
         }
-    }, [isWindowLoaded]);
+    }, [scriptLoaded]);
     
     function handleCredentialResponse(response:GoogleLogin) {
         fetch("/api/login", {
@@ -52,6 +50,6 @@ export default function GoogleLoginButton(){
 
     return (<>
         <div ref={googleLoginRef} id="google_login_btn"/>
-        <Script async src="https://accounts.google.com/gsi/client"/>
+        <Script async src="https://accounts.google.com/gsi/client" onLoad={handleScriptLoad}/>
     </>);
 }
