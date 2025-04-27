@@ -1,4 +1,4 @@
-import { getTeamList } from "../utils/wikiQuery";
+import { getTeamList, stripTableHeader } from "../utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
@@ -15,7 +15,10 @@ export default async function generateListOfContestantRoundLists(
     listOfContestantLeagueData: IContestantData[],
     getCompetingEntityListFunction: (_: ITableRowData[]) => Team[] = getTeamList,
 ) {
-    const wikiContestants = await dataFetcher();
+    const wikiTableData = await dataFetcher();
+
+    const wikiContestants = stripTableHeader(wikiTableData);
+
     const pageData = getCompetingEntityListFunction(wikiContestants);
 
     const teamDictionary = pageData.reduce((acc: Dictionary<Team>, t: Team) => {
@@ -25,12 +28,11 @@ export default async function generateListOfContestantRoundLists(
     }, {});
 
     const league = new League(pageData);
-    const numberOfRounds = league.getNumberOfRounds();
 
     const reverseTeamsList = [...pageData].reverse();
 
     const perfectScoreHandicap = 0;
-    const roundScores: IRound[] = League.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap);
+    const roundScores: IRound[] = league.generateContestantRoundScores(reverseTeamsList, "*perfect*", perfectScoreHandicap);
 
     return listOfContestantLeagueData.map(contestant => {
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
@@ -39,7 +41,7 @@ export default async function generateListOfContestantRoundLists(
             return foundTeam;
         });
 
-        const contestantRoundScores: IRound[] = League.generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name, contestant.handicap);
+        const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
 
         return {
             key: contestant.name,
