@@ -8,7 +8,7 @@ interface GoogleLogin {
 
 export default function GoogleLoginButton(){
     const [isWindowLoaded, setIsWindowLoaded] = useState(false);
-    const googleLoginRef = useRef();
+    const googleLoginRef = useRef(null);
 
     useEffect(()=> {
         if(typeof window !== "undefined"){
