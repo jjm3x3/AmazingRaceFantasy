@@ -5,10 +5,10 @@ describe("generateContestantRoundScores", () => {
     it("Should work with simple defaults", () => {
         // Arrange
         const teamList  = [];
-        const rounds = 0;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -17,23 +17,24 @@ describe("generateContestantRoundScores", () => {
 
     it("Should throw an error when asking for more rounds then there are teams in the list", () => {
         // Arrange
-        const teamList  = [];
-        const rounds = 1;
+        const teamList  = [{name: "some team name"}];
+        const contestantTeamList = []
+        const sut = new League(teamList);
 
         // Act
-        const resultFunc = () => League.generateContestantRoundScores(teamList, rounds, "");
+        const resultFunc = () => sut.generateContestantRoundScores(contestantTeamList, "");
 
         // Assert
-        expect(resultFunc).toThrow();
+        expect(resultFunc).toThrow("more rounds");
     });
 
     it("Should work with one round and one team in the ranking", () => {
         // Arrange
         const teamList = [new Team({teamName: "name1_1 & name1_2"})];
-        const rounds = 1;
+        const sut = new League(teamList)
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -48,10 +49,10 @@ describe("generateContestantRoundScores", () => {
         let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2];
-        const rounds = 1;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -70,10 +71,10 @@ describe("generateContestantRoundScores", () => {
         let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -92,10 +93,10 @@ describe("generateContestantRoundScores", () => {
         let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 2;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -125,14 +126,13 @@ describe("addContestantRoundScores", () => {
     it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedContestantName2 = "contestant2";
         const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName2);
+        sut.addContestantRoundScores(teamList, expectedContestantName1);
+        sut.addContestantRoundScores(teamList, expectedContestantName2);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -149,12 +149,11 @@ describe("addContestantRoundScores", () => {
     it("Should not break if handicap is not passed", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
+        sut.addContestantRoundScores(teamList, expectedContestantName1);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -170,13 +169,12 @@ describe("addContestantRoundScores", () => {
     it("Should modify totalScore if handicap is not passed", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedHandicap = -10;
         const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1, expectedHandicap);
+        sut.addContestantRoundScores(teamList, expectedContestantName1, expectedHandicap);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -263,14 +261,15 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 12;
+        const expectedNumberOfRounds = 12;
         const handicap = 0;
+        const sut = new League(rachelsParsedAndEmbelishedTeamList);
 
         // Act
-        const rachelsRoundScores = League.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, numberOfRounds, "testingRach", handicap);
+        const rachelsRoundScores = sut.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, "testingRach", handicap);
 
         // Assert
-        expect(rachelsRoundScores.length).toBe(numberOfRounds);
+        expect(rachelsRoundScores.length).toBe(expectedNumberOfRounds);
 
 
         // Note: we are always pulling the 0th contestantRoundData because we
@@ -345,14 +344,15 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 12;
+        const expectedNumberOfRounds = 12;
         const handicap = 0;
+        const sut = new League(anitasParsedAndEmbelishedTeamList);
 
         // Act
-        const anitasRoundScores = League.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, numberOfRounds, "testingAnita", handicap);
+        const anitasRoundScores = sut.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, "testingAnita", handicap);
 
         // Assert
-        expect(anitasRoundScores.length).toBe(numberOfRounds);
+        expect(anitasRoundScores.length).toBe(expectedNumberOfRounds);
 
 
         // Note: we are always pulling the 0th contestantRoundData because we
@@ -428,14 +428,15 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
             return new Team(t);
         });
 
-        const numberOfRounds = 15;
+        const expectedNumberOfRounds = 15;
         const handicap = 0;
+        const sut = new League(seansParsedAndEmbelishedTeamList);
 
         // Act
-        const seansRoundScores = League.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, numberOfRounds, "testingSean", handicap);
+        const seansRoundScores = sut.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, "testingSean", handicap);
 
         // Assert
-        expect(seansRoundScores.length).toBe(numberOfRounds);
+        expect(seansRoundScores.length).toBe(expectedNumberOfRounds);
 
         // Note: we are always pulling the 0th contestantRoundData because we
         // are only inserting on contestant into the league

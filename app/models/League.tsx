@@ -1,4 +1,5 @@
 import IRound from "./IRound";
+import IContestantRoundData from "./IContestantRoundData";
 import Team from "./Team";
 import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
@@ -44,9 +45,28 @@ export default class League {
         }
     }
 
-    addContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): void {
+    addContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): void {
+
+        this.calculateContestantRoundScores(
+            contestantTeamsList,
+            contestantName,
+            handicap,
+            (roundNumber, elimOrder, countOfTeamsElimedThisFar, contestantLeagueData) => {
+                const currentRound = this.rounds[roundNumber]
+                currentRound.contestantRoundData.push(contestantLeagueData);
+            }
+        );
+    }
+
+    private calculateContestantRoundScores(
+        contestantTeamsList: Team[],
+        contestantName: string,
+        handicap: number,
+        addToRoundList: (_n: number, _eo: number, _cot: number, _crd: IContestantRoundData) => void
+    ): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;
+        const numberOfRounds = this.getNumberOfRounds();
         for(let i = 0; i < numberOfRounds; i++) {
             const currentRound = this.rounds[i];
             const elimOrder = currentRound.eliminationOrder;
@@ -54,18 +74,17 @@ export default class League {
             const roundScore = contestantTeamsList.reduce(
                 (acc: number, x: Team) => {
                     const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, elimOrder, countOfTeamsElimedThisFar);
-    
+
                     return teamShouldBeScored ? acc + 10 : acc;
                 }, 0);
 
             grandTotal += roundScore;
 
-            currentRound.contestantRoundData.push({
+            addToRoundList(i, elimOrder, countOfTeamsElimedThisFar, {
                 name: contestantName,
                 roundScore: roundScore,
                 totalScore: grandTotal
             });
-
         }
     }
 
@@ -73,16 +92,28 @@ export default class League {
         return this.numberOfRounds;
     }
 
-    static generateContestantRoundScores(contestantTeamsList: Team[], numberOfRounds: number, contestantName: string, handicap: number): IRound[] {
+    generateContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): IRound[] {
 
-        if (numberOfRounds > contestantTeamsList.length) {
+        if (this.numberOfRounds > contestantTeamsList.length) {
             throw new Error("Asking for more rounds that the number of teams in the list");
         }
 
-        const result = new League(contestantTeamsList);
-        result.addContestantRoundScores(contestantTeamsList, numberOfRounds, contestantName, handicap);
+        const result: IRound[] = [];
+        this.calculateContestantRoundScores(
+            contestantTeamsList,
+            contestantName,
+            handicap,
+            (roundNumber, elimOrder, teamsElimedSoFar, contestantLeagueData) => {
+                result.push({
+                    round: roundNumber,
+                    eliminationOrder: elimOrder,
+                    teamsEliminatedSoFar: teamsElimedSoFar,
+                    contestantRoundData: [contestantLeagueData]
+                });
+            }
+        );
 
-        return result.rounds;
+        return result;
     }
 } 
 
