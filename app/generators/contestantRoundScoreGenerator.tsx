@@ -1,7 +1,7 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
 import { stripTableHeader } from "@/app/utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
-import Team from "../models/Team";
+import CompetingEntity from "../models/Team";
 import League from "../models/League";
 
 interface Dictionary<T> {
@@ -10,7 +10,7 @@ interface Dictionary<T> {
 
 export async function generateContestantRoundScores(
     dataFetcher: () => Promise<ITableRowData[]>,
-    getCompetitorList: (_: ITableRowData[]) => Team[],
+    getCompetitorList: (_: ITableRowData[]) => CompetingEntity[],
     listOfContestantLeagueData: IContestantData[]
 ) {
     const wikiTableData = await dataFetcher();
@@ -18,8 +18,8 @@ export async function generateContestantRoundScores(
     const wikiContestants = stripTableHeader(wikiTableData);
     // TODO: come up with better names for getCompetitorList and pageData
     const pageData = getCompetitorList(wikiContestants);
-    const teamDictionary = pageData.reduce((acc: Dictionary<Team>, t: Team) => {
-        acc[Team.getKey(t.teamName)] = t;
+    const teamDictionary = pageData.reduce((acc: Dictionary<CompetingEntity>, t: CompetingEntity) => {
+        acc[CompetingEntity.getKey(t.teamName)] = t;
 
         return acc;
     }, {});
@@ -29,7 +29,7 @@ export async function generateContestantRoundScores(
     listOfContestantLeagueData.map(contestant => {
 
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
-            const foundTeam = teamDictionary[Team.getKey(x)];
+            const foundTeam = teamDictionary[CompetingEntity.getKey(x)];
             return foundTeam;
         });
 

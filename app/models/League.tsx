@@ -1,6 +1,6 @@
 import IRound from "./IRound";
 import IContestantRoundData from "./IContestantRoundData";
-import Team from "./Team";
+import CompetingEntity from "./Team";
 import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
 
 interface RoundEliminationCountMapping {
@@ -9,10 +9,10 @@ interface RoundEliminationCountMapping {
 
 export default class League {
     rounds: IRound[];
-    teamData: Team[];
+    teamData: CompetingEntity[];
     numberOfRounds: number;
 
-    constructor(teamData: Team[]) {
+    constructor(teamData: CompetingEntity[]) {
         this.rounds = [];
         this.teamData = teamData;
 
@@ -45,7 +45,7 @@ export default class League {
         }
     }
 
-    addContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): void {
+    addContestantRoundScores(contestantTeamsList: CompetingEntity[], contestantName: string, handicap: number): void {
 
         this.calculateContestantRoundScores(
             contestantTeamsList,
@@ -59,7 +59,7 @@ export default class League {
     }
 
     private calculateContestantRoundScores(
-        contestantTeamsList: Team[],
+        contestantTeamsList: CompetingEntity[],
         contestantName: string,
         handicap: number,
         addToRoundList: (_n: number, _eo: number, _cot: number, _crd: IContestantRoundData) => void
@@ -72,7 +72,7 @@ export default class League {
             const elimOrder = currentRound.eliminationOrder;
             const countOfTeamsElimedThisFar = currentRound.teamsEliminatedSoFar;
             const roundScore = contestantTeamsList.reduce(
-                (acc: number, x: Team) => {
+                (acc: number, x: CompetingEntity) => {
                     const teamShouldBeScored = shouldBeScored(contestantTeamsList, x, elimOrder, countOfTeamsElimedThisFar);
 
                     return teamShouldBeScored ? acc + 10 : acc;
@@ -92,7 +92,7 @@ export default class League {
         return this.numberOfRounds;
     }
 
-    generateContestantRoundScores(contestantTeamsList: Team[], contestantName: string, handicap: number): IRound[] {
+    generateContestantRoundScores(contestantTeamsList: CompetingEntity[], contestantName: string, handicap: number): IRound[] {
 
         if (this.numberOfRounds > contestantTeamsList.length) {
             throw new Error("Asking for more rounds that the number of teams in the list");

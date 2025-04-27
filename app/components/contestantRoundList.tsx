@@ -1,5 +1,5 @@
 import Round from "./round";
-import Team from "../models/Team";
+import CompetingEntity from "../models/Team";
 import IRound from "../models/IRound";
 import IContestantRoundData from "../models/IContestantRoundData";
 
@@ -12,8 +12,8 @@ export default function ContestantRoundList({
 }: {
         perfectRoundScores: IRound[]
         contestantRoundScores: IRound[]
-        perfectTeamList: Team[]
-        contestantTeamList: Team[]
+        perfectTeamList: CompetingEntity[]
+        contestantTeamList: CompetingEntity[]
         contestantName: string
     }) {
 
