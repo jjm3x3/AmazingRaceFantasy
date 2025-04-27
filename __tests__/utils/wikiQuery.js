@@ -744,7 +744,7 @@ describe("getCompetingEntityList", () => {
 
 describe("stripTableHeader", () => {
 
-    it("Should stip a known header row out of a list of tableRowData", () => {
+    it("Should strip a known header row out of a list of tableRowData", () => {
 
         // Arrange
         const knownHeaderRow = {
