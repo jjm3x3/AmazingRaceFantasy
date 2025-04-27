@@ -1,4 +1,4 @@
-import { getTeamList } from "../utils/wikiQuery";
+import { getTeamList, stripTableHeader } from "../utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { ITableRowData } from "../dataSources/wikiFetch";
 import Team from "../models/Team";
@@ -15,7 +15,10 @@ export default async function generateListOfContestantRoundLists(
     listOfContestantLeagueData: IContestantData[],
     getCompetingEntityListFunction: (_: ITableRowData[]) => Team[] = getTeamList,
 ) {
-    const wikiContestants = await dataFetcher();
+    const wikiTableData = await dataFetcher();
+
+    const wikiContestants = stripTableHeader(wikiTableData);
+
     const pageData = getCompetingEntityListFunction(wikiContestants);
 
     const teamDictionary = pageData.reduce((acc: Dictionary<Team>, t: Team) => {

@@ -1,4 +1,5 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
+import { stripTableHeader } from "@/app/utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import Team from "../models/Team";
 import League from "../models/League";
@@ -12,9 +13,11 @@ export async function generateContestantRoundScores(
     getCompetitorList: (_: ITableRowData[]) => Team[],
     listOfContestantLeagueData: IContestantData[]
 ) {
-    const wikiData = await dataFetcher();
+    const wikiTableData = await dataFetcher();
+
+    const wikiContestants = stripTableHeader(wikiTableData);
     // TODO: come up with better names for getCompetitorList and pageData
-    const pageData = getCompetitorList(wikiData);
+    const pageData = getCompetitorList(wikiContestants);
     const teamDictionary = pageData.reduce((acc: Dictionary<Team>, t: Team) => {
         acc[Team.getKey(t.teamName)] = t;
 

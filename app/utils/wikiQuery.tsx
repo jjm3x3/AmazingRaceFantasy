@@ -191,3 +191,21 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] 
 
     return contestantsSortedByEliminationOrder;
 }
+
+export function stripTableHeader(competingEntityData :ITableRowData[]): ITableRowData[] {
+    return competingEntityData.filter(x => {
+        return !(x.name === ""
+            && (x.name2.includes("\n")
+                || x.name2.includes("Contestants")
+                || x.name2.includes("Age")
+                || x.name2.includes("Relationship")
+                || x.name2.includes("Hometown")
+                || x.name2.includes("Status"))
+            && x.col1 === ""
+            && x.col2 === ""
+            && x.col3 === ""
+            && x.col4 === ""
+            && x.col5 === "");
+    });
+}
+
