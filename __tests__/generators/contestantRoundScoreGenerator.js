@@ -21,8 +21,12 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         };
         const listOfContetantLeagueData = [rachelsContestantLeagueData]
 
+        const expectedNumberOfRounds = 12;
+
         // Act
         const result = await generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
 
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
     });
 });
