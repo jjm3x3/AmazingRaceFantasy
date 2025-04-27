@@ -110,7 +110,7 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         const expectedNumberOfRounds = 15;
 
         // Act
-        const result = await generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
+        const result = await generateContestantRoundScores(testDataFetcher, getCompetingEntityList, listOfContetantLeagueData);
 
         // Assert
         expect(result.rounds.length).toBe(expectedNumberOfRounds);
