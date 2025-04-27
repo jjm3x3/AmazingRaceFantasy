@@ -1,5 +1,5 @@
 import { shouldBeScored, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../../app/utils/teamListUtils";
-import Team from "@/app/models/Team";
+import CompetingEntity from "@/app/models/CompetingEntity";
 
 describe("teamListUtils shouldBeScored", () => {
 
@@ -115,9 +115,9 @@ describe("getRoundEliminationOrderMapping", () => {
     it("Should be able to produce a mapping which includes round 0", () => {
 
         // Arrange
-        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam3 = new Team({teamName: "name3_1 & name3_2", isParticipating: false, eliminationOrder: 1});
+        let exampleTeam = new CompetingEntity({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam3 = new CompetingEntity({teamName: "name3_1 & name3_2", isParticipating: false, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
 
@@ -131,9 +131,9 @@ describe("getRoundEliminationOrderMapping", () => {
     it("Should be able to determine the find the appropriate eliminationOrder after a multi elimination round", () => {
 
         // Arrange
-        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 3});
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
-        let exampleTeam3 = new Team({teamName: "name3_1 & name3_2", isParticipating: false, eliminationOrder: 1});
+        let exampleTeam = new CompetingEntity({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 3});
+        let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
+        let exampleTeam3 = new CompetingEntity({teamName: "name3_1 & name3_2", isParticipating: false, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
 
