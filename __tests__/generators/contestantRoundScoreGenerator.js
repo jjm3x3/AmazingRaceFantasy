@@ -45,4 +45,47 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(560);
     });
+
+    it("Should return a league with Anitas scoring for AmazingRace_36", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                [{"name":"","name2":"Contestants\nAge\nRelationship\nHometown\nStatus","col1":"","col2":"","col3":"","col4":"","col5":""},{"name":"Maya Mody","name2":"Maya Mody","col1":"19","col2":"Siblings","col3":"Monmouth Junction, New Jersey","col4":"Eliminated 1st(in Puerto Vallarta, Mexico)","col5":""},{"name":"Rohan Mody","name2":"Rohan Mody","col1":"22","col2":"","col3":"","col4":"","col5":""},{"name":"Chris Foster","name2":"Chris Foster","col1":"60","col2":"Father & Daughter","col3":"Waltham, Massachusetts","col4":"Eliminated 2nd(in Puerto Vallarta, Mexico)","col5":""},{"name":"Mary Cardona-Foster","name2":"Mary Cardona-Foster","col1":"27","col2":"","col3":"","col4":"","col5":""},{"name":"Anthony Smith","name2":"Anthony Smith","col1":"26","col2":"Twins","col3":"Clearwater, Florida","col4":"Eliminated 3rd(in El Peñol, Colombia)","col5":""},{"name":"Bailey Smith","name2":"Bailey Smith","col1":"26","col2":"","col3":"","col4":"","col5":""},{"name":"Michelle Clark","name2":"Michelle Clark","col1":"39","col2":"Married Aerobics Instructors","col3":"East Point, Georgia","col4":"Eliminated 4th(in Medellín, Colombia)","col5":""},{"name":"Sean Clark","name2":"Sean Clark","col1":"46","col2":"","col3":"","col4":"","col5":""},{"name":"Kishori Turner","name2":"Kishori Turner","col1":"26","col2":"Cousins","col3":"Gaithersburg, Maryland","col4":"Eliminated 5th(in Santiago, Chile)","col5":""},{"name":"Karishma Cordero","name2":"Karishma Cordero","col1":"22","col2":"Austin, Texas","col3":"","col4":"","col5":""},{"name":"Derek Williams","name2":"Derek Williams","col1":"57","col2":"Grandparents","col3":"Alta Loma, California","col4":"Eliminated 6th(in Córdoba, Argentina)","col5":""},{"name":"Shelisa Williams","name2":"Shelisa Williams","col1":"55","col2":"","col3":"","col4":"","col5":""},{"name":"Sunny Pulver","name2":"Sunny Pulver","col1":"41","col2":"Firefighter Moms","col3":"Edgerton, Wisconsin","col4":"Eliminated 7th(in Montevideo, Uruguay)","col5":""},{"name":"Bizzy Smith","name2":"Bizzy Smith","col1":"37","col2":"New Berlin, Wisconsin","col3":"","col4":"","col5":""},{"name":"Angie Butler","name2":"Angie Butler","col1":"55","col2":"Mother & Son","col3":"Walla Walla, Washington","col4":"Eliminated 8th(in Christ Church, Barbados)","col5":""},{"name":"Danny Butler","name2":"Danny Butler","col1":"27","col2":"San Diego, California","col3":"","col4":"","col5":""},{"name":"Yvonne Chavez","name2":"Yvonne Chavez","col1":"40","col2":"Girlfriends","col3":"San Diego, California","col4":"Eliminated 9th(in Puerto Plata, Dominican Republic)","col5":""},{"name":"Melissa Main","name2":"Melissa Main","col1":"38","col2":"","col3":"","col4":"","col5":""},{"name":"Amber Craven","name2":"Amber Craven","col1":"30","col2":"Dating Nurses","col3":"Englewood, Colorado","col4":"Eliminated 10th(in La Boca, Dominican Republic)","col5":""},{"name":"Vinny Cagungun","name2":"Vinny Cagungun","col1":"37","col2":"","col3":"","col4":"","col5":""},{"name":"Rod Gardner","name2":"Rod Gardner","col1":"46","col2":"Married","col3":"Lawrenceville, Georgia","col4":"Third place","col5":""},{"name":"Leticia Gardner","name2":"Leticia Gardner","col1":"38","col2":"","col3":"","col4":"","col5":""},{"name":"Juan Villa","name2":"Juan Villa","col1":"29","col2":"Military Pilots","col3":"Spokane, Washington","col4":"Runners-up","col5":""},{"name":"Shane Bilek","name2":"Shane Bilek","col1":"29","col2":"Marine City, Michigan","col3":"","col4":"","col5":""},{"name":"Ricky Rotandi","name2":"Ricky Rotandi","col1":"34","col2":"Boyfriends","col3":"New York City, New York","col4":"Winners","col5":""},{"name":"Cesar Aldrete","name2":"Cesar Aldrete","col1":"34","col2":"","col3":"","col4":"","col5":""}]
+            );
+        });
+
+        const anitasRawTeamList = [ "Rod Gardner & Leticia Gardner", "Ricky Rotandi & Cesar Aldrete", "Juan Villa & Shane Bilek", "Sunny Pulver & Bizzy Smith", "Derek Williams & Shelisa Williams", "Michelle Clark & Sean Clark", "Yvonne Chavez & Melissa Main", "Kishori Turner & Karishma Cordero", "Anthony Smith & Bailey Smith", "Angie Butler & Danny Butler", "Amber Craven & Vinny Cagungun", "Chris Foster & Mary Cardona-Foster", "Maya Mody & Rohan Mody"];
+
+        const anitasContestantLeagueData = {
+            name: "Anita",
+            userId: "E75E9D22-C1B5-4AF9-9824-841F15080E94",
+            ranking: anitasRawTeamList
+        };
+        const listOfContetantLeagueData = [anitasContestantLeagueData]
+
+        const expectedNumberOfRounds = 12;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(anitasContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(120);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(120);
+
+        //// round 1..10 not testing because we aren't using them today
+
+        // round 11
+        expect(result.rounds[11].round).toBe(11);
+        expect(result.rounds[11].contestantRoundData[0].name).toBe(anitasContestantLeagueData.name);
+        expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(630);
+    });
 });
