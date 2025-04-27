@@ -1,5 +1,6 @@
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator"
-import { getTeamList, getCompetingEntityList } from "@/app/utils/wikiQuery"
+import { getCompetingEntityList } from "@/app/utils/wikiQuery"
+import parseAmaizingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
 
 describe("Regression Tests Checking generation of Archived Leagues", () => {
 
@@ -34,7 +35,7 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         const expectedNumberOfRounds = 12;
 
         // Act
-        const result = await generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
+        const result = await generateContestantRoundScores(testDataFetcher, parseAmaizingRaceEntities, listOfContetantLeagueData);
 
         // Assert
         expect(result.rounds.length).toBe(expectedNumberOfRounds);
@@ -68,7 +69,7 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         const expectedNumberOfRounds = 12;
 
         // Act
-        const result = await generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
+        const result = await generateContestantRoundScores(testDataFetcher, parseAmaizingRaceEntities, listOfContetantLeagueData);
 
         // Assert
         expect(result.rounds.length).toBe(expectedNumberOfRounds);
@@ -113,7 +114,7 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         const expectedNumberOfRounds = 12;
 
         // Act
-        const result = await generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
+        const result = await generateContestantRoundScores(testDataFetcher, parseAmaizingRaceEntities, listOfContetantLeagueData);
 
         // Assert
         expect(result.rounds.length).toBe(expectedNumberOfRounds);
