@@ -88,4 +88,47 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(630);
     });
+
+    it("Should return a league with Seans scoring for BigBrother_26", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                [{"name":"","name2":"Name\nAge\nOccupation\nResidence\nResult","col1":"","col2":"","col3":"","col4":"","col5":""},{"name":"Chelsie Baham","name2":"Chelsie Baham","col1":"27","col2":"Nonprofit director","col3":"Rancho Cucamonga, California","col4":"WinnerDay 90","col5":""},{"name":"Makensy Manbeck","name2":"Makensy Manbeck","col1":"22","col2":"Construction project manager","col3":"Houston, Texas","col4":"Runner-upDay 90","col5":""},{"name":"Cam Sullivan-Brown","name2":"Cam Sullivan-Brown","col1":"25","col2":"Physical therapist","col3":"Bowie, Maryland","col4":"Evicted Day 90","col5":""},{"name":"Rubina Bernabe","name2":"Rubina Bernabe","col1":"35","col2":"Event bartender","col3":"Los Angeles, California","col4":"Evicted Day 87","col5":""},{"name":"Kimo Apaka","name2":"Kimo Apaka","col1":"35","col2":"Mattress sales representative","col3":"Hilo, Hawaii","col4":"Evicted Day 80","col5":""},{"name":"Angela Murray","name2":"Angela Murray","col1":"50","col2":"Real estate agent","col3":"Syracuse, Utah","col4":"Evicted Day 73","col5":""},{"name":"Leah Peters","name2":"Leah Peters","col1":"26","col2":"VIP cocktail server","col3":"Miami, Florida","col4":"","col5":""},{"name":"T'kor Clottey","name2":"T'kor Clottey","col1":"23","col2":"Crochet business owner","col3":"Atlanta, Georgia","col4":"Evicted Day 66","col5":""},{"name":"Quinn Martin","name2":"Quinn Martin","col1":"25","col2":"Nurse recruiter","col3":"Omaha, Nebraska","col4":"Evicted Day 59","col5":""},{"name":"Joseph Rodriguez","name2":"Joseph Rodriguez","col1":"30","col2":"Video store clerk","col3":"Tampa, Florida","col4":"Evicted Day 52","col5":""},{"name":"Tucker Des Lauriers","name2":"Tucker Des Lauriers","col1":"30","col2":"Marketing/sales executive","col3":"Brooklyn, New York","col4":"Evicted Day 45","col5":""},{"name":"Brooklyn Rivera","name2":"Brooklyn Rivera","col1":"34","col2":"Business administrator","col3":"Dallas, Texas","col4":"Evicted Day 38","col5":""},{"name":"Cedric Hodges","name2":"Cedric Hodges","col1":"21","col2":"Former marine","col3":"Boise, Idaho","col4":"Evicted Day 31","col5":""},{"name":"Kenney Kelley","name2":"Kenney Kelley","col1":"52","col2":"Former undercover cop","col3":"Boston, Massachusetts","col4":"Evicted Day 24","col5":""},{"name":"Lisa Weintraub","name2":"Lisa Weintraub","col1":"33","col2":"Celebrity chef","col3":"Los Angeles, California","col4":"Evicted Day 17","col5":""},{"name":"Matt Hardeman","name2":"Matt Hardeman","col1":"25","col2":"Tech sales rep","col3":"Roswell, Georgia","col4":"Evicted Day 10","col5":""}]
+            );
+        });
+
+        const seansRawTeamList = [ "Cam Sullivan-Brown", "Joseph Rodriguez", "Leah Peters", "Brooklyn Rivera", "Kenney Kelley", "T'kor Clottey", "Cedric Hodges", "Matt Hardeman", "Makensy Manbeck", "Kimo Apaka", "Tucker Des Lauriers", "Quinn Martin", "Angela Murray", "Rubina Bernabe", "Lisa Weintraub", "Chelsie Baham" ];
+
+        const seansContestantLeagueData = {
+            name: "Sean",
+            userId: "EABAE0D9-0AD0-4F2F-97E3-DF22212A375F",
+            ranking: seansRawTeamList
+        };
+        const listOfContetantLeagueData = [seansContestantLeagueData]
+
+        const expectedNumberOfRounds = 15;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(140);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(140);
+
+        //// round 1..13 not testing because we aren't using them today
+
+        // round 11
+        expect(result.rounds[14].round).toBe(14);
+        expect(result.rounds[14].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
+        expect(result.rounds[14].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[14].contestantRoundData[0].totalScore).toBe(730);
+    });
 });
