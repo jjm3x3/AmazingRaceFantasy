@@ -56,6 +56,42 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(560);
     });
 
+    it("Should return a league with rachels & andrews scoring for AmazingRace_35", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(amazingRace35WikiTableData);
+        });
+        const rachelsContestantLeagueData = rachelsAmazingRace35ContestantLeagueData
+        const listOfContetantLeagueData = [rachelsContestantLeagueData, andrewsAmazingRace35ContestantLeagueData]
+
+        const expectedNumberOfRounds = 12;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, getTeamList, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData.length).toBe(2);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(rachelsContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[1].name).toBe(andrewsAmazingRace35ContestantLeagueData.name);
+
+        //// round 1..10 not testing because we aren't using them today
+
+        // round 11
+        expect(result.rounds[11].round).toBe(11);
+        expect(result.rounds[11].contestantRoundData.length).toBe(2);
+        expect(result.rounds[11].contestantRoundData[0].name).toBe(rachelsContestantLeagueData.name);
+        expect(result.rounds[11].contestantRoundData[1].name).toBe(andrewsAmazingRace35ContestantLeagueData.name);
+        expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(560);
+        expect(result.rounds[11].contestantRoundData[1].totalScore).toBe(610);
+    });
+
     it("Should return a league with Anitas scoring for AmazingRace_36", async () => {
 
         // Arrange
