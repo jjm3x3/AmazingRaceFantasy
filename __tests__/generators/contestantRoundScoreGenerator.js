@@ -1,5 +1,5 @@
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator"
-import { getTeamList } from "@/app/utils/wikiQuery"
+import { getTeamList, getCompetingEntityList } from "@/app/utils/wikiQuery"
 
 describe("Regression Tests Checking generation of Archived Leagues", () => {
 
