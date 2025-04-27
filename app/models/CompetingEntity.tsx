@@ -6,7 +6,7 @@ interface ITeam {
     eliminationOrder: number
 }
 
-export default class Team {
+export default class CompetingEntity {
     teamName: string;
     relationship: string;
     isParticipating: boolean;
