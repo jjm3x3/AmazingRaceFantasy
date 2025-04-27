@@ -1,4 +1,5 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
+import { stripTableHeader } from "@/app/utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import Team from "../models/Team";
 import League from "../models/League";
