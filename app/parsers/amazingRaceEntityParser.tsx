@@ -49,14 +49,14 @@ export default function parseAmazingRaceEntites(contestantData :ITableRowData[])
             });
 
             if (contestant.teamName) {
-                contestants.push(contestant);    
+                contestants.push(contestant);
                 teamStarted = true;
             } else {
-                console.warn("Found a null contestant Name...");    
+                console.warn("Found a null contestant Name...");
             }
         } else {
             if (!isPartialContestantData(element)) {
-                contestants[contestants.length-1].teamName += " & " + teamName; 
+                contestants[contestants.length-1].teamName += " & " + teamName;
                 teamStarted = false;
             }
         }
