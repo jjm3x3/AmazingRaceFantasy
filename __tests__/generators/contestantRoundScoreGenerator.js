@@ -1,5 +1,5 @@
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator"
-import { getCompetingEntityList } from "@/app/utils/wikiQuery"
+import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
 import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
 
 describe("Regression Tests Checking generation of Archived Leagues", () => {
@@ -157,7 +157,7 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         const expectedNumberOfRounds = 15;
 
         // Act
-        const result = await generateContestantRoundScores(testDataFetcher, getCompetingEntityList, listOfContetantLeagueData);
+        const result = await generateContestantRoundScores(testDataFetcher, parseBigBrotherEntities, listOfContetantLeagueData);
 
         // Assert
         expect(result.rounds.length).toBe(expectedNumberOfRounds);
