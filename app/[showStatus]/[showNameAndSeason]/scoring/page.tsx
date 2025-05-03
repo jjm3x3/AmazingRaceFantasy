@@ -1,6 +1,5 @@
 import ContestantSelector from "../../../components/contestantSelector"
-import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
-import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
+import { getParser } from "@/app/utils/entityParserSwitch"
 import { getWikipediaContestantDataFetcher } from "../../../dataSources/wikiFetch"
 import generateListOfContestantRoundLists from "../../../generators/contestantRoundListGenerator"
 import { getContestantData, getLeagueConfigurationKeys, getLeagueConfigurationData } from "@/app/dataSources/dbFetch"
@@ -31,16 +30,11 @@ export default async function Scoring({ params }: {
     const { wikiApiUrl, googleSheetUrl, castPhrase, preGoogleSheetsLinkText, postGoogleSheetsLinkText, contestantLeagueDataKeyPrefix } = leagueConfigurationData;
 
     const dataFetcher = getWikipediaContestantDataFetcher(wikiApiUrl, castPhrase);
-    let listOfContestantRoundLists;
 
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
 
-    // Check for Amazing Race due to additional param
-    if(showName.match("amazing_race")){
-        listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, parseAmazingRaceEntities)
-    } else {
-        listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, parseBigBrotherEntities)
-    }
+    const parsingFn = getParser(showName)
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, parsingFn)
 
     return (
         <div>
