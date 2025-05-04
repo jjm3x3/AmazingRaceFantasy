@@ -24,4 +24,30 @@ describe("getParser", () => {
         expect(parsedEntities[0].eliminationOrder).toBe(4);
     });
 
+    it("Should return a parser which can colate teams for amazingRace", () => {
+
+        // Arrange
+        const tableRowData = [
+            {
+                name: "Some person",
+                col4: "Eliminated 4th"
+            },
+            {
+                name: "Some personsbrother",
+                col4: ""
+            }
+        ];
+
+        // Act
+        const parserSutFn = getParser("amazing_race");
+
+        const parsedEntities = parserSutFn(tableRowData);
+
+        // Assert
+        expect(parsedEntities).not.toBeNull();
+        expect(parsedEntities.length).toBe(1); // main test
+        expect(parsedEntities[0].isParticipating).toBeFalsy();
+        expect(parsedEntities[0].eliminationOrder).toBe(4);
+    });
+
 });
