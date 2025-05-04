@@ -33,6 +33,8 @@ export interface ITableRowData {
     col3: string
     col4: string
     col5: string
+    col6: string
+    col7: string
 }
 
 async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
