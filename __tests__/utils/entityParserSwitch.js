@@ -50,4 +50,27 @@ describe("getParser", () => {
         expect(parsedEntities[0].eliminationOrder).toBe(4);
     });
 
+    it("Should return a parser which creates an entity per row for big_brother", () => {
+
+        // Arrange
+        const tableRowData = [
+            {
+                name: "Some person",
+                col4: "Eliminated 4th"
+            },
+            {
+                name: "Some personsbrother",
+                col4: ""
+            }
+        ];
+
+        // Act
+        const parserSutFn = getParser("big_brother");
+
+        const parsedEntities = parserSutFn(tableRowData);
+
+        // Assert
+        expect(parsedEntities).not.toBeNull();
+        expect(parsedEntities.length).toBe(2);
+    });
 });
