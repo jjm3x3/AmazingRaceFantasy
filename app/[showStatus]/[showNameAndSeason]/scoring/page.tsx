@@ -1,5 +1,6 @@
 import ContestantSelector from "../../../components/contestantSelector"
 import { getCompetingEntityList } from "../../../utils/wikiQuery"
+import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
 import { getWikipediaContestantDataFetcher } from "../../../dataSources/wikiFetch"
 import generateListOfContestantRoundLists from "../../../generators/contestantRoundListGenerator"
 import { getContestantData, getLeagueConfigurationKeys, getLeagueConfigurationData } from "@/app/dataSources/dbFetch"
@@ -36,7 +37,7 @@ export default async function Scoring({ params }: {
 
     // Check for Amazing Race due to additional param
     if(showName.match("amazing_race")){
-        listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData)
+        listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, parseAmazingRaceEntities)
     } else {
         listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, getCompetingEntityList)
     }
