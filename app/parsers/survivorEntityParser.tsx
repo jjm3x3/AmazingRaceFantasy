@@ -20,13 +20,17 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
             return;
         }
 
-        let status = null;
-        if (element.col5){
-            status = element.col5; // help with navigating entry day wirdnes
+        let finishDay = null;
+        if (element.col7){
+            finishDay = element.col7;
+        } else if (element.col6) {
+            finishDay = element.col6;
+        } else if (element.col5) {
+            finishDay = element.col5;
         } else {
-            status = element.col4;
+            finishDay = element.col4;
         }
-        if (status === null || status === undefined) {
+        if (finishDay === null || finishDay === undefined) {
             throw new ReferenceError("Status is either null or undefined and it should not be");
         }
 
