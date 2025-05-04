@@ -26,8 +26,10 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
             rawFinishDay = element.col6;
         } else if (element.col5) {
             rawFinishDay = element.col5;
-        } else {
+        } else if(element.col4)  {
             rawFinishDay = element.col4;
+        } else {
+            rawFinishDay = element.col3;
         }
         if (rawFinishDay === null || rawFinishDay === undefined) {
             throw new ReferenceError("Status is either null or undefined and it should not be");
@@ -46,7 +48,7 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
         } else if (rawFinishDay.toLowerCase().includes("runner-up")) {
             isParticipating = false;
             finishDay = previousFinishDay + 0.5
-        } else if (rawFinishDay.toLowerCase().includes("sole survivor") || element.col3.toLowerCase().includes("sole survivor")) {
+        } else if (rawFinishDay.toLowerCase().includes("sole survivor")) {
             isWinner = true;
         }
 
