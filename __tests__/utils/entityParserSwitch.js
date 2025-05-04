@@ -73,4 +73,30 @@ describe("getParser", () => {
         expect(parsedEntities).not.toBeNull();
         expect(parsedEntities.length).toBe(2);
     });
+
+    it("Should return a parser which can handle 'evicted' for big_brother", () => {
+
+        // Arrange
+        const tableRowData = [
+            {
+                name: "Some person",
+                col4: "EvictedDay 10"
+            },
+            {
+                name: "Some personsbrother",
+                col4: "Winner"
+            }
+        ];
+
+        // Act
+        const parserSutFn = getParser("big_brother");
+
+        const parsedEntities = parserSutFn(tableRowData);
+
+        // Assert
+        expect(parsedEntities).not.toBeNull();
+        expect(parsedEntities.length).toBe(2);
+        expect(parsedEntities[0].isParticipating).toBeFalsy();
+        expect(parsedEntities[0].eliminationOrder).toBe(1);
+    });
 });
