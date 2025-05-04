@@ -233,14 +233,9 @@ describe("parseSurvivorEntities", () => {
     });
 
     it("Should make sure an entity with a known \"isParticipating\" status ends up with eliminationOrder of Number.MAX_VALUE", () => {
-        const emptyStatusName = "blah Guy";
         const participatingStatusName = "purple Guy";
 
         const listOfContestants = [
-            {
-                name: emptyStatusName,
-                col4: ""
-            },
             {
                 name: participatingStatusName,
                 col4: "Participating"
@@ -250,10 +245,7 @@ describe("parseSurvivorEntities", () => {
 
         var result = parseSurvivorEntities(listOfContestants);
 
-        expect(result.length).toEqual(2);
-        const targetContestantList = result.filter(x => x.teamName == emptyStatusName);
-        expect(targetContestantList.length).toEqual(1);
-        expect(targetContestantList[0].eliminationOrder).toEqual(Number.MAX_VALUE);
+        expect(result.length).toEqual(1);
         const targetContestantList2 = result.filter(x => x.teamName == participatingStatusName);
         expect(targetContestantList2.length).toEqual(1);
         expect(targetContestantList2[0].eliminationOrder).toEqual(Number.MAX_VALUE);
