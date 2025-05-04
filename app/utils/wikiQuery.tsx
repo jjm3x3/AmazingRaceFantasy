@@ -1,9 +1,9 @@
 import { ITableRowData } from "../dataSources/wikiFetch";
-import Team from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 
-export function getTeamList(contestantData :ITableRowData[]): Team[] {
+export function getTeamList(contestantData :ITableRowData[]): CompetingEntity[] {
 
-    const contestants: Team[] = [];
+    const contestants: CompetingEntity[] = [];
 
     let firstContestantFound: boolean = false;
     let teamStarted: boolean = false;
@@ -40,7 +40,7 @@ export function getTeamList(contestantData :ITableRowData[]): Team[] {
                 eliminationOrder = (contestantData.length/2) - 1;
             }
 
-            const contestant: Team = new Team({
+            const contestant: CompetingEntity = new CompetingEntity({
                 teamName: teamName,
                 relationship: element.col2,
                 isParticipating,
@@ -79,7 +79,7 @@ interface BBHouseGuest {
     exitedDay: number
 }
 
-export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] {
+export function getCompetingEntityList(contestantData :ITableRowData[]): CompetingEntity[] {
 
     const contestants: BBHouseGuest[] = [];
     let previousExitDay: number = 0;
@@ -106,19 +106,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] 
         let eliminationOrder = 0;
         let isWinner = false;
 
-        // for amazing-race
-        if (status.toLowerCase().includes("eliminated")) {
-            isParticipating = false;
-            eliminationOrder = Number(status.match(/Eliminated (\d+)/i)![1]);
-        } else if (status.toLowerCase().includes("third")) {
-            isParticipating = false;
-            eliminationOrder = (contestantData.length/2) - 2;
-        } else if (status.toLowerCase().includes("runners-up")) {
-            isParticipating = false;
-            eliminationOrder = (contestantData.length/2) - 1;
-        }
-        // for big-brother
-        else if (status.toLowerCase().includes("evicted")) {
+        if (status.toLowerCase().includes("evicted")) {
             isParticipating = false;
             const statusMatches = status.match(/Evicted\W*Day (\d+)/i);
             eliminationOrder = Number(statusMatches![1]);
@@ -177,7 +165,7 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] 
             eliminationOrderCounter++;
         }
 
-        return new Team({
+        return new CompetingEntity({
             teamName: contestant.teamName,
             relationship: contestant.relationship,
             isParticipating: contestant.isParticipating,
@@ -191,3 +179,21 @@ export function getCompetingEntityList(contestantData :ITableRowData[]): Team[] 
 
     return contestantsSortedByEliminationOrder;
 }
+
+export function stripTableHeader(competingEntityData :ITableRowData[]): ITableRowData[] {
+    return competingEntityData.filter(x => {
+        return !(x.name === ""
+            && (x.name2.includes("\n")
+                || x.name2.includes("Contestants")
+                || x.name2.includes("Age")
+                || x.name2.includes("Relationship")
+                || x.name2.includes("Hometown")
+                || x.name2.includes("Status"))
+            && x.col1 === ""
+            && x.col2 === ""
+            && x.col3 === ""
+            && x.col4 === ""
+            && x.col5 === "");
+    });
+}
+

@@ -1,9 +1,11 @@
 import { Fragment } from "react";
 import TeamList from "../components/teamList";
-import Team from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 
 export default function Round({
     roundNumber,
+    eliminationOrder,
+    teamsEliminatedSoFar,
     perfectTeamList,
     contestantTeamList,
     perfectWeekScore,
@@ -12,8 +14,10 @@ export default function Round({
     contestantGrandTotal
 }: {
         roundNumber: number
-        perfectTeamList: Team[]
-        contestantTeamList: Team[]
+        eliminationOrder: number
+        teamsEliminatedSoFar: number
+        perfectTeamList: CompetingEntity[]
+        contestantTeamList: CompetingEntity[]
         perfectWeekScore: number
         contestantWeekScore: number
         perfectGrandTotal: number
@@ -24,10 +28,20 @@ export default function Round({
         <h2 key={"weekHeader"+roundNumber}className="text-xl">Week {roundNumber+1}</h2>
         <div className="text-center flex">
             <div className="basis-1/2">
-                <TeamList teamList={perfectTeamList} roundNumber={roundNumber} />
+                <TeamList
+                    teamList={perfectTeamList}
+                    roundNumber={roundNumber}
+                    eliminationOrder={eliminationOrder}
+                    teamsEliminatedSoFar={teamsEliminatedSoFar}
+                />
             </div>
             <div className="basis-1/2">
-                <TeamList teamList={contestantTeamList} roundNumber={roundNumber} />
+                <TeamList
+                    teamList={contestantTeamList}
+                    roundNumber={roundNumber}
+                    eliminationOrder={eliminationOrder}
+                    teamsEliminatedSoFar={teamsEliminatedSoFar}
+                />
             </div>
         </div>
         <br/>

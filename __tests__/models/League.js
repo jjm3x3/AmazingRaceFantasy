@@ -1,42 +1,40 @@
 import League from "@/app/models/League";
-import Team from "../../app/models/Team";
+import CompetingEntity from "@/app/models/CompetingEntity";
 
 describe("generateContestantRoundScores", () => {
     it("Should work with simple defaults", () => {
         // Arrange
         const teamList  = [];
-        const rounds = 0;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
         expect(result.length).toBe(0);
     });
 
-    it("Should work with one round", () => {
+    it("Should throw an error when asking for more rounds then there are teams in the list", () => {
         // Arrange
-        const teamList  = [];
-        const rounds = 1;
+        const teamList  = [{name: "some team name"}];
+        const contestantTeamList = []
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const resultFunc = () => sut.generateContestantRoundScores(contestantTeamList, "");
 
         // Assert
-        expect(result).not.toBeNull();
-        expect(result.length).toBe(1);
-        expect(result[0].contestantRoundData).not.toBeNull();
-        expect(result[0].contestantRoundData.length).toBe(1);
+        expect(resultFunc).toThrow("more rounds");
     });
 
     it("Should work with one round and one team in the ranking", () => {
         // Arrange
-        const teamList = [new Team({teamName: "name1_1 & name1_2"})];
-        const rounds = 1;
+        const teamList = [new CompetingEntity({teamName: "name1_1 & name1_2"})];
+        const sut = new League(teamList)
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -47,14 +45,14 @@ describe("generateContestantRoundScores", () => {
 
     it("Should output some score when there is one", () => {
         // Arrange
-        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam = new CompetingEntity({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2];
-        const rounds = 1;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -68,15 +66,15 @@ describe("generateContestantRoundScores", () => {
 
     it("Should add multiple teams to one round score when the shouldBeScored", () => {
         // Arrange
-        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam = new CompetingEntity({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam3 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -90,15 +88,15 @@ describe("generateContestantRoundScores", () => {
 
     it("Should accumulate total score over multiple rounds and should remove at least one team per round", () => {
         // Arrange
-        let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-        let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam = new CompetingEntity({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
+        let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 2});
+        let exampleTeam3 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 2;
+        const sut = new League(teamList);
 
         // Act
-        const result = League.generateContestantRoundScores(teamList, rounds, "");
+        const result = sut.generateContestantRoundScores(teamList, "");
 
         // Assert
         expect(result).not.toBeNull();
@@ -121,21 +119,20 @@ describe("generateContestantRoundScores", () => {
 
 describe("addContestantRoundScores", () => {
 
-    let exampleTeam = new Team({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
-    let exampleTeam2 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-    let exampleTeam3 = new Team({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+    let exampleTeam = new CompetingEntity({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
+    let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+    let exampleTeam3 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
 
     it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedContestantName2 = "contestant2";
-        const sut = new League();
+        const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName2);
+        sut.addContestantRoundScores(teamList, expectedContestantName1);
+        sut.addContestantRoundScores(teamList, expectedContestantName2);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -152,12 +149,11 @@ describe("addContestantRoundScores", () => {
     it("Should not break if handicap is not passed", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
-        const sut = new League();
+        const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1);
+        sut.addContestantRoundScores(teamList, expectedContestantName1);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -173,13 +169,12 @@ describe("addContestantRoundScores", () => {
     it("Should modify totalScore if handicap is not passed", () => {
         // Arrange
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
-        const rounds = 1;
         const expectedContestantName1 = "contestant1";
         const expectedHandicap = -10;
-        const sut = new League();
+        const sut = new League(teamList);
 
         // Act
-        sut.addContestantRoundScores(teamList, rounds, expectedContestantName1, expectedHandicap);
+        sut.addContestantRoundScores(teamList, expectedContestantName1, expectedHandicap);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -263,17 +258,18 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const rachelsRawTeamList = [{"teamName":"Todd Martin & Ashlie Martin","relationship":"Married High School Sweethearts","isParticipating":false,"eliminationOrder":9},{"teamName":"Jocelyn Chao & Victor Limary","relationship":"Married Entrepreneurs","isParticipating":false,"eliminationOrder":3},{"teamName":"Joel Strasser & Garrett Smith","relationship":"Best Friends","isParticipating":false,"eliminationOrder":12.5},{"teamName":"Morgan Franklin & Lena Franklin","relationship":"Sisters","isParticipating":false,"eliminationOrder":7},{"teamName":"Joe Moskowitz & Ian Todd","relationship":"Engaged","isParticipating":false,"eliminationOrder":4},{"teamName":"Rob McArthur & Corey McArthur","relationship":"Father & Son","isParticipating":false,"eliminationOrder":11.5},{"teamName":"Greg Franklin & John Franklin","relationship":"Brothers & Computer Scientists","isParticipating":true,"eliminationOrder":0},{"teamName":"Liam Hykel & Yeremi Hykel","relationship":"Brothers","isParticipating":false,"eliminationOrder":5},{"teamName":"Steve Cargile & Anna Leigh Wilson","relationship":"Father & Daughter","isParticipating":false,"eliminationOrder":10},{"teamName":"Andrea Simpson & Malaina Hatcher","relationship":"College Friends","isParticipating":false,"eliminationOrder":6},{"teamName":"Robbin Tomich & Chelsea Day","relationship":"Childhood Friends","isParticipating":false,"eliminationOrder":8},{"teamName":"Elizabeth Rivera & Iliana Rivera","relationship":"Mother & Daughter","isParticipating":false,"eliminationOrder":2},{"teamName":"Alexandra Lichtor & Sheridan Lichtor","relationship":"Siblings & Roommates","isParticipating":false,"eliminationOrder":1}]
 
         const rachelsParsedAndEmbelishedTeamList = rachelsRawTeamList.map(t => {
-            return new Team(t);
+            return new CompetingEntity(t);
         });
 
-        const numberOfRounds = 13;
+        const expectedNumberOfRounds = 12;
         const handicap = 0;
+        const sut = new League(rachelsParsedAndEmbelishedTeamList);
 
         // Act
-        const rachelsRoundScores = League.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, numberOfRounds, "testingRach", handicap);
+        const rachelsRoundScores = sut.generateContestantRoundScores(rachelsParsedAndEmbelishedTeamList, "testingRach", handicap);
 
         // Assert
-        expect(rachelsRoundScores.length).toBe(numberOfRounds);
+        expect(rachelsRoundScores.length).toBe(expectedNumberOfRounds);
 
 
         // Note: we are always pulling the 0th contestantRoundData because we
@@ -337,11 +333,6 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(rachelsRoundScores[11].round).toBe(11);
         expect(rachelsRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
         expect(rachelsRoundScores[11].contestantRoundData[0].totalScore).toBe(560);
-
-        // round 12
-        expect(rachelsRoundScores[12].round).toBe(12);
-        expect(rachelsRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
-        expect(rachelsRoundScores[12].contestantRoundData[0].totalScore).toBe(560);
     });
 
     it("Should Score Anita correctly for Amazing Race 36", () => {
@@ -350,17 +341,18 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         const anitasRawTeamList = [{"teamName":"Rod Gardner & Leticia Gardner","relationship":"Married","isParticipating":false,"eliminationOrder":11.5},{"teamName":"Ricky Rotandi & Cesar Aldrete","relationship":"Boyfriends","isParticipating":true,"eliminationOrder":0},{"teamName":"Juan Villa & Shane Bilek","relationship":"Military Pilots","isParticipating":false,"eliminationOrder":12.5},{"teamName":"Sunny Pulver & Bizzy Smith","relationship":"Firefighter Moms","isParticipating":false,"eliminationOrder":7},{"teamName":"Derek Williams & Shelisa Williams","relationship":"Grandparents","isParticipating":false,"eliminationOrder":6},{"teamName":"Michelle Clark & Sean Clark","relationship":"Married Aerobics Instructors","isParticipating":false,"eliminationOrder":4},{"teamName":"Yvonne Chavez & Melissa Main","relationship":"Girlfriends","isParticipating":false,"eliminationOrder":9},{"teamName":"Kishori Turner & Karishma Cordero","relationship":"Cousins","isParticipating":false,"eliminationOrder":5},{"teamName":"Anthony Smith & Bailey Smith","relationship":"Twins","isParticipating":false,"eliminationOrder":3},{"teamName":"Angie Butler & Danny Butler","relationship":"Mother & Son","isParticipating":false,"eliminationOrder":8},{"teamName":"Amber Craven & Vinny Cagungun","relationship":"Dating Nurses","isParticipating":false,"eliminationOrder":10},{"teamName":"Chris Foster & Mary Cardona-Foster","relationship":"Father & Daughter","isParticipating":false,"eliminationOrder":2},{"teamName":"Maya Mody & Rohan Mody","relationship":"Siblings","isParticipating":false,"eliminationOrder":1}]
 
         const anitasParsedAndEmbelishedTeamList = anitasRawTeamList.map(t => {
-            return new Team(t);
+            return new CompetingEntity(t);
         });
 
-        const numberOfRounds = 13;
+        const expectedNumberOfRounds = 12;
         const handicap = 0;
+        const sut = new League(anitasParsedAndEmbelishedTeamList);
 
         // Act
-        const anitasRoundScores = League.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, numberOfRounds, "testingAnita", handicap);
+        const anitasRoundScores = sut.generateContestantRoundScores(anitasParsedAndEmbelishedTeamList, "testingAnita", handicap);
 
         // Assert
-        expect(anitasRoundScores.length).toBe(numberOfRounds);
+        expect(anitasRoundScores.length).toBe(expectedNumberOfRounds);
 
 
         // Note: we are always pulling the 0th contestantRoundData because we
@@ -424,11 +416,6 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(anitasRoundScores[11].round).toBe(11);
         expect(anitasRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
         expect(anitasRoundScores[11].contestantRoundData[0].totalScore).toBe(630);
-
-        // round 12
-        expect(anitasRoundScores[12].round).toBe(12);
-        expect(anitasRoundScores[12].contestantRoundData[0].roundScore).toBe(0);
-        expect(anitasRoundScores[12].contestantRoundData[0].totalScore).toBe(630);
     });
 
     it("Should Score Sean correctly for Big Brother 26", () => {
@@ -438,17 +425,18 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
 
 
         const seansParsedAndEmbelishedTeamList = seansRawTeamList.map(t => {
-            return new Team(t);
+            return new CompetingEntity(t);
         });
 
-        const numberOfRounds = 15;
+        const expectedNumberOfRounds = 15;
         const handicap = 0;
+        const sut = new League(seansParsedAndEmbelishedTeamList);
 
         // Act
-        const seansRoundScores = League.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, numberOfRounds, "testingSean", handicap);
+        const seansRoundScores = sut.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, "testingSean", handicap);
 
         // Assert
-        expect(seansRoundScores.length).toBe(numberOfRounds);
+        expect(seansRoundScores.length).toBe(expectedNumberOfRounds);
 
         // Note: we are always pulling the 0th contestantRoundData because we
         // are only inserting on contestant into the league

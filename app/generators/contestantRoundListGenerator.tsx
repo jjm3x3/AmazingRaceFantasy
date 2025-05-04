@@ -1,7 +1,7 @@
-import { getTeamList } from "../utils/wikiQuery";
+import { getTeamList, stripTableHeader } from "../utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import { ITableRowData } from "../dataSources/wikiFetch";
-import Team from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
 import League from "../models/League";
@@ -13,33 +13,35 @@ interface Dictionary<T> {
 export default async function generateListOfContestantRoundLists(
     dataFetcher: () => Promise<ITableRowData[]>,
     listOfContestantLeagueData: IContestantData[],
-    getCompetingEntityListFunction: (_: ITableRowData[]) => Team[] = getTeamList,
+    getCompetingEntityListFunction: (_: ITableRowData[]) => CompetingEntity[] = getTeamList,
 ) {
-    const wikiContestants = await dataFetcher();
+    const wikiTableData = await dataFetcher();
+
+    const wikiContestants = stripTableHeader(wikiTableData);
+
     const pageData = getCompetingEntityListFunction(wikiContestants);
 
-    const teamDictionary = pageData.reduce((acc: Dictionary<Team>, t: Team) => {
-        acc[Team.getKey(t.teamName)] = t;
+    const teamDictionary = pageData.reduce((acc: Dictionary<CompetingEntity>, t: CompetingEntity) => {
+        acc[CompetingEntity.getKey(t.teamName)] = t;
 
         return acc;
     }, {});
 
     const league = new League(pageData);
-    const numberOfRounds = league.getNumberOfRounds();
 
     const reverseTeamsList = [...pageData].reverse();
 
     const perfectScoreHandicap = 0;
-    const roundScores: IRound[] = League.generateContestantRoundScores(reverseTeamsList, numberOfRounds, "*perfect*", perfectScoreHandicap);
+    const roundScores: IRound[] = league.generateContestantRoundScores(reverseTeamsList, "*perfect*", perfectScoreHandicap);
 
     return listOfContestantLeagueData.map(contestant => {
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
-            const teamKey = Team.getKey(x);
+            const teamKey = CompetingEntity.getKey(x);
             const foundTeam = teamDictionary[teamKey];
             return foundTeam;
         });
 
-        const contestantRoundScores: IRound[] = League.generateContestantRoundScores(currentSelectedContestantTeamsList, numberOfRounds, contestant.name, contestant.handicap);
+        const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
 
         return {
             key: contestant.name,

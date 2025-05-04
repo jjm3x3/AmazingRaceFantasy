@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import ContestantRoundList from "../../app/components/contestantRoundList";
-import Team from "../../app/models/Team";
+import CompetingEntity from "@/app/models/CompetingEntity";
 
 const perfectScoreName = "*perfect*";
 const mockContestantName = "Jacob";
@@ -57,14 +57,14 @@ const mockContestantRoundScores = [
     },
 ];
 const mockPerfectTeamList = [
-    new Team({ teamName: "name1_1 & name1_2" }),
-    new Team({ teamName: "name2_1 & name2_2" }),
-    new Team({ teamName: "name3_1 & name3_2" }),
+    new CompetingEntity({ teamName: "name1_1 & name1_2" }),
+    new CompetingEntity({ teamName: "name2_1 & name2_2" }),
+    new CompetingEntity({ teamName: "name3_1 & name3_2" }),
 ];
 const mockContestantTeamList = [
-    new Team({ teamName: "name1_1 & name1_2" }),
-    new Team({ teamName: "name2_1 & name2_2" }),
-    new Team({ teamName: "name3_1 & name3_2" }),
+    new CompetingEntity({ teamName: "name1_1 & name1_2" }),
+    new CompetingEntity({ teamName: "name2_1 & name2_2" }),
+    new CompetingEntity({ teamName: "name3_1 & name3_2" }),
 ];
 
 describe("ContestantRoundList", () => {

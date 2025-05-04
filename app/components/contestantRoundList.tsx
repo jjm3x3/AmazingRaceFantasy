@@ -1,5 +1,5 @@
 import Round from "./round";
-import Team from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 import IRound from "../models/IRound";
 import IContestantRoundData from "../models/IContestantRoundData";
 
@@ -12,8 +12,8 @@ export default function ContestantRoundList({
 }: {
         perfectRoundScores: IRound[]
         contestantRoundScores: IRound[]
-        perfectTeamList: Team[]
-        contestantTeamList: Team[]
+        perfectTeamList: CompetingEntity[]
+        contestantTeamList: CompetingEntity[]
         contestantName: string
     }) {
 
@@ -33,9 +33,14 @@ export default function ContestantRoundList({
                 const contestantRoundScore = filteredContestantRound.roundScore;
                 const contestantGrandTotal = filteredContestantRound.totalScore;
 
+                const elimOrder = round.eliminationOrder;
+                const countOfTeamsElimedThisFar = round.teamsEliminatedSoFar;
+
                 return <Round
                     key={"round"+roundNumber}
                     roundNumber={roundNumber}
+                    eliminationOrder={elimOrder}
+                    teamsEliminatedSoFar={countOfTeamsElimedThisFar}
                     perfectTeamList={perfectTeamList}
                     contestantTeamList={contestantTeamList}
                     perfectWeekScore={perfectScore}
