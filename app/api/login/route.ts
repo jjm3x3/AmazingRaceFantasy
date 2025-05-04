@@ -1,8 +1,8 @@
 import { OAuth2Client } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
-const client = new OAuth2Client();
 
 export async function POST(request: NextRequest) {
+    const client = new OAuth2Client();
     const body = await request.json();
     const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
     const authResponse = await client.verifyIdToken({
