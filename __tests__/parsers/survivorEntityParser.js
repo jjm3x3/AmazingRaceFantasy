@@ -178,23 +178,24 @@ describe("parseSurvivorEntities", () => {
         expect(result[0].eliminationOrder).toEqual(expectedEliminationOrder);
     });
 
-    it("Should ensure runner-up entity has a higher elimination order than someone who was evicted on the same day", () => {
+    it("Should ensure runner-up entity has a higher elimination order than someone who was the second runner-up", () => {
         // this accounts for the 3rd final person who get's evicted on finale night
         const runnerUpName = "almost winner";
         const thirdPlaceName = "in thrid";
 
         const listOfContestants = [
             {
-                name: runnerUpName,
-                col4: "Runner-UpDay 100"
+                name: thirdPlaceName,
+                col4: "2nd runner-up",
+                col5: "Day 26"
             },
             {
-                name: thirdPlaceName,
-                col4: "EvictedDay 100"
+                name: runnerUpName,
+                col4: "Runner-Up"
             },
             {
                 name: "another guy",
-                col4: "winner"
+                col4: "Sole Survivor"
             }
         ];
 
