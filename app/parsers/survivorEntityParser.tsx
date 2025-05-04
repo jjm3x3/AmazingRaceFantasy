@@ -40,20 +40,14 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
         let eliminationOrder = 0;
         let isWinner = false;
 
-        if (status.toLowerCase().includes("evicted")) {
+        if (finishDay.toLowerCase().includes("day")) {
             isParticipating = false;
-            const statusMatches = status.match(/Evicted\W*Day (\d+)/i);
+            const statusMatches = finishDay.match(/Day (\d+)/i);
             eliminationOrder = Number(statusMatches![1]);
-        } else if (status.toLowerCase().includes("expelled")) {
+        } else if (finishDay.toLowerCase().includes("runner-up")) {
             isParticipating = false;
-            eliminationOrder = Number(status.match(/ExpelledDay (\d+)/i)![1]); // covers Luke getting booted
-        } else if (status.toLowerCase().includes("exited")) {
-            isParticipating = false;
-            eliminationOrder = Number(status.match(/ExitedDay (\d+)/i)![1]); // covers Jared leaving after zombie twist
-        } else if (status.toLowerCase().includes("runner-upd")) { // added the d to distinguish from amazing-race
-            isParticipating = false;
-            eliminationOrder = Number(status.match(/Runner-UpDay (\d+)/i)![1]+ ".5"); // covers the final person plus adding .5 to distinguish from the last eviction
-        } else if (status.toLowerCase().includes("winner")) {
+            eliminationOrder = previousFinishDay + 0.5
+        } else if (finishDay.toLowerCase().includes("sole survivor") || element.col3.toLowerCase().includes("sole survivor")) {
             isWinner = true;
         }
 
