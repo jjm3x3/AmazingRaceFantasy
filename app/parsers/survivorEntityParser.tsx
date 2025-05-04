@@ -12,7 +12,7 @@ interface Survivor {
 export default function parseSurvivorEntities(contestantData :ITableRowData[]): CompetingEntity[] {
 
     const contestants: Survivor[] = [];
-    let previousExitDay: number = 0;
+    let previousFinishDay: number = 0;
 
     contestantData.forEach((element) => {
 
@@ -52,11 +52,11 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
         }
 
         if (eliminationOrder !== 0) {
-            // update previousExitDay
-            previousExitDay = eliminationOrder;
+            // update previousFinishDay
+            previousFinishDay = eliminationOrder;
         } else if (!isWinner) {
             // if no eliminationOrder is found, set it to the previous exitDay
-            eliminationOrder = previousExitDay;
+            eliminationOrder = previousFinishDay;
             const foundContestant = contestants[contestants.length-1];
             if (foundContestant == null) {
                 console.debug("found previous contestant to be null");
