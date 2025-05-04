@@ -4,7 +4,6 @@ import { isPartialContestantData } from "@/app/utils/wikiQuery";
 
 interface Survivor {
     name: string
-    relationship: string
     isParticipating: boolean
     finishDay: number
 }
@@ -72,7 +71,6 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
 
         const parsedContestantData = {
             name: teamName,
-            relationship: element.col2,
             isParticipating,
             finishDay
         };
@@ -95,7 +93,7 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
 
         return new CompetingEntity({
             teamName: contestant.name,
-            relationship: contestant.relationship,
+            relationship: "needed for ITeam",
             isParticipating: contestant.isParticipating,
             eliminationOrder
         });
