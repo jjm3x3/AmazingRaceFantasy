@@ -2,6 +2,7 @@ import { ITableRowData } from "@/app/dataSources/wikiFetch";
 import CompetingEntity from "@/app/models/CompetingEntity";
 import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
 import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
+import parseSurvivorEntities from "@/app/parsers/survivorEntityParser";
 
 export function parseEntities(contestantData: ITableRowData[], showName: string ): CompetingEntity[] {
 
@@ -15,7 +16,9 @@ export function getParser(showName: string): (_itrd: ITableRowData[]) => Competi
 
     if (showName.match("amazing_race")) {
         return parseAmazingRaceEntities;
-    } else {
+    } else if(showName.match("big_brother")) {
         return parseBigBrotherEntities;
+    } else {
+        return parseSurvivorEntities;
     }
 }
