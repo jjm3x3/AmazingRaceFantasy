@@ -2,7 +2,7 @@ import { getParser } from "@/app/utils/entityParserSwitch"
 
 describe("getParser", () => {
 
-    it("Should return a parser which can handle 'eliminated' status for amazingRace", () => {
+    it("Should return a parser which can handle 'eliminated' status for amazing_race", () => {
 
         // Arrange
         const tableRowData = [
@@ -24,7 +24,7 @@ describe("getParser", () => {
         expect(parsedEntities[0].eliminationOrder).toBe(4);
     });
 
-    it("Should return a parser which can colate teams for amazingRace", () => {
+    it("Should return a parser which can colate teams for amazing_race", () => {
 
         // Arrange
         const tableRowData = [
