@@ -1,4 +1,5 @@
-import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
+import { getCompetingEntityList } from "../../../utils/wikiQuery";
+import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
@@ -34,7 +35,7 @@ export default async function Contestants({ params }: {
     const wikiContestants = await getWikipediaContestantData(wikiApiUrl, castPhrase);
     let final;
     if(showName.match("amazing_race")){
-        final = getTeamList(wikiContestants);
+        final = parseAmazingRaceEntities(wikiContestants);
     } else {
         final = getCompetingEntityList(wikiContestants);
     }
