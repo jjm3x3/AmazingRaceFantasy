@@ -1,6 +1,6 @@
 import ContestantSelector from "../../../components/contestantSelector"
-import { getCompetingEntityList } from "../../../utils/wikiQuery"
 import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
+import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
 import { getWikipediaContestantDataFetcher } from "../../../dataSources/wikiFetch"
 import generateListOfContestantRoundLists from "../../../generators/contestantRoundListGenerator"
 import { getContestantData, getLeagueConfigurationKeys, getLeagueConfigurationData } from "@/app/dataSources/dbFetch"
@@ -39,7 +39,7 @@ export default async function Scoring({ params }: {
     if(showName.match("amazing_race")){
         listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, parseAmazingRaceEntities)
     } else {
-        listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, getCompetingEntityList)
+        listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, parseBigBrotherEntities)
     }
 
     return (

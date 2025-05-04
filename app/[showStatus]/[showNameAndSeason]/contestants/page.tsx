@@ -1,5 +1,5 @@
-import { getCompetingEntityList } from "../../../utils/wikiQuery";
 import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
+import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
@@ -37,7 +37,7 @@ export default async function Contestants({ params }: {
     if(showName.match("amazing_race")){
         final = parseAmazingRaceEntities(wikiContestants);
     } else {
-        final = getCompetingEntityList(wikiContestants);
+        final = parseBigBrotherEntities(wikiContestants);
     }
 
     return (
