@@ -37,36 +37,36 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
         const teamName = element.name || element.name2;
 
         let isParticipating = true;
-        let eliminationOrder = 0;
+        let finishDay = 0;
         let isWinner = false;
 
         if (rawFinishDay.toLowerCase().includes("day")) {
             isParticipating = false;
             const statusMatches = rawFinishDay.match(/Day (\d+)/i);
-            eliminationOrder = Number(statusMatches![1]);
+            finishDay = Number(statusMatches![1]);
         } else if (rawFinishDay.toLowerCase().includes("runner-up")) {
             isParticipating = false;
-            eliminationOrder = previousFinishDay + 0.5
+            finishDay = previousFinishDay + 0.5
         } else if (rawFinishDay.toLowerCase().includes("sole survivor") || element.col3.toLowerCase().includes("sole survivor")) {
             isWinner = true;
         }
 
-        if (eliminationOrder !== 0) {
+        if (finishDay !== 0) {
             // update previousFinishDay
-            previousFinishDay = eliminationOrder;
+            previousFinishDay = finishDay;
         } else if (!isWinner) {
-            // if no eliminationOrder is found, set it to the previous exitDay
-            eliminationOrder = previousFinishDay;
+            // if no finishDay is found, set it to the previous exitDay
+            finishDay = previousFinishDay;
             const foundContestant = contestants[contestants.length-1];
             if (foundContestant == null) {
                 console.debug("found previous contestant to be null");
                 isParticipating = true; // implies that this is the first contestant
-            } else if (foundContestant.exitedDay === 0) {
+            } else if (foundContestant.finishDay === 0) {
                 console.debug("previous contestant has not exited yet");
                 isParticipating = true; // implies all contestants before this one are still participating
             } else {
                 isParticipating = false; // is now false because we have already started to see contestants evicted
-                foundContestant.exitedDay = foundContestant.exitedDay + 0.5; // accounts for the default ordering where the person who come first was actually evicted last
+                foundContestant.finishDay = foundContestant.finishDay + 0.5; // accounts for the default ordering where the person who come first was actually evicted last
             }
         }
 
@@ -74,7 +74,7 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
             name: teamName,
             relationship: element.col2,
             isParticipating,
-            exitedDay: eliminationOrder
+            finishDay
         };
 
         contestants.push(parsedContestantData);
@@ -82,13 +82,13 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
 
 
     const sortedContestants = contestants.sort(function(a, b){
-        return a.exitedDay-b.exitedDay;
+        return a.finishDay-b.finishDay;
     });
 
     let eliminationOrderCounter = 1;
     const contestantsWithEliminationOrder = sortedContestants.map(function(contestant) {
         let eliminationOrder = Number.MAX_VALUE;
-        if (contestant.exitedDay !== 0) {
+        if (contestant.finishDay !== 0) {
             eliminationOrder = eliminationOrderCounter;
             eliminationOrderCounter++;
         }
