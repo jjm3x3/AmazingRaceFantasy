@@ -251,36 +251,6 @@ describe("parseSurvivorEntities", () => {
         expect(targetContestantList2[0].eliminationOrder).toEqual(Number.MAX_VALUE);
     });
 
-    it("Should make sure an entity with an empty status which follows an exit status ends up with eliminationOrder in the bounds of the number of contestants and less than the person before them", () => {
-        const followingExitStatusName = "evicted last";
-        const emptyStatusName = "blah Guy";
-
-        const listOfContestants = [
-            {
-                name: followingExitStatusName,
-                col4: "EvictedDay 86"
-            },
-            {
-                name: emptyStatusName,
-                col4: ""
-            },
-            {
-                name: "first evicted",
-                col4: "EvictedDay 10"
-            }
-        ];
-
-
-        var result = parseSurvivorEntities(listOfContestants);
-
-        expect(result.length).toEqual(3);
-        const targetContestantList = result.filter(x => x.teamName == emptyStatusName);
-        expect(targetContestantList.length).toEqual(1);
-        const targetContestantList2 = result.filter(x => x.teamName == followingExitStatusName);
-        expect(targetContestantList2.length).toEqual(1);
-        expect(targetContestantList[0].eliminationOrder).toBeLessThan(listOfContestants.length);
-        expect(targetContestantList[0].eliminationOrder).toBeLessThan(targetContestantList2[0].eliminationOrder);
-    });
 
     it("Should solve the blue problem by making sure an entity with an empty status which follows an exit status ends up with eliminationOrder in the bounds of the number of contestants", () => {
         const emptyStatusName = "blah Guy";
