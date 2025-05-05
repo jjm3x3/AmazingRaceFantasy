@@ -1,3 +1,4 @@
+"use client"
 import Script from "next/script";
 import { useEffect, useState, useRef } from "react";
 
