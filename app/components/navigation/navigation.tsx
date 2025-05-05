@@ -29,37 +29,43 @@ export default function Navigation({ pages }: {
     };
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
-        <NavigationItem inputAttr={rootNavInputAttr} labelAttr={rootNavLabelAttr} listAttr={rootNavListAttr} childElements={<>{
-            pages.map((page: IPage) => {
-                const keyName = page.name.toLowerCase().replaceAll(" ", "-");
-                const subpageInputAttr = {
-                    id: `subpage-${keyName}-input`,
-                    classes: styles["nav-subpages-toggle"],
-                };
-                const subpageLabelAttr = {
-                    id: `subpage-${keyName}-label`,
-                    content: <p className={`${styles["top-level-link"]} ${styles["nav-dropdown"]}`}>{page.name}</p>,
-                    classes: styles["nav-subpages-menu"],
-                    aria: {
-                        controls: `subpage-${keyName}-dropdown`
-                    },
-                    testId: `subpage-${keyName}-label`
-                };
-                const subpageListAttr = {
-                    id: `subpage-${keyName}-dropdown`,
-                    testId: `subpage-${keyName}-dropdown`,
-                    classes: styles["nav-subpages-list"]
-                };
-                return (<li key={`nav-toplevellink-${keyName}`}>
-                    <NavigationItem inputAttr={subpageInputAttr } labelAttr={subpageLabelAttr } listAttr={ subpageListAttr} childElements={page.subpages.map((subpage: ISubpage) => {
-                        const subpageKeyName = subpage.name.toLowerCase().replaceAll(" ", "-");
-                        return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>
-                            <Link href={subpage.path} className={styles["sub-level-link"]}>{subpage.name}</Link>
-                        </li>;
-                    })} />
-                </li>);
-            })}
-        <li className={styles["top-level-link"]} key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
-        </>} />
+        <NavigationItem inputAttr={rootNavInputAttr} 
+            labelAttr={rootNavLabelAttr} 
+            listAttr={rootNavListAttr} 
+            childElements={
+                <>{pages.map((page: IPage) => {
+                    const keyName = page.name.toLowerCase().replaceAll(" ", "-");
+                    const subpageInputAttr = {
+                        id: `subpage-${keyName}-input`,
+                        classes: styles["nav-subpages-toggle"],
+                    };
+                    const subpageLabelAttr = {
+                        id: `subpage-${keyName}-label`,
+                        content: <p className={`${styles["top-level-link"]} ${styles["nav-dropdown"]}`}>{page.name}</p>,
+                        classes: styles["nav-subpages-menu"],
+                        aria: {
+                            controls: `subpage-${keyName}-dropdown`
+                        },
+                        testId: `subpage-${keyName}-label`
+                    };
+                    const subpageListAttr = {
+                        id: `subpage-${keyName}-dropdown`,
+                        testId: `subpage-${keyName}-dropdown`,
+                        classes: styles["nav-subpages-list"]
+                    };
+                    return (<li key={`nav-toplevellink-${keyName}`}>
+                        <NavigationItem inputAttr={subpageInputAttr} 
+                            labelAttr={subpageLabelAttr} 
+                            listAttr={subpageListAttr} 
+                            childElements={page.subpages.map((subpage: ISubpage) => {
+                                const subpageKeyName = subpage.name.toLowerCase().replaceAll(" ", "-");
+                                return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>
+                                    <Link href={subpage.path} className={styles["sub-level-link"]}>{subpage.name}</Link>
+                                </li>;
+                            })} />
+                    </li>);
+                })}
+                <li className={styles["top-level-link"]} key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
+                </>} />
     </nav>);
 }
