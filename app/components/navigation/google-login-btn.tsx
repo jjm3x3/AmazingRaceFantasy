@@ -19,7 +19,7 @@ export default function GoogleLoginButton(){
         if(scriptLoaded){
             const google = window.google;
             google.accounts.id.initialize({
-                client_id: "708154320268-432vdrg2g0h1652frag5vbu8r8qi4ers.apps.googleusercontent.com",
+                client_id: "43091874093-mphj7iu8lffvm04ft4qru0sl3ekfjl00.apps.googleusercontent.com",
                 callback: handleCredentialResponse,
                 use_fedcm_for_prompt: true
             });
