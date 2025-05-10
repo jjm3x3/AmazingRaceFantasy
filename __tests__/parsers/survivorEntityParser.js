@@ -186,12 +186,12 @@ describe("parseSurvivorEntities", () => {
         const listOfContestants = [
             {
                 name: thirdPlaceName,
-                col4: "2nd runner-up",
+                col4: "2nd Runner-up",
                 col5: "Day 26"
             },
             {
                 name: runnerUpName,
-                col4: "Runner-Up"
+                col4: "Runner-up"
             },
             {
                 name: "another guy",
