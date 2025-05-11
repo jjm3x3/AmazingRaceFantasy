@@ -1,6 +1,7 @@
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator"
 import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
 import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
+import parseSurvivorEntities from "@/app/parsers/survivorEntityParser";
 
 describe("Regression Tests Checking generation of Archived Leagues", () => {
 
@@ -177,5 +178,48 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[14].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
         expect(result.rounds[14].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[14].contestantRoundData[0].totalScore).toBe(730);
+    });
+
+    it("Should return a league with Antoinettes scoring for Survivor_47", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                [ { name: "", name2: "Contestant\nAge\nFrom\nTribe\nFinish", col1: "", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "", name2: "Original\nNone\nMerged\nPlacement\nDay", col1: "", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Jon Lovett", name2: "Jon Lovett", col1: "42", col2: "Los Angeles,California", col3: "Gata", col4: "", col5: "", col6: "1st voted out", col7: "Day 3" }, { name: "TK Foster", name2: "TK Foster", col1: "31", col2: "Upper Marlboro,Maryland", col3: "Tuku", col4: "2nd voted out", col5: "Day 5", col6: "", col7: "" }, { name: "Aysha Welch", name2: "Aysha Welch", col1: "32", col2: "Houston,Texas", col3: "Lavo", col4: "3rd voted out", col5: "Day 7", col6: "", col7: "" }, { name: "Kishan Patel", name2: "Kishan Patel", col1: "28", col2: "San Francisco,California", col3: "4th voted out", col4: "Day 8", col5: "", col6: "", col7: "" }, { name: "Anika Dhar", name2: "Anika Dhar", col1: "26", col2: "Los Angeles,California", col3: "Gata", col4: "5th voted out", col5: "Day 10", col6: "", col7: "" }, { name: "Rome Cooney", name2: "Rome Cooney", col1: "30", col2: "Phoenix,Arizona", col3: "Lavo", col4: "None[a]", col5: "6th voted out", col6: "Day 12", col7: "" }, { name: "Tiyana Hallums", name2: "Tiyana Hallums", col1: "27", col2: "Aiea,Hawaii", col3: "Tuku", col4: "Beka", col5: "7th voted out", col6: "Day 13", col7: "" }, { name: "Sierra Wright", name2: "Sierra Wright", col1: "26", col2: "Phoenixville,Pennsylvania", col3: "Gata", col4: "8th voted out1st jury member", col5: "Day 15", col6: "", col7: "" }, { name: "Sol Yi", name2: "Sol Yi", col1: "43", col2: "Norwalk,Connecticut", col3: "Lavo", col4: "9th voted out2nd jury member", col5: "Day 16", col6: "", col7: "" }, { name: "Gabe Ortis", name2: "Gabe Ortis", col1: "26", col2: "Baltimore,Maryland", col3: "Tuku", col4: "10th voted out3rd jury member", col5: "Day 18", col6: "", col7: "" }, { name: "Kyle Ostwald", name2: "Kyle Ostwald", col1: "31", col2: "Cheboygan,Michigan", col3: "11th voted out4th jury member", col4: "Day 20", col5: "", col6: "", col7: "" }, { name: "Caroline Vidmar", name2: "Caroline Vidmar", col1: "27", col2: "Chicago,Illinois", col3: "12th voted out5th jury member", col4: "Day 22", col5: "", col6: "", col7: "" }, { name: "Andy Rueda", name2: "Andy Rueda", col1: "31", col2: "Brooklyn,New York", col3: "Gata", col4: "13th voted out6th jury member", col5: "Day 23", col6: "", col7: "" }, { name: "Genevieve Mushaluk", name2: "Genevieve Mushaluk", col1: "32", col2: "Winnipeg,Manitoba", col3: "Lavo", col4: "14th voted out7th jury member", col5: "Day 24", col6: "", col7: "" }, { name: "Teeny Chirichillo", name2: "Teeny Chirichillo", col1: "24", col2: "Manahawkin, New Jersey", col3: "Eliminated8th jury member", col4: "Day 25", col5: "", col6: "", col7: "" }, { name: "Sue Smey", name2: "Sue Smey", col1: "59", col2: "Putnam Valley,New York", col3: "Tuku", col4: "2nd runner-up", col5: "Day 26", col6: "", col7: "" }, { name: "Sam Phalen", name2: "Sam Phalen", col1: "24", col2: "Nashville,Tennessee", col3: "Gata", col4: "Runner-up", col5: "", col6: "", col7: "" }, { name: "Rachel LaMont", name2: "Rachel LaMont", col1: "34", col2: "Southfield,Michigan", col3: "Sole Survivor", col4: "", col5: "", col6: "", col7: "" } ]
+            );
+        });
+
+        const antoinettesRawTeamList = [ "Tiyana Hallums", "Kyle Ostwald", "Sierra Wright", "Gabe Ortis", "Caroline Vidmar", "Anika Dhar", "Aysha Welch", "Sue Smey", "Rachel LaMont", "Sol Yi", "Kishan Patel", "Sam Phalen", "Teeny Chirichillo", "TK Foster", "Genevieve Mushaluk", "Andy Rueda", "Rome Cooney", "Jon Lovett" ];
+
+        const antoinettesContestantLeagueData = {
+            name: "Antoinette",
+            userId: "DCC9DCDC-AE5C-4A53-AF09-23F3C957D60B",
+            ranking: antoinettesRawTeamList
+        };
+        const listOfContetantLeagueData = [antoinettesContestantLeagueData]
+
+        const expectedNumberOfRounds = 17;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, parseSurvivorEntities, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(170);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(170);
+
+        //// round 1..13 not testing because we aren't using them today
+
+        // round 11
+        expect(result.rounds[14].round).toBe(14);
+        expect(result.rounds[14].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
+        expect(result.rounds[14].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[14].contestantRoundData[0].totalScore).toBe(970);
     });
 });
