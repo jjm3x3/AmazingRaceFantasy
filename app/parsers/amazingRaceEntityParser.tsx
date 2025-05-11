@@ -27,7 +27,7 @@ export default function parseAmazingRaceEntites(contestantData :ITableRowData[])
 
         if (!teamStarted) {
             let isParticipating = true;
-            let eliminationOrder = 0;
+            let eliminationOrder = Number.MAX_VALUE;
             firstContestantFound = true;
 
             if (status.toLowerCase().includes("eliminated")) {
