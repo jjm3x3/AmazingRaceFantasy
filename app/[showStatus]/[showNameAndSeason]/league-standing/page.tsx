@@ -1,7 +1,6 @@
 import { getWikipediaContestantDataFetcher } from "@/app/dataSources/wikiFetch"
 import LeagueStandingTable from "../../../components/leagueStandingTable/leagueStandingTable";
-import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
-import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
+import { getParser } from "@/app/utils/entityParserSwitch"
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
 import { getContestantData, getLeagueConfigurationKeys, getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
@@ -32,9 +31,9 @@ export default async function LeagueStanding({ params }: {
     const dataFetcher = getWikipediaContestantDataFetcher(wikiApiUrl, castPhrase);
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
 
-    const getEntityFn = showName.match("amazing_race") ? parseAmazingRaceEntities : parseBigBrotherEntities;
+    const parsingFn = getParser(showName)
     
-    const contestantsScores = await generateContestantRoundScores(dataFetcher, getEntityFn, contestantRoundData);
+    const contestantsScores = await generateContestantRoundScores(dataFetcher, parsingFn, contestantRoundData);
     return (
         <div>
             <h1 className="text-3xl text-center">League Standing</h1>
