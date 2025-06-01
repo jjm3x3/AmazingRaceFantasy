@@ -622,4 +622,87 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(antoinettesRoundScores[16].contestantRoundData[0].roundScore).toBe(0);
         expect(antoinettesRoundScores[16].contestantRoundData[0].totalScore).toBe(970);
     });
+
+    it("Should Score Rach correctly for Amazing Race 37", () => {
+
+        // Arrange
+        const rachsRawTeamList = [ { teamName: "Jonathan Towns & Ana Towns", relationship: "Married Parents", isParticipating: false, eliminationOrder: 12 }, { teamName: "Carson McCalley & Jack Dodge", relationship: "Best Friends & Gamers", isParticipating: true, eliminationOrder: 1.7976931348623157e+308 }, { teamName: "Han Nguyen & Holden Nguyen", relationship: "Siblings", isParticipating: false, eliminationOrder: 13 }, { teamName: "Brett Hamby & Mark Romain", relationship: "Married Vegas Performers", isParticipating: false, eliminationOrder: 10 }, { teamName: "Alyssa Borden & Josiah Borden", relationship: "Married Nurses", isParticipating: false, eliminationOrder: 11 }, { teamName: "Jeff \"Pops\" Bailey & Jeff Bailey", relationship: "Father & Son Lumberjacks", isParticipating: false, eliminationOrder: 7 }, { teamName: "Melinda Papadeas & Erika Papadeas", relationship: "Mother & Daughter", isParticipating: false, eliminationOrder: 9 }, { teamName: "Nick Fiorito & Mike Fiorito", relationship: "Brothers", isParticipating: false, eliminationOrder: 8 }, { teamName: "Courtney Ramsey & Jasmin Carey", relationship: "Dating Nurses", isParticipating: false, eliminationOrder: 4 }, { teamName: "Scott Thompson & Lori Thompson", relationship: "Married Parents of Eight", isParticipating: false, eliminationOrder: 6 }, { teamName: "Bernie Gutierrez & Carrigain Scadden", relationship: "Friends", isParticipating: false, eliminationOrder: 5 }, { teamName: "Ernest Cato & Bridget Cato", relationship: "Father & Daughter", isParticipating: false, eliminationOrder: 3 }, { teamName: "Mark Crawford & Larry Graham", relationship: "Retired Firefighters", isParticipating: false, eliminationOrder: 1 }, { teamName: "Jackye Clayton & Lauren McKinney", relationship: "Sisters", isParticipating: false, eliminationOrder: 1 } ]
+
+        const rachsParsedAndEmbelishedTeamList = rachsRawTeamList.map(t => {
+            return new CompetingEntity(t);
+        });
+
+        const expectedNumberOfRounds = 12;
+        const handicap = 0;
+        const sut = new League(rachsParsedAndEmbelishedTeamList);
+
+        // Act
+        const rachsRoundScores = sut.generateContestantRoundScores(rachsParsedAndEmbelishedTeamList, "testingRach", handicap);
+
+        // Assert
+        expect(rachsRoundScores.length).toBe(expectedNumberOfRounds);
+
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting on contestant into the league
+        // round 0
+        expect(rachsRoundScores[0].round).toBe(0);
+        expect(rachsRoundScores[0].contestantRoundData[0].roundScore).toBe(120);
+        expect(rachsRoundScores[0].contestantRoundData[0].totalScore).toBe(120);
+
+        // round 1
+        expect(rachsRoundScores[1].round).toBe(1);
+        expect(rachsRoundScores[1].contestantRoundData[0].roundScore).toBe(110);
+        expect(rachsRoundScores[1].contestantRoundData[0].totalScore).toBe(230);
+
+        // round 2
+        expect(rachsRoundScores[2].round).toBe(2);
+        expect(rachsRoundScores[2].contestantRoundData[0].roundScore).toBe(90);
+        expect(rachsRoundScores[2].contestantRoundData[0].totalScore).toBe(320);
+
+        // round 3
+        expect(rachsRoundScores[3].round).toBe(3);
+        expect(rachsRoundScores[3].contestantRoundData[0].roundScore).toBe(80);
+        expect(rachsRoundScores[3].contestantRoundData[0].totalScore).toBe(400);
+
+        // round 4
+        expect(rachsRoundScores[4].round).toBe(4);
+        expect(rachsRoundScores[4].contestantRoundData[0].roundScore).toBe(80);
+        expect(rachsRoundScores[4].contestantRoundData[0].totalScore).toBe(480);
+
+        // round 5
+        expect(rachsRoundScores[5].round).toBe(5);
+        expect(rachsRoundScores[5].contestantRoundData[0].roundScore).toBe(60);
+        expect(rachsRoundScores[5].contestantRoundData[0].totalScore).toBe(540);
+
+        // round 6
+        expect(rachsRoundScores[6].round).toBe(6);
+        expect(rachsRoundScores[6].contestantRoundData[0].roundScore).toBe(50);
+        expect(rachsRoundScores[6].contestantRoundData[0].totalScore).toBe(590);
+
+        // round 7
+        expect(rachsRoundScores[7].round).toBe(7);
+        expect(rachsRoundScores[7].contestantRoundData[0].roundScore).toBe(50);
+        expect(rachsRoundScores[7].contestantRoundData[0].totalScore).toBe(640);
+
+        // round 8
+        expect(rachsRoundScores[8].round).toBe(8);
+        expect(rachsRoundScores[8].contestantRoundData[0].roundScore).toBe(30);
+        expect(rachsRoundScores[8].contestantRoundData[0].totalScore).toBe(670);
+
+        // round 9
+        expect(rachsRoundScores[9].round).toBe(9);
+        expect(rachsRoundScores[9].contestantRoundData[0].roundScore).toBe(30);
+        expect(rachsRoundScores[9].contestantRoundData[0].totalScore).toBe(700);
+
+        // round 10
+        expect(rachsRoundScores[10].round).toBe(10);
+        expect(rachsRoundScores[10].contestantRoundData[0].roundScore).toBe(10);
+        expect(rachsRoundScores[10].contestantRoundData[0].totalScore).toBe(710);
+
+        // round 11
+        expect(rachsRoundScores[11].round).toBe(11);
+        expect(rachsRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
+        expect(rachsRoundScores[11].contestantRoundData[0].totalScore).toBe(710);
+    });
 });

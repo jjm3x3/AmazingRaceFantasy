@@ -222,4 +222,51 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[14].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[14].contestantRoundData[0].totalScore).toBe(970);
     });
+
+    it("Should return a league with Andrews scoring for AmazingRace_37", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                [ { name: "", name2: "Contestants\nAge\nRelationship\nHometown\nStatus", col1: "", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Jackye Clayton", name2: "Jackye Clayton", col1: "51", col2: "Sisters", col3: "Waco, Texas", col4: "Eliminated 1st & 2nd(in Hong Kong)", col5: "", col6: "", col7: "" }, { name: "Lauren McKinney", name2: "Lauren McKinney", col1: "61", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Mark Crawford", name2: "Mark Crawford", col1: "63", col2: "Retired Firefighters", col3: "Watertown, Tennessee", col4: "", col5: "", col6: "", col7: "" }, { name: "Larry Graham", name2: "Larry Graham", col1: "59", col2: "Bartlett, Tennessee", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Ernest Cato", name2: "Ernest Cato", col1: "59", col2: "Father & Daughter", col3: "Chicago, Illinois", col4: "Eliminated 3rd(in Minoh, Japan)", col5: "", col6: "", col7: "" }, { name: "Bridget Cato", name2: "Bridget Cato", col1: "28", col2: "Somerville, Massachusetts", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Courtney Ramsey", name2: "Courtney Ramsey", col1: "33", col2: "Dating Nurses", col3: "Leland, North Carolina", col4: "Eliminated 4th(in Kyoto, Japan)", col5: "", col6: "", col7: "" }, { name: "Jasmin Carey", name2: "Jasmin Carey", col1: "34", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Bernie Gutierrez", name2: "Bernie Gutierrez", col1: "31", col2: "Friends", col3: "Dallas, Texas", col4: "Eliminated 5th(in Kubu, Indonesia)", col5: "", col6: "", col7: "" }, { name: "Carrigain Scadden", name2: "Carrigain Scadden", col1: "33", col2: "Denver, Colorado", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Scott Thompson", name2: "Scott Thompson", col1: "47", col2: "Married Parents of Eight", col3: "Salt Lake City, Utah", col4: "Eliminated 6th (in Nusa Dua, Indonesia)", col5: "", col6: "", col7: "" }, { name: "Lori Thompson", name2: "Lori Thompson", col1: "49", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Jeff \"Pops\" Bailey", name2: "Jeff \"Pops\" Bailey", col1: "65", col2: "Father & Son Lumberjacks", col3: "St. Louis, Missouri", col4: "Eliminated 7th (in Dubai, United Arab Emirates)", col5: "", col6: "", col7: "" }, { name: "Jeff Bailey", name2: "Jeff Bailey", col1: "36", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Nick Fiorito", name2: "Nick Fiorito", col1: "32", col2: "Brothers", col3: "Brooklyn, New York", col4: "Eliminated 8th (in Sarantsi, Bulgaria)", col5: "", col6: "", col7: "" }, { name: "Mike Fiorito", name2: "Mike Fiorito", col1: "28", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Melinda Papadeas", name2: "Melinda Papadeas", col1: "66", col2: "Mother & Daughter", col3: "Chandler, Arizona", col4: "Eliminated 9th (in Sofia, Bulgaria)", col5: "", col6: "", col7: "" }, { name: "Erika Papadeas", name2: "Erika Papadeas", col1: "32", col2: "Englewood, Colorado", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Brett Hamby", name2: "Brett Hamby", col1: "36", col2: "Married Vegas Performers", col3: "Las Vegas, Nevada", col4: "Eliminated 10th (in Scherwiller, France)", col5: "", col6: "", col7: "" }, { name: "Mark Romain", name2: "Mark Romain", col1: "37", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Alyssa Borden", name2: "Alyssa Borden", col1: "31", col2: "Married Nurses", col3: "Philadelphia, Pennsylvania", col4: "Eliminated 11th  (in Vila Nova de Gaia, Portugal)", col5: "", col6: "", col7: "" }, { name: "Josiah Borden", name2: "Josiah Borden", col1: "32", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Jonathan Towns", name2: "Jonathan Towns", col1: "42", col2: "Married Parents", col3: "Pomona, California", col4: "Third place", col5: "", col6: "", col7: "" }, { name: "Ana Towns", name2: "Ana Towns", col1: "35", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Han Nguyen", name2: "Han Nguyen", col1: "26", col2: "Siblings", col3: "Los Gatos, California", col4: "Runners-up", col5: "", col6: "", col7: "" }, { name: "Holden Nguyen", name2: "Holden Nguyen", col1: "22", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Carson McCalley", name2: "Carson McCalley", col1: "28", col2: "Best Friends & Gamers", col3: "Brooklyn, New York", col4: "Winners", col5: "", col6: "", col7: "" }, { name: "Jack Dodge", name2: "Jack Dodge", col1: "27", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" } ]
+            );
+        });
+
+        const andrewsRawTeamList = [ "Brett Hamby & Mark Romain", "Nick Fiorito & Mike Fiorito", "Courtney Ramsey & Jasmin Carey", "Alyssa Borden & Josiah Borden", "Jonathan Towns & Ana Towns", "Bernie Gutierrez & Carrigain Scadden", "Jeff \"Pops\" Bailey & Jeff Bailey", "Carson McCalley & Jack Dodge", "Scott Thompson & Lori Thompson", "Han Nguyen & Holden Nguyen", "Ernest Cato & Bridget Cato", "Melinda Papadeas & Erika Papadeas", "Mark Crawford & Larry Graham", "Jackye Clayton & Lauren McKinney" ];
+
+        const andrewsContestantLeagueData = {
+            name: "Andrew J.",
+            userId: "6252275B-C6AF-427B-82A6-1F4B4A2267C1",
+            ranking: andrewsRawTeamList
+        };
+        const listOfContetantLeagueData = [andrewsContestantLeagueData]
+
+        const expectedNumberOfRounds = 12;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, parseAmazingRaceEntities, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(andrewsContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(120);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(120);
+
+        //// round 1..10 not testing because we aren't using them today
+
+        result.rounds.forEach(r => {
+            console.log(`Round ${r.round}: has score: ${r.contestantRoundData[0].totalScore} adding ${r.contestantRoundData[0].roundScore}`);
+        });
+
+        // round 11
+        expect(result.rounds[11].round).toBe(11);
+        expect(result.rounds[11].contestantRoundData[0].name).toBe(andrewsContestantLeagueData.name);
+        expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(550);
+    });
 });
