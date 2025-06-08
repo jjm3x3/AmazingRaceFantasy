@@ -74,10 +74,10 @@ describe("POST", () => {
         });
     });
     it("should successfully call Redis", async ()=> {
-        const requestMock = {
+        const request = {
             json: async () => (testRequestPayload),
         };
-        const LoginResponse = await POST(requestMock);
+        const LoginResponse = await POST(request);
         await LoginResponse.json();
         const expectedRedisResponse = [ "user:123googleTestId", "$", "{\"googleUserId\":\"123googleTestId\"}" ];
         expect(redisJsonSetMock).toHaveBeenCalled();
