@@ -67,4 +67,13 @@ describe("POST (unit tests)", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
     });
+
+    it("should return a 400 when missing wikiPage", async () => {
+        // Aarrange
+
+        // Act
+        await POST({});
+
+        // Assert
+    });
 });
