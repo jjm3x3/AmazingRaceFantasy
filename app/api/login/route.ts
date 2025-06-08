@@ -1,5 +1,6 @@
-import { OAuth2Client } from "google-auth-library";
+import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
+import { writeGoogleUserData } from "@/app/dataSources/dbFetch";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
@@ -9,13 +10,21 @@ export async function POST(request: NextRequest) {
         idToken: body.token,
         audience: clientId
     });
-    const payload = authResponse.getPayload();
-    const userObj = {
-        email: payload?.email,
-        name: {
-            firstName: payload?.given_name,
-            lastName: payload?.family_name
+    
+    const payload:TokenPayload | undefined = authResponse.getPayload();
+
+    if(payload){
+        const googleUserId = payload["sub"];
+        writeGoogleUserData (googleUserId);
+    
+        // Data to send to the front end
+        const userObj = {
+            email: payload?.email,
+            name: {
+                firstName: payload?.given_name,
+                lastName: payload?.family_name
+            }
         }
+        return NextResponse.json(userObj);
     }
-    return NextResponse.json(userObj);
 }
