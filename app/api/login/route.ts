@@ -1,6 +1,6 @@
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
-import { Redis } from "@upstash/redis";
+import { writeGoogleUserData } from "@/app/dataSources/dbFetch";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
@@ -15,17 +15,7 @@ export async function POST(request: NextRequest) {
 
     if(payload){
         const googleUserId = payload["sub"];
-        // Setup Redis
-        const redisOptions = {
-            url: process.env.KV_REST_API_URL,
-            token: process.env.KV_REST_API_TOKEN
-        };
-        const redis = new Redis(redisOptions);
-    
-        // Post to DB
-        const userDbObj = { googleUserId }
-        const leagueConfigString = JSON.stringify(userDbObj)
-        await redis.json.set(`user:${googleUserId}`, "$", leagueConfigString)
+        writeGoogleUserData (googleUserId);
     
         // Data to send to the front end
         const userObj = {
