@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { POST } from "@/app/api/league/route.ts";
 
 describe("POST", () => {
