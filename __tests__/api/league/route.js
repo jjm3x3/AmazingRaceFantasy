@@ -77,8 +77,10 @@ describe("POST (unit tests)", () => {
         };
 
         // Act
-        await POST(request);
+        const response = await POST(request);
 
         // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
     });
 });
