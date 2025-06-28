@@ -70,9 +70,14 @@ describe("POST (unit tests)", () => {
 
     it("should return a 400 when missing wikiPage", async () => {
         // Aarrange
+        const request = {
+            json: async () => { return {
+                token: "testToken"
+            } }
+        };
 
         // Act
-        await POST({});
+        await POST(request);
 
         // Assert
     });
