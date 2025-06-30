@@ -37,6 +37,9 @@ export async function POST(request: NextRequest) {
     if (!requestBodyJson.wikiPageName) {
         return NextResponse.json({"error": "Missing required field wikiPageName"}, { status: 400});
     }
+    if (!requestBodyJson.googleSheetUrl) {
+        return NextResponse.json({"error": "Missing required field googleSheetUrl"}, { status: 400});
+    }
 
     // insert into db
 
