@@ -58,7 +58,8 @@ describe("POST (unit tests)", () => {
             json: async () => { return {
                 token: "testToken",
                 wikiPageName: "someName",
-                googleSheetUrl: "http://some.url"
+                googleSheetUrl: "http://some.url",
+                leagueStatus: "active"
             } }
         };
 
