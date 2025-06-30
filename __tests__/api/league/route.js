@@ -52,11 +52,12 @@ describe("POST (unit tests)", () => {
         expect(response.status).toEqual(403);
     });
 
-    it("should return allow a post (or  200) when auth token has the exact right userId claim", async () => {
+    it("should return 200 when conditions met", async () => {
         // Arrange
         const request = {
             json: async () => { return {
-                token: "testToken"
+                token: "testToken",
+                wikiPageName: "someName"
             } }
         };
 
