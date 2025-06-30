@@ -74,7 +74,8 @@ describe("POST (unit tests)", () => {
         // Aarrange
         const request = {
             json: async () => { return {
-                token: "testToken"
+                token: "testToken",
+                googleSheetUrl: "http://some.url"
             } }
         };
 
