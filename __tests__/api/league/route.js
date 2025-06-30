@@ -103,4 +103,22 @@ describe("POST (unit tests)", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
     });
+
+    it("should return a 400 when missing leagueStatus", async () => {
+        // Aarrange
+        const request = {
+            json: async () => { return {
+                token: "testToken",
+                wikiPageName: "someName",
+                googleSheetUrl: "http://some.url",
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+    });
 });
