@@ -43,6 +43,11 @@ export async function POST(request: NextRequest) {
     if (!requestBodyJson.leagueStatus) {
         return NextResponse.json({"error": "Missing required field leagueStatus"}, { status: 400});
     }
+    const validStatuses = ["active","archive"];
+    if (!validStatuses.includes(requestBodyJson.leagueStatus)) {
+        return NextResponse.json({"error": `Required field leagueStatus must have a valid status in [${validStatuses}]`}, { status: 400});
+    }
+
 
     // insert into db
 
