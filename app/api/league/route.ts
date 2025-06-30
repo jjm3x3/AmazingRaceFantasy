@@ -40,6 +40,9 @@ export async function POST(request: NextRequest) {
     if (!requestBodyJson.googleSheetUrl) {
         return NextResponse.json({"error": "Missing required field googleSheetUrl"}, { status: 400});
     }
+    if (!requestBodyJson.leagueStatus) {
+        return NextResponse.json({"error": "Missing required field leagueStatus"}, { status: 400});
+    }
 
     // insert into db
 
