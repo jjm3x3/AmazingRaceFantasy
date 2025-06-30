@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
 
     // validate/sanitize input
     const requestBodyJson = await request.json()
-    if (!requestBodyJson.wikiPage) {
-        return NextResponse.json({"error": "Missing required field wikiPage"}, { status: 400});
+    if (!requestBodyJson.wikiPageName) {
+        return NextResponse.json({"error": "Missing required field wikiPageName"}, { status: 400});
     }
 
     // insert into db

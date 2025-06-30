@@ -69,7 +69,7 @@ describe("POST (unit tests)", () => {
         expect(response.status).toEqual(200);
     });
 
-    it("should return a 400 when missing wikiPage", async () => {
+    it("should return a 400 when missing wikiPageName", async () => {
         // Aarrange
         const request = {
             json: async () => { return {
