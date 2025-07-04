@@ -126,6 +126,44 @@ describe("POST (unit tests)", () => {
         expect(response.status).toEqual(400);
     });
 
+    it("should return a 400 when googleSheetUrl is invalid probably doens't have a scheme", async () => {
+        // Aarrange
+        const request = {
+            json: async () => { return {
+                token: "testToken",
+                wikiPageName: "someName",
+                googleSheetUrl: "sup",
+                leagueStatus: "active"
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+    });
+
+    it("should return a 200 when googleSheetUrl has a scheme", async () => {
+        // Aarrange
+        const request = {
+            json: async () => { return {
+                token: "testToken",
+                wikiPageName: "someName",
+                googleSheetUrl: "http:sup",
+                leagueStatus: "active"
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+    });
+
     it("should return a 400 when missing leagueStatus", async () => {
         // Aarrange
         const request = {
