@@ -4,6 +4,12 @@ import * as z from "zod/v4";
 
 const unauthenticatedErrorMessage = "you are not authenticated with this service";
 
+const LeagueConfig = z.object({
+    wikiPageName: z.string(),
+    googleSheetUrl: z.string(),
+    leagueStatus: z.string()
+});
+
 export async function POST(request: NextRequest) {
     // check auth
     const body = await request.json();
