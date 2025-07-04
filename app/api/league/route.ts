@@ -10,10 +10,14 @@ export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
     const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
     let authResponse = null;
-    authResponse = await client.verifyIdToken({
-        idToken: body.token,
-        audience: clientId
-    });
+    try {
+        authResponse = await client.verifyIdToken({
+            idToken: body.token,
+            audience: clientId
+        });
+    }
+    catch(error) {
+    }
 
     // validate/sanitize input
 
