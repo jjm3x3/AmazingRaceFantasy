@@ -87,6 +87,10 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("wikiPageName");
     });
 
     it("should return a 400 when missing googleSheetUrl", async () => {
@@ -105,6 +109,10 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("googleSheetUrl");
     });
 
     it("should return a 400 when googleSheetUrl is invalid probably has spaces", async () => {
@@ -124,6 +132,10 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("googleSheetUrl");
     });
 
     it("should return a 400 when googleSheetUrl is invalid probably doens't have a scheme", async () => {
@@ -143,6 +155,10 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("googleSheetUrl");
     });
 
     it("should return a 400 when googleSheetUrl has a insecure http scheme", async () => {
@@ -162,6 +178,10 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("googleSheetUrl");
     });
 
     it("should return a 400 when googleSheetUrl has a invalid domain", async () => {
@@ -181,6 +201,10 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("googleSheetUrl");
     });
 
     it("should return a 400 when missing leagueStatus", async () => {
@@ -199,6 +223,10 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("leagueStatus");
     });
 
     it("should return a 400 with an invalid leagueStatus", async () => {
@@ -221,6 +249,6 @@ describe("POST (unit tests)", () => {
 
         const rawBody = await response.body.getReader().read()
         const bodyString = new TextDecoder().decode(rawBody.value)
-        expect(bodyString).toContain('leagueStatus');
+        expect(bodyString).toContain("leagueStatus");
     });
 });
