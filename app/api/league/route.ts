@@ -6,7 +6,7 @@ const unauthenticatedErrorMessage = "you are not authenticated with this service
 const validLeagueStatuses = ["active","archive"];
 
 const LeagueConfig = z.object({
-    wikiPageName: z.string(),
+    wikiPageName: z.string().regex(/^[a-zA-Z()_0-9]+$/),
     googleSheetUrl: z.url({
         protocol: /^https$/,
         hostname: z.regexes.doamin
