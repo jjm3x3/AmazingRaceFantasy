@@ -60,7 +60,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -127,7 +128,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "Big_Brother_26_(American_season)",
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
