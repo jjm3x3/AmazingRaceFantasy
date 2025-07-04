@@ -80,7 +80,8 @@ describe("POST (unit tests)", () => {
                 token: "testToken",
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -104,7 +105,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "page name with whitespace",
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -148,7 +150,8 @@ describe("POST (unit tests)", () => {
                 token: "testToken",
                 wikiPageName: "someName",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -172,7 +175,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "not a url",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -196,7 +200,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "sup",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -220,7 +225,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "http:sup",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -244,7 +250,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "https:sup_blah_{_ga*b;ge_d^ta", // the '^' is what breaks the domain regex
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -267,7 +274,8 @@ describe("POST (unit tests)", () => {
                 token: "testToken",
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -291,7 +299,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "maybe-active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team"
             } }
         };
 
@@ -314,7 +323,8 @@ describe("POST (unit tests)", () => {
                 token: "testToken",
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
-                leagueStatus: "active"
+                leagueStatus: "active",
+                contestantType: "team"
             } }
         };
 
