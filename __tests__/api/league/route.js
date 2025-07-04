@@ -76,7 +76,7 @@ describe("POST (unit tests)", () => {
         const request = {
             json: async () => { return {
                 token: "testToken",
-                googleSheetUrl: "http://some.url",
+                googleSheetUrl: "https://some.url",
                 leagueStatus: "active"
             } }
         };
@@ -213,7 +213,7 @@ describe("POST (unit tests)", () => {
             json: async () => { return {
                 token: "testToken",
                 wikiPageName: "someName",
-                googleSheetUrl: "http://some.url",
+                googleSheetUrl: "https://some.url",
             } }
         };
 
@@ -235,7 +235,7 @@ describe("POST (unit tests)", () => {
             json: async () => { return {
                 token: "testToken",
                 wikiPageName: "someName",
-                googleSheetUrl: "http://some.url",
+                googleSheetUrl: "https://some.url",
                 leagueStatus: "maybe-active"
             } }
         };
