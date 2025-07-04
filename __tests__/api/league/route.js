@@ -82,7 +82,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -107,7 +108,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -153,7 +155,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -178,7 +181,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "not a url",
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -203,7 +207,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "sup",
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -228,7 +233,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "http:sup",
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -253,7 +259,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "https:sup_blah_{_ga*b;ge_d^ta", // the '^' is what breaks the domain regex
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -277,7 +284,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -302,7 +310,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "maybe-active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -326,7 +335,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -350,7 +360,8 @@ describe("POST (unit tests)", () => {
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
-                wikiSectionHeader: "Show Contestants"
+                wikiSectionHeader: "Show Contestants",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
