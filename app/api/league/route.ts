@@ -7,7 +7,9 @@ const validLeagueStatuses = ["active","archive"];
 
 const LeagueConfig = z.object({
     wikiPageName: z.string(),
-    googleSheetUrl: z.url(),
+    googleSheetUrl: z.url({
+        protocol: /^https$/
+    }),
     leagueStatus: z.enum(validLeagueStatuses)
 });
 
