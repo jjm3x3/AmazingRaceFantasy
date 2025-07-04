@@ -59,7 +59,8 @@ describe("POST (unit tests)", () => {
                 token: "testToken",
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
-                leagueStatus: "active"
+                leagueStatus: "active",
+                wikiSectionHeader: "Show Contestants"
             } }
         };
 
@@ -123,7 +124,8 @@ describe("POST (unit tests)", () => {
                 token: "testToken",
                 wikiPageName: "Big_Brother_26_(American_season)",
                 googleSheetUrl: "https://some.url",
-                leagueStatus: "active"
+                leagueStatus: "active",
+                wikiSectionHeader: "Show Contestants"
             } }
         };
 
