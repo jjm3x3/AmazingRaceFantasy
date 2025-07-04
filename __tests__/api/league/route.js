@@ -390,4 +390,56 @@ describe("POST (unit tests)", () => {
         const bodyString = new TextDecoder().decode(rawBody.value)
         expect(bodyString).toContain("leagueKey");
     });
+
+    it("should return a 400 when leagueKey is invalid because it has spaces", async () => {
+        // Aarrange
+        const request = {
+            json: async () => { return {
+                token: "testToken",
+                wikiPageName: "someName",
+                googleSheetUrl: "https://some.url",
+                leagueStatus: "active",
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team",
+                leagueKey: "some_show _name:and_season_1"
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("leagueKey");
+    });
+
+    it("should return a 400 when leagueKey is invalid because it has '*'", async () => {
+        // Aarrange
+        const request = {
+            json: async () => { return {
+                token: "testToken",
+                wikiPageName: "someName",
+                googleSheetUrl: "https://some.url",
+                leagueStatus: "active",
+                wikiSectionHeader: "Show Contestants",
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1:*"
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("leagueKey");
+    });
 });
