@@ -13,7 +13,8 @@ const LeagueConfig = z.object({
     }),
     leagueStatus: z.enum(validLeagueStatuses),
     wikiSectionHeader: z.string(),
-    contestantType: z.string()
+    contestantType: z.string(),
+    leagueKey: z.string(),
 });
 
 export async function POST(request: NextRequest) {
