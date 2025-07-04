@@ -41,20 +41,14 @@ export async function POST(request: NextRequest) {
 
     // validate/sanitize input
     const requestBodyJson = await request.json()
-    if (!requestBodyJson.wikiPageName) {
-        return NextResponse.json({"error": "Missing required field wikiPageName"}, { status: 400});
-    }
-    if (!requestBodyJson.googleSheetUrl) {
-        return NextResponse.json({"error": "Missing required field googleSheetUrl"}, { status: 400});
-    }
-    if (!requestBodyJson.leagueStatus) {
-        return NextResponse.json({"error": "Missing required field leagueStatus"}, { status: 400});
-    }
-    const validStatuses = ["active","archive"];
-    if (!validStatuses.includes(requestBodyJson.leagueStatus)) {
-        return NextResponse.json({"error": `Required field leagueStatus must have a valid status in [${validStatuses}]`}, { status: 400});
-    }
 
+    //const validStatuses = ["active","archive"];
+    try {
+        LeagueConfig.parse(requestBodyJson);
+    }
+    catch(error){
+        return NextResponse.json({"error": "parsing error caught by zod parsing"}, {status: 400});
+    }
 
     // insert into db
 
