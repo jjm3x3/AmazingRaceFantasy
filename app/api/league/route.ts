@@ -14,7 +14,7 @@ const LeagueConfig = z.object({
     leagueStatus: z.enum(validLeagueStatuses),
     wikiSectionHeader: z.string(),
     contestantType: z.string(),
-    leagueKey: z.string(),
+    leagueKey: z.string().regex(/^[a-zA-Z0-9_:]+$/)
 });
 
 export async function POST(request: NextRequest) {
