@@ -47,7 +47,8 @@ export async function POST(request: NextRequest) {
         LeagueConfig.parse(requestBodyJson);
     }
     catch(error){
-        return NextResponse.json({"error": "parsing error caught by zod parsing"}, {status: 400});
+        const firstIssue = error.issues[0];
+        return NextResponse.json({"error": `parsing error caught by zod parsing, first one being ${firstIssue}`}, {status: 400});
     }
 
     // insert into db
