@@ -12,7 +12,8 @@ const LeagueConfig = z.object({
         hostname: z.regexes.doamin
     }),
     leagueStatus: z.enum(validLeagueStatuses),
-    wikiSectionHeader: z.string()
+    wikiSectionHeader: z.string(),
+    contestantType: z.string()
 });
 
 export async function POST(request: NextRequest) {
