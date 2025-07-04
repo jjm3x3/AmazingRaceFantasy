@@ -61,7 +61,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
@@ -131,7 +132,8 @@ describe("POST (unit tests)", () => {
                 googleSheetUrl: "https://some.url",
                 leagueStatus: "active",
                 wikiSectionHeader: "Show Contestants",
-                contestantType: "team"
+                contestantType: "team",
+                leagueKey: "some_show_name:and_season_1"
             } }
         };
 
