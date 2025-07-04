@@ -11,7 +11,8 @@ const LeagueConfig = z.object({
         protocol: /^https$/,
         hostname: z.regexes.doamin
     }),
-    leagueStatus: z.enum(validLeagueStatuses)
+    leagueStatus: z.enum(validLeagueStatuses),
+    wikiSectionHeader: z.string()
 });
 
 export async function POST(request: NextRequest) {
