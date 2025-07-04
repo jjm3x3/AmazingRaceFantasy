@@ -3,11 +3,12 @@ import { OAuth2Client, TokenPayload } from "google-auth-library";
 import * as z from "zod/v4";
 
 const unauthenticatedErrorMessage = "you are not authenticated with this service";
+const validLeagueStatuses = ["active","archive"];
 
 const LeagueConfig = z.object({
     wikiPageName: z.string(),
     googleSheetUrl: z.string(),
-    leagueStatus: z.string()
+    leagueStatus: z.enum(validLeagueStatuses)
 });
 
 export async function POST(request: NextRequest) {
@@ -42,7 +43,6 @@ export async function POST(request: NextRequest) {
     // validate/sanitize input
     const requestBodyJson = await request.json()
 
-    //const validStatuses = ["active","archive"];
     try {
         LeagueConfig.parse(requestBodyJson);
     }
