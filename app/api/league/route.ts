@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     }
     catch(error){
         const firstIssue = error.issues[0];
-        return NextResponse.json({"error": `parsing error caught by zod parsing, first one being property: '${firstIssue.path[0]}' having issue: '${firstIssue.message}'`}, {status: 400});
+        return NextResponse.json({"error": `parsing error caught, first one being property: '${firstIssue.path[0]}' having issue: '${firstIssue.message}'`}, {status: 400});
     }
 
     // insert into db
