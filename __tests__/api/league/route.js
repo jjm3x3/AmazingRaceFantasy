@@ -18,4 +18,18 @@ describe("POST", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(401);
     });
+
+    it("should return a 401 when auth token is malformed (missing 3 parts)", async () => {
+        // Aarrange
+        const request = {
+            json: async () => { return { token: "someTokenValue" } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(401);
+    });
 });
