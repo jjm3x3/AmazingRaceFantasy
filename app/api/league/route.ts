@@ -7,6 +7,13 @@ export async function POST(request: NextRequest) {
     if (!body.token) {
         return NextResponse.json({"error": "you are not authenticated with this service"}, {status: 401})
     }
+    const client = new OAuth2Client();
+    const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
+    let authResponse = null;
+    authResponse = await client.verifyIdToken({
+        idToken: body.token,
+        audience: clientId
+    });
 
     // validate/sanitize input
 
