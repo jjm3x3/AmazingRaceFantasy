@@ -218,5 +218,9 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain('leagueStatus');
     });
 });
