@@ -116,6 +116,25 @@ describe("POST (unit tests)", () => {
         expect(bodyString).toContain("wikiPageName");
     });
 
+    it("should return a 200 when wikiPageName has name like a known BB season", async () => {
+        // Aarrange
+        const request = {
+            json: async () => { return {
+                token: "testToken",
+                wikiPageName: "Big_Brother_26_(American_season)",
+                googleSheetUrl: "https://some.url",
+                leagueStatus: "active"
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+    });
+
     it("should return a 400 when missing googleSheetUrl", async () => {
         // Aarrange
         const request = {
