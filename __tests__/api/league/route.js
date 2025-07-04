@@ -145,7 +145,7 @@ describe("POST (unit tests)", () => {
         expect(response.status).toEqual(400);
     });
 
-    it("should return a 200 when googleSheetUrl has a scheme", async () => {
+    it("should return a 400 when googleSheetUrl has a insecure http scheme", async () => {
         // Aarrange
         const request = {
             json: async () => { return {
@@ -161,7 +161,7 @@ describe("POST (unit tests)", () => {
 
         // Assert
         expect(response).not.toBeNull();
-        expect(response.status).toEqual(200);
+        expect(response.status).toEqual(400);
     });
 
     it("should return a 400 when missing leagueStatus", async () => {
