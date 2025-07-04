@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
         });
     }
     catch(error) {
+        console.log(error);
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
     }
 
