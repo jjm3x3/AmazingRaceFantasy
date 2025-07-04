@@ -93,6 +93,29 @@ describe("POST (unit tests)", () => {
         expect(bodyString).toContain("wikiPageName");
     });
 
+    it("should return a 400 when wikiPageName has whitespace", async () => {
+        // Aarrange
+        const request = {
+            json: async () => { return {
+                token: "testToken",
+                wikiPageName: "page name with whitespace",
+                googleSheetUrl: "https://some.url",
+                leagueStatus: "active"
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read()
+        const bodyString = new TextDecoder().decode(rawBody.value)
+        expect(bodyString).toContain("wikiPageName");
+    });
+
     it("should return a 400 when missing googleSheetUrl", async () => {
         // Aarrange
         const request = {
