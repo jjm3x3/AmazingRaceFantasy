@@ -16,7 +16,7 @@
     "prepare": "./node_modules/.bin/husky"
   },
   "engines": {
-    "node": "^20.9.0"
+    "node": "^22.16.0"
   },
   "dependencies": {
     "@types/google.accounts": "^0.0.16",
