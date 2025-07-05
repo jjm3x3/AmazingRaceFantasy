@@ -47,4 +47,21 @@ describe("POST (unit tests)", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(403);
     });
+
+    it("should return allow a post (or  200) when auth token has the exact right userId claim", async () => {
+        // Aarrange
+        testAuthData.sub = "108251633753098119380";
+        const request = {
+            json: async () => { return {
+                token: "testToken"
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+    });
 });
