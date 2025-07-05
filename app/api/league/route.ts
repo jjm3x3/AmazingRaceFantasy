@@ -23,6 +23,15 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
     }
 
+    const payload:TokenPayload | undefined = authResponse.getPayload();
+
+    if(payload){
+        const googleUserId = payload["sub"];
+        if (googleUserId !== "108251633753098119380") {
+            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+        }
+    }
+
     // validate/sanitize input
 
     // insert into db
