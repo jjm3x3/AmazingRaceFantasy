@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     
         // Data to send to the front end
         const userObj = {
+            token: body.token,
             email: payload?.email,
             name: {
                 firstName: payload?.given_name,
