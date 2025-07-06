@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     try {
         LeagueConfig.parse(body);
     }
-    catch(error){
+    catch(error: unknown){
         const firstIssue = error.issues[0];
         return NextResponse.json({"error": `parsing error caught, first one being property: '${firstIssue.path[0]}' having issue: '${firstIssue.message}'`}, {status: 400});
     }
