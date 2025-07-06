@@ -26,7 +26,7 @@ OAuth2Client.mockImplementation(() => {
 
 beforeEach(() => {
     testAuthData = {
-        sub: "123googleTestId",
+        sub: "108251633753098119380",
         email: "test@test.com",
         given_name: "TestFirstName",
         family_name: "TestLastName"
@@ -37,7 +37,7 @@ describe("POST (unit tests)", () => {
 
     it("should return a 403 when auth token does not have exact right userId claim", async () => {
         // Aarrange
-
+        testAuthData.sub = "123googleTestId";
         const request = {
             json: async () => { return {
                 token: "testToken"
@@ -54,7 +54,6 @@ describe("POST (unit tests)", () => {
 
     it("should return allow a post (or  200) when auth token has the exact right userId claim", async () => {
         // Arrange
-        testAuthData.sub = "108251633753098119380";
         const request = {
             json: async () => { return {
                 token: "testToken"
