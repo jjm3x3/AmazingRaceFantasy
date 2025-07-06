@@ -1,6 +1,7 @@
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { writeGoogleUserData } from "@/app/dataSources/dbFetch";
+import { createSession } from "../session/session";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
@@ -25,6 +26,14 @@ export async function POST(request: NextRequest) {
                 lastName: payload?.family_name
             }
         }
-        return NextResponse.json(userObj);
+
+        const response = NextResponse.json(userObj);
+        await createSession({
+            response,
+            exp: payload.exp,
+            session_id: body.token
+        });
+        
+        return response;
     }
 }
