@@ -26,7 +26,10 @@ export async function POST(request: NextRequest) {
                 lastName: payload?.family_name
             }
         }
-        await createSession(body.token);
-        return NextResponse.json(userObj);
+
+        const response = NextResponse.json(userObj);
+        await createSession(response, body.token);
+        
+        return response;
     }
 }
