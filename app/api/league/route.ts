@@ -47,10 +47,8 @@ export async function POST(request: NextRequest) {
     }
 
     // validate/sanitize input
-    const requestBodyJson = await request.json()
-
     try {
-        LeagueConfig.parse(requestBodyJson);
+        LeagueConfig.parse(body);
     }
     catch(error){
         const firstIssue = error.issues[0];
