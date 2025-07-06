@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+
+export const sessionSecretKey = process.env.SESSION_SECRET;
+
 export async function createSession(response: NextResponse, session_id: string) {
     response.cookies.set("session_id", session_id, {
         httpOnly: true,
