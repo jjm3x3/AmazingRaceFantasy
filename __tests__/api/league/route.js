@@ -6,12 +6,7 @@ jest.mock("google-auth-library");
 import { OAuth2Client } from "google-auth-library";
 import { POST } from "@/app/api/league/route.ts";
 
-const testAuthData = {
-    sub: "123googleTestId",
-    email: "test@test.com",
-    given_name: "TestFirstName",
-    family_name: "TestLastName"
-}
+let testAuthData = {}
 
 const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
@@ -26,6 +21,15 @@ const verifyIdTokenMock = jest.fn().mockImplementation(()=> {
 OAuth2Client.mockImplementation(() => {
     return {
         verifyIdToken: verifyIdTokenMock
+    }
+});
+
+beforeEach(() => {
+    testAuthData = {
+        sub: "123googleTestId",
+        email: "test@test.com",
+        given_name: "TestFirstName",
+        family_name: "TestLastName"
     }
 });
 
