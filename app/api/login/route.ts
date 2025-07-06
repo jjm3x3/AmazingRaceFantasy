@@ -1,6 +1,7 @@
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { writeGoogleUserData } from "@/app/dataSources/dbFetch";
+import { createSession } from "../session/session";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
@@ -19,13 +20,13 @@ export async function POST(request: NextRequest) {
     
         // Data to send to the front end
         const userObj = {
-            token: body.token,
             email: payload?.email,
             name: {
                 firstName: payload?.given_name,
                 lastName: payload?.family_name
             }
         }
+        await createSession(body.token);
         return NextResponse.json(userObj);
     }
 }
