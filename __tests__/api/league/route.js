@@ -7,6 +7,7 @@ import { OAuth2Client } from "google-auth-library";
 import { POST } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
+let happyPathRequest = {}
 
 const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
@@ -30,7 +31,17 @@ beforeEach(() => {
         email: "test@test.com",
         given_name: "TestFirstName",
         family_name: "TestLastName"
-    }
+    };
+
+    happyPathRequest = {
+        token: "testToken",
+        wikiPageName: "someName",
+        googleSheetUrl: "https://some.url",
+        leagueStatus: "active",
+        wikiSectionHeader: "Show Contestants",
+        contestantType: "team",
+        leagueKey: "some_show_name:and_season_1"
+    };
 });
 
 describe("POST (unit tests)", () => {
