@@ -53,7 +53,10 @@ export async function POST(request: NextRequest) {
     catch(error: unknown){
         if (error instanceof z.ZodError) {
             const firstIssue = error.issues[0];
-            return NextResponse.json({"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`}, {status: 400});
+            return NextResponse.json(
+                {"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`},
+                {status: 400}
+            );
         }
     }
 
