@@ -33,6 +33,15 @@ OAuth2Client.mockImplementation(() => {
     }
 });
 
+jest.mock("../../../app/api/session/session", ()=> {
+    return {
+        ...jest.requireActual("../../../app/api/session/session"), 
+        createSession: jest.fn().mockImplementation(()=>{
+            return "someTokenHeader.someTokenBody.someTokenSig"
+        })
+    }
+});
+
 const redisJsonSetMock = jest.fn();
 
 jest.mock("@upstash/redis", () => {
@@ -60,6 +69,7 @@ describe("POST", () => {
         };
         const LoginResponse = await POST(requestMock);
         const body = await LoginResponse.json();
+        console.log(body);
         expect(verifyIdTokenMock).toHaveBeenCalledWith({
             idToken: testRequestPayload.token,
             audience: clientId
