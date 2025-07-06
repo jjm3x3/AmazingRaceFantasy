@@ -1,6 +1,7 @@
 // react-testing-library renders your components to document.body,
 // this adds jest-dom's custom assertions
 import "@testing-library/jest-dom";
-import { TextEncoder, TextDecoder } from "jose";
+import { TextDecoder, TextEncoder } from 'util';
 
-Object.assign(global, { TextDecoder, TextEncoder });
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
