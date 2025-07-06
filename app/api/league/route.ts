@@ -9,7 +9,7 @@ const LeagueConfig = z.object({
     wikiPageName: z.string().regex(/^[a-zA-Z()_0-9]+$/),
     googleSheetUrl: z.url({
         protocol: /^https$/,
-        hostname: z.regexes.doamin
+        hostname: z.regexes.domain
     }),
     leagueStatus: z.enum(validLeagueStatuses),
     wikiSectionHeader: z.string(),
