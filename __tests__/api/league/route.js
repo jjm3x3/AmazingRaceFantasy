@@ -36,7 +36,7 @@ beforeEach(() => {
 describe("POST (unit tests)", () => {
 
     it("should return a 403 when auth token does not have exact right userId claim", async () => {
-        // Aarrange
+        // Arrange
         testAuthData.sub = "123googleTestId";
         const request = {
             json: async () => { return {

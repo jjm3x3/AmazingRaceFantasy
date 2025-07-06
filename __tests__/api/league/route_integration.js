@@ -6,7 +6,7 @@ import { POST } from "@/app/api/league/route.ts";
 
 describe("POST", () => {
     it("should return a 401 when auth token is missing", async () => {
-        // Aarrange
+        // Arrange
         const request = {
             json: async () => { return {} }
         };
@@ -20,7 +20,7 @@ describe("POST", () => {
     });
 
     it("should return a 401 when auth token is malformed (missing 3 parts)", async () => {
-        // Aarrange
+        // Arrange
         const request = {
             json: async () => { return { token: "someTokenValue" } }
         };
@@ -34,7 +34,7 @@ describe("POST", () => {
     });
 
     it("should return a 401 when auth token is malformed (parts are not base64 encoded json)", async () => {
-        // Aarrange
+        // Arrange
         const request = {
             json: async () => { return { token: "someTokenHeader.someTokenBody.someTokenSig" } }
         };
