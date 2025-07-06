@@ -55,7 +55,7 @@ describe("POST (unit tests)", () => {
     it("should return 200 when conditions met", async () => {
         // Arrange
         const request = {
-            json: async () => { return {
+            json: jest.fn().mockImplementation(async () => { return {
                 token: "testToken",
                 wikiPageName: "someName",
                 googleSheetUrl: "https://some.url",
@@ -63,7 +63,7 @@ describe("POST (unit tests)", () => {
                 wikiSectionHeader: "Show Contestants",
                 contestantType: "team",
                 leagueKey: "some_show_name:and_season_1"
-            } }
+            } })
         };
 
         // Act
