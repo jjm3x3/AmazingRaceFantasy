@@ -20,7 +20,7 @@ describe("POST", () => {
     });
 
     it("should return a 401 when auth token is malformed (missing 3 parts)", async () => {
-        // Aarrange
+        // Arrange
         const request = {
             json: async () => { return { token: "someTokenValue" } }
         };
