@@ -1,4 +1,5 @@
-import { cookies } from "next/headers"
+"use server"
+import { cookies } from "next/headers";
 
 export async function createSession(session_id:string) {
     cookies().set("session_id", session_id, {
