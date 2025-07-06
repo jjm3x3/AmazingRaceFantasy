@@ -72,6 +72,7 @@ describe("POST (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
     });
 
     it("should return a 400 when missing wikiPageName", async () => {
