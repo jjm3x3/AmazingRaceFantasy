@@ -31,6 +31,6 @@ export async function createSession({ response, envelope, exp }:{ response: Next
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
         path: "/",
-        maxAge: 60 * 60 * 24 // Example: 24 hours
+        maxAge: exp
     });
 }
