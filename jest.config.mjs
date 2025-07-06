@@ -10,7 +10,7 @@ const config = {
     // Add more setup options before each test is run
     // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     moduleNameMapper: {
-        "^jose": require.resolve("jose")
+        "^jose": "jose"
     },
     testEnvironment: "jest-environment-jsdom",
     setupFilesAfterEnv: ["<rootDir>/__tests__/setupTests.js"],
