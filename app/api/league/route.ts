@@ -1,7 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OAuth2Client, TokenPayload } from "google-auth-library";
+import * as z from "zod/v4";
 
 const unauthenticatedErrorMessage = "you are not authenticated with this service";
+const validLeagueStatuses = ["active","archive"];
+
+const LeagueConfig = z.object({
+    wikiPageName: z.string().regex(/^[a-zA-Z()_0-9]+$/),
+    googleSheetUrl: z.url({
+        protocol: /^https$/,
+        hostname: z.regexes.domain
+    }),
+    leagueStatus: z.enum(validLeagueStatuses),
+    wikiSectionHeader: z.string(),
+    contestantType: z.string(),
+    leagueKey: z.string().regex(/^[a-zA-Z0-9_:]+$/)
+});
 
 export async function POST(request: NextRequest) {
     // check auth
@@ -33,6 +47,18 @@ export async function POST(request: NextRequest) {
     }
 
     // validate/sanitize input
+    try {
+        LeagueConfig.parse(body);
+    }
+    catch(error: unknown){
+        if (error instanceof z.ZodError) {
+            const firstIssue = error.issues[0];
+            return NextResponse.json(
+                {"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`},
+                {status: 400}
+            );
+        }
+    }
 
     // insert into db
 
