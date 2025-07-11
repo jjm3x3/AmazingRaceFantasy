@@ -6,12 +6,21 @@ import "./styles/homepage.scss";
 
 export default async function Home() {
     const pages = await getPages();
-
+    const activeLeagues = pages.filter(page => page.name.indexOf("Current (") > -1);
+    let activeLeaguesAsString = "";
+    if(activeLeagues.length === 1){
+        activeLeaguesAsString = activeLeagues[0].showAndSeason
+    } else if (activeLeagues.length === 2) {
+        activeLeaguesAsString = `${activeLeagues[0].showAndSeason} and ${activeLeagues[1].showAndSeason}`
+    } else if(activeLeagues.length > 2){
+        const activeLeaguesWithoutLast = activeLeagues.toSpliced(activeLeagues.length - 2, 1).map(league => league.showAndSeason);
+        activeLeaguesAsString = `${activeLeaguesWithoutLast.join(", ")}, and ${activeLeagues[activeLeagues.length - 1].showAndSeason}`
+    }
     return (
         <>
             <div className="site-notice">
                 <p>
-                    The league for The Amazing Race 37 is already underway. Stay tuned to see how you fair. If you would still like to join this or future leagues, feel free to email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>.
+                    The league{activeLeagues.length > 1 && "s"} for {activeLeaguesAsString} is already underway. Stay tuned to see how you fair. If you would still like to join this or future leagues, feel free to email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>.
                 </p>
             </div>
             {pages.map((p: IPage) => { 
