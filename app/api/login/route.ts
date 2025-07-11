@@ -28,11 +28,7 @@ export async function POST(request: NextRequest) {
         }
 
         const response = NextResponse.json(userObj);
-        await createSession({
-            response,
-            exp: payload.exp,
-            session_id: body.token
-        });
+        await createSession({response, envelope: body.envelope, exp: payload.exp});
         
         return response;
     }
