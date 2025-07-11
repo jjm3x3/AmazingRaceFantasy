@@ -1,15 +1,18 @@
 import Link from "next/link";
 import IPage from "./models/IPage";
 import ISubpage from "./models/ISubpage";
-import { getPages, getSiteNotice } from "@/app/utils/pages";
+import { getPages } from "@/app/utils/pages";
 import "./styles/homepage.scss";
 
 export default async function Home() {
     const pages = await getPages();
-    const siteNotice = getSiteNotice(pages);
     return (
         <>
-            {siteNotice}
+            <div className="site-notice">
+                <p>
+                    The league for Big Brother 27 is already underway. Stay tuned to see how you fair. If you would still like to join this or future leagues, feel free to email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>.
+                </p>
+            </div>
             {pages.map((p: IPage) => { 
                 const keyName = p.name.toLowerCase().replaceAll(" ", "-");
                 return (<div key={`links-section-${keyName}`}>
