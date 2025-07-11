@@ -58,13 +58,11 @@ function generateScoringAndLeagueSubpages(pageInformation:PageInformation){
 }
 
 function generatePathObj(pageData:PageInformation, subpages: Array<IPage>){
-    const showAndSeason = pageData.friendlyName;
     if(pageData.showStatus === "active"){
         pageData.friendlyName = `Current (${pageData.friendlyName})`
     }
     return {
         name: pageData.friendlyName,
-        showAndSeason,
         subpages: subpages
     }
 }
