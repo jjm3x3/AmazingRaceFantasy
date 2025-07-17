@@ -3,7 +3,7 @@ module.exports = {
     wikiApiUrl: "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Big_Brother_27_(American_season)",
     googleSheetUrl: "https://docs.google.com/spreadsheets/d/1qRduzOCNukEAjA1VBEJ9GbUeTaLscHQxnjbUXrrddkU/edit?usp=sharing",
     leagueStatus: "active",
-    castPhrase: "Houseguests",
+    castPhrase: "HouseGuests",
     preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
     postGoogleSheetsLinkText: "which was populated using a google form.",
     competitingEntityName: "house guests",
