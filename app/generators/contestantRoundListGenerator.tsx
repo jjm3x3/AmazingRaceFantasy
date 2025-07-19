@@ -44,7 +44,7 @@ export default async function generateListOfContestantRoundLists(
             teamMap.set(x, teamDictionary[x]);
         });
 
-        const currentSelectedContestantTeamsList = convertNamesToTeamList(contestant.ranking, teamMap);
+        const currentSelectedContestantTeamsList = league.getTeamList(contestant.ranking);
 
         const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
 
