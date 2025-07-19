@@ -198,7 +198,7 @@ describe("getNumberOfRounds", () => {
 
     it("should not ever return Number.MAX_VALUE", () => {
         //Arrange
-        const teamList = [{eliminationOrder: 1}, {eliminationOrder:2}, {eliminationOrder: Number.MAX_VALUE}];
+        const teamList = [exampleTeam1, exampleTeam2, exampleTeamMax];
         const league = new League(teamList);
 
         // Act
@@ -211,9 +211,9 @@ describe("getNumberOfRounds", () => {
     it("Should return the number of unique eliminationOrders", () => {
         //Arrange
         const teamList = [
-            {eliminationOrder: 1},
-            {eliminationOrder: 1},
-            {eliminationOrder: 3},
+            exampleTeam1,
+            exampleTeam1,
+            exampleTeam3,
         ];
         const league = new League(teamList);
 
@@ -227,9 +227,9 @@ describe("getNumberOfRounds", () => {
     it("Should not countin Number.MAX_VALUE as a unique number", () => {
         //Arrange
         const teamList = [
-            {eliminationOrder: 1},
-            {eliminationOrder: 3},
-            {eliminationOrder: Number.MAX_VALUE}
+            exampleTeam1,
+            exampleTeam3,
+            exampleTeamMax
         ];
         const league = new League(teamList);
 
@@ -243,9 +243,9 @@ describe("getNumberOfRounds", () => {
     it("Should not countin 0 as a unique number", () => {
         //Arrange
         const teamList = [
-            {eliminationOrder: 1},
-            {eliminationOrder: 3},
-            {eliminationOrder: 0}
+            exampleTeam1,
+            exampleTeam3,
+            exampleTeam0
         ];
         const league = new League(teamList);
 
