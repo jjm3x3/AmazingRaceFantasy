@@ -36,13 +36,6 @@ export default async function generateListOfContestantRoundLists(
 
     return listOfContestantLeagueData.map(contestant => {
 
-        const teamMap = new Map()
-        
-        const keys = Object.keys(teamDictionary);
-        keys.map(x => {
-            teamMap.set(x, teamDictionary[x]);
-        });
-
         const currentSelectedContestantTeamsList = league.getTeamList(contestant.ranking);
 
         const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
