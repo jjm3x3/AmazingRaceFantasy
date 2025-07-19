@@ -172,6 +172,18 @@ describe("convertNamesToTeamList", () => {
         expect(result.length).toBe(0);
     });
 
+    it("Should return an empty list if one is passed in even if the map has items", () => {
+        // Arrange
+        const theMap = new Map();
+        theMap.set("some name", {teamName: "name1_1 & name1_2"})
+
+        // Act
+        const result = convertNamesToTeamList([], theMap);
+
+        // Assert
+        expect(result.length).toBe(0);
+    });
+
     it("Should throw an error if there is no entity in the map matching the name in the teamName list", () => {
         // Arrange, Act
         const act  = () => convertNamesToTeamList(["some name"], new Map());
