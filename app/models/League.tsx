@@ -51,7 +51,9 @@ export default class League {
         }
     }
 
-    addContestantRoundScores(contestantTeamsList: CompetingEntity[], contestantName: string, handicap: number): void {
+    addContestantRoundScores(contestantTeamsListNames: string[], contestantName: string, handicap: number): void {
+
+        const contestantTeamsList = this.getTeamList(contestantTeamsListNames);
 
         this.calculateContestantRoundScores(
             contestantTeamsList,
