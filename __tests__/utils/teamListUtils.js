@@ -1,4 +1,4 @@
-import { shouldBeScored, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../../app/utils/teamListUtils";
+import { shouldBeScored, getRoundEliminationOrderMapping, getUniqueEliminationOrders, convertNamesToTeamList } from "../../app/utils/teamListUtils";
 import CompetingEntity from "@/app/models/CompetingEntity";
 
 describe("teamListUtils shouldBeScored", () => {
@@ -160,5 +160,50 @@ describe("getUniqueEliminationOrders", () => {
 
         // Assert
         expect(result).toContain(partialEliminationOrder);
+    });
+});
+
+describe("convertNamesToTeamList", () => {
+    it("Should return an empty list if one is passed in", () => {
+        // Arrange, Act
+        const result = convertNamesToTeamList([], new Map());
+
+        // Assert
+        expect(result.length).toBe(0);
+    });
+
+    it("Should return an empty list if one is passed in even if the map has items", () => {
+        // Arrange
+        const theMap = new Map();
+        theMap.set("some name", {teamName: "name1_1 & name1_2"})
+
+        // Act
+        const result = convertNamesToTeamList([], theMap);
+
+        // Assert
+        expect(result.length).toBe(0);
+    });
+
+    it("Should throw an error if there is no entity in the map matching the name in the teamName list", () => {
+        // Arrange, Act
+        const act  = () => convertNamesToTeamList(["some name"], new Map());
+
+        // Assert
+        expect(act).toThrow();
+    });
+
+    it("Should return a list with an entity in it (happy path)", () => {
+        // Arrange
+        const theMap = new Map();
+        const expectedTeamName =  "name1_1 & name1_2"
+        const expectedKey = CompetingEntity.getKey(expectedTeamName);
+        theMap.set(expectedKey, {teamName: expectedTeamName})
+
+        // Act
+        const result = convertNamesToTeamList([expectedTeamName], theMap);
+
+        // Assert
+        expect(result).not.toBeNull()
+        expect(result.length).toBe(1);
     });
 });
