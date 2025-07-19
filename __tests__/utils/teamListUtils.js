@@ -162,3 +162,13 @@ describe("getUniqueEliminationOrders", () => {
         expect(result).toContain(partialEliminationOrder);
     });
 });
+
+describe("convertNamesToTeamList", () => {
+    it("Should return an empty list if one is passed in", () => {
+        // Arrange, Act
+        const result = convertNamesToTeamList([], new Map());
+
+        // Assert
+        expect(result.length).toBe(0);
+    });
+});
