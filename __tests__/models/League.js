@@ -189,6 +189,13 @@ describe("addContestantRoundScores", () => {
 });
 
 describe("getNumberOfRounds", () => {
+
+    let exampleTeam0 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+    let exampleTeam1 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: false, eliminationOrder: 1});
+    let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: false, eliminationOrder: 2});
+    let exampleTeam3 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: false, eliminationOrder: 3});
+    let exampleTeamMax = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: Number.MAX_VALUE});
+
     it("should not ever return Number.MAX_VALUE", () => {
         //Arrange
         const teamList = [{eliminationOrder: 1}, {eliminationOrder:2}, {eliminationOrder: Number.MAX_VALUE}];
