@@ -121,7 +121,7 @@ describe("addContestantRoundScores", () => {
 
     let exampleTeam = new CompetingEntity({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
     let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-    let exampleTeam3 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
+    let exampleTeam3 = new CompetingEntity({teamName: "name3_1 & name3_2", isParticipating: true, eliminationOrder: 1});
 
     it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
         // Arrange
@@ -152,9 +152,10 @@ describe("addContestantRoundScores", () => {
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
         const expectedContestantName1 = "contestant1";
         const sut = new League(teamList);
+        const contestantTeamList = [exampleTeam.teamName, exampleTeam2.teamName, exampleTeam3.teamName];
 
         // Act
-        sut.addContestantRoundScores(teamList, expectedContestantName1);
+        sut.addContestantRoundScores(contestantTeamList, expectedContestantName1);
 
         // Assert
         expect(sut).not.toBeNull();
