@@ -174,9 +174,10 @@ describe("addContestantRoundScores", () => {
         const expectedContestantName1 = "contestant1";
         const expectedHandicap = -10;
         const sut = new League(teamList);
+        const contestantTeamList = [exampleTeam.teamName, exampleTeam2.teamName, exampleTeam3.teamName];
 
         // Act
-        sut.addContestantRoundScores(teamList, expectedContestantName1, expectedHandicap);
+        sut.addContestantRoundScores(contestantTeamList, expectedContestantName1, expectedHandicap);
 
         // Assert
         expect(sut).not.toBeNull();
