@@ -17,7 +17,7 @@ describe("generateContestantRoundScores", () => {
 
     it("Should throw an error when asking for more rounds then there are teams in the list", () => {
         // Arrange
-        const teamList  = [{name: "some team name"}];
+        const teamList  = [{teamName: "some team name"}];
         const contestantTeamList = []
         const sut = new League(teamList);
 
