@@ -191,4 +191,19 @@ describe("convertNamesToTeamList", () => {
         // Assert
         expect(act).toThrow();
     });
+
+    it("Should return a list with an entity in it (happy path)", () => {
+        // Arrange
+        const theMap = new Map();
+        const expectedTeamName =  "name1_1 & name1_2"
+        const expectedKey = CompetingEntity.getKey(expectedTeamName);
+        theMap.set(expectedKey, {teamName: expectedTeamName})
+
+        // Act
+        const result = convertNamesToTeamList([expectedTeamName], theMap);
+
+        // Assert
+        expect(result).not.toBeNull()
+        expect(result.length).toBe(1);
+    });
 });
