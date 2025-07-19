@@ -5,6 +5,7 @@ import CompetingEntity from "../models/CompetingEntity";
 import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
 import League from "../models/League";
+import { convertNamesToTeamList } from "../utils/teamListUtils";
 
 interface Dictionary<T> {
     [Key: string]: T;
