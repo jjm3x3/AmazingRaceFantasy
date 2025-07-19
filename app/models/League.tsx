@@ -11,10 +11,16 @@ export default class League {
     rounds: IRound[];
     teamData: CompetingEntity[];
     numberOfRounds: number;
+    teamMap: Map<string, CompetingEntity>;
 
     constructor(teamData: CompetingEntity[]) {
         this.rounds = [];
         this.teamData = teamData;
+        this.teamMap = teamData.reduce((acc: Map<string, CompetingEntity>, t: CompetingEntity) => {
+            acc.set(CompetingEntity.getKey(t.teamName), t);
+
+            return acc;
+        }, new Map());
 
         const seenOrders = getUniqueEliminationOrders(this.teamData);
 
