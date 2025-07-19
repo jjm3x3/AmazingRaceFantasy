@@ -121,5 +121,10 @@ export default class League {
 
         return result;
     }
+
+    getTeamList(contestantTeamsListNames: string[]): CompetingEntity[] {
+
+        return convertNamesToTeamList(contestantTeamsListNames, this.teamMap);
+    }
 } 
 
