@@ -6,10 +6,6 @@ import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
 import League from "../models/League";
 
-interface Dictionary<T> {
-    [Key: string]: T;
-}
-
 export default async function generateListOfContestantRoundLists(
     dataFetcher: () => Promise<ITableRowData[]>,
     listOfContestantLeagueData: IContestantData[],
