@@ -47,3 +47,14 @@ export function getUniqueEliminationOrders(teams: CompetingEntity[]): Set<number
     return seenOrders;
 }
 
+export function convertNamesToTeamList(teamNames: string[], teamDictionary: Map<string, CompetingEntity>): CompetingEntity[] {
+    return teamNames.map((x: string) => {
+        const teamKey = CompetingEntity.getKey(x);
+        const foundTeam = teamDictionary.get(teamKey);
+        if (foundTeam === undefined) {
+            throw new Error(`Missing leagueContestants selected show contestant '${x}' from league source data`);
+        }
+        return foundTeam;
+    });
+}
+
