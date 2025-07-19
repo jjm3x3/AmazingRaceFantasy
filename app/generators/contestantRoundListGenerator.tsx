@@ -44,14 +44,7 @@ export default async function generateListOfContestantRoundLists(
             teamMap.set(x, teamDictionary[x]);
         });
 
-        const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
-            const teamKey = CompetingEntity.getKey(x);
-            const foundTeam = teamDictionary[teamKey];
-            if (foundTeam === undefined) {
-                throw new Error(`Missing leagueContestants selected show contestant '${x}' from league source data`);
-            }
-            return foundTeam;
-        });
+        const currentSelectedContestantTeamsList = convertNamesToTeamList(contestant.ranking, teamMap);
 
         const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
 
