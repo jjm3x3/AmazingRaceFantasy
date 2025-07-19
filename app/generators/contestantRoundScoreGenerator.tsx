@@ -33,7 +33,7 @@ export async function generateContestantRoundScores(
             return foundTeam;
         });
 
-        result.addContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
+        result.addContestantRoundScores(contestant.ranking, contestant.name, contestant.handicap);
 
     });
 
