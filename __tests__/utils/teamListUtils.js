@@ -171,4 +171,12 @@ describe("convertNamesToTeamList", () => {
         // Assert
         expect(result.length).toBe(0);
     });
+
+    it("Should throw an error if there is no entity in the map matching the name in the teamName list", () => {
+        // Arrange, Act
+        const act  = () => convertNamesToTeamList(["some name"], new Map());
+
+        // Assert
+        expect(act).toThrow();
+    });
 });
