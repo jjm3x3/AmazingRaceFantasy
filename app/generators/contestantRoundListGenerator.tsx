@@ -21,12 +21,6 @@ export default async function generateListOfContestantRoundLists(
 
     const pageData = getCompetingEntityListFunction(wikiContestants);
 
-    const teamDictionary = pageData.reduce((acc: Dictionary<CompetingEntity>, t: CompetingEntity) => {
-        acc[CompetingEntity.getKey(t.teamName)] = t;
-
-        return acc;
-    }, {});
-
     const league = new League(pageData);
 
     const reverseTeamsList = [...pageData].reverse();
