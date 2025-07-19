@@ -38,6 +38,9 @@ export default async function generateListOfContestantRoundLists(
         const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
             const teamKey = CompetingEntity.getKey(x);
             const foundTeam = teamDictionary[teamKey];
+            if (foundTeam === undefined) {
+                throw new Error(`Missing leagueContestants selected show contestant '${x}' from league source data`);
+            }
             return foundTeam;
         });
 
