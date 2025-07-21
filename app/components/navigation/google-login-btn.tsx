@@ -1,6 +1,7 @@
 "use client"
 import Script from "next/script";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import { SessionContext } from "@/app/contexts/session";
 
 interface GoogleLogin {
     credential: string,
@@ -12,7 +13,7 @@ export default function GoogleLoginButton(){
     const handleScriptLoad = () => {
         setScriptLoaded(true);
     };
-
+    const { setIsLoggedIn } = useContext(SessionContext);
     const googleLoginRef = useRef(null);
 
     useEffect(()=> {
@@ -46,6 +47,7 @@ export default function GoogleLoginButton(){
 
     async function handleLogin(response: Response) {
         const data = await response.json();
+        setIsLoggedIn(true);
         console.log(data);
     }
 

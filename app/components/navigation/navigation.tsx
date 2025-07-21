@@ -5,6 +5,8 @@ import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
 import NavigationItem from "./navigation-item";
 import GoogleLoginButton from "./google-login-btn";
+import { useContext } from "react";
+import { SessionContext } from "@/app/contexts/session";
 
 export default function Navigation({ pages }: {
     pages: IPage[]
@@ -27,6 +29,7 @@ export default function Navigation({ pages }: {
         testId: "navigation-menu",
         classes: ""
     };
+    const { isLoggedIn } = useContext(SessionContext);
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
         <NavigationItem inputAttr={rootNavInputAttr} 
@@ -65,7 +68,7 @@ export default function Navigation({ pages }: {
                             })} />
                     </li>);
                 })}
-                <li className={styles["top-level-link"]} key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
+                { isLoggedIn === false && <li className={styles["top-level-link"]} key={"nav-toplevellink-login"}><GoogleLoginButton/></li> }
                 </>} />
     </nav>);
 }
