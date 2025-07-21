@@ -69,7 +69,6 @@ describe("POST", () => {
         };
         const LoginResponse = await POST(requestMock);
         const body = await LoginResponse.json();
-        console.log(body);
         expect(verifyIdTokenMock).toHaveBeenCalledWith({
             idToken: testRequestPayload.token,
             audience: clientId
