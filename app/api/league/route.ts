@@ -62,6 +62,10 @@ export async function POST(request: NextRequest) {
     }
 
     // insert into db
+    const leagueConfigKey = "";
+    const leagueConfig = {};
+
+    await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
 
     // return
     return NextResponse.json({"message": "posted"});
