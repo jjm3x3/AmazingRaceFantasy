@@ -29,14 +29,14 @@ const pages = [
 
 describe("Session", ()=> {
     it("should show the login button if there is no session cookie", ()=> {
-        const { getByTestId } = render(<SessionProvider sessionCookie={false}>
+        const { getByTestId } = render(<SessionProvider hasSessionCookie={false}>
             <Navigation pages={pages}/>
         </SessionProvider>);
         expect(getByTestId("google-login-btn")).toBeTruthy();
     });
-    
+
     it("should hide the login button if there is a session cookie", ()=> {
-        const { queryByTestId } = render(<SessionProvider sessionCookie={true}>
+        const { queryByTestId } = render(<SessionProvider hasSessionCookie={true}>
             <Navigation pages={pages}/>
         </SessionProvider>);
         expect(queryByTestId("google-login-btn")).toBeFalsy();
