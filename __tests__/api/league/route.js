@@ -411,5 +411,6 @@ describe("POST (unit tests)", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
         expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
     })
 });
