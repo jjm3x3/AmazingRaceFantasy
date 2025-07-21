@@ -7,18 +7,18 @@ const encodedKey = new TextEncoder().encode(sessionSecretKey);
 
 export async function encrypt({ 
     envelope, 
-    userId, 
+    sub, 
     exp 
 }:{ 
     envelope: JWTPayload, 
-    userId: string, 
+    sub: string, 
     exp: number 
 }) {
     if(sessionSecretKey !== undefined){
         return new SignJWT(envelope)
             .setProtectedHeader({ alg: "HS256" })
             .setIssuedAt()
-            .setSubject(userId)
+            .setSubject(sub)
             .setExpirationTime(exp)
             .sign(encodedKey)
     } else {
