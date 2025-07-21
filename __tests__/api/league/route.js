@@ -50,6 +50,10 @@ beforeEach(() => {
     };
 });
 
+afterEach(() => {
+    jest.clearAllMocks();
+});
+
 describe("POST (unit tests)", () => {
     it("should return a 403 when auth token does not have exact right userId claim", async () => {
         // Arrange
