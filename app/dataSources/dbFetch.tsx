@@ -76,7 +76,7 @@ export async function getLeagueConfigurationKeys(): Promise<string[]> {
     }
 }
 
-export async function writeLeagueConfigurationData(leagueConfigurationKey: string, leagueConfiguration: ILeagueConfiguration): void {
+export async function writeLeagueConfigurationData(leagueConfigurationKey: string, leagueConfiguration: ILeagueConfigurationData): Promise<void> {
 
     if (leagueConfigurationKey === undefined) {
         throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value\"");
