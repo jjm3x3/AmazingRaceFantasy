@@ -3,7 +3,9 @@
  */
 
 jest.mock("google-auth-library");
+jest.mock("../../../app/dataSources/dbFetch");
 import { OAuth2Client } from "google-auth-library";
+import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { POST } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
@@ -23,6 +25,10 @@ OAuth2Client.mockImplementation(() => {
     return {
         verifyIdToken: verifyIdTokenMock
     }
+});
+
+writeLeagueConfigurationData.mockImplementation(() => {
+    return () => { }
 });
 
 beforeEach(() => {
