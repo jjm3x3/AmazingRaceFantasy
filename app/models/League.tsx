@@ -1,7 +1,7 @@
 import IRound from "./IRound";
 import IContestantRoundData from "./IContestantRoundData";
 import CompetingEntity from "./CompetingEntity";
-import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders } from "../utils/teamListUtils";
+import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders, convertNamesToTeamList } from "../utils/teamListUtils";
 
 interface RoundEliminationCountMapping {
     [key: number]: number;
@@ -11,10 +11,16 @@ export default class League {
     rounds: IRound[];
     teamData: CompetingEntity[];
     numberOfRounds: number;
+    teamMap: Map<string, CompetingEntity>;
 
     constructor(teamData: CompetingEntity[]) {
         this.rounds = [];
         this.teamData = teamData;
+        this.teamMap = teamData.reduce((acc: Map<string, CompetingEntity>, t: CompetingEntity) => {
+            acc.set(CompetingEntity.getKey(t.teamName), t);
+
+            return acc;
+        }, new Map());
 
         const seenOrders = getUniqueEliminationOrders(this.teamData);
 
@@ -45,7 +51,9 @@ export default class League {
         }
     }
 
-    addContestantRoundScores(contestantTeamsList: CompetingEntity[], contestantName: string, handicap: number): void {
+    addContestantRoundScores(contestantTeamsListNames: string[], contestantName: string, handicap: number): void {
+
+        const contestantTeamsList = this.getTeamList(contestantTeamsListNames);
 
         this.calculateContestantRoundScores(
             contestantTeamsList,
@@ -114,6 +122,11 @@ export default class League {
         );
 
         return result;
+    }
+
+    getTeamList(contestantTeamsListNames: string[]): CompetingEntity[] {
+
+        return convertNamesToTeamList(contestantTeamsListNames, this.teamMap);
     }
 } 
 
