@@ -3,7 +3,9 @@
  */
 
 jest.mock("google-auth-library");
+jest.mock("../../../app/dataSources/dbFetch");
 import { OAuth2Client } from "google-auth-library";
+import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { POST } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
@@ -25,6 +27,10 @@ OAuth2Client.mockImplementation(() => {
     }
 });
 
+writeLeagueConfigurationData.mockImplementation(() => {
+    return () => { }
+});
+
 beforeEach(() => {
     testAuthData = {
         sub: "108251633753098119380",
@@ -42,6 +48,10 @@ beforeEach(() => {
         contestantType: "team",
         leagueKey: "some_show_name:and_season_1"
     };
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
 });
 
 describe("POST (unit tests)", () => {
@@ -388,5 +398,233 @@ describe("POST (unit tests)", () => {
         const rawBody = await response.body.getReader().read()
         const bodyString = new TextDecoder().decode(rawBody.value)
         expect(bodyString).toContain("leagueKey");
+    });
+
+    it("should call writeLeagueConfigurationData with expected key", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
+            expect.anything());
+    })
+
+    it("should call writeLeagueConfigurationData with a config with a wikiPageUrl", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "wikiPageUrl": `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a wikiApiUrl", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "wikiApiUrl": `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`,
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a googleSheetUrl", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "googleSheetUrl": happyPathRequest.googleSheetUrl,
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a leageStatus", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "leagueStatus": happyPathRequest.leagueStatus,
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a castPhrase", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "castPhrase": happyPathRequest.wikiSectionHeader,
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a preGoogleSheetsLinkText", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "preGoogleSheetsLinkText": expect.anything(),
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a postGoogleSheetsLinkText", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "postGoogleSheetsLinkText": expect.anything(),
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a competingEntityName", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "competitingEntityName": happyPathRequest.contestantType,
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a contestantLeagueDataKeyPrefix", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "contestantLeagueDataKeyPrefix": `${happyPathRequest.leagueKey}:*`
+            }));
     });
 });

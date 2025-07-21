@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import * as z from "zod/v4";
+import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 
 const unauthenticatedErrorMessage = "you are not authenticated with this service";
 const validLeagueStatuses = ["active","archive"];
@@ -61,6 +62,20 @@ export async function POST(request: NextRequest) {
     }
 
     // insert into db
+    const leagueConfigKey = `league_configuration:${body.leagueStatus}:${body.leagueKey}`;
+    const leagueConfig = {
+        wikiPageUrl: `https://en.wikipedia.org/wiki/${body.wikiPageName}`,
+        wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${body.wikiPageName}`,
+        googleSheetUrl: body.googleSheetUrl,
+        leagueStatus: body.leagueStatus,
+        castPhrase: body.wikiSectionHeader,
+        preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
+        postGoogleSheetsLinkText: "which was populated using a google form.",
+        competitingEntityName: body.contestantType,
+        contestantLeagueDataKeyPrefix: `${body.leagueKey}:*`
+    };
+
+    await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
 
     // return
     return NextResponse.json({"message": "posted"});
