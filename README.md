@@ -20,6 +20,10 @@ This app requires setting a local environment variable. Here's how to set up thi
 1. Set this variable equal to the value you generated in step 1.
 1. Stop and start your app.
 
+1. In your `.env.development.local`, create a variable named `SESSION_SECRET`
+1. Set this variable equal to the value you generated in step 1.
+1. Stop and start your app.
+
 ### Commands
 <a name="commands"></a>
 - `npm run dev`: Runs the development server. The development URL is [http://localhost:3000](http://localhost:3000).
