@@ -11,10 +11,11 @@ export default async function Template({
 }) {
     const pages = await getPages();
     const cookieStore = await cookies()
-    const sessionCookie = cookieStore.get("session")
+    const sessionCookie = cookieStore.get("session");
+    const hasSessionCookie = !!sessionCookie;
     return (
         <>
-            <SessionProvider sessionCookie={sessionCookie}>
+            <SessionProvider hasSessionCookie={hasSessionCookie}>
                 <header>
                     <p>
                         <a href="/" title="Link that takes user to homepage. " className="page-title">X Factor Fantasy</a>

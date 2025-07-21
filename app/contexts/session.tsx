@@ -7,8 +7,8 @@ export const SessionContext = createContext<Session>({
     setIsLoggedIn: (isLoggedIn)=> { return !isLoggedIn }
 });
 
-export const SessionProvider = ({ sessionCookie, children }:{ sessionCookie: string | null, children: React.ReactNode })=> {
-    const [isLoggedIn, setIsLoggedIn] = useState(!!sessionCookie);
+export const SessionProvider = ({ hasSessionCookie, children }:{ hasSessionCookie: boolean, children: React.ReactNode })=> {
+    const [isLoggedIn, setIsLoggedIn] = useState(hasSessionCookie);
     return (
         <SessionContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
             {children}
