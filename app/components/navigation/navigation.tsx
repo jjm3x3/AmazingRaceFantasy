@@ -68,7 +68,7 @@ export default function Navigation({ pages }: {
                             })} />
                     </li>);
                 })}
-                { isLoggedIn === false && <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton/></li> }
+                { !isLoggedIn && <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton/></li> }
                 </>} />
     </nav>);
 }
