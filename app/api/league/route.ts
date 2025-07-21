@@ -63,7 +63,9 @@ export async function POST(request: NextRequest) {
 
     // insert into db
     const leagueConfigKey = `league_configuration:${body.leagueStatus}:${body.leagueKey}`;
-    const leagueConfig = {};
+    const leagueConfig = {
+        wikiPageUrl: `https://en.wikipedia.org/wiki/${body.wikiPageName}`,
+    };
 
     await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
 
