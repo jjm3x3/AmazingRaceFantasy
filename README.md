@@ -14,6 +14,12 @@ We have two key phrases that we use throughout the app:
 1. **Competing Entity**: This is used for any competitor (individual or teams) in a show
 2. **Contestant**: This is used for any competitor in a league
 
+This app requires setting a local environment variable. Here's how to set up this variable: 
+1. Generate a local secret key. One way to do this is to run `openssl rand -base64 32`
+2. In your `.env.development.local`, create a variable named `SESSION_SECRET`
+3. Set this variable equal to the value you generated in step 1.
+4. Stop and start your app.
+
 ### Commands
 <a name="commands"></a>
 - `npm run dev`: Runs the development server. The development URL is [http://localhost:3000](http://localhost:3000).
