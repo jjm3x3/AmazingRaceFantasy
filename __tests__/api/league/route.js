@@ -420,4 +420,27 @@ describe("POST (unit tests)", () => {
             `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
             expect.anything());
     })
+
+    it("should call writeLeagueConfigurationData with a config with a wikiPageUrl", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "wikiPageUrl": `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`
+            }));
+    });
 });
