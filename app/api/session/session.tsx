@@ -17,9 +17,26 @@ export async function encrypt({ envelope, exp }:{ envelope: JWTPayload, exp: num
     }
 }
 
-export async function createSession({ response, envelope, exp }:{ response: NextResponse, envelope: JWTPayload, exp: number }) {
+export async function createSession({ 
+    response, 
+    envelope, 
+    exp,
+    userId 
+}:{ 
+    response: NextResponse, 
+    envelope: JWTPayload, 
+    exp: number,
+    userId: string
+}) {
     const session = await encrypt({ envelope, exp });
     response.cookies.set("session", session, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: exp
+    });
+    response.cookies.set("userId", userId, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",

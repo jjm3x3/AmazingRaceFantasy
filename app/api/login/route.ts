@@ -28,7 +28,12 @@ export async function POST(request: NextRequest) {
         }
 
         const response = NextResponse.json(userObj);
-        await createSession({response, envelope: body.envelope, exp: payload.exp});
+        await createSession({
+            envelope: body.envelope, 
+            exp: payload.exp, 
+            userId: googleUserId,
+            response
+        });
         
         return response;
     }
