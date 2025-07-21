@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
         wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${body.wikiPageName}`,
         googleSheetUrl: body.googleSheetUrl,
         leagueStatus: body.leagueStatus,
+        castPhrase: body.wikiSectionHeader,
     };
 
     await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
