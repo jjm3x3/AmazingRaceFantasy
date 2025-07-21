@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
         await createSession({
             envelope: body.envelope, 
             exp: payload.exp, 
-            userId: googleUserId,
+            sub: googleUserId,
             response
         });
         

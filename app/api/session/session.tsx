@@ -30,14 +30,14 @@ export async function createSession({
     response, 
     envelope, 
     exp,
-    userId 
+    sub
 }:{ 
     response: NextResponse, 
     envelope: JWTPayload, 
     exp: number,
-    userId: string
+    sub: string
 }) {
-    const session = await encrypt({ envelope, userId, exp });
+    const session = await encrypt({ envelope, sub, exp });
     response.cookies.set("session", session, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
