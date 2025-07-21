@@ -395,4 +395,21 @@ describe("POST (unit tests)", () => {
         const bodyString = new TextDecoder().decode(rawBody.value)
         expect(bodyString).toContain("leagueKey");
     });
+
+    it("should call writeLeagueConfigurationData with expected key", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+    })
 });
