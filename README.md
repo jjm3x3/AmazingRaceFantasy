@@ -4,15 +4,25 @@ X Factor League provides a space to create fantasy leagues for reality game show
 
 ## Table of Contents
 1.[Getting Started](#getting-started)
-2.[Commands](#commands)
-3.[Seeding the Database](#seeding-db)
+1.[Commands](#commands)
+1.[Seeding the Database](#seeding-db)
 
 ## Getting Started
 <a name="getting-started"></a>
 
 We have two key phrases that we use throughout the app:
 1. **Competing Entity**: This is used for any competitor (individual or teams) in a show
-2. **Contestant**: This is used for any competitor in a league
+1. **Contestant**: This is used for any competitor in a league
+
+This app requires setting a local environment variable. Here's how to set up this variable: 
+1. Generate a local secret key. One way to do this is to run `openssl rand -base64 32`
+1. In your `.env.development.local`, create a variable named `SESSION_SECRET`
+1. Set this variable equal to the value you generated in step 1.
+1. Stop and start your app.
+
+1. In your `.env.development.local`, create a variable named `SESSION_SECRET`
+1. Set this variable equal to the value you generated in step 1.
+1. Stop and start your app.
 
 ### Commands
 <a name="commands"></a>
@@ -39,4 +49,4 @@ Since we do not have authentication or authorization on the site for now, all da
         - Get in touch with [@jjm3x3](https://github.com/jjm3x3) in order to arrange some credential exchange
 1. Run either `seed:dev` or `seed:prod` depending which you need. 
     1. These have different credentials. Make sure you have the appropriate ones.
-    2. Make sure you seed prod before you deploy updated code to prod.
+    1. Make sure you seed prod before you deploy updated code to prod.

@@ -6,12 +6,11 @@ import "./styles/homepage.scss";
 
 export default async function Home() {
     const pages = await getPages();
-
     return (
         <>
             <div className="site-notice">
                 <p>
-                    The league for The Amazing Race 37 is already underway. Stay tuned to see how you fair. If you would still like to join this or future leagues, feel free to email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>.
+                    Submissions for the Big Brother 27 league are out now. If you would like to participate and did not get one, email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>. If you have already submitted,give us some time to process it. If you still don't see it, message us.
                 </p>
             </div>
             {pages.map((p: IPage) => { 
