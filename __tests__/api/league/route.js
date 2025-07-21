@@ -535,4 +535,27 @@ describe("POST (unit tests)", () => {
                 "castPhrase": happyPathRequest.wikiSectionHeader,
             }));
     });
+
+    it("should call writeLeagueConfigurationData with a config with a preGoogleSheetsLinkText", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "preGoogleSheetsLinkText": expect.anything(),
+            }));
+    });
 });
