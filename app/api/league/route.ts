@@ -66,6 +66,7 @@ export async function POST(request: NextRequest) {
     const leagueConfig = {
         wikiPageUrl: `https://en.wikipedia.org/wiki/${body.wikiPageName}`,
         wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${body.wikiPageName}`,
+        googleSheetUrl: body.googleSheetUrl,
     };
 
     await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
