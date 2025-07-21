@@ -6,7 +6,7 @@ const sessionSecretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(sessionSecretKey);
 
 export async function encrypt({ envelope, exp }:{ envelope: JWTPayload, exp: number }) {
-    if(encodedKey){
+    if(sessionSecretKey !== undefined){
         return new SignJWT(envelope)
             .setProtectedHeader({ alg: "HS256" })
             .setIssuedAt()
