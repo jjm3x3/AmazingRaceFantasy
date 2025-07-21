@@ -466,4 +466,27 @@ describe("POST (unit tests)", () => {
                 "wikiApiUrl": `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`,
             }));
     });
+
+    it("should call writeLeagueConfigurationData with a config with a googleSheetUrl", async () => {
+        // Arrange
+        const request = {
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "googleSheetUrl": happyPathRequest.googleSheetUrl,
+            }));
+    });
 });
