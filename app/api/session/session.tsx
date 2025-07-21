@@ -5,11 +5,20 @@ import { NextResponse } from "next/server";
 const sessionSecretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(sessionSecretKey);
 
-export async function encrypt({ envelope, exp }:{ envelope: JWTPayload, exp: number }) {
+export async function encrypt({ 
+    envelope, 
+    userId, 
+    exp 
+}:{ 
+    envelope: JWTPayload, 
+    userId: string, 
+    exp: number 
+}) {
     if(sessionSecretKey !== undefined){
         return new SignJWT(envelope)
             .setProtectedHeader({ alg: "HS256" })
             .setIssuedAt()
+            .setSubject(userId)
             .setExpirationTime(exp)
             .sign(encodedKey)
     } else {
@@ -28,15 +37,8 @@ export async function createSession({
     exp: number,
     userId: string
 }) {
-    const session = await encrypt({ envelope, exp });
+    const session = await encrypt({ envelope, userId, exp });
     response.cookies.set("session", session, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/",
-        maxAge: exp
-    });
-    response.cookies.set("userId", userId, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
