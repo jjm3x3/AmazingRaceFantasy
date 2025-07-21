@@ -71,6 +71,7 @@ export async function POST(request: NextRequest) {
         castPhrase: body.wikiSectionHeader,
         preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
         postGoogleSheetsLinkText: "which was populated using a google form.",
+        competitingEntityName: body.contestantType,
     };
 
     await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
