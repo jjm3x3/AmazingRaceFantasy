@@ -7,7 +7,7 @@ export default function NavigationItem({ inputAttr, labelAttr, listAttr, childEl
     const { isLoggedIn } = useContext(SessionContext);
     useEffect(()=> {
         if(isLoggedIn){
-            setIsHidden(!isHidden);
+            setIsHidden(true);
         }
     }, [isLoggedIn]);
     return (<>
