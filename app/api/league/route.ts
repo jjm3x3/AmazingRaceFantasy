@@ -72,6 +72,7 @@ export async function POST(request: NextRequest) {
         preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
         postGoogleSheetsLinkText: "which was populated using a google form.",
         competitingEntityName: body.contestantType,
+        contestantLeagueDataKeyPrefix: `${body.leagueKey}:*`
     };
 
     await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
