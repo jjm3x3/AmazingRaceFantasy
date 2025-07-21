@@ -416,6 +416,8 @@ describe("POST (unit tests)", () => {
         expect(response.status).toEqual(200);
         expect(request.json).toHaveBeenCalledTimes(1);
         expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
-        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(`league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`, expect.anything());
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
+            expect.anything());
     })
 });
