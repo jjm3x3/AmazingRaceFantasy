@@ -22,7 +22,7 @@ const CONTESTANT_LEAGUE_DATA = [
         ranking: [ "Morgan Pope", "Katherine Woodman", "Kelley Jorgensen", "Zach Cornell", "Keanu Soto", "Lauren Domingue", "Rylie Jeffries", "Rachel Reilly", "Ava Pearl", "Mickey Lee", "Jimmy Heagerty", "Clifton \"Will\" Williams", "Vince Panaro", "Isaiah \"Zae\" Frederich", "Adrian Rocha", "Ashley Hollis", "Amy Bingham" ]
     },
     {
-        name: "Susannah",
+        name: "Suzzzzzzz",
         userId: "89E9072C-3A9B-4360-AAD9-9331B8449BF3",
         ranking: [ ]
     }
