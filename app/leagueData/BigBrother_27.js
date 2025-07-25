@@ -15,6 +15,16 @@ const CONTESTANT_LEAGUE_DATA = [
         name: "Sam",
         userId: "CD9F9A71-FF9C-416A-8D0D-C268A13B021F",
         ranking: [ "Katherine Woodman", "Mickey Lee", "Ava Pearl", "Morgan Pope", "Adrian Rocha", "Amy Bingham", "Rylie Jeffries", "Lauren Domingue", "Zach Cornell", "Keanu Soto", "Kelley Jorgensen", "Vince Panaro", "Rachel Reilly", "Cliffton \"Will\" Williams", "Ashley Hollis", "Jimmy Heagerty", "Isaiah \"Zae\" Frederich" ]
+    },
+    {
+        name: "Sean",
+        userId: "EABAE0D9-0AD0-4F2F-97E3-DF22212A375F",
+        ranking: [ ]
+    },
+    {
+        name: "Susannah",
+        userId: "89E9072C-3A9B-4360-AAD9-9331B8449BF3",
+        ranking: [ ]
     }
 ];
 
