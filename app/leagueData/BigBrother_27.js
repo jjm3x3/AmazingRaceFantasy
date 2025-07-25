@@ -19,12 +19,12 @@ const CONTESTANT_LEAGUE_DATA = [
     {
         name: "Sean",
         userId: "EABAE0D9-0AD0-4F2F-97E3-DF22212A375F",
-        ranking: [ "Morgan Pope", "Katherine Woodman", "Kelley Jorgensen", "Zach Cornell", "Keanu Soto", "Lauren Domingue", "Rylie Jeffries", "Rachel Reilly", "Ava Pearl", "Mickey Lee", "Jimmy Heagerty", "Clifton \"Will\" Williams", "Vince Panaro", "Isaiah \"Zae\" Frederich", "Adrian Rocha", "Ashley Hollis", "Amy Bingham" ]
+        ranking: [ "Morgan Pope", "Katherine Woodman", "Kelley Jorgensen", "Zach Cornell", "Keanu Soto", "Lauren Domingue", "Rylie Jeffries", "Rachel Reilly", "Ava Pearl", "Mickey Lee", "Jimmy Heagerty", "Cliffton \"Will\" Williams", "Vince Panaro", "Isaiah \"Zae\" Frederich", "Adrian Rocha", "Ashley Hollis", "Amy Bingham" ]
     },
     {
         name: "Suzzzzzzz",
         userId: "89E9072C-3A9B-4360-AAD9-9331B8449BF3",
-        ranking: [ "Rylie Jeffries", "Ava Pearl", "Katherine Woodman", "Morgan Pope", "Lauren Domingue", "Mickey Lee", "Keanu Soto", "Clifton \"Will\" Williams", "Kelley Jorgensen", "Vince Panaro", "Adrian Rocha", "Zach Cornell", "Rachel Reilly", "Ashley Hollis", "Jimmy Heagerty", "Isaiah \"Zae\" Frederich", "Amy Bingham" ]
+        ranking: [ "Rylie Jeffries", "Ava Pearl", "Katherine Woodman", "Morgan Pope", "Lauren Domingue", "Mickey Lee", "Keanu Soto", "Cliffton \"Will\" Williams", "Kelley Jorgensen", "Vince Panaro", "Adrian Rocha", "Zach Cornell", "Rachel Reilly", "Ashley Hollis", "Jimmy Heagerty", "Isaiah \"Zae\" Frederich", "Amy Bingham" ]
     }
 ];
 
