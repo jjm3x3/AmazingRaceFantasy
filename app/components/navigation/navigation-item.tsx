@@ -5,15 +5,15 @@ export default function NavigationItem({
     inputAttr, 
     labelAttr, 
     listAttr, 
-    childElements, 
-    isLoggedIn 
+    childElements,
+    isExpanded
 }: INavigationItem) {
     const [isHidden, setIsHidden] = useState(true);
     useEffect(()=> {
-        if(isLoggedIn){
+        if(isExpanded){
             setIsHidden(true);
         }
-    }, [isLoggedIn]);
+    }, [isExpanded]);
     return (<>
         <input 
             id={inputAttr.id}
