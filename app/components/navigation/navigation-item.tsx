@@ -8,10 +8,10 @@ export default function NavigationItem({
     childElements,
     isExpanded
 }: INavigationItem) {
-    const [isHidden, setIsHidden] = useState(true);
+    const [isCollapsed, setIsCollapsed] = useState(true);
     useEffect(()=> {
         if(isExpanded){
-            setIsHidden(true);
+            setIsCollapsed(true);
         }
     }, [isExpanded]);
     return (<>
@@ -19,8 +19,8 @@ export default function NavigationItem({
             id={inputAttr.id}
             className={inputAttr.classes}
             type="checkbox"
-            checked={!isHidden}
-            onChange={()=> setIsHidden(!isHidden)}
+            checked={!isCollapsed}
+            onChange={()=> setIsCollapsed(!isCollapsed)}
         />
         <label 
             htmlFor={inputAttr.id}
@@ -31,7 +31,7 @@ export default function NavigationItem({
         <ul className={listAttr?.classes}  
             id={listAttr?.id}
             data-testid={listAttr?.testId}
-            aria-hidden={isHidden} 
-            hidden={isHidden}>{childElements}</ul>
+            aria-hidden={isCollapsed} 
+            hidden={isCollapsed}>{childElements}</ul>
     </>);
 }
