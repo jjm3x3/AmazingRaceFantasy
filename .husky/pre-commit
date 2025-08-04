@@ -1,1 +1,1 @@
-./node_modules/.bin/eslint -c 'eslint.config.mjs' --fix $(git diff --name-only HEAD | xargs)
+./node_modules/.bin/eslint -c 'eslint.config.mjs' --fix $(git diff --diff-filter=M --name-only HEAD | xargs)
