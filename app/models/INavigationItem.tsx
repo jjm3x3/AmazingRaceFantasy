@@ -28,5 +28,5 @@ export default interface INavigationItem{
     labelAttr: ILabelAttribute
     listAttr: IListAttribute
     childElements: ReactNode | ReactNode[],
-    isExpanded: boolean
+    navigationClose: boolean
 };
