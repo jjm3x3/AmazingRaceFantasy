@@ -35,6 +35,7 @@ export default function Navigation({ pages }: {
         <NavigationItem inputAttr={rootNavInputAttr} 
             labelAttr={rootNavLabelAttr} 
             listAttr={rootNavListAttr} 
+            isLoggedIn={isLoggedIn}
             childElements={
                 <>{pages.map((page: IPage) => {
                     const keyName = page.name.toLowerCase().replaceAll(" ", "-");
@@ -60,6 +61,7 @@ export default function Navigation({ pages }: {
                         <NavigationItem inputAttr={subpageInputAttr} 
                             labelAttr={subpageLabelAttr} 
                             listAttr={subpageListAttr} 
+                            isLoggedIn={isLoggedIn}
                             childElements={page.subpages.map((subpage: ISubpage) => {
                                 const subpageKeyName = subpage.name.toLowerCase().replaceAll(" ", "-");
                                 return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>

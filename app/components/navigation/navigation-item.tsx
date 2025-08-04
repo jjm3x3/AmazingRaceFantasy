@@ -1,10 +1,8 @@
 
-import { useState, useEffect, useContext } from "react";
-import { SessionContext } from "@/app/contexts/session";
+import { useState, useEffect } from "react";
 import INavigationItem from "@/app/models/INavigationItem";
-export default function NavigationItem({ inputAttr, labelAttr, listAttr, childElements }: INavigationItem) {
+export default function NavigationItem({ inputAttr, labelAttr, listAttr, childElements, isLoggedIn }: INavigationItem) {
     const [isHidden, setIsHidden] = useState(true);
-    const { isLoggedIn } = useContext(SessionContext);
     useEffect(()=> {
         if(isLoggedIn){
             setIsHidden(true);
