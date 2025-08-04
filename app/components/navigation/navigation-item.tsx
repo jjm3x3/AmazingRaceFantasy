@@ -1,7 +1,13 @@
 
 import { useState, useEffect } from "react";
 import INavigationItem from "@/app/models/INavigationItem";
-export default function NavigationItem({ inputAttr, labelAttr, listAttr, childElements, isLoggedIn }: INavigationItem) {
+export default function NavigationItem({ 
+    inputAttr, 
+    labelAttr, 
+    listAttr, 
+    childElements, 
+    isLoggedIn 
+}: INavigationItem) {
     const [isHidden, setIsHidden] = useState(true);
     useEffect(()=> {
         if(isLoggedIn){
