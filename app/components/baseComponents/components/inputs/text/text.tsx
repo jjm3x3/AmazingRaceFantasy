@@ -4,18 +4,15 @@ export default function TextInput({
     label,
     placeholder,
     isRequired=false,
-    inputType="text",
+    validationPattern="^[a-zA-Z_0-9]+$",
     id
 }:{
     label: string,
     placeholder: string,
     isRequired: boolean,
-    inputType: string,
+    validationPattern?: string,
     id: string
 }){
-    const textValidationPattern = "^[A-Za-z0-9 ]+$";
-    const numberValidationPattern = "^[0-9]$"
-    const validationPattern = inputType === "number" ? numberValidationPattern : textValidationPattern;
     return (
         <div className={`flex-auto ${styles.inputContainer}`}>
             <label htmlFor={id} className={styles.label}>{label}</label>
