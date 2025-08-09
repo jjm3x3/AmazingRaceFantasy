@@ -15,9 +15,8 @@ export default function TextInput({
     id: string
 }){
     const [validity, setValidity] = useState(true);
-    const validationPatternAsRegexp = new RegExp(validationPattern);
     const inputHandler = (event: KeyboardEvent<HTMLInputElement>)=> {
-        const inputValidity =  validationPatternAsRegexp.test(event.currentTarget.value);
+        const inputValidity = event.currentTarget.checkValidity();
         if(event.currentTarget.value.length === 0){
             setValidity(true);
         } else {
