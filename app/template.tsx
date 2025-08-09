@@ -1,5 +1,5 @@
 import "./globals.scss";
-import { getPages } from "@/app/utils/pages";
+import { getShowPages } from "@/app/utils/pages";
 import Navigation from "./components/navigation/navigation";
 import { SessionProvider } from "./contexts/session";
 import { cookies } from "next/headers";
@@ -9,7 +9,7 @@ export default async function Template({
 }: {
   children: React.ReactNode
 }) {
-    const pages = await getPages();
+    const pages = await getShowPages();
     const cookieStore = await cookies()
     const sessionCookie = cookieStore.get("session");
     const hasSessionCookie = !!sessionCookie;
