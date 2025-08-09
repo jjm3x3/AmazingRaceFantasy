@@ -58,4 +58,25 @@ describe("POST", () => {
         expect(LogoutResponse.headers).not.toBeNull();
         expect(LogoutResponse.headers.get("location")).not.toBeNull();
     });
+
+    it("should return a set-cookie header for a session cookie with max-age: 0", async () => {
+
+        // Arrange
+        const requestMock = {
+            url: "http://localhost:3000/api/logout",
+            cookies: {
+                get: () => "a session cookie"
+            }
+        };
+
+        // Act
+        const LogoutResponse = await POST(requestMock);
+
+        // Assert
+        expect(LogoutResponse).not.toBeNull();
+        expect(LogoutResponse.cookies).not.toBeNull();
+        expect(LogoutResponse.cookies.get("session")).not.toBeUndefined();
+        expect(LogoutResponse.cookies.get("session").maxAge).not.toBeUndefined();
+        expect(LogoutResponse.cookies.get("session").maxAge).toBe(0);
+    });
 });
