@@ -10,9 +10,7 @@ export default function NavigationItem({
 }: INavigationItem) {
     const [isExpanded, setIsExpanded] = useState(false);
     useEffect(()=> {
-        if(navigationClose){
-            setIsExpanded(false);
-        }
+        setIsExpanded(false);
     }, [navigationClose]);
     return (<>
         <input 
