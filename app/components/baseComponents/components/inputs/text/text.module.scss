@@ -19,4 +19,19 @@
     border: 1px solid colors.$borderGray;
     border-radius: 5px;
     padding: 0.3rem 0.5rem;
+    &.error {
+        border-color: colors.$errorRed;
+        &:focus {
+            outline-color: colors.$errorRed;
+        }
+    }
+}
+
+.error {
+    color: colors.$errorRed
+}
+
+.errorMsg {
+    font-size: 0.85rem;
+    font-weight: 600;
 }
