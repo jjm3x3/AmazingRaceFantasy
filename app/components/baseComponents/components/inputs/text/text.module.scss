@@ -1,0 +1,22 @@
+@use '../../../styles/colors' as colors;
+
+.inputContainer {
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin: 0 0 0.2rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+    width: 13rem;
+}
+
+.input {
+    border: 1px solid colors.$borderGray;
+    border-radius: 5px;
+    padding: 0.3rem 0.5rem;
+}
