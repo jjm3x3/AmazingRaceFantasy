@@ -9,7 +9,11 @@ export default function LogoutButton(){
         fetch("/api/logout", {
             method: "POST"
         }).then((resp) => {
-            console.log(resp);
+            if (resp.status === 205) {
+                setIsLoggedIn(false);
+            } else {
+                console.warn(`Unexpected status code back from /api/logout: '${resp.status}'`);
+            }
         });
     }
 
