@@ -21,8 +21,8 @@ export default function LeagueConfigurationForm(){
                 id="seasonNumber"
             />
             <TextInput
-                label="Wikipedia Page Url"
-                placeholder="example: https://wikipedia.org/big_brother"
+                label="Wikipedia Page Name"
+                placeholder="example: big_brother"
                 isRequired={true}
                 inputType="text"
                 id="wikiPageUrl"
@@ -35,18 +35,18 @@ export default function LeagueConfigurationForm(){
                 id="googleSheetsPageUrl"
             />
             <TextInput
-                label="Cast Phrase"
+                label="Wiki Section Header"
                 placeholder="example: HouseGuests"
                 isRequired={true}
                 inputType="text"
                 id="castPhrase"
             />
             <TextInput
-                label="Competing Entity Name"
+                label="Contestant Name"
                 placeholder="example: team"
                 isRequired={true}
                 inputType="text"
-                id="competingEntityName"
+                id="contestantName"
             />
             <Button text="Create League"
                     kind="primary"
