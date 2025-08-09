@@ -39,4 +39,23 @@ describe("POST", () => {
         expect(LogoutResponse.status).not.toBeNull();
         expect(LogoutResponse.status.toString()).toMatch(/^3/);
     });
+
+    it("should return with a location header set", async () => {
+
+        // Arrange
+        const requestMock = {
+            url: "http://localhost:3000/api/logout",
+            cookies: {
+                get: () => "a session cookie"
+            }
+        };
+
+        // Act
+        const LogoutResponse = await POST(requestMock);
+
+        // Assert
+        expect(LogoutResponse).not.toBeNull();
+        expect(LogoutResponse.headers).not.toBeNull();
+        expect(LogoutResponse.headers.get("location")).not.toBeNull();
+    });
 });
