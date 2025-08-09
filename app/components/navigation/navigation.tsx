@@ -73,7 +73,7 @@ export default function Navigation({ pages }: {
                 })}
                 { !isLoggedIn ?
                     <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
-                    : <li className={styles["top-level-link"]} key={"nav-toplevellink-logout"}><LogoutButton/></li>}
+                    : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton/></li>}
                 </>} />
     </nav>);
 }
