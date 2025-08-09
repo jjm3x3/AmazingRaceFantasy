@@ -1,6 +1,9 @@
 "use client"
+import { useContext } from "react";
+import { SessionContext } from "@/app/contexts/session";
 
 export default function LogoutButton(){
+    const { setIsLoggedIn } = useContext(SessionContext);
 
     function performLogout() {
         fetch("/api/logout", {
