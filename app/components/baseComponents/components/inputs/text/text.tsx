@@ -25,16 +25,19 @@ export default function TextInput({
         }
     }
     return (
-        <div className={`flex-auto ${styles.inputContainer}`}>
+        <div className={`flex-auto ${styles.textComponentContainer}`}>
             <label htmlFor={id} className={styles.label}>{label}</label>
-            <input id={id} 
-                type="text"
-                pattern={validationPattern}
-                placeholder={placeholder}
-                required={isRequired}
-                className={`${ styles.input } ${validity === false && styles.error}`}
-                onKeyUp={inputHandler}
-            />
+            <div className={styles.inputContainer}>
+                <input id={id} 
+                    type="text"
+                    pattern={validationPattern}
+                    placeholder={placeholder}
+                    required={isRequired}
+                    className={`${ styles.input } ${validity === false && styles.error}`}
+                    onKeyUp={inputHandler}
+                />
+                {validity === false && <span className={`${styles.error} ${styles.errorIcon}`}>!</span>}
+            </div>
             {validity === false && <p className={`${styles.error} ${styles.errorMsg}`}>There is an error</p>}
         </div>
     )
