@@ -67,7 +67,7 @@ function generatePathObj(pageData:PageInformation, subpages: Array<IPage>){
     }
 }
 
-export async function getPages(): Promise<ILeagueLink[]> {
+export async function getShowPages(): Promise<ILeagueLink[]> {
     // Based on availability in leagueConfiguration
     const leagueConfigurationKeys = await getLeagueConfigurationKeys();
     const activeLeaguePaths:Array<ILeagueLink> = [];
@@ -81,6 +81,7 @@ export async function getPages(): Promise<ILeagueLink[]> {
             subpages = subpages.concat(contestantDataExistsSubpages);
         }
         const pathObj = generatePathObj(pageData, subpages);
+
         if(pageData.showStatus === "active"){
             pageData.friendlyName = `Current (${pageData.friendlyName})`
             activeLeaguePaths.push(pathObj);

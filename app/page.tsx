@@ -1,11 +1,11 @@
 import Link from "next/link";
 import IPage from "./models/IPage";
 import ISubpage from "./models/ISubpage";
-import { getPages } from "@/app/utils/pages";
+import { getShowPages } from "@/app/utils/pages";
 import "./styles/homepage.scss";
 
 export default async function Home() {
-    const pages = await getPages();
+    const pages = await getShowPages();
     return (
         <>
             <div className="site-notice">

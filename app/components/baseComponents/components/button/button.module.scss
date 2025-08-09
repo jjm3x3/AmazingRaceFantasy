@@ -1,0 +1,15 @@
+@use '../../styles/colors' as colors;
+
+.button {
+    border: 0;
+    border-radius: 5px;
+    padding: 0.5rem 0.85rem;
+}
+
+.primary {
+    color: white;
+    background-color: colors.$blue;
+    &:hover {
+        background-color: colors.$hoverBlue
+    }
+}

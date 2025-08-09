@@ -102,16 +102,16 @@ jest.mock("../../app/dataSources/dbFetch", ()=> {
     };
 });
 
-describe("pages getPages", () =>  {
+describe("pages getShowPages", () =>  {
     it("should return appropriate data order based on league status", async () => {
-        const pages = await pagesModule.getPages();
+        const pages = await pagesModule.getShowPages();
         expect(pages.length).toBe(2);
         expect(pages[0].name).toBe("Current (Big Brother 26)");
         expect(pages[1].name).toBe("Amazing Race 36");
     });
     
     it("should have subpages based on leagueConfig", async ()=> {
-        const pages = await pagesModule.getPages();
+        const pages = await pagesModule.getShowPages();
         const bigBrotherSubpages = pages[0].subpages;
         // Check for leagues based on leagueConfig
         expect(bigBrotherSubpages.length).toBe(1);
@@ -124,7 +124,7 @@ describe("pages getPages", () =>  {
     });
 
     it("should have subpages based on leagueData", async ()=> {
-        const pages = await pagesModule.getPages();
+        const pages = await pagesModule.getShowPages();
         // Check for leagues based on leagueData
         const amazingRaceSubpages = pages[1].subpages;
         expect(amazingRaceSubpages[1].name).toBe("Scoring");

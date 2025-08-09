@@ -1,0 +1,60 @@
+@use '../../../styles/colors' as colors;
+
+.textComponentContainer {
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin: 0 0 0.2rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+    width: 13rem;
+}
+
+.input {
+    border: 1px solid colors.$borderGray;
+    border-radius: 5px;
+    padding: 0.3rem 0.5rem;
+    width: 100%;
+    &.error {
+        border-color: colors.$errorRed;
+        &:focus {
+            outline-color: colors.$errorRed;
+        }
+    }
+}
+
+.inputContainer {
+    position: relative;
+}
+
+.error {
+    color: colors.$errorRed
+}
+
+.errorMsg {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    line-height: 1.1rem;
+    font-weight: 600;
+    margin-top: 0.2rem;
+}
+
+.errorIcon {
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-align: center;
+    border: 2px solid colors.$errorRed;
+    border-radius: 50%;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+}
