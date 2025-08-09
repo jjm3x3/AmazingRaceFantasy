@@ -17,11 +17,11 @@ export default function TextInput({
         <div className={`flex-auto ${styles.inputContainer}`}>
             <label htmlFor={id} className={styles.label}>{label}</label>
             <input id={id} 
-                   type="text"
-                   placeholder={placeholder}
-                   required={isRequired}
-                   className={styles.input}
-                   pattern={validationPattern}/>
+                type="text"
+                placeholder={placeholder}
+                required={isRequired}
+                className={styles.input}
+                pattern={validationPattern}/>
         </div>
     )
 }
