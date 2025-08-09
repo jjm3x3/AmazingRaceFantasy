@@ -1,6 +1,6 @@
 import "server-only";
 import { JWTPayload, SignJWT } from "jose";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const sessionSecretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(sessionSecretKey);
