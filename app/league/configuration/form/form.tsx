@@ -21,10 +21,10 @@ export default function LeagueConfigurationForm(){
                 id="castPhrase"
             />
             <TextInput
-                label="Contestant Name"
+                label="Contestant Type"
                 placeholder="example: team"
                 isRequired={true}
-                id="contestantName"
+                id="contestantType"
             />
             <Select 
                 labelText="League Status"
