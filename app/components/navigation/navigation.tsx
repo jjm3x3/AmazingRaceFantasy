@@ -7,6 +7,7 @@ import NavigationItem from "./navigation-item";
 import GoogleLoginButton from "./google-login-btn";
 import { useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
+import LogoutButton from "@/app/components/navigation/logoutButton"
 
 export default function Navigation({ pages }: {
     pages: IPage[]
@@ -70,7 +71,9 @@ export default function Navigation({ pages }: {
                             })} />
                     </li>);
                 })}
-                { !isLoggedIn && <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton/></li> }
+                { !isLoggedIn ?
+                    <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
+                    : <li className={styles["top-level-link"]} key={"nav-toplevellink-logout"}><LogoutButton/></li>}
                 </>} />
     </nav>);
 }
