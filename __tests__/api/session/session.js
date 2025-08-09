@@ -3,7 +3,7 @@ import { removeSession } from "@/app/api/session/session.tsx";
 beforeEach(() => {
     global.conosle = {
         log: jest.fn(),
-        warn: jest.fn(),
+        warn: jest.spyOn(console, "warn").mockImplementation(() => {}),
     };
 });
 
