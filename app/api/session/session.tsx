@@ -54,7 +54,7 @@ export async function removeSession(request: NextRequest, response: NextResponse
         console.warn("Client tried to logout without an existing sessionCookie in the logout request");
         return;
     }
-    response.cookies.set(sessionCookieName, sessionCookie, {
+    response.cookies.set(sessionCookieName, sessionCookie.value, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
