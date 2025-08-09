@@ -1,6 +1,7 @@
 "use client";
 import styles from "./styles.module.scss";
 import TextInput from "@/app/components/baseComponents/components/inputs/text/text";
+import Select from "@/app/components/baseComponents/components/inputs/select/select";
 import Button from "@/app/components/baseComponents/components/button/button";
 export default function LeagueConfigurationForm(){
     const formSubmit = ()=> {};
@@ -24,6 +25,19 @@ export default function LeagueConfigurationForm(){
                 placeholder="example: team"
                 isRequired={true}
                 id="contestantName"
+            />
+            <Select 
+                labelText="League Status"
+                selectOptions={
+                    [{
+                        value: "active",
+                        text: "Active"
+                    },{
+                        value: "archived",
+                        text: "Archived"
+                    }]
+                }
+                id="league-status"
             />
             <TextInput
                 label="Google Sheets Url"
