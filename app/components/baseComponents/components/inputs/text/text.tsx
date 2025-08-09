@@ -34,7 +34,7 @@ export default function TextInput({
                 required={isRequired}
                 className={`${ styles.input } ${validity === false && styles.error}`}
                 onKeyUp={inputHandler}
-                />
+            />
             {validity === false && <p className={`${styles.error} ${styles.errorMsg}`}>There is an error</p>}
         </div>
     )
