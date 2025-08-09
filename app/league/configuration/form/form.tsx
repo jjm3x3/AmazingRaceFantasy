@@ -21,6 +21,12 @@ export default function LeagueConfigurationForm(){
                 id="castPhrase"
             />
             <TextInput
+                label="League Key Prefix"
+                placeholder="example: big_brother:27"
+                isRequired={true}
+                id="leagueKeyPrefix"
+            />
+            <TextInput
                 label="Contestant Type"
                 placeholder="example: team"
                 isRequired={true}
