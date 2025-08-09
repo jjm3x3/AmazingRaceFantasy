@@ -46,3 +46,15 @@ export async function createSession({
         maxAge: exp
     });
 }
+
+export async function removeSession(request: NextRequest, response: NextResponse) {
+    const sessionCookieName = "session";
+    const sessionCookie = request.cookies.get(sessionCookieName);
+    response.cookies.set(sessionCookieName, sessionCookie, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 0
+    });
+}
