@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, KeyboardEvent } from "react";
 import styles from "./text.module.scss";
 
