@@ -4,7 +4,7 @@ import TextInput from "@/app/components/baseComponents/components/inputs/text/te
 import Select from "@/app/components/baseComponents/components/inputs/select/select";
 import Button from "@/app/components/baseComponents/components/button/button";
 export default function LeagueConfigurationForm(){
-    const formSubmit = ()=> {};
+    const formSubmit = (e: MouseEvent)=> { e.preventDefault(); };
     return (
         <form className={styles.form}>
             <TextInput
