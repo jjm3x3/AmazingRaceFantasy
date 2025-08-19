@@ -1,10 +1,11 @@
 "use client";
+import { MouseEvent } from "react";
 import styles from "./styles.module.scss";
 import TextInput from "@/app/components/baseComponents/components/inputs/text/text";
 import Select from "@/app/components/baseComponents/components/inputs/select/select";
 import Button from "@/app/components/baseComponents/components/button/button";
 export default function LeagueConfigurationForm(){
-    const formSubmit = (e: MouseEvent)=> { e.preventDefault(); };
+    const formSubmit = (e: MouseEvent<HTMLButtonElement>)=> { e.preventDefault(); };
     return (
         <form className={styles.form}>
             <TextInput
@@ -54,6 +55,7 @@ export default function LeagueConfigurationForm(){
             />
             <Button text="Create League"
                 kind="primary"
+                type="submit"
                 clickHandler={formSubmit}
             />
         </form>
