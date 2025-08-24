@@ -18,4 +18,17 @@ describe("LogoutButton", () => {
         fireEvent.click(logoutButton);
         expect(window.fetch).toHaveBeenCalled();
     });
+
+    it("should resolve fetch response when it is clicked", () => {
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve({/* http response */});
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(<LogoutButton/>);
+        const logoutButton = getByTestId("logout-button-core");
+        fireEvent.click(logoutButton);
+        expect(fetchPromise.then).toHaveBeenCalled()
+    });
 });
