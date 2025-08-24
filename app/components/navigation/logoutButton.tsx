@@ -6,9 +6,10 @@ export default function LogoutButton(){
     const { setIsLoggedIn } = useContext(SessionContext);
 
     function performLogout() {
-        fetch("/api/logout", {
+        const result = fetch("/api/logout", {
             method: "POST"
-        }).then((resp) => {
+        });
+        result.then((resp) => {
             if (resp.status === 205) {
                 setIsLoggedIn(false);
             } else {
