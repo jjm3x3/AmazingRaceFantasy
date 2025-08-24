@@ -5,4 +5,17 @@ describe("LogoutButton", () => {
     it("should render", () => {
         render(<LogoutButton/>);
     });
+
+    it("should make an api call when it is clicked", () => {
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve({/* http response */});
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(<LogoutButton/>);
+        const logoutButton = getByTestId("logout-button-core");
+        fireEvent.click(logoutButton);
+        expect(window.fetch).toHaveBeenCalled();
+    });
 });
