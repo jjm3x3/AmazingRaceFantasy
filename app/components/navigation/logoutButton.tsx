@@ -18,6 +18,7 @@ export default function LogoutButton(){
     }
 
     return (<>
-        <button onClick={performLogout}>Log Out</button>
+        <button data-testid="logout-button-core" onClick={performLogout}>Log Out</button>
     </>);
 }
+
