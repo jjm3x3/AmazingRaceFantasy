@@ -1,5 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 import LogoutButton from "../../../app/components/navigation/logoutButton.tsx";
+import React from "react"
+
 
 describe("LogoutButton", () => {
     it("should render", () => {
