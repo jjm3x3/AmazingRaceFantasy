@@ -1,4 +1,5 @@
 import LeagueConfigurationForm from "./form/form";
+
 export default function LeagueConfiguration (){
     return (
         <div>
