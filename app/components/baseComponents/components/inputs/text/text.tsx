@@ -3,11 +3,13 @@
 import { useState, KeyboardEvent } from "react";
 import styles from "./text.module.scss";
 
+const defaultValidationPattern = "^[a-zA-Z()_0-9]+$";
+
 export default function TextInput({
     label,
     placeholder,
     isRequired=false,
-    validationPattern="^[a-zA-Z_0-9]+$",
+    validationPattern=defaultValidationPattern,
     id
 }:{
     label: string,
@@ -17,9 +19,8 @@ export default function TextInput({
     id: string
 }){
     const [validity, setValidity] = useState(true);
-    const validationPatternAsRegexp = new RegExp(validationPattern);
     const inputHandler = (event: KeyboardEvent<HTMLInputElement>)=> {
-        const inputValidity =  validationPatternAsRegexp.test(event.currentTarget.value);
+        const inputValidity = event.currentTarget.validity.valid;
         if(event.currentTarget.value.length === 0){
             setValidity(true);
         } else {
