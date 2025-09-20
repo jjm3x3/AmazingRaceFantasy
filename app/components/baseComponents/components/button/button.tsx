@@ -13,6 +13,6 @@ export default function Button({
     clickHandler: (_e: MouseEvent<HTMLButtonElement>) => void
 }){
     return (
-        <button type={type} className={`${styles[kind]} ${styles.button}`} onMouseUp={clickHandler}>{text}</button>
+        <button type={type} className={`${styles[kind]} ${styles.button}`} onClick={clickHandler}>{text}</button>
     )
 }
