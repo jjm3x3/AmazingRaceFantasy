@@ -17,7 +17,7 @@ export default async function Template({
 
     return (
         <>
-            <SessionProvider hasSessionCookie={hasSessionCookie} userName={null}>
+            <SessionProvider hasSessionCookie={hasSessionCookie}>
                 <header>
                     <p>
                         <a href="/" title="Link that takes user to homepage. " className="page-title">X Factor Fantasy</a>
