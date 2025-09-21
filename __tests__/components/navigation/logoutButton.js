@@ -40,8 +40,8 @@ describe("LogoutButton", () => {
         })};
         window.fetch = jest.fn()
             .mockImplementation(() => fetchPromise);
-        const setIsLoggedInMock = jest.fn();
-        jest.spyOn(React, "useContext").mockReturnValue({ setIsLoggedIn: setIsLoggedInMock });
+        const setSessionInfoMock = jest.fn();
+        jest.spyOn(React, "useContext").mockReturnValue({ setSessionInfo: setSessionInfoMock });
 
         const { getByTestId } = render(
             <LogoutButton/>
@@ -49,6 +49,6 @@ describe("LogoutButton", () => {
         const logoutButton = getByTestId("logout-button-core");
         fireEvent.click(logoutButton);
 
-        expect(setIsLoggedInMock).toHaveBeenCalled();
+        expect(setSessionInfoMock).toHaveBeenCalled();
     });
 });
