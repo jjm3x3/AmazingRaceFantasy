@@ -11,6 +11,7 @@ export default function LogoutButton(){
         });
         result.then((resp) => {
             if (resp.status === 205) {
+                localStorage.removeItem("userName");
                 setSessionInfo({isLoggedIn: false, userName: null});
             } else {
                 console.warn(`Unexpected status code back from /api/logout: '${resp.status}'`);
