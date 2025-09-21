@@ -1,6 +1,6 @@
 "use client"
 import { createContext, useState } from "react";
-import Session from "../models/Session";
+import { Session, SessionInfo } from "../models/Session";
 
 export const SessionContext = createContext<Session>({ 
     sessionInfo: { isLoggedIn: false, userName: "Default User Name From Context"},

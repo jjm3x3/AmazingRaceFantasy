@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 
-export default interface Session {
+export interface Session {
     sessionInfo: SessionInfo
     setSessionInfo: Dispatch<SetStateAction<SessionInfo>>
 }
 
-interface SessionInfo {
+export interface SessionInfo {
     isLoggedIn: boolean,
     userName: string | null
 }
