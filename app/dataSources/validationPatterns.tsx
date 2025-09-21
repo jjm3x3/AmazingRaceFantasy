@@ -10,7 +10,7 @@ const validationPattern = {
             protocol: /^https$/,
             hostname: z.regexes.domain
         }),
-        string: "[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?" // eslint-disable-line no-useless-escape
+        string: "https://.*" // eslint-disable-line no-useless-escape
     },
     leagueStatus: {
         zod: z.enum(["active","archive"]),
