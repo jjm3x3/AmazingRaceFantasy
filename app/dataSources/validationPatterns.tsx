@@ -7,10 +7,10 @@ const validationPattern = {
     },
     googleSheetsUrl: {
         zod: z.url({
-                protocol: /^https$/,
-                hostname: z.regexes.domain
-            }),
-        string: "^https://([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$"
+            protocol: /^https$/,
+            hostname: z.regexes.domain
+        }),
+        string: "^https://([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$"
     },
     leagueStatus: {
         zod: z.enum(["active","archive"]),
@@ -18,11 +18,11 @@ const validationPattern = {
     },
     wikiSectionHeader: {
         zod: z.string(),
-        string: "[a-zA-Z0-9]"
+        string: "^[a-zA-Z0-9]+$"
     },
     contestantType: {
         zod: z.string(),
-        string: "[a-zA-Z0-9]"
+        string: "^[a-zA-Z0-9]+$"
     },
     leagueKey: {
         zod: z.string().regex(/^[a-zA-Z0-9_:]+$/),

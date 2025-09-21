@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, KeyboardEvent } from "react";
+import { useState } from "react";
 import styles from "./text.module.scss";
 
 const defaultValidationPattern = "^[a-zA-Z()_0-9]+$";
@@ -19,8 +19,9 @@ export default function TextInput({
     id: string
 }){
     const [validity, setValidity] = useState(true);
-    const inputHandler = (event: KeyboardEvent<HTMLInputElement>)=> {
-        const inputValidity = event.currentTarget.validity.valid;
+    const inputHandler:React.ChangeEventHandler<HTMLInputElement> = (event)=> {
+        event.preventDefault();
+        const inputValidity = !!event.currentTarget.value.match(validationPattern);
         if(event.currentTarget.value.length === 0){
             setValidity(true);
         } else {
@@ -38,7 +39,7 @@ export default function TextInput({
                     placeholder={placeholder}
                     required={isRequired}
                     className={`${ styles.input } ${validity === false && styles.error}`}
-                    onKeyUp={inputHandler}
+                    onChange={inputHandler}
                 />
                 {validity === false && <span data-testid={`test-label-${id}-icon`} className={`${styles.error} ${styles.errorIcon}`}>!</span>}
             </div>
