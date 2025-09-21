@@ -33,6 +33,7 @@ export default function TextInput({
             <label htmlFor={id} data-testid={`test-label-${id}`} className={styles.label}>{label}</label>
             <div className={styles.inputContainer}>
                 <input id={id} 
+                    name={id}
                     type="text"
                     data-testid={`test-input-${id}`}
                     pattern={validationPattern}
