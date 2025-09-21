@@ -17,7 +17,7 @@ describe("generateContestantRoundScores", () => {
 
     it("Should throw an error when asking for more rounds then there are teams in the list", () => {
         // Arrange
-        const teamList  = [{name: "some team name"}];
+        const teamList  = [{teamName: "some team name"}];
         const contestantTeamList = []
         const sut = new League(teamList);
 
@@ -121,7 +121,7 @@ describe("addContestantRoundScores", () => {
 
     let exampleTeam = new CompetingEntity({teamName: "name1_1 & name1_2", isParticipating: true, eliminationOrder: 0});
     let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
-    let exampleTeam3 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 1});
+    let exampleTeam3 = new CompetingEntity({teamName: "name3_1 & name3_2", isParticipating: true, eliminationOrder: 1});
 
     it("Should add multiple contestants to one rounds contestantRoundData per time add is called", () => {
         // Arrange
@@ -129,10 +129,11 @@ describe("addContestantRoundScores", () => {
         const expectedContestantName1 = "contestant1";
         const expectedContestantName2 = "contestant2";
         const sut = new League(teamList);
+        const contestantTeamList = [exampleTeam.teamName, exampleTeam2.teamName, exampleTeam3.teamName];
 
         // Act
-        sut.addContestantRoundScores(teamList, expectedContestantName1);
-        sut.addContestantRoundScores(teamList, expectedContestantName2);
+        sut.addContestantRoundScores(contestantTeamList, expectedContestantName1);
+        sut.addContestantRoundScores(contestantTeamList, expectedContestantName2);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -151,9 +152,10 @@ describe("addContestantRoundScores", () => {
         const teamList = [exampleTeam, exampleTeam2, exampleTeam3];
         const expectedContestantName1 = "contestant1";
         const sut = new League(teamList);
+        const contestantTeamList = [exampleTeam.teamName, exampleTeam2.teamName, exampleTeam3.teamName];
 
         // Act
-        sut.addContestantRoundScores(teamList, expectedContestantName1);
+        sut.addContestantRoundScores(contestantTeamList, expectedContestantName1);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -172,9 +174,10 @@ describe("addContestantRoundScores", () => {
         const expectedContestantName1 = "contestant1";
         const expectedHandicap = -10;
         const sut = new League(teamList);
+        const contestantTeamList = [exampleTeam.teamName, exampleTeam2.teamName, exampleTeam3.teamName];
 
         // Act
-        sut.addContestantRoundScores(teamList, expectedContestantName1, expectedHandicap);
+        sut.addContestantRoundScores(contestantTeamList, expectedContestantName1, expectedHandicap);
 
         // Assert
         expect(sut).not.toBeNull();
@@ -189,9 +192,16 @@ describe("addContestantRoundScores", () => {
 });
 
 describe("getNumberOfRounds", () => {
+
+    let exampleTeam0 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: 0});
+    let exampleTeam1 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: false, eliminationOrder: 1});
+    let exampleTeam2 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: false, eliminationOrder: 2});
+    let exampleTeam3 = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: false, eliminationOrder: 3});
+    let exampleTeamMax = new CompetingEntity({teamName: "name2_1 & name2_2", isParticipating: true, eliminationOrder: Number.MAX_VALUE});
+
     it("should not ever return Number.MAX_VALUE", () => {
         //Arrange
-        const teamList = [{eliminationOrder: 1}, {eliminationOrder:2}, {eliminationOrder: Number.MAX_VALUE}];
+        const teamList = [exampleTeam1, exampleTeam2, exampleTeamMax];
         const league = new League(teamList);
 
         // Act
@@ -204,9 +214,9 @@ describe("getNumberOfRounds", () => {
     it("Should return the number of unique eliminationOrders", () => {
         //Arrange
         const teamList = [
-            {eliminationOrder: 1},
-            {eliminationOrder: 1},
-            {eliminationOrder: 3},
+            exampleTeam1,
+            exampleTeam1,
+            exampleTeam3,
         ];
         const league = new League(teamList);
 
@@ -220,9 +230,9 @@ describe("getNumberOfRounds", () => {
     it("Should not countin Number.MAX_VALUE as a unique number", () => {
         //Arrange
         const teamList = [
-            {eliminationOrder: 1},
-            {eliminationOrder: 3},
-            {eliminationOrder: Number.MAX_VALUE}
+            exampleTeam1,
+            exampleTeam3,
+            exampleTeamMax
         ];
         const league = new League(teamList);
 
@@ -236,9 +246,9 @@ describe("getNumberOfRounds", () => {
     it("Should not countin 0 as a unique number", () => {
         //Arrange
         const teamList = [
-            {eliminationOrder: 1},
-            {eliminationOrder: 3},
-            {eliminationOrder: 0}
+            exampleTeam1,
+            exampleTeam3,
+            exampleTeam0
         ];
         const league = new League(teamList);
 

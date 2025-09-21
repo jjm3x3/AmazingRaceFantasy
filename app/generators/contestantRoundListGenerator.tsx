@@ -6,10 +6,6 @@ import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
 import League from "../models/League";
 
-interface Dictionary<T> {
-    [Key: string]: T;
-}
-
 export default async function generateListOfContestantRoundLists(
     dataFetcher: () => Promise<ITableRowData[]>,
     listOfContestantLeagueData: IContestantData[],
@@ -21,12 +17,6 @@ export default async function generateListOfContestantRoundLists(
 
     const pageData = getCompetingEntityListFunction(wikiContestants);
 
-    const teamDictionary = pageData.reduce((acc: Dictionary<CompetingEntity>, t: CompetingEntity) => {
-        acc[CompetingEntity.getKey(t.teamName)] = t;
-
-        return acc;
-    }, {});
-
     const league = new League(pageData);
 
     const reverseTeamsList = [...pageData].reverse();
@@ -35,11 +25,8 @@ export default async function generateListOfContestantRoundLists(
     const roundScores: IRound[] = league.generateContestantRoundScores(reverseTeamsList, "*perfect*", perfectScoreHandicap);
 
     return listOfContestantLeagueData.map(contestant => {
-        const currentSelectedContestantTeamsList = contestant.ranking.map((x: string) => {
-            const teamKey = CompetingEntity.getKey(x);
-            const foundTeam = teamDictionary[teamKey];
-            return foundTeam;
-        });
+
+        const currentSelectedContestantTeamsList = league.getTeamList(contestant.ranking);
 
         const contestantRoundScores: IRound[] = league.generateContestantRoundScores(currentSelectedContestantTeamsList, contestant.name, contestant.handicap);
 

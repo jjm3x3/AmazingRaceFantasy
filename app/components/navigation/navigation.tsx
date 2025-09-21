@@ -5,6 +5,8 @@ import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
 import NavigationItem from "./navigation-item";
 import GoogleLoginButton from "./google-login-btn";
+import { useContext } from "react";
+import { SessionContext } from "@/app/contexts/session";
 
 export default function Navigation({ pages }: {
     pages: IPage[]
@@ -27,11 +29,13 @@ export default function Navigation({ pages }: {
         testId: "navigation-menu",
         classes: ""
     };
+    const { isLoggedIn } = useContext(SessionContext);
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
         <NavigationItem inputAttr={rootNavInputAttr} 
             labelAttr={rootNavLabelAttr} 
             listAttr={rootNavListAttr} 
+            navigationClose={isLoggedIn}
             childElements={
                 <>{pages.map((page: IPage) => {
                     const keyName = page.name.toLowerCase().replaceAll(" ", "-");
@@ -57,6 +61,7 @@ export default function Navigation({ pages }: {
                         <NavigationItem inputAttr={subpageInputAttr} 
                             labelAttr={subpageLabelAttr} 
                             listAttr={subpageListAttr} 
+                            navigationClose={isLoggedIn}
                             childElements={page.subpages.map((subpage: ISubpage) => {
                                 const subpageKeyName = subpage.name.toLowerCase().replaceAll(" ", "-");
                                 return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>
@@ -65,7 +70,7 @@ export default function Navigation({ pages }: {
                             })} />
                     </li>);
                 })}
-                <li className={styles["top-level-link"]} key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
+                { !isLoggedIn && <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton/></li> }
                 </>} />
     </nav>);
 }

@@ -27,5 +27,6 @@ export default interface INavigationItem{
     inputAttr: IInputAttribute
     labelAttr: ILabelAttribute
     listAttr: IListAttribute
-    childElements: ReactNode | ReactNode[]
+    childElements: ReactNode | ReactNode[],
+    navigationClose: boolean
 };

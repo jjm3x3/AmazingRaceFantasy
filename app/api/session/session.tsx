@@ -1,6 +1,6 @@
 import "server-only";
 import { JWTPayload, SignJWT } from "jose";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const sessionSecretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(sessionSecretKey);
@@ -44,5 +44,21 @@ export async function createSession({
         sameSite: "strict",
         path: "/",
         maxAge: exp
+    });
+}
+
+export async function removeSession(request: NextRequest, response: NextResponse) {
+    const sessionCookieName = "session";
+    const sessionCookie = request.cookies.get(sessionCookieName);
+    if (sessionCookie === undefined) {
+        console.warn("Client tried to logout without an existing sessionCookie in the logout request");
+        return;
+    }
+    response.cookies.set(sessionCookieName, sessionCookie.value, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 0
     });
 }
