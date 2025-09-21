@@ -1,6 +1,7 @@
 "use client"
 import { useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
+import styles from "./sessionContextedLabel.module.scss";
 
 export default function SessionContextedLabel() {
 
@@ -8,7 +9,7 @@ export default function SessionContextedLabel() {
 
     return (
         <>
-            <p>{sessionInfo.userName}</p>
+            <p className={styles.userName} >{sessionInfo.userName}</p>
         </>
     );
 }
