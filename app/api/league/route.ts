@@ -1,21 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OAuth2Client, TokenPayload } from "google-auth-library";
+import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 
 const unauthenticatedErrorMessage = "you are not authenticated with this service";
-const validLeagueStatuses = ["active","archive"];
 
 const LeagueConfig = z.object({
-    wikiPageName: z.string().regex(/^[a-zA-Z()_0-9]+$/),
-    googleSheetUrl: z.url({
-        protocol: /^https$/,
-        hostname: z.regexes.domain
-    }),
-    leagueStatus: z.enum(validLeagueStatuses),
-    wikiSectionHeader: z.string(),
-    contestantType: z.string(),
-    leagueKey: z.string().regex(/^[a-zA-Z0-9_:]+$/)
+    wikiPageName: validationPattern.wikiPageName.zod,
+    googleSheetUrl: validationPattern.googleSheetsUrl.zod,
+    leagueStatus: validationPattern.leagueStatus.zod,
+    wikiSectionHeader: validationPattern.wikiSectionHeader.zod,
+    contestantType: validationPattern.contestantType.zod,
+    leagueKey: validationPattern.leagueKey.zod
 });
 
 export async function POST(request: NextRequest) {
