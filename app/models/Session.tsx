@@ -5,5 +5,6 @@ export default interface Session {
 }
 
 interface SessionInfo {
-    isLoggedIn: boolean
+    isLoggedIn: boolean,
+    userName: string
 }

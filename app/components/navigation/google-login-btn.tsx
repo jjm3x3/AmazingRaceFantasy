@@ -47,7 +47,7 @@ export default function GoogleLoginButton(){
 
     async function handleLogin(response: Response) {
         const data = await response.json();
-        setSessionInfo({isLoggedIn: true});
+        setSessionInfo({isLoggedIn: true, userName: data.name.firstName});
         console.log(data);
     }
 

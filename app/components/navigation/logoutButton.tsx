@@ -11,7 +11,7 @@ export default function LogoutButton(){
         });
         result.then((resp) => {
             if (resp.status === 205) {
-                setSessionInfo({isLoggedIn: false});
+                setSessionInfo({isLoggedIn: false, userName: ""});
             } else {
                 console.warn(`Unexpected status code back from /api/logout: '${resp.status}'`);
             }
