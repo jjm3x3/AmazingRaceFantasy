@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
 
 export default function LogoutButton(){
-    const { setIsLoggedIn } = useContext(SessionContext);
+    const { setSessionInfo } = useContext(SessionContext);
 
     function performLogout() {
         const result = fetch("/api/logout", {
@@ -11,7 +11,8 @@ export default function LogoutButton(){
         });
         result.then((resp) => {
             if (resp.status === 205) {
-                setIsLoggedIn(false);
+                localStorage.removeItem("userName");
+                setSessionInfo({isLoggedIn: false, userName: null});
             } else {
                 console.warn(`Unexpected status code back from /api/logout: '${resp.status}'`);
             }

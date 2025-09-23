@@ -1,0 +1,34 @@
+import { render } from "@testing-library/react";
+import SessionContextedLabel from "../../app/components/sessionContextedLabel.tsx";
+import React from "react"
+
+
+describe("SessionContextedLabel", () => {
+    it("should render", () => {
+        render(<SessionContextedLabel/>);
+    });
+
+    it("should call to setSessionInfo when sessionInfo.userName is null", () => {
+        // Arrange
+        const setSessionInfoMock = jest.fn();
+        jest.spyOn(React, "useContext").mockReturnValue({ sessionInfo: { userName: null }, setSessionInfo: setSessionInfoMock });
+
+        // Act
+        render(<SessionContextedLabel/>);
+
+        // Assert
+        expect(setSessionInfoMock).toHaveBeenCalled();
+    });
+
+    it("should not call to setSessionInfo when sessionInfo.userName empty string", () => {
+        // Arrange
+        const setSessionInfoMock = jest.fn();
+        jest.spyOn(React, "useContext").mockReturnValue({ sessionInfo: { userName: "" }, setSessionInfo: setSessionInfoMock });
+
+        // Act
+        render(<SessionContextedLabel/>);
+
+        // Assert
+        expect(setSessionInfoMock).not.toHaveBeenCalled();
+    });
+});
