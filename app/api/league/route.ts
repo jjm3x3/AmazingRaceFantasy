@@ -6,6 +6,12 @@ import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 
 const unauthenticatedErrorMessage = "you are not authenticated with this service";
 
+interface decryptionPayload {
+    sub: string,
+    iat: number,
+    exp: number
+}
+
 const LeagueConfig = z.object({
     wikiPageName: validationPattern.wikiPageUrl.zod,
     googleSheetUrl: validationPattern.googleSheetUrl.zod,
@@ -20,7 +26,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const sessionCookie = request.cookies.get("session");
     if(sessionCookie){
-        const decryptedSessionCookie = await decrypt(sessionCookie?.value);
+        const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
         const googleUserId = decryptedSessionCookie?.sub;
         const allowedGoogleUserIds = ["108251633753098119380", "117801378252057178101"];
         const invalidGoogleUserId = !googleUserId || allowedGoogleUserIds.indexOf(googleUserId) < 0;
