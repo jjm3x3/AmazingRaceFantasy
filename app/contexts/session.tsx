@@ -4,7 +4,7 @@ import Session from "../models/Session";
 
 export const SessionContext = createContext<Session>({ 
     isLoggedIn: false,
-    setIsLoggedIn: (_isLoggedIn)=> {}   
+    setIsLoggedIn: (_isLoggedIn)=> {} 
 });
 
 export const SessionProvider = ({ hasSessionCookie, children }:{ hasSessionCookie: boolean, children: React.ReactNode })=> {

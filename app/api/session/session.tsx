@@ -1,5 +1,5 @@
 import "server-only";
-import { JWTPayload, SignJWT } from "jose";
+import { JWTPayload, SignJWT, jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 
 const sessionSecretKey = process.env.SESSION_SECRET;
@@ -23,6 +23,17 @@ export async function encrypt({
             .sign(encodedKey)
     } else {
         throw Error("sessionSecretKey is unset. Have you gone through the setup in the README?")
+    }
+}
+
+export async function decrypt(session: string | undefined = "") {
+    try {
+        const { payload } = await jwtVerify(session, encodedKey, {
+            algorithms: ["HS256"],
+        })
+        return payload
+    } catch (error) {
+        console.log("Failed to verify session")
     }
 }
 
