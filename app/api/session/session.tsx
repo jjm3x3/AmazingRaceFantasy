@@ -34,8 +34,8 @@ export const decrypt = async function(session: string | undefined = "") {
         return payload
     } catch (error) {
         return NextResponse.json(
-                {"error": "Failed to verify session"},
-                {status: 401}
+            {"error": "Failed to verify session"},
+            {status: 401}
         );
     }
 }
