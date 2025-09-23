@@ -19,7 +19,7 @@ const LeagueConfig = z.object({
 export async function POST(request: NextRequest) {
     // check auth
     const body = await request.json();
-    const cookieStore = await cookies()
+    const cookieStore = await cookies();
     const sessionCookie = cookieStore.get("session");
     try{
         const decryptedSessionCookie = await decrypt(sessionCookie?.value);
@@ -45,7 +45,6 @@ export async function POST(request: NextRequest) {
             );
         }
     }
-    console.log(body.googleSheetsUrl)
 
     // insert into db
     const leagueConfigKey = `league_configuration:${body.leagueStatus}:${body.leagueKey}`;
