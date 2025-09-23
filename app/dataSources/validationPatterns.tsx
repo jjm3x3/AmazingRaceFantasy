@@ -5,7 +5,7 @@ const validationPattern = {
         zod: z.string().regex(/^[a-zA-Z()_0-9]+$/),
         string: "^[a-zA-Z()_0-9]+$"
     },
-    googleSheetsUrl: {
+    googleSheetUrl: {
         zod: z.url({
             protocol: /^https$/,
             hostname: z.regexes.domain
