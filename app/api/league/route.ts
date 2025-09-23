@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { OAuth2Client, TokenPayload } from "google-auth-library";
+import { cookies } from "next/headers"
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
+import { decrypt } from "../session/session";
 import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 
 const unauthenticatedErrorMessage = "you are not authenticated with this service";
 
 const LeagueConfig = z.object({
-    wikiPageName: validationPattern.wikiPageName.zod,
-    googleSheetUrl: validationPattern.googleSheetsUrl.zod,
+    wikiPageName: validationPattern.wikiPageUrl.zod,
+    googleSheetUrl: validationPattern.googleSheetUrl.zod,
     leagueStatus: validationPattern.leagueStatus.zod,
     wikiSectionHeader: validationPattern.wikiSectionHeader.zod,
     contestantType: validationPattern.contestantType.zod,
@@ -18,30 +19,17 @@ const LeagueConfig = z.object({
 export async function POST(request: NextRequest) {
     // check auth
     const body = await request.json();
-    if (!body.token) {
-        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
-    }
-    const client = new OAuth2Client();
-    const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
-    let authResponse = null;
-    try {
-        authResponse = await client.verifyIdToken({
-            idToken: body.token,
-            audience: clientId
-        });
-    }
-    catch(error) {
-        console.log(error);
-        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
-    }
-
-    const payload:TokenPayload | undefined = authResponse.getPayload();
-
-    if(payload){
-        const googleUserId = payload["sub"];
-        if (googleUserId !== "108251633753098119380") {
+    const cookieStore = await cookies()
+    const sessionCookie = cookieStore.get("session");
+    try{
+        const decryptedSessionCookie = await decrypt(sessionCookie?.value);
+        const googleUserId = decryptedSessionCookie?.sub;
+        const allowedGoogleUserIds = ["108251633753098119380", "117801378252057178101"];
+        if (googleUserId && allowedGoogleUserIds.indexOf(googleUserId) < 0) {
             return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
         }
+    } catch {
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
     }
 
     // validate/sanitize input
@@ -57,6 +45,7 @@ export async function POST(request: NextRequest) {
             );
         }
     }
+    console.log(body.googleSheetsUrl)
 
     // insert into db
     const leagueConfigKey = `league_configuration:${body.leagueStatus}:${body.leagueKey}`;
