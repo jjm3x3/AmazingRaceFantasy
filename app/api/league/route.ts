@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers"
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "../session/session";
@@ -19,8 +18,7 @@ const LeagueConfig = z.object({
 export async function POST(request: NextRequest) {
     // check auth
     const body = await request.json();
-    const cookieStore = await cookies();
-    const sessionCookie = cookieStore.get("session");
+    const sessionCookie = request.cookies.get("session");
     try{
         const decryptedSessionCookie = await decrypt(sessionCookie?.value);
         const googleUserId = decryptedSessionCookie?.sub;
