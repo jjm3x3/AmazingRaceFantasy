@@ -19,14 +19,16 @@ export async function POST(request: NextRequest) {
     // check auth
     const body = await request.json();
     const sessionCookie = request.cookies.get("session");
-    try{
+    if(sessionCookie){
         const decryptedSessionCookie = await decrypt(sessionCookie?.value);
         const googleUserId = decryptedSessionCookie?.sub;
         const allowedGoogleUserIds = ["108251633753098119380", "117801378252057178101"];
-        if (googleUserId && allowedGoogleUserIds.indexOf(googleUserId) < 0) {
-            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+        const invalidGoogleUserId = !googleUserId || allowedGoogleUserIds.indexOf(googleUserId) < 0;
+        const invalidGoogleUserSub = Object.keys(decryptedSessionCookie).length !== 3;
+        if (invalidGoogleUserId || invalidGoogleUserSub ) {
+            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 401});
         }
-    } catch {
+    } else {
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
     }
 

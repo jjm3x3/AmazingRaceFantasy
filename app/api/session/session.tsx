@@ -26,14 +26,17 @@ export async function encrypt({
     }
 }
 
-export async function decrypt(session: string | undefined = "") {
+export const decrypt = async function(session: string | undefined = "") {
     try {
         const { payload } = await jwtVerify(session, encodedKey, {
             algorithms: ["HS256"],
         })
         return payload
     } catch (error) {
-        console.log("Failed to verify session")
+        return NextResponse.json(
+                {"error": "Failed to verify session"},
+                {status: 401}
+        );
     }
 }
 
