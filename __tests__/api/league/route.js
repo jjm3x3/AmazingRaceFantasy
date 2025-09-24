@@ -93,6 +93,23 @@ describe("POST (unit tests)", () => {
         expect(request.json).toHaveBeenCalledTimes(1);
     });
 
+    it("should return a 403 when auth token does not have exact right userId claim", async () => {
+        // Arrange
+        testAuthData.sub = "123googleTestId";
+        const request = {
+            json: async () => { return {
+                token: "testToken"
+            } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(403);
+    });
+
     it("should return a 400 when missing wikiPageName", async () => {
         // Aarrange
         happyPathRequest.wikiPageName = null;
