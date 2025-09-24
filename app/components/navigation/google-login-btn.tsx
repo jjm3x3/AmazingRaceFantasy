@@ -13,7 +13,7 @@ export default function GoogleLoginButton(){
     const handleScriptLoad = () => {
         setScriptLoaded(true);
     };
-    const { setIsLoggedIn } = useContext(SessionContext);
+    const { setSessionInfo } = useContext(SessionContext);
     const googleLoginRef = useRef(null);
 
     useEffect(()=> {
@@ -47,7 +47,8 @@ export default function GoogleLoginButton(){
 
     async function handleLogin(response: Response) {
         const data = await response.json();
-        setIsLoggedIn(true);
+        localStorage.setItem("userName", data.name.firstName);
+        setSessionInfo({isLoggedIn: true, userName: data.name.firstName});
         console.log(data);
     }
 

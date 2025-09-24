@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { OAuth2Client, TokenPayload } from "google-auth-library";
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
+import { decrypt } from "@/app/api/session/session";
 import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 
 const unauthenticatedErrorMessage = "you are not authenticated with this service";
 
+interface decryptionPayload {
+    sub: string,
+    iat: number,
+    exp: number
+}
+
 const LeagueConfig = z.object({
-    wikiPageName: validationPattern.wikiPageName.zod,
-    googleSheetUrl: validationPattern.googleSheetsUrl.zod,
+    wikiPageName: validationPattern.wikiPageUrl.zod,
+    googleSheetUrl: validationPattern.googleSheetUrl.zod,
     leagueStatus: validationPattern.leagueStatus.zod,
     wikiSectionHeader: validationPattern.wikiSectionHeader.zod,
     contestantType: validationPattern.contestantType.zod,
@@ -18,30 +24,22 @@ const LeagueConfig = z.object({
 export async function POST(request: NextRequest) {
     // check auth
     const body = await request.json();
-    if (!body.token) {
-        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
-    }
-    const client = new OAuth2Client();
-    const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
-    let authResponse = null;
-    try {
-        authResponse = await client.verifyIdToken({
-            idToken: body.token,
-            audience: clientId
-        });
-    }
-    catch(error) {
-        console.log(error);
-        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
-    }
-
-    const payload:TokenPayload | undefined = authResponse.getPayload();
-
-    if(payload){
-        const googleUserId = payload["sub"];
-        if (googleUserId !== "108251633753098119380") {
-            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+    const sessionCookie = request.cookies.get("session");
+    if(sessionCookie){
+        const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
+        const googleUserId = decryptedSessionCookie?.sub;
+        const invalidGoogleUserId = !googleUserId
+        const invalidGoogleUserSub = Object.keys(decryptedSessionCookie).length !== 3;
+        if (invalidGoogleUserId || invalidGoogleUserSub ) {
+            return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
+        const allowedGoogleUserIds = ["108251633753098119380", "117801378252057178101"];
+        const isUserDenied = allowedGoogleUserIds.indexOf(googleUserId) < 0;
+        if(isUserDenied){
+            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403})
+        }
+    } else {
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
     }
 
     // validate/sanitize input
