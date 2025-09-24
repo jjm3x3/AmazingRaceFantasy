@@ -33,6 +33,11 @@ export async function POST(request: NextRequest) {
         if (invalidGoogleUserId || invalidGoogleUserSub ) {
             return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
+        const allowedGoogleUserIds = ["108251633753098119380", "117801378252057178101"];
+        const isUserDenied = allowedGoogleUserIds.indexOf(googleUserId) < 0;
+        if(isUserDenied){
+            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403})
+        }
     } else {
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
     }
