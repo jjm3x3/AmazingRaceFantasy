@@ -51,9 +51,7 @@ describe("POST", () => {
                 } }
             },
             json: async () => { 
-                return { 
-                    token: "someTokenHeader.someTokenBody.someTokenSig" 
-                }
+                return { }
             }
         };
 
