@@ -30,7 +30,11 @@ beforeEach(() => {
 describe ("decrypt", ()=> {
     it("Should return a proper payload when passed a correct session id", async ()=> {
         const decryptedPayload = await decrypt("117801378252057178101");
-        expect(decryptedPayload.sub).toBe("117801378252057178101");
+        expect(decryptedPayload).toStrictEqual({
+            sub: "117801378252057178101",
+            iat: 123456,
+            exp: 123456
+        });
     });
 
     it("Should throw an error when decryption fails", async ()=> {
