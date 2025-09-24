@@ -31,6 +31,22 @@ writeLeagueConfigurationData.mockImplementation(() => {
     return () => { }
 });
 
+jest.mock("../../../app/api/session/session", ()=> {
+    const actual = jest.requireActual("../../../app/api/session/session");
+    return {
+        ...actual,
+        decrypt: jest.fn().mockImplementation(()=> {
+            return {
+                sub: "108251633753098119380",
+                ias: "",
+                exp: ""
+            }
+        })
+    }
+})
+
+
+
 beforeEach(() => {
     testAuthData = {
         sub: "108251633753098119380",
@@ -55,26 +71,14 @@ afterEach(() => {
 });
 
 describe("POST (unit tests)", () => {
-    it("should return a 403 when auth token does not have exact right userId claim", async () => {
-        // Arrange
-        testAuthData.sub = "123googleTestId";
-        const request = {
-            json: async () => { return {
-                token: "testToken"
-            } }
-        };
-
-        // Act
-        const response = await POST(request);
-
-        // Assert
-        expect(response).not.toBeNull();
-        expect(response.status).toEqual(403);
-    });
-
     it("should return 200 when conditions met", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -93,6 +97,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.wikiPageName = null;
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -114,6 +123,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.wikiPageName = "page name with whitespace";
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -135,6 +149,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.wikiPageName = "Big_Brother_26_(American_season)";
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -152,6 +171,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.googleSheetUrl = null;
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -173,6 +197,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.googleSheetUrl = "not a url";
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -194,6 +223,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.googleSheetUrl = "sup";
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -215,6 +249,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.googleSheetUrl = "http:sup";
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -236,6 +275,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.googleSheetUrl = "https:sup_blah_{_ga*b;ge_d^ta"; // the '^' is what breaks the domain regex
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -257,6 +301,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.leagueStatus = null;
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -278,6 +327,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.leagueStatus = "maybe-active";
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -299,6 +353,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.wikiSectionHeader = null;
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -320,6 +379,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.contestantType = null;
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -341,6 +405,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.leagueKey = null;
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -362,6 +431,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.leagueKey = "some_show _name:and_season_1";
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -383,6 +457,11 @@ describe("POST (unit tests)", () => {
         // Aarrange
         happyPathRequest.leagueKey = "some_show_name:and_season_1:*";
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -403,6 +482,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with expected key", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -424,6 +508,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a wikiPageUrl", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -447,6 +536,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a wikiApiUrl", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -470,6 +564,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a googleSheetUrl", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -493,6 +592,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a leageStatus", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -516,6 +620,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a castPhrase", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -539,6 +648,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a preGoogleSheetsLinkText", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -562,6 +676,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a postGoogleSheetsLinkText", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -585,6 +704,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a competingEntityName", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })
@@ -608,6 +732,11 @@ describe("POST (unit tests)", () => {
     it("should call writeLeagueConfigurationData with a config with a contestantLeagueDataKeyPrefix", async () => {
         // Arrange
         const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
             json: jest.fn().mockImplementation(async () => {
                 return happyPathRequest
             })

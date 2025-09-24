@@ -33,6 +33,7 @@ export default function TextInput({
             <label htmlFor={id} data-testid={`test-label-${id}`} className={styles.label}>{label}</label>
             <div className={styles.inputContainer}>
                 <input id={id} 
+                    name={id}
                     type="text"
                     data-testid={`test-input-${id}`}
                     pattern={validationPattern}
@@ -43,7 +44,7 @@ export default function TextInput({
                 />
                 {validity === false && <span data-testid={`test-label-${id}-icon`} className={`${styles.error} ${styles.errorIcon}`}>!</span>}
             </div>
-            {validity === false && <p data-testid={`test-label-${id}-msg`} className={`${styles.error} ${styles.errorMsg}`}>There is an error</p>}
+            {validity === false && <p data-testid={`test-label-${id}-errorMsg`} className={`${styles.error} ${styles.errorMsg}`}>There is an error</p>}
         </div>
     )
 }

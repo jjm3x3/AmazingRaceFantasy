@@ -21,7 +21,7 @@ export default function Select({
     return (
         <div className={styles.dropdownContainer}>
             <label className={styles.label} htmlFor={id}>{labelText}</label>
-            <select className={styles.dropdown} id={id}>
+            <select className={styles.dropdown} id={id} data-testid={`test-select-${id}`} name={id}>
                 {placeholder && <option id="placeholder" selected disabled>{placeholder}</option>}
                 {selectOptions.map(option=> {
                     return (
