@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { removeSession } from "@/app/api/session/session.tsx";
 
 beforeEach(() => {
