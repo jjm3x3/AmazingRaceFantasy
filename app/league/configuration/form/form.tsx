@@ -39,7 +39,7 @@ export default function LeagueConfigurationForm(){
     };
     return (
         <>
-            <p>{errorMsg}</p>
+            {errorMsg && <p data-testId={"leagueConfiguration-form-submission-error"}>{errorMsg}</p>}
             <form ref={formRef} className={styles.form}>
                 <TextInput
                     label="Wikipedia Page Name"
@@ -92,6 +92,7 @@ export default function LeagueConfigurationForm(){
                 <Button text="Create League"
                     kind="primary"
                     type="submit"
+                    id="leagueConfigurationSubmit"
                     clickHandler={formSubmit} 
                 />
             </form>

@@ -44,7 +44,7 @@ export default function TextInput({
                 />
                 {validity === false && <span data-testid={`test-label-${id}-icon`} className={`${styles.error} ${styles.errorIcon}`}>!</span>}
             </div>
-            {validity === false && <p data-testid={`test-label-${id}-msg`} className={`${styles.error} ${styles.errorMsg}`}>There is an error</p>}
+            {validity === false && <p data-testid={`test-label-${id}-errorMsg`} className={`${styles.error} ${styles.errorMsg}`}>There is an error</p>}
         </div>
     )
 }
