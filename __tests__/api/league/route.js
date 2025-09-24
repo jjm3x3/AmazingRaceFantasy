@@ -4,6 +4,7 @@
 
 jest.mock("google-auth-library");
 jest.mock("../../../app/dataSources/dbFetch");
+import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
 import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { POST } from "@/app/api/league/route.ts";
@@ -95,11 +96,22 @@ describe("POST (unit tests)", () => {
 
     it("should return a 403 when auth token does not have exact right userId claim", async () => {
         // Arrange
-        testAuthData.sub = "123googleTestId";
+        jest.spyOn(sessionModule, "decrypt").mockImplementationOnce(()=> {
+            return {
+                sub: "123googleTestId",
+                ias: "",
+                exp: ""
+            }
+        });
         const request = {
-            json: async () => { return {
-                token: "testToken"
-            } }
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return {
+                        session: "testToken"
+                    }
+                })
+            },
+            json: async () => { return { } }
         };
 
         // Act
