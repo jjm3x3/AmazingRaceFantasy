@@ -28,11 +28,10 @@ export async function POST(request: NextRequest) {
     if(sessionCookie){
         const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
         const googleUserId = decryptedSessionCookie?.sub;
-        const allowedGoogleUserIds = ["108251633753098119380", "117801378252057178101"];
-        const invalidGoogleUserId = !googleUserId || allowedGoogleUserIds.indexOf(googleUserId) < 0;
+        const invalidGoogleUserId = !googleUserId
         const invalidGoogleUserSub = Object.keys(decryptedSessionCookie).length !== 3;
         if (invalidGoogleUserId || invalidGoogleUserSub ) {
-            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 401});
+            return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
     } else {
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
