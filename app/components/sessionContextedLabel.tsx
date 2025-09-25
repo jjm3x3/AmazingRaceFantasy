@@ -18,8 +18,8 @@ export default function SessionContextedLabel() {
     });
 
     return (
-        <>
-            <p className={styles.userName} >{sessionInfo.userName}</p>
-        </>
+        <div className={`flex-container ${styles.userInfo}`}>
+            <p className={"text-right"} >{sessionInfo.userName}</p>
+        </div>
     );
 }
