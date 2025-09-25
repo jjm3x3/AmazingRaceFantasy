@@ -20,6 +20,7 @@ export default function SessionContextedLabel() {
     return (
         <div className={`flex-container ${styles.userInfo}`}>
             <p className={"text-right"} >{sessionInfo.userName}</p>
+            {sessionInfo.googleUserId! ? <p className={`text-right ${styles.googleUserId}`} >({sessionInfo.googleUserId})</p> : <p></p> }
         </div>
     );
 }
