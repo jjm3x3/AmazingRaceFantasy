@@ -2,6 +2,7 @@
 import { useContext, useEffect } from "react";
 import { SessionContext } from "@/app/contexts/session";
 import styles from "./sessionContextedLabel.module.scss";
+import { getLocalUserData } from "@/app/dataSources/localStorageShim"
 
 export default function SessionContextedLabel() {
 
@@ -9,7 +10,8 @@ export default function SessionContextedLabel() {
 
     useEffect(() => {
         if (sessionInfo.userName === null) {
-            const userName = localStorage.getItem("userName") ?? "";
+            const userData = getLocalUserData()
+            const userName = userData.userName ?? "";
             setSessionInfo({isLoggedIn: sessionInfo.isLoggedIn, userName: userName});
         }
     });
