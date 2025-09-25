@@ -18,3 +18,7 @@ export function getLocalUserData(): LocalUserData {
     userData.googleUserId = localStorage.getItem("googleUserId") ?? userData.googleUserId;
     return userData;
 }
+
+export function clearLocalStorage() {
+    localStorage.clear();
+}
