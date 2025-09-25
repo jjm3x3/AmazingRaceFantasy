@@ -2,6 +2,7 @@
 import Script from "next/script";
 import { useEffect, useState, useRef, useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
+import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 
 interface GoogleLogin {
     credential: string,
