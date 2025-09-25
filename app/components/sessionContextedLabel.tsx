@@ -9,10 +9,11 @@ export default function SessionContextedLabel() {
     const { sessionInfo, setSessionInfo } = useContext(SessionContext);
 
     useEffect(() => {
-        if (sessionInfo.userName === null) {
+        if (sessionInfo.userName === null || sessionInfo.googleUserId === null) {
             const userData = getLocalUserData()
             const userName = userData.userName ?? "";
-            setSessionInfo({isLoggedIn: sessionInfo.isLoggedIn, userName: userName});
+            const googleUserId = userData.googleUserId ?? "";
+            setSessionInfo({isLoggedIn: sessionInfo.isLoggedIn, userName: userName, googleUserId: googleUserId});
         }
     });
 
