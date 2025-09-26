@@ -1,7 +1,13 @@
 import { render } from "@testing-library/react";
 import SessionContextedLabel from "../../app/components/sessionContextedLabel.tsx";
 import React from "react"
+import { getLocalUserData } from "@/app/dataSources/localStorageShim"
 
+jest.mock("../../app/dataSources/localStorageShim");
+
+getLocalUserData.mockImplementation(() => {
+    return { userName: null, googleuserId: null }
+});
 
 describe("SessionContextedLabel", () => {
     it("should render", () => {
@@ -54,5 +60,17 @@ describe("SessionContextedLabel", () => {
 
         // Assert
         expect(setSessionInfoMock).not.toHaveBeenCalled();
+    });
+
+    it("should not call to setSessionInfo with nulls even if localStore retuns nulls", () => {
+        // Arrange
+        const setSessionInfoMock = jest.fn();
+        jest.spyOn(React, "useContext").mockReturnValue({ sessionInfo: { userName: null, googleUserId: null }, setSessionInfo: setSessionInfoMock });
+
+        // Act
+        render(<SessionContextedLabel/>);
+
+        // Assert
+        expect(setSessionInfoMock).toHaveBeenCalledWith({userName: "", googleUserId: ""});
     });
 });
