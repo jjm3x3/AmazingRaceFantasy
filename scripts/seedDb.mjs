@@ -83,16 +83,3 @@ async function recreateLeagueConfigurationData(leagueConfigurationKey, dataRepo)
     await redis.json.set(leagueConfigurationKey, "$", leagueConfigString)
 }
 
-async function deleteAllLeagueConfigurationData() {
-    let leagueConfigurationCursor = await redis.scan("0", {match: "league_configuration:*"});
-    let leagueConfigurationKeys = leagueConfigurationCursor[1];
-    let cursorStart = leagueConfigurationCursor[0];
-    while(cursorStart !== "0"){
-        leagueConfigurationCursor = await redis.scan(cursorStart, {match: "league_configuration:*"});
-        leagueConfigurationKeys = leagueConfigurationKeys.concat(leagueConfigurationCursor[1]);
-        cursorStart = leagueConfigurationCursor[0];
-    }
-    for(const leagueConfigurationKey of leagueConfigurationKeys){
-        redis.del(leagueConfigurationKey);
-    }
-}
