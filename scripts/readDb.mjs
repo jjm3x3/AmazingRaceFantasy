@@ -14,7 +14,12 @@ const redis = new Redis(redisOptions);
 
 const keyspace = "league_configuration:*";
 
-readKeyspace(keyspace);
+//readKeyspace(keyspace);
+
+const pointReadResult = await redis.json.get("league_configuration:active:survivor:49")
+
+console.log(pointReadResult);
+
 
 async function readKeyspace(keyspace) {
     let fullCursor = await redis.scan("0", {match: keyspace})
