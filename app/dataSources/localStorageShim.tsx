@@ -14,12 +14,9 @@ export function setLocalUserData(userData: LocalUserData) {
 }
 
 export function getLocalUserData(): LocalUserData {
-    const userData: LocalUserData = {
-        userName: null,
-        googleUserId: null
-    };
-    userData.userName = localStorage.getItem("userName") ?? userData.userName;
-    userData.googleUserId = localStorage.getItem("googleUserId") ?? userData.googleUserId;
+    const userData: LocalUserData = {} as LocalUserData;
+    userData.userName = localStorage.getItem("userName")
+    userData.googleUserId = localStorage.getItem("googleUserId")
     return userData;
 }
 
