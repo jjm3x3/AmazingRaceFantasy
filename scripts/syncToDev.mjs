@@ -12,6 +12,15 @@ console.log("Connecting (reader) to: '" + redisOptions.url + "'");
 
 const redis = new Redis(redisOptions);
 
+let writeRedisOptions = {
+    url: process.env.KV_REST_API_URL,
+    token: process.env.KV_REST_API_TOKEN
+};
+
+console.log("Connecting (writer) to: '" + writeRedisOptions.url + "'");
+
+const writeRedis = new Redis(writeRedisOptions)
+
 const keyspace = "league_configuration:*";
 
 //readKeyspace(keyspace);
@@ -19,6 +28,9 @@ const keyspace = "league_configuration:*";
 const pointReadResult = await redis.json.get("league_configuration:active:survivor:49")
 
 console.log(pointReadResult);
+
+await writeRedis.json.set("league_configuration:active:survivor:49", "$", pointReadResult);
+
 
 async function readKeyspace(keyspace) {
     let fullCursor = await redis.scan("0", {match: keyspace})
