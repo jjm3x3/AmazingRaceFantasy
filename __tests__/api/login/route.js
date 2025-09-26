@@ -79,7 +79,8 @@ describe("POST", () => {
             name: {
                 firstName: testAuthData.given_name,
                 lastName: testAuthData.family_name
-            }
+            },
+            googleUserId: testAuthData.sub
         });
     });
     it("should successfully call Redis", async ()=> {
