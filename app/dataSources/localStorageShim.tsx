@@ -5,8 +5,12 @@ interface LocalUserData {
 }
 
 export function setLocalUserData(userData: LocalUserData) {
-    localStorage.setItem("userName", userData.userName);
-    localStorage.setItem("googleUserId", userData.googleUserId);
+    if (userData.userName) {
+        localStorage.setItem("userName", userData.userName);
+    }
+    if (userData.googleUserId) {
+        localStorage.setItem("googleUserId", userData.googleUserId);
+    }
 }
 
 export function getLocalUserData(): LocalUserData {
