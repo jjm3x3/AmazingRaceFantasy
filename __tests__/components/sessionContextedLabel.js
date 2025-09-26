@@ -73,4 +73,30 @@ describe("SessionContextedLabel", () => {
         // Assert
         expect(setSessionInfoMock).toHaveBeenCalledWith({userName: "", googleUserId: ""});
     });
+
+    it("should render the googleUserId p-tag when a googleUserId is non-empty non-null string", () => {
+        // Arrange
+        const setSessionInfoMock = jest.fn();
+        jest.spyOn(React, "useContext").mockReturnValue({ sessionInfo: { userName: "doesn't matter", googleUserId: "1234" }, setSessionInfo: setSessionInfoMock });
+
+        // Act
+        const { getByTestId } = render(<SessionContextedLabel/>);
+        const populatedPTag = getByTestId("googleUserIdPopulated");
+
+        // Assert
+        expect(populatedPTag).not.toBeNull();
+    });
+
+    it("should not render the googleUserId p-tag when a googleUserId is empty string", () => {
+        // Arrange
+        const setSessionInfoMock = jest.fn();
+        jest.spyOn(React, "useContext").mockReturnValue({ sessionInfo: { userName: "doesn't matter", googleUserId: "" }, setSessionInfo: setSessionInfoMock });
+
+        // Act
+        const { getByTestId } = render(<SessionContextedLabel/>);
+        const populatedPTag = getByTestId("emptyTag");
+
+        // Assert
+        expect(populatedPTag).not.toBeNull();
+    });
 });
