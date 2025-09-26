@@ -32,8 +32,6 @@ await recreateLeagueData("big_brother:26:", bigBrother26Data)
 await recreateLeagueData("big_brother:27:", bigBrother27Data)
 await recreateLeagueData("survivor:47:", survivor47Data)
 
-// Delete all league configuration data
-await deleteAllLeagueConfigurationData();
 // Create league configuration data
 await recreateLeagueConfigurationData(`league_configuration:${amazingRace35LeagueConfiguration.leagueStatus}:amazing_race:35`, amazingRace35LeagueConfiguration)
 await recreateLeagueConfigurationData(`league_configuration:${amazingRace36LeagueConfiguration.leagueStatus}:amazing_race:36`, amazingRace36LeagueConfiguration)
