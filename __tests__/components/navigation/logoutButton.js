@@ -1,7 +1,13 @@
 import { render, fireEvent } from "@testing-library/react";
 import LogoutButton from "../../../app/components/navigation/logoutButton.tsx";
 import React from "react"
+import { clearLocalStorage } from "@/app/dataSources/localStorageShim";
 
+jest.mock("../../../app/dataSources/localStorageShim");
+
+clearLocalStorage.mockImplementation(() => {
+    return;
+});
 
 describe("LogoutButton", () => {
     it("should render", () => {
@@ -50,5 +56,21 @@ describe("LogoutButton", () => {
         fireEvent.click(logoutButton);
 
         expect(setSessionInfoMock).toHaveBeenCalled();
+    });
+
+    it("should clearLocalStorage when a 205 is returned", () => {
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve({status: 205});
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(
+            <LogoutButton/>
+        );
+        const logoutButton = getByTestId("logout-button-core");
+        fireEvent.click(logoutButton);
+
+        expect(clearLocalStorage).toHaveBeenCalled();
     });
 });
