@@ -57,4 +57,20 @@ describe("LogoutButton", () => {
 
         expect(setSessionInfoMock).toHaveBeenCalled();
     });
+
+    it("should clearLocalStorage when a 205 is returned", () => {
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve({status: 205});
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(
+            <LogoutButton/>
+        );
+        const logoutButton = getByTestId("logout-button-core");
+        fireEvent.click(logoutButton);
+
+        expect(clearLocalStorage).toHaveBeenCalled();
+    });
 });
