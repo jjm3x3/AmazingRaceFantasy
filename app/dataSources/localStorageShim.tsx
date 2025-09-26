@@ -1,7 +1,7 @@
 
 interface LocalUserData {
-    userName: string
-    googleUserId: string
+    userName: string | null
+    googleUserId: string | null
 }
 
 export function setLocalUserData(userData: LocalUserData) {
@@ -11,8 +11,8 @@ export function setLocalUserData(userData: LocalUserData) {
 
 export function getLocalUserData(): LocalUserData {
     const userData: LocalUserData = {
-        userName: "Default User Name From localStorageShim",
-        googleUserId: "xxx-xxx-xxx"
+        userName: null,
+        googleUserId: null
     };
     userData.userName = localStorage.getItem("userName") ?? userData.userName;
     userData.googleUserId = localStorage.getItem("googleUserId") ?? userData.googleUserId;
