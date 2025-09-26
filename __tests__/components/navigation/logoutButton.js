@@ -3,6 +3,11 @@ import LogoutButton from "../../../app/components/navigation/logoutButton.tsx";
 import React from "react"
 import { clearLocalStorage } from "@/app/dataSources/localStorageShim";
 
+jest.mock("../../../app/dataSources/localStorageShim");
+
+clearLocalStorage.mockImplementation(() => {
+    return;
+});
 
 describe("LogoutButton", () => {
     it("should render", () => {
