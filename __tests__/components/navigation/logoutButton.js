@@ -1,6 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 import LogoutButton from "../../../app/components/navigation/logoutButton.tsx";
 import React from "react"
+import { clearLocalStorage } from "@/app/dataSources/localStorageShim";
 
 
 describe("LogoutButton", () => {
