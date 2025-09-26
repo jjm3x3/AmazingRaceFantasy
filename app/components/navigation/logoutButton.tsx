@@ -1,6 +1,7 @@
 "use client"
 import { useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
+import { clearLocalStorage } from "@/app/dataSources/localStorageShim";
 
 export default function LogoutButton(){
     const { setSessionInfo } = useContext(SessionContext);
@@ -11,8 +12,8 @@ export default function LogoutButton(){
         });
         result.then((resp) => {
             if (resp.status === 205) {
-                localStorage.removeItem("userName");
-                setSessionInfo({isLoggedIn: false, userName: null});
+                clearLocalStorage();
+                setSessionInfo({isLoggedIn: false, userName: null, googleUserId: null});
             } else {
                 console.warn(`Unexpected status code back from /api/logout: '${resp.status}'`);
             }

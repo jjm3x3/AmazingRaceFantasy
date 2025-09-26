@@ -2,6 +2,7 @@
 import Script from "next/script";
 import { useEffect, useState, useRef, useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
+import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 
 interface GoogleLogin {
     credential: string,
@@ -47,9 +48,8 @@ export default function GoogleLoginButton(){
 
     async function handleLogin(response: Response) {
         const data = await response.json();
-        localStorage.setItem("userName", data.name.firstName);
-        setSessionInfo({isLoggedIn: true, userName: data.name.firstName});
-        console.log(data);
+        setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
+        setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
     }
 
     return (<>
