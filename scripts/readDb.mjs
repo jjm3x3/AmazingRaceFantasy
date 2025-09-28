@@ -1,6 +1,6 @@
 import { Redis } from "@upstash/redis"
 
-console.log("Seeding the db");
+console.log("Reading the db");
 
 console.log("Setting up db settings bassed on vars in process.env");
 let redisOptions = {
