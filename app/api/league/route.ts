@@ -27,10 +27,12 @@ export async function POST(request: NextRequest) {
     const sessionCookie = request.cookies.get("session");
     if(sessionCookie){
         const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
+        console.log(decryptedSessionCookie);
         const googleUserId = decryptedSessionCookie?.sub;
         const invalidGoogleUserId = !googleUserId
         const invalidGoogleUserSub = Object.keys(decryptedSessionCookie).length !== 3;
         if (invalidGoogleUserId || invalidGoogleUserSub ) {
+            console.log(`have a session cookie, but it's not valid because googleUserId: ${googleUserId} cookeie has 3 keys: ${invalidGoogleUserSub}`);
             return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
         const allowedGoogleUserIds = [
