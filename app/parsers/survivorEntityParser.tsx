@@ -56,8 +56,10 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
             // update previousFinishDay
             previousFinishDay = finishDay;
         } else if (!isWinner) {
-            // if no finishDay is found, set it to the previous exitDay
-            finishDay = previousFinishDay;
+            // Previously we used to set finishDay to the previous one but that
+            // only works if we assume that any unset finishDay should default
+            // to what the previous person should be, and this depends on the
+            // order of the list
             const foundContestant = contestants[contestants.length-1];
             if (foundContestant == null) {
                 console.debug("found previous contestant to be null");
