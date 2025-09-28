@@ -75,7 +75,6 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
                 // starting with the eliminated contestant we are going to try
                 // assuming true and assign no finishing day
                 isParticipating = true;
-                //foundContestant.finishDay = foundContestant.finishDay + 0.5; // accounts for the default ordering where the person who come first was actually evicted last
             }
         }
 
