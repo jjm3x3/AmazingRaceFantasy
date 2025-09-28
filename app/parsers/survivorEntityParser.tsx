@@ -66,7 +66,13 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
                 console.debug("previous contestant has not exited yet");
                 isParticipating = true; // implies all contestants before this one are still participating
             } else {
-                isParticipating = false; // is now false because we have already started to see contestants evicted
+                // Initially we were assuming false because we have already
+                // started to see contestants eliminated and based on the order
+                // we see them, once one has been eliminated everyone after that
+                // is assumed to be. Now realizing that the list could be
+                // starting with the eliminated contestant we are going to try
+                // assuming true
+                isParticipating = true;
                 foundContestant.finishDay = foundContestant.finishDay + 0.5; // accounts for the default ordering where the person who come first was actually evicted last
             }
         }
