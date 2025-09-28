@@ -71,9 +71,9 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
                 // we see them, once one has been eliminated everyone after that
                 // is assumed to be. Now realizing that the list could be
                 // starting with the eliminated contestant we are going to try
-                // assuming true
+                // assuming true and assign no finishing day
                 isParticipating = true;
-                foundContestant.finishDay = foundContestant.finishDay + 0.5; // accounts for the default ordering where the person who come first was actually evicted last
+                //foundContestant.finishDay = foundContestant.finishDay + 0.5; // accounts for the default ordering where the person who come first was actually evicted last
             }
         }
 
