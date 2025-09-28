@@ -24,7 +24,7 @@ console.log(pointReadResult);
 async function readKeyspace(keyspace) {
     let fullCursor = await redis.scan("0", {match: keyspace})
     console.log(fullCursor)
-    
+
     let nextId = fullCursor[0]
     while (nextId != 0) {
         console.log(`Fetching next scan batch with id: '${nextId}`)
