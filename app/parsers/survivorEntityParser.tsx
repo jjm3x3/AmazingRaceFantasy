@@ -56,8 +56,10 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
             // update previousFinishDay
             previousFinishDay = finishDay;
         } else if (!isWinner) {
-            // if no finishDay is found, set it to the previous exitDay
-            finishDay = previousFinishDay;
+            // Previously we used to set finishDay to the previous one but that
+            // only works if we assume that any unset finishDay should default
+            // to what the previous person should be, and this depends on the
+            // order of the list
             const foundContestant = contestants[contestants.length-1];
             if (foundContestant == null) {
                 console.debug("found previous contestant to be null");
@@ -66,8 +68,13 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
                 console.debug("previous contestant has not exited yet");
                 isParticipating = true; // implies all contestants before this one are still participating
             } else {
-                isParticipating = false; // is now false because we have already started to see contestants evicted
-                foundContestant.finishDay = foundContestant.finishDay + 0.5; // accounts for the default ordering where the person who come first was actually evicted last
+                // Initially we were assuming false because we have already
+                // started to see contestants eliminated and based on the order
+                // we see them, once one has been eliminated everyone after that
+                // is assumed to be. Now realizing that the list could be
+                // starting with the eliminated contestant we are going to try
+                // assuming true and assign no finishing day
+                isParticipating = true;
             }
         }
 
