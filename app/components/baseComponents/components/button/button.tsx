@@ -18,10 +18,10 @@ export default function Button({
 }){
     return (
         <button type={type} 
-                id={id} 
-                data-testid={`test-button-${id}`} 
-                className={`${styles[kind]} ${styles.button} ${disabled && 'disabled:opacity-50 disabled:cursor-not-allowed'}`} 
-                onClick={clickHandler}
-                disabled={disabled}>{text}</button>
+            id={id} 
+            data-testid={`test-button-${id}`} 
+            className={`${styles[kind]} ${styles.button} ${disabled && "disabled:opacity-50 disabled:cursor-not-allowed"}`} 
+            onClick={clickHandler}
+            disabled={disabled}>{text}</button>
     )
 }
