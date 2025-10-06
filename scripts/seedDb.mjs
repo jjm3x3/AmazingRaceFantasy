@@ -4,6 +4,7 @@ import amazingRace37Data from "../app/leagueData/AmazingRace_37.js"
 import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
 import bigBrother27Data from "../app/leagueData/BigBrother_27.js"
 import survivor47Data from "../app/leagueData/Survivor_47.js"
+import survivor49Data from "../app/leagueData/Survivor_49.js"
 import amazingRace35LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_35.js"
 import amazingRace36LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_36.js"
 import amazingRace37LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_37.js"
@@ -31,6 +32,7 @@ await recreateLeagueData("amazing_race:37:", amazingRace37Data)
 await recreateLeagueData("big_brother:26:", bigBrother26Data)
 await recreateLeagueData("big_brother:27:", bigBrother27Data)
 await recreateLeagueData("survivor:47:", survivor47Data)
+await recreateLeagueData("survivor:49:", survivor49Data)
 
 // Create league configuration data
 await recreateLeagueConfigurationData(`league_configuration:${amazingRace35LeagueConfiguration.leagueStatus}:amazing_race:35`, amazingRace35LeagueConfiguration)
