@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import styles from "./text.module.scss";
 
 const defaultValidationPattern = "^[a-zA-Z()_0-9]+$";
@@ -8,15 +8,17 @@ const defaultValidationPattern = "^[a-zA-Z()_0-9]+$";
 export default function TextInput({
     label,
     placeholder,
+    updateFormValidation,
+    id,
     isRequired=false,
-    validationPattern=defaultValidationPattern,
-    id
+    validationPattern=defaultValidationPattern
 }:{
     label: string,
     placeholder: string,
+    updateFormValidation?: Dispatch<SetStateAction<boolean>>,
+    id: string
     isRequired: boolean,
     validationPattern?: string,
-    id: string
 }){
     const [validity, setValidity] = useState(true);
     const inputHandler:React.ChangeEventHandler<HTMLInputElement> = (event)=> {
@@ -24,8 +26,10 @@ export default function TextInput({
         const inputValidity = !!event.currentTarget.value.match(validationPattern);
         if(event.currentTarget.value.length === 0){
             setValidity(true);
+            updateFormValidation && updateFormValidation(true);
         } else {
             setValidity(inputValidity);
+            updateFormValidation && updateFormValidation(inputValidity);
         }
     }
     return (
