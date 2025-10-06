@@ -19,7 +19,7 @@ const CONTESTANT_LEAGUE_DATA = [
     {
         name: "Jenny",
         userId: "894B180E-A635-41BA-B6BC-B0AC84AE7B23",
-        ranking: []
+        ranking: [ "Savannah Louie", "Jeremiah Ing", "Jason Treul", "Rizo Velovic", "Sophia \"Sophie\" Segreti ", "Kristina Mills", "Steven Ramm", "Sage Ahrens-Nichols", "Michelle \"MC\" Chukwujekwu", "Jake Latimer", "Matthew \"Matt\" Williams ", "Jawan Pitts", "Sophia \"Sophi\" Balerdi", "Alex Moore", "Shannon Fairweather", "Nate Moore", "Kimberly \"Annie\" Davis", "Nicole Mazullo" ]
     },
     {
         name: "Sam",
