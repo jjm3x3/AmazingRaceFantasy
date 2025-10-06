@@ -24,7 +24,8 @@ export async function POST(request: NextRequest) {
             name: {
                 firstName: payload?.given_name,
                 lastName: payload?.family_name
-            }
+            },
+            googleUserId: googleUserId
         }
 
         const response = NextResponse.json(userObj);

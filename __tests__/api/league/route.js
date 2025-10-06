@@ -4,6 +4,7 @@
 
 jest.mock("google-auth-library");
 jest.mock("../../../app/dataSources/dbFetch");
+import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
 import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { POST } from "@/app/api/league/route.ts";
@@ -91,6 +92,34 @@ describe("POST (unit tests)", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
         expect(request.json).toHaveBeenCalledTimes(1);
+    });
+
+    it("should return a 403 when auth token does not have exact right userId claim", async () => {
+        // Arrange
+        jest.spyOn(sessionModule, "decrypt").mockImplementationOnce(()=> {
+            return {
+                sub: "123googleTestId",
+                ias: "",
+                exp: ""
+            }
+        });
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return {
+                        session: "testToken"
+                    }
+                })
+            },
+            json: async () => { return { } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(403);
     });
 
     it("should return a 400 when missing wikiPageName", async () => {

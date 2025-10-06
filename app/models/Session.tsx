@@ -7,5 +7,6 @@ export interface Session {
 
 export interface SessionInfo {
     isLoggedIn: boolean,
-    userName: string | null
+    userName: string | null,
+    googleUserId: string | null
 }
