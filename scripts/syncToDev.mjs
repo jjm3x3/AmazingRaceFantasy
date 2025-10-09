@@ -44,3 +44,9 @@ async function readKeyspace(keyspace) {
         nextId = fullCursor[0]
     }
 }
+
+async function handleScanResult(scanResult, handleKey) {
+    const scanKeys = scanResult[1];
+    await Promise.all(scanKeys.map((key) => { handleKey(key) }));
+}
+
