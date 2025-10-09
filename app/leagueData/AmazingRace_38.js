@@ -35,11 +35,11 @@ const CONTESTANT_LEAGUE_DATA = [
         name: "Sam",
         userId: "CD9F9A71-FF9C-416A-8D0D-C268A13B021F",
         ranking: [ "Jasmair \"Jas\" Bains & Jagateshwar \"Jag\" Bains", "Tucker Des Lauriers & Eric Des Lauriers", "Kyland Young & Taylor Hale", "Kristine Bernabe & Rubina Bernabe", "Natalie Negrotti & Stephanie Negrotti", "Isabel \"Izzy\" Gleicher & Paige Seber", "Jack Baham & Chelsie Baham", "Joseph Abdin & Adam Abdin", "Hannah Chaddha & Simone Chaddha", "Angela Murray & Lexi Murray", "Kathryn \"Kat\" Dunn & Alex Romo", "Megan Belmonte & Matt Turner", "Giacomo \"Jack\" Palumbo & Vincenzo \"Enzo\" Palumbo" ]
-    //},
-    //{
-    //    name: "TriscuitHead" ,
-    //    userId: "112D95CA-CACB-4E9F-BEC5-97EF91D10994",
-    //    ranking: []
+    },
+    {
+        name: "Aulay" ,
+        userId: "112D95CA-CACB-4E9F-BEC5-97EF91D10994",
+        ranking: ["Hannah Chaddha & Simone Chaddha", "Isabel \"Izzy\" Gleicher & Paige Seber", "Jasmair \"Jas\" Bains & Jagateshwar \"Jag\" Bains", "Natalie Negrotti & Stephanie Negrotti", "Kyland Young & Taylor Hale", "Megan Belmonte & Matt Turner", "Joseph Abdin & Adam Abdin", "Kristine Bernabe & Rubina Bernabe", "Tucker Des Lauriers & Eric Des Lauriers", "Jack Baham & Chelsie Baham", "Kathryn \"Kat\" Dunn & Alex Romo", "Angela Murray & Lexi Murray", "Giacomo \"Jack\" Palumbo & Vincenzo \"Enzo\" Palumbo" ]
     }
 ];
 
