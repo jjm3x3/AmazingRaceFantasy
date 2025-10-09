@@ -23,24 +23,23 @@ const writeRedis = new Redis(writeRedisOptions)
 
 const keyspace = "league_configuration:*";
 
-//readKeyspace(keyspace);
+scanKeyspace(keyspace, async (key) => {
+    console.log(`Readding config for key: '${key}' from prod`);
+    const pointReadResult = await readonlyProdRedis.json.get(key)
+    console.log(`Read prod config for '${key}'`);
+    await writeRedis.json.set(key, "$", pointReadResult);
+    console.log(`Wrote config for key: '${key}' to dev`);
+});
 
-const pointReadResult = await readonlyProdRedis.json.get("league_configuration:active:survivor:49")
-
-console.log(pointReadResult);
-
-await writeRedis.json.set("league_configuration:active:survivor:49", "$", pointReadResult);
-
-
-async function readKeyspace(keyspace) {
+async function scanKeyspace(keyspace, processKey) {
     let fullCursor = await readonlyProdRedis.scan("0", {match: keyspace})
-    console.log(fullCursor)
+    await handleScanResult(fullCursor, processKey);
     
     let nextId = fullCursor[0]
     while (nextId != 0) {
         console.log(`Fetching next scan batch with id: '${nextId}`)
         fullCursor = await readonlyProdRedis.scan(nextId, {match: keyspace})
-        console.log(fullCursor)
+        await handleScanResult(fullCursor, processKey);
         nextId = fullCursor[0]
     }
 }
