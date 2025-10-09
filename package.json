@@ -14,6 +14,7 @@
     "seed:prod": "node --env-file=.env.production.local scripts/seedDb.mjs",
     "read:dev": "node --env-file=.env.development.local scripts/readDb.mjs",
     "read:prod": "node --env-file=.env.production.local scripts/readDb.mjs",
+    "syncToDev": "node --env-file=.env.development.local ./scripts/syncToDev.mjs",
     "seed:env": "node scripts/seedDb.mjs",
     "prepare": "./node_modules/.bin/husky"
   },
