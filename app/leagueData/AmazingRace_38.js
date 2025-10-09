@@ -4,7 +4,7 @@ const CONTESTANT_LEAGUE_DATA = [
     {
         name: "Andrew Jaicks",
         userId: "6252275B-C6AF-427B-82A6-1F4B4A2267C1",
-        ranking: []
+        ranking: [ "Jasmair \"Jas\" Bains & Jagateshwar \"Jag\" Bains", "Tucker Des Lauriers & Eric Des Lauriers", "Joseph Abdin & Adam Abdin", "Kristine Bernabe & Rubina Bernabe", "Isabel \"Izzy\" Gleicher & Paige Seber", "Kyland Young & Taylor Hale", "Hannah Chaddha & Simone Chaddha", "Natalie Negrotti & Stephanie Negrotti", "Kathryn \"Kat\" Dunn & Alex Romo", "Angela Murray & Lexi Murray", "Megan Belmonte & Matt Turner", "Jack Baham & Chelsie Baham", "Giacomo \"Jack\" Palumbo & Vincenzo \"Enzo\" Palumbo" ]
     //},
     //{
     //    name: "Antoinette",
