@@ -34,7 +34,7 @@ scanKeyspace(keyspace, async (key) => {
 async function scanKeyspace(keyspace, processKey) {
     let fullCursor = await readonlyProdRedis.scan("0", {match: keyspace})
     await handleScanResult(fullCursor, processKey);
-    
+
     let nextId = fullCursor[0]
     while (nextId != 0) {
         console.log(`Fetching next scan batch with id: '${nextId}`)
