@@ -1,6 +1,7 @@
 import amazingRace35Data from "../app/leagueData/AmazingRace_35.js"
 import amazingRace36Data from "../app/leagueData/AmazingRace_36.js"
 import amazingRace37Data from "../app/leagueData/AmazingRace_37.js"
+import amazingRace38Data from "../app/leagueData/AmazingRace_38.js"
 import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
 import bigBrother27Data from "../app/leagueData/BigBrother_27.js"
 import survivor47Data from "../app/leagueData/Survivor_47.js"
@@ -29,6 +30,7 @@ const redis = new Redis(redisOptions);
 await recreateLeagueData("amazing_race:35:", amazingRace35Data)
 await recreateLeagueData("amazing_race:36:", amazingRace36Data)
 await recreateLeagueData("amazing_race:37:", amazingRace37Data)
+await recreateLeagueData("amazing_race:38:", amazingRace38Data)
 await recreateLeagueData("big_brother:26:", bigBrother26Data)
 await recreateLeagueData("big_brother:27:", bigBrother27Data)
 await recreateLeagueData("survivor:47:", survivor47Data)
