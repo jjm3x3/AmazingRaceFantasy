@@ -37,6 +37,8 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
 
         const teamName = element.name || element.name2;
 
+        console.log(`Show contestant '${teamName}' right after parsing first parsing round: exitDay '${rawFinishDay}'`);
+
         let isParticipating = true;
         let finishDay = 0;
         let isWinner = false;
@@ -50,6 +52,9 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
             finishDay = previousFinishDay + 0.5
         } else if (rawFinishDay.toLowerCase().includes("sole survivor")) {
             isWinner = true;
+        } else if (rawFinishDay.toLowerCase().includes("voted out")) {
+            isParticipating = false;
+            finishDay = previousFinishDay + 0.5;
         }
 
         if (finishDay !== 0) {
