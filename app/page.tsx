@@ -10,7 +10,7 @@ export default async function Home() {
         <>
             <div className="site-notice">
                 <p>
-                    Submissions for the Survivor 49 & Amzing Race 38 leagues are current closed. If you would like to participate email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>, and we will see what we can do. 
+                    Submissions for the Survivor 49 & Amazing Race 38 leagues are currently closed. If you would like to participate, email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link> and we will see what we can do.
                 </p>
             </div>
             {pages.map((p: IPage) => { 
