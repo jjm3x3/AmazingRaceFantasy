@@ -1,4 +1,5 @@
 import "./globals.scss";
+import Script from "next/script";
 import { getShowPages } from "@/app/utils/pages";
 import Navigation from "./components/navigation/navigation";
 import { SessionProvider } from "./contexts/session";
@@ -27,6 +28,7 @@ export default async function Template({
                 </header>
                 <main>
                     {children}
+                    <Script async src="https://accounts.google.com/gsi/client"/>
                 </main>
             </SessionProvider>
         </>

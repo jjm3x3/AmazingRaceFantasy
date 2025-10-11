@@ -1,6 +1,5 @@
 "use client"
-import Script from "next/script";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 
@@ -9,16 +8,12 @@ interface GoogleLogin {
     select_by: string
 }
 
-export default function GoogleLoginButton(){
-    const [scriptLoaded, setScriptLoaded] = useState(false);
-    const handleScriptLoad = () => {
-        setScriptLoaded(true);
-    };
+export default function GoogleLoginButton({ setShouldNavigateClose }:{ setShouldNavigateClose: (_e: boolean) => void}){
     const { setSessionInfo } = useContext(SessionContext);
     const googleLoginRef = useRef(null);
 
     useEffect(()=> {
-        if(scriptLoaded){
+        if(window.google){
             const google = window.google;
             google.accounts.id.initialize({
                 client_id: "43091874093-mphj7iu8lffvm04ft4qru0sl3ekfjl00.apps.googleusercontent.com",
@@ -37,7 +32,7 @@ export default function GoogleLoginButton(){
                 });
             }
         }
-    }, [scriptLoaded]);
+    }, [window.google]);
     
     function handleCredentialResponse(response:GoogleLogin) {
         fetch("/api/login", {
@@ -50,10 +45,10 @@ export default function GoogleLoginButton(){
         const data = await response.json();
         setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
         setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
+        setShouldNavigateClose(true);
     }
 
     return (<>
         <div ref={googleLoginRef} id="google_login_btn"/>
-        <Script async src="https://accounts.google.com/gsi/client" onLoad={handleScriptLoad}/>
     </>);
 }
