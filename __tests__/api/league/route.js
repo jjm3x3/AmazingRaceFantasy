@@ -699,6 +699,40 @@ describe("POST (unit tests)", () => {
             }));
     });
 
+    it("should call writeLeagueConfigurationData with the same leagueStatus as is used in the key", async () => {
+        // Arrange
+        const modifiedRequest = happyPathRequest;
+        modifiedRequest.leagueStatus = "archived";
+        const expectedLeagueStatus = "archive";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "leagueStatus": expectedLeagueStatus,
+            }));
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.stringContaining(expectedLeagueStatus + ":"), // adding the ":" to avoid the "archived" key segment
+            expect.anything());
+    });
+
     it("should call writeLeagueConfigurationData with a config with a castPhrase", async () => {
         // Arrange
         const request = {
