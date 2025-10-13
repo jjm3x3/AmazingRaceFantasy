@@ -378,6 +378,28 @@ describe("POST (unit tests)", () => {
         expect(bodyString).toContain("leagueStatus");
     });
 
+    it("should accept a user friendly leagueStatus", async () => {
+        // Aarrange
+        happyPathRequest.leagueStatus = "archived";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+    });
+
     it("should return a 400 when missing wikiSectionHeader", async () => {
         // Aarrange
         happyPathRequest.wikiSectionHeader = null;
