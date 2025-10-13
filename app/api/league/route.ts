@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
         wikiPageUrl: `https://en.wikipedia.org/wiki/${body.wikiPageName}`,
         wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${body.wikiPageName}`,
         googleSheetUrl: body.googleSheetUrl,
-        leagueStatus: body.leagueStatus,
+        leagueStatus: body.leagueStatus === "archived" ? "archive" : body.leagueStatus,
         castPhrase: body.wikiSectionHeader,
         preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
         postGoogleSheetsLinkText: "which was populated using a google form.",
