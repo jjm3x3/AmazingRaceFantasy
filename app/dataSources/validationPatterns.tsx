@@ -13,8 +13,8 @@ const validationPattern = {
         string: "^https://([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$" // eslint-disable-line no-useless-escape
     },
     leagueStatus: {
-        zod: z.enum(["active","archive"]),
-        string: "(active|archive)"
+        zod: z.enum(["active","archived"]),
+        string: "(active|archived)"
     },
     wikiSectionHeader: {
         zod: z.string(),
