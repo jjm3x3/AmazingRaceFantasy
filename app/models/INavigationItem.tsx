@@ -27,6 +27,6 @@ export default interface INavigationItem{
     inputAttr: IInputAttribute
     labelAttr: ILabelAttribute
     listAttr: IListAttribute
-    children: ReactNode
-    hasSubpages: boolean
+    childElements: ReactNode | ReactNode[],
+    navigationClose: boolean
 };

@@ -1,8 +1,8 @@
-import { getCompetingEntityList, getTeamList } from "../../../utils/wikiQuery";
+import { parseEntities } from "@/app/utils/entityParserSwitch"
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
-import Team from "@/app/models/Team"
+import CompetingEntity from "@/app/models/CompetingEntity"
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
@@ -32,12 +32,8 @@ export default async function Contestants({ params }: {
     const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName } = leagueConfigurationData;
 
     const wikiContestants = await getWikipediaContestantData(wikiApiUrl, castPhrase);
-    let final;
-    if(showName.match("amazing_race")){
-        final = getTeamList(wikiContestants);
-    } else {
-        final = getCompetingEntityList(wikiContestants);
-    }
+
+    const final = parseEntities(wikiContestants, showName);
 
     return (
         <div>
@@ -47,7 +43,7 @@ export default async function Contestants({ params }: {
             <p className="text-lg text-center">{final.length} {competitingEntityName}</p>
             <br/>
             <div className="text-center">
-                {final.map((t: Team) => {
+                {final.map((t: CompetingEntity) => {
                     return (<>
                         <p key={t.teamName}>
                             {t.isParticipating ? t.teamName : <s>{t.teamName}</s>}

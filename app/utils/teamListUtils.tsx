@@ -1,24 +1,29 @@
-import Team from "../models/Team";
+import CompetingEntity from "../models/CompetingEntity";
 
 interface RoundEliminationOrderMapping {
     [Key: string]: number;
 }
 
-export function shouldBeScored(teamList: Team[], team: Team, roundNumber: number): boolean {
+export function shouldBeScored(teamList: CompetingEntity[], team: CompetingEntity, eliminationOrder: number, totalEliminationsSoFar: number): boolean {
 
     const teamPosition = teamList.length - teamList.indexOf(team);
 
-    const currentWeek = roundNumber+1;
-    const listHasTeamBeingEliminated = teamPosition <= currentWeek;
+    const listHasTeamBeingEliminated = teamPosition <= totalEliminationsSoFar;
 
-    const roundElimMapping = getRoundEliminationOrderMapping(teamList);
-
-    const elimOrder = roundElimMapping[roundNumber];
-
-    return team.isInPlay(elimOrder) && !listHasTeamBeingEliminated;
+    return team.isInPlay(eliminationOrder) && !listHasTeamBeingEliminated;
 }
 
-function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrderMapping {
+export function getNumberOfTeamsToEliminate(teamList: CompetingEntity[], elimOrder: number): number {
+    return teamList.reduce((count: number, team: CompetingEntity) => {
+        if (team.eliminationOrder === elimOrder) {
+            count += 1;
+        }
+
+        return count;
+    }, 0);
+}
+
+export function getRoundEliminationOrderMapping(teamList: CompetingEntity[]): RoundEliminationOrderMapping {
     const setOfEliminationOrders = getUniqueEliminationOrders(teamList);
     const listOfEliminationOrders = Array.from(setOfEliminationOrders)
     listOfEliminationOrders.sort((x, y) => Number(x) - Number(y));
@@ -31,7 +36,7 @@ function getRoundEliminationOrderMapping(teamList: Team[]): RoundEliminationOrde
     return mapping;
 }
 
-export function getUniqueEliminationOrders(teams: Team[]): Set<number> {
+export function getUniqueEliminationOrders(teams: CompetingEntity[]): Set<number> {
     const seenOrders = new Set<number>();
     teams.filter(
         (t) => t.eliminationOrder !== Number.MAX_VALUE
@@ -40,5 +45,16 @@ export function getUniqueEliminationOrders(teams: Team[]): Set<number> {
         seenOrders.add(t.eliminationOrder);
     });
     return seenOrders;
+}
+
+export function convertNamesToTeamList(teamNames: string[], teamDictionary: Map<string, CompetingEntity>): CompetingEntity[] {
+    return teamNames.map((x: string) => {
+        const teamKey = CompetingEntity.getKey(x);
+        const foundTeam = teamDictionary.get(teamKey);
+        if (foundTeam === undefined) {
+            throw new Error(`Missing leagueContestants selected show contestant '${x}' from league source data`);
+        }
+        return foundTeam;
+    });
 }
 

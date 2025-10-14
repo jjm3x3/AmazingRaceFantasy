@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -28,7 +28,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm seed:prod
+    - run: npm ci
+    - run: npm run seed:env
       env:
         KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
         KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}

@@ -1,0 +1,11 @@
+@use 'baseComponents/styles/colors';
+
+.userInfo {
+    margin-left: auto;
+    padding: 0 1em;
+}
+
+.googleUserId {
+    font-size: 10px;
+    color: colors.$borderGray
+}

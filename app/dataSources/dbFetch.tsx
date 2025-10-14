@@ -76,6 +76,25 @@ export async function getLeagueConfigurationKeys(): Promise<string[]> {
     }
 }
 
+export async function writeLeagueConfigurationData(leagueConfigurationKey: string, leagueConfiguration: ILeagueConfigurationData): Promise<void> {
+
+    if (leagueConfigurationKey === undefined) {
+        throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value\"");
+    };
+    if (leagueConfiguration === undefined) {
+        throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfiguration' is undefined but must have a value\"");
+    };
+
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    });
+
+    const leagueConfigString = JSON.stringify(leagueConfiguration)
+
+    await redis.json.set(leagueConfigurationKey, "$", leagueConfigString)
+}
+
 export async function getLeagueConfigurationData(leagueConfigurationKey: string): Promise<ILeagueConfigurationData> {
 
     if (leagueConfigurationKey === undefined) {
@@ -93,3 +112,17 @@ export async function getLeagueConfigurationData(leagueConfigurationKey: string)
         throw new Error("There is no league configuration found for the key provided");
     }
 }
+
+export async function writeGoogleUserData (googleUserId: string){
+    const redisOptions = {
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    };
+    const redis = new Redis(redisOptions);
+
+    // Post to DB
+    const userDbObj = { googleUserId }
+    const leagueConfigString = JSON.stringify(userDbObj)
+    await redis.json.set(`user:${googleUserId}`, "$", leagueConfigString)
+}
+

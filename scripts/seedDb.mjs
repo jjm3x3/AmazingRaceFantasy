@@ -1,11 +1,16 @@
 import amazingRace35Data from "../app/leagueData/AmazingRace_35.js"
 import amazingRace36Data from "../app/leagueData/AmazingRace_36.js"
 import amazingRace37Data from "../app/leagueData/AmazingRace_37.js"
+import amazingRace38Data from "../app/leagueData/AmazingRace_38.js"
 import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
+import bigBrother27Data from "../app/leagueData/BigBrother_27.js"
+import survivor47Data from "../app/leagueData/Survivor_47.js"
+import survivor49Data from "../app/leagueData/Survivor_49.js"
 import amazingRace35LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_35.js"
 import amazingRace36LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_36.js"
 import amazingRace37LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_37.js"
 import bigBrother26LeagueConfiguration from "../app/leagueConfiguration/BigBrother_26.js"
+import bigBrother27LeagueConfiguration from "../app/leagueConfiguration/BigBrother_27.js"
 import survivor47LeagueConfiguration from "../app/leagueConfiguration/Survivor_47.js"
 import { Redis } from "@upstash/redis"
 
@@ -25,15 +30,18 @@ const redis = new Redis(redisOptions);
 await recreateLeagueData("amazing_race:35:", amazingRace35Data)
 await recreateLeagueData("amazing_race:36:", amazingRace36Data)
 await recreateLeagueData("amazing_race:37:", amazingRace37Data)
+await recreateLeagueData("amazing_race:38:", amazingRace38Data)
 await recreateLeagueData("big_brother:26:", bigBrother26Data)
+await recreateLeagueData("big_brother:27:", bigBrother27Data)
+await recreateLeagueData("survivor:47:", survivor47Data)
+await recreateLeagueData("survivor:49:", survivor49Data)
 
-// Delete all league configuration data
-await deleteAllLeagueConfigurationData();
 // Create league configuration data
 await recreateLeagueConfigurationData(`league_configuration:${amazingRace35LeagueConfiguration.leagueStatus}:amazing_race:35`, amazingRace35LeagueConfiguration)
 await recreateLeagueConfigurationData(`league_configuration:${amazingRace36LeagueConfiguration.leagueStatus}:amazing_race:36`, amazingRace36LeagueConfiguration)
 await recreateLeagueConfigurationData(`league_configuration:${amazingRace37LeagueConfiguration.leagueStatus}:amazing_race:37`, amazingRace37LeagueConfiguration)
 await recreateLeagueConfigurationData(`league_configuration:${bigBrother26LeagueConfiguration.leagueStatus}:big_brother:26`, bigBrother26LeagueConfiguration)
+await recreateLeagueConfigurationData(`league_configuration:${bigBrother27LeagueConfiguration.leagueStatus}:big_brother:27`, bigBrother27LeagueConfiguration)
 await recreateLeagueConfigurationData(`league_configuration:${survivor47LeagueConfiguration.leagueStatus}:survivor:47`, survivor47LeagueConfiguration)
 
 let fullCursor = await redis.scan("0", {match: "*"})
@@ -79,16 +87,3 @@ async function recreateLeagueConfigurationData(leagueConfigurationKey, dataRepo)
     await redis.json.set(leagueConfigurationKey, "$", leagueConfigString)
 }
 
-async function deleteAllLeagueConfigurationData() {
-    let leagueConfigurationCursor = await redis.scan("0", {match: "league_configuration:*"});
-    let leagueConfigurationKeys = leagueConfigurationCursor[1];
-    let cursorStart = leagueConfigurationCursor[0];
-    while(cursorStart !== "0"){
-        leagueConfigurationCursor = await redis.scan(cursorStart, {match: "league_configuration:*"});
-        leagueConfigurationKeys = leagueConfigurationKeys.concat(leagueConfigurationCursor[1]);
-        cursorStart = leagueConfigurationCursor[0];
-    }
-    for(const leagueConfigurationKey of leagueConfigurationKeys){
-        redis.del(leagueConfigurationKey);
-    }
-}
