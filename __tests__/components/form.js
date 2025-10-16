@@ -27,13 +27,13 @@ global.fetch = jest.fn(() =>
 const leagueConfigFetchSuccessMock = () => Promise.resolve({
     ok: true,
     status: 200,
-    json: async () => { message: "posted" }
+    json: async () => {}
 });
 
 const leagueConfigFetch401ErrorMock = () => Promise.resolve({
     ok: true,
     status: 401,
-    json: async () => { message: "you are not authenticated with this service" }
+    json: async () => {}
 });
 
 describe("LeagueConfigurationForm", ()=> {
