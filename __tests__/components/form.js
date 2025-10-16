@@ -89,7 +89,7 @@ describe("LeagueConfigurationForm", ()=> {
         // act 
         fetchMock = jest.spyOn(global, "fetch")
         .mockImplementation(leagueConfigFetch401ErrorMock);
-        const { getByTestId, container } = render(<LeagueConfigurationForm/>);
+        const { getByTestId } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId('test-input-wikiPageName');
         fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         const wikiSectionHeaderElm = getByTestId('test-input-wikiSectionHeader');
