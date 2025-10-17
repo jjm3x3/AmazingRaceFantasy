@@ -10,7 +10,6 @@ import amazingRace35LeagueConfiguration from "../app/leagueConfiguration/Amazing
 import amazingRace36LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_36.js"
 import amazingRace37LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_37.js"
 import bigBrother26LeagueConfiguration from "../app/leagueConfiguration/BigBrother_26.js"
-import bigBrother27LeagueConfiguration from "../app/leagueConfiguration/BigBrother_27.js"
 import survivor47LeagueConfiguration from "../app/leagueConfiguration/Survivor_47.js"
 import { Redis } from "@upstash/redis"
 
@@ -41,7 +40,6 @@ await recreateLeagueConfigurationData(`league_configuration:${amazingRace35Leagu
 await recreateLeagueConfigurationData(`league_configuration:${amazingRace36LeagueConfiguration.leagueStatus}:amazing_race:36`, amazingRace36LeagueConfiguration)
 await recreateLeagueConfigurationData(`league_configuration:${amazingRace37LeagueConfiguration.leagueStatus}:amazing_race:37`, amazingRace37LeagueConfiguration)
 await recreateLeagueConfigurationData(`league_configuration:${bigBrother26LeagueConfiguration.leagueStatus}:big_brother:26`, bigBrother26LeagueConfiguration)
-await recreateLeagueConfigurationData(`league_configuration:${bigBrother27LeagueConfiguration.leagueStatus}:big_brother:27`, bigBrother27LeagueConfiguration)
 await recreateLeagueConfigurationData(`league_configuration:${survivor47LeagueConfiguration.leagueStatus}:survivor:47`, survivor47LeagueConfiguration)
 
 let fullCursor = await redis.scan("0", {match: "*"})
