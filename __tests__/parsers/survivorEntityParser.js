@@ -209,6 +209,38 @@ describe("parseSurvivorEntities", () => {
         expect(targetContestantList[0].eliminationOrder).toBeGreaterThan(targetContestantList2[0].eliminationOrder);
     });
 
+    it("Should parse out ending day based on previous contestant exit if only placement column exists", () => {
+        const firstContestantsFirstName = "Some";
+        const expectedEliminationOrder = 2;
+
+        const listOfContestants = [
+            {
+                name: "first elimed",
+                col4: "Medicallyevacuated",
+                col5: "Day 3"
+            },
+            {
+                name: firstContestantsFirstName + " Guy",
+                col4: "1st voted out"
+            },
+            {
+                name: "blah Guy",
+                col4: "Participating"
+            },
+            {
+                name: "thrids Brother",
+                col4: "Participating"
+            }
+        ];
+
+        var result = parseSurvivorEntities(listOfContestants);
+
+        console.log("Teest result");
+        console.log(result);
+
+        expect(result[1].eliminationOrder).toEqual(expectedEliminationOrder);
+    });
+
     it("Should make sure an entity with a winner status should end up with eliminationOrder of Number.MAX_VALUE", () => {
         const targetContestantName = "blah Guy";
 
