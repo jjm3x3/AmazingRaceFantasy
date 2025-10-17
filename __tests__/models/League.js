@@ -740,62 +740,82 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         // are only inserting on contestant into the league
         // round 0
         expect(seansRoundScores[0].round).toBe(0);
-        expect(seansRoundScores[0].contestantRoundData[0].roundScore).toBe(120);
-        expect(seansRoundScores[0].contestantRoundData[0].totalScore).toBe(120);
+        expect(seansRoundScores[0].contestantRoundData[0].roundScore).toBe(150);
+        expect(seansRoundScores[0].contestantRoundData[0].totalScore).toBe(150);
 
         // round 1
         expect(seansRoundScores[1].round).toBe(1);
-        expect(seansRoundScores[1].contestantRoundData[0].roundScore).toBe(110);
-        expect(seansRoundScores[1].contestantRoundData[0].totalScore).toBe(230);
+        expect(seansRoundScores[1].contestantRoundData[0].roundScore).toBe(140);
+        expect(seansRoundScores[1].contestantRoundData[0].totalScore).toBe(290);
 
         // round 2
         expect(seansRoundScores[2].round).toBe(2);
-        expect(seansRoundScores[2].contestantRoundData[0].roundScore).toBe(90);
-        expect(seansRoundScores[2].contestantRoundData[0].totalScore).toBe(320);
+        expect(seansRoundScores[2].contestantRoundData[0].roundScore).toBe(130);
+        expect(seansRoundScores[2].contestantRoundData[0].totalScore).toBe(420);
 
         // round 3
         expect(seansRoundScores[3].round).toBe(3);
-        expect(seansRoundScores[3].contestantRoundData[0].roundScore).toBe(80);
-        expect(seansRoundScores[3].contestantRoundData[0].totalScore).toBe(400);
+        expect(seansRoundScores[3].contestantRoundData[0].roundScore).toBe(120);
+        expect(seansRoundScores[3].contestantRoundData[0].totalScore).toBe(540);
 
         // round 4
         expect(seansRoundScores[4].round).toBe(4);
-        expect(seansRoundScores[4].contestantRoundData[0].roundScore).toBe(80);
-        expect(seansRoundScores[4].contestantRoundData[0].totalScore).toBe(480);
+        expect(seansRoundScores[4].contestantRoundData[0].roundScore).toBe(100);
+        expect(seansRoundScores[4].contestantRoundData[0].totalScore).toBe(640);
 
         // round 5
         expect(seansRoundScores[5].round).toBe(5);
-        expect(seansRoundScores[5].contestantRoundData[0].roundScore).toBe(60);
-        expect(seansRoundScores[5].contestantRoundData[0].totalScore).toBe(540);
+        expect(seansRoundScores[5].contestantRoundData[0].roundScore).toBe(80);
+        expect(seansRoundScores[5].contestantRoundData[0].totalScore).toBe(720);
 
         // round 6
         expect(seansRoundScores[6].round).toBe(6);
-        expect(seansRoundScores[6].contestantRoundData[0].roundScore).toBe(50);
-        expect(seansRoundScores[6].contestantRoundData[0].totalScore).toBe(590);
+        expect(seansRoundScores[6].contestantRoundData[0].roundScore).toBe(70);
+        expect(seansRoundScores[6].contestantRoundData[0].totalScore).toBe(790);
 
         // round 7
         expect(seansRoundScores[7].round).toBe(7);
-        expect(seansRoundScores[7].contestantRoundData[0].roundScore).toBe(50);
-        expect(seansRoundScores[7].contestantRoundData[0].totalScore).toBe(640);
+        expect(seansRoundScores[7].contestantRoundData[0].roundScore).toBe(60);
+        expect(seansRoundScores[7].contestantRoundData[0].totalScore).toBe(850);
 
         // round 8
         expect(seansRoundScores[8].round).toBe(8);
-        expect(seansRoundScores[8].contestantRoundData[0].roundScore).toBe(30);
-        expect(seansRoundScores[8].contestantRoundData[0].totalScore).toBe(670);
+        expect(seansRoundScores[8].contestantRoundData[0].roundScore).toBe(40);
+        expect(seansRoundScores[8].contestantRoundData[0].totalScore).toBe(890);
 
         // round 9
         expect(seansRoundScores[9].round).toBe(9);
-        expect(seansRoundScores[9].contestantRoundData[0].roundScore).toBe(30);
-        expect(seansRoundScores[9].contestantRoundData[0].totalScore).toBe(700);
+        expect(seansRoundScores[9].contestantRoundData[0].roundScore).toBe(40);
+        expect(seansRoundScores[9].contestantRoundData[0].totalScore).toBe(930);
 
         // round 10
         expect(seansRoundScores[10].round).toBe(10);
-        expect(seansRoundScores[10].contestantRoundData[0].roundScore).toBe(10);
-        expect(seansRoundScores[10].contestantRoundData[0].totalScore).toBe(710);
+        expect(seansRoundScores[10].contestantRoundData[0].roundScore).toBe(30);
+        expect(seansRoundScores[10].contestantRoundData[0].totalScore).toBe(960);
 
         // round 11
         expect(seansRoundScores[11].round).toBe(11);
-        expect(seansRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
-        expect(seansRoundScores[11].contestantRoundData[0].totalScore).toBe(710);
+        expect(seansRoundScores[11].contestantRoundData[0].roundScore).toBe(20);
+        expect(seansRoundScores[11].contestantRoundData[0].totalScore).toBe(980);
+
+        // round 12
+        expect(seansRoundScores[12].round).toBe(12);
+        expect(seansRoundScores[12].contestantRoundData[0].roundScore).toBe(10);
+        expect(seansRoundScores[12].contestantRoundData[0].totalScore).toBe(990);
+
+        // round 13
+        expect(seansRoundScores[13].round).toBe(13);
+        expect(seansRoundScores[13].contestantRoundData[0].roundScore).toBe(10);
+        expect(seansRoundScores[13].contestantRoundData[0].totalScore).toBe(1000);
+
+        // round 14
+        expect(seansRoundScores[14].round).toBe(14);
+        expect(seansRoundScores[14].contestantRoundData[0].roundScore).toBe(0);
+        expect(seansRoundScores[14].contestantRoundData[0].totalScore).toBe(1000);
+
+        // round 15
+        expect(seansRoundScores[15].round).toBe(15);
+        expect(seansRoundScores[15].contestantRoundData[0].roundScore).toBe(0);
+        expect(seansRoundScores[15].contestantRoundData[0].totalScore).toBe(1000);
     });
 });
