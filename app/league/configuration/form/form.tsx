@@ -17,6 +17,10 @@ export default function LeagueConfigurationForm(){
         if(formRef.current){
             const formData = new FormData(formRef.current);
             const formObject = Object.fromEntries(formData);
+
+            // Convert "archived" friendly name into valid enum for api
+            formObject.leagueStatus  = formObject.leagueStatus === "archived" ? "archive" : formObject.leagueStatus;
+
             const formDataAsJson = JSON.stringify(formObject);
 
             try{
