@@ -715,4 +715,107 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(rachsRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
         expect(rachsRoundScores[11].contestantRoundData[0].totalScore).toBe(710);
     });
+
+    it("Should Score Sean correctly for Big Brother 27", () => {
+
+        // Arrange
+        const seansRawTeamList = [ { teamName: "Morgan Pope", relationship: "Gamer", isParticipating: false, eliminationOrder: 15 }, { teamName: "Katherine Woodman", relationship: "Fine dining server", isParticipating: false, eliminationOrder: 7 }, { teamName: "Kelley Jorgensen", relationship: "Web designer", isParticipating: false, eliminationOrder: 11 }, { teamName: "Zach Cornell", relationship: "Marketing manager", isParticipating: false, eliminationOrder: 5 }, { teamName: "Keanu Soto", relationship: "Dungeon master", isParticipating: false, eliminationOrder: 13 }, { teamName: "Lauren Domingue", relationship: "Bridal stylist", isParticipating: false, eliminationOrder: 12 }, { teamName: "Rylie Jeffries", relationship: "Professional bull rider", isParticipating: false, eliminationOrder: 6 }, { teamName: "Rachel Reilly", relationship: "TV personality", isParticipating: false, eliminationOrder: 9 }, { teamName: "Ava Pearl", relationship: "Aura painter", isParticipating: false, eliminationOrder: 14 }, { teamName: "Mickey Lee", relationship: "Event curator", isParticipating: false, eliminationOrder: 8 }, { teamName: "Jimmy Heagerty", relationship: "Strategy consultant", isParticipating: false, eliminationOrder: 4 }, { teamName: "Cliffton \"Will\" Williams", relationship: "College sports podcaster", isParticipating: false, eliminationOrder: 10 }, { teamName: "Vince Panaro", relationship: "Unemployed", isParticipating: false, eliminationOrder: 16 }, { teamName: "Isaiah \"Zae\" Frederich", relationship: "Salesperson", isParticipating: false, eliminationOrder: 1 }, { teamName: "Adrian Rocha", relationship: "Carpenter", isParticipating: false, eliminationOrder: 3 }, { teamName: "Ashley Hollis", relationship: "Attorney", isParticipating: true, eliminationOrder: 1.7976931348623157e+308 }, { teamName: "Amy Bingham", relationship: "Insurance agent", isParticipating: false, eliminationOrder: 2 } ];
+
+        const seansParsedAndEmbelishedTeamList = seansRawTeamList.map(t => {
+            return new CompetingEntity(t);
+        });
+
+        const expectedNumberOfRounds = 16;
+        const handicap = 0;
+        const sut = new League(seansParsedAndEmbelishedTeamList);
+
+        // Act
+        const seansRoundScores = sut.generateContestantRoundScores(seansParsedAndEmbelishedTeamList, "testingSean", handicap);
+
+        // Assert
+        expect(seansRoundScores.length).toBe(expectedNumberOfRounds);
+
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting on contestant into the league
+        // round 0
+        expect(seansRoundScores[0].round).toBe(0);
+        expect(seansRoundScores[0].contestantRoundData[0].roundScore).toBe(150);
+        expect(seansRoundScores[0].contestantRoundData[0].totalScore).toBe(150);
+
+        // round 1
+        expect(seansRoundScores[1].round).toBe(1);
+        expect(seansRoundScores[1].contestantRoundData[0].roundScore).toBe(140);
+        expect(seansRoundScores[1].contestantRoundData[0].totalScore).toBe(290);
+
+        // round 2
+        expect(seansRoundScores[2].round).toBe(2);
+        expect(seansRoundScores[2].contestantRoundData[0].roundScore).toBe(130);
+        expect(seansRoundScores[2].contestantRoundData[0].totalScore).toBe(420);
+
+        // round 3
+        expect(seansRoundScores[3].round).toBe(3);
+        expect(seansRoundScores[3].contestantRoundData[0].roundScore).toBe(120);
+        expect(seansRoundScores[3].contestantRoundData[0].totalScore).toBe(540);
+
+        // round 4
+        expect(seansRoundScores[4].round).toBe(4);
+        expect(seansRoundScores[4].contestantRoundData[0].roundScore).toBe(100);
+        expect(seansRoundScores[4].contestantRoundData[0].totalScore).toBe(640);
+
+        // round 5
+        expect(seansRoundScores[5].round).toBe(5);
+        expect(seansRoundScores[5].contestantRoundData[0].roundScore).toBe(80);
+        expect(seansRoundScores[5].contestantRoundData[0].totalScore).toBe(720);
+
+        // round 6
+        expect(seansRoundScores[6].round).toBe(6);
+        expect(seansRoundScores[6].contestantRoundData[0].roundScore).toBe(70);
+        expect(seansRoundScores[6].contestantRoundData[0].totalScore).toBe(790);
+
+        // round 7
+        expect(seansRoundScores[7].round).toBe(7);
+        expect(seansRoundScores[7].contestantRoundData[0].roundScore).toBe(60);
+        expect(seansRoundScores[7].contestantRoundData[0].totalScore).toBe(850);
+
+        // round 8
+        expect(seansRoundScores[8].round).toBe(8);
+        expect(seansRoundScores[8].contestantRoundData[0].roundScore).toBe(40);
+        expect(seansRoundScores[8].contestantRoundData[0].totalScore).toBe(890);
+
+        // round 9
+        expect(seansRoundScores[9].round).toBe(9);
+        expect(seansRoundScores[9].contestantRoundData[0].roundScore).toBe(40);
+        expect(seansRoundScores[9].contestantRoundData[0].totalScore).toBe(930);
+
+        // round 10
+        expect(seansRoundScores[10].round).toBe(10);
+        expect(seansRoundScores[10].contestantRoundData[0].roundScore).toBe(30);
+        expect(seansRoundScores[10].contestantRoundData[0].totalScore).toBe(960);
+
+        // round 11
+        expect(seansRoundScores[11].round).toBe(11);
+        expect(seansRoundScores[11].contestantRoundData[0].roundScore).toBe(20);
+        expect(seansRoundScores[11].contestantRoundData[0].totalScore).toBe(980);
+
+        // round 12
+        expect(seansRoundScores[12].round).toBe(12);
+        expect(seansRoundScores[12].contestantRoundData[0].roundScore).toBe(10);
+        expect(seansRoundScores[12].contestantRoundData[0].totalScore).toBe(990);
+
+        // round 13
+        expect(seansRoundScores[13].round).toBe(13);
+        expect(seansRoundScores[13].contestantRoundData[0].roundScore).toBe(10);
+        expect(seansRoundScores[13].contestantRoundData[0].totalScore).toBe(1000);
+
+        // round 14
+        expect(seansRoundScores[14].round).toBe(14);
+        expect(seansRoundScores[14].contestantRoundData[0].roundScore).toBe(0);
+        expect(seansRoundScores[14].contestantRoundData[0].totalScore).toBe(1000);
+
+        // round 15
+        expect(seansRoundScores[15].round).toBe(15);
+        expect(seansRoundScores[15].contestantRoundData[0].roundScore).toBe(0);
+        expect(seansRoundScores[15].contestantRoundData[0].totalScore).toBe(1000);
+    });
 });
