@@ -6,6 +6,7 @@ import styles from "./styles.module.scss";
 import TextInput from "@/app/components/baseComponents/components/inputs/text/text";
 import Select from "@/app/components/baseComponents/components/inputs/select/select";
 import Button from "@/app/components/baseComponents/components/button/button";
+
 export default function LeagueConfigurationForm(){
     // This is needed to allow for query selector below
     const formRef = useRef(null as HTMLFormElement | null);
@@ -17,6 +18,7 @@ export default function LeagueConfigurationForm(){
             const formData = new FormData(formRef.current);
             const formObject = Object.fromEntries(formData);
             const formDataAsJson = JSON.stringify(formObject);
+
             try{
                 const response = await fetch("/api/league", {
                     method: "POST",
