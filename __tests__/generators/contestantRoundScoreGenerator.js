@@ -301,8 +301,8 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         // round 0 (only testing to make sure we start is correct)
         expect(result.rounds[0].round).toBe(0);
         expect(result.rounds[0].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
-        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(120);
-        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(120);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(150);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(150);
 
         //// round 1..10 not testing because we aren't using them today
 
@@ -311,9 +311,9 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         });
 
         // round 11
-        expect(result.rounds[11].round).toBe(11);
-        expect(result.rounds[11].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
-        expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
-        expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(550);
+        expect(result.rounds[15].round).toBe(15);
+        expect(result.rounds[15].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
+        expect(result.rounds[15].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[15].contestantRoundData[0].totalScore).toBe(1000);
     });
 });
