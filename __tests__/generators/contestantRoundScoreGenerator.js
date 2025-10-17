@@ -270,7 +270,7 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(550);
     });
 
-    it("Should return a league with xxx scoring for BigBrother_27", async () => {
+    it("Should return a league with Seans scoring for BigBrother_27", async () => {
 
         // Arrange
         const testDataFetcher = () => new Promise((resolve, _reject) => {
@@ -279,14 +279,14 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
             );
         });
 
-        const andrewsRawTeamList = [];
+        const seansRawTeamList = [ "Morgan Pope", "Katherine Woodman", "Kelley Jorgensen", "Zach Cornell", "Keanu Soto", "Lauren Domingue", "Rylie Jeffries", "Rachel Reilly", "Ava Pearl", "Mickey Lee", "Jimmy Heagerty", "Cliffton \"Will\" Williams", "Vince Panaro", "Isaiah \"Zae\" Frederich", "Adrian Rocha", "Ashley Hollis", "Amy Bingham" ];
 
-        const andrewsContestantLeagueData = {
-            name: "Andrew J.",
-            userId: "6252275B-C6AF-427B-82A6-1F4B4A2267C1",
-            ranking: andrewsRawTeamList
+        const seansContestantLeagueData = {
+            name: "Sean",
+            userId: "EABAE0D9-0AD0-4F2F-97E3-DF22212A375F",
+            ranking: seansRawTeamList
         };
-        const listOfContetantLeagueData = [andrewsContestantLeagueData]
+        const listOfContetantLeagueData = [seansContestantLeagueData]
 
         const expectedNumberOfRounds = 16;
 
@@ -300,7 +300,7 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         // are only inserting one contestant into the league
         // round 0 (only testing to make sure we start is correct)
         expect(result.rounds[0].round).toBe(0);
-        expect(result.rounds[0].contestantRoundData[0].name).toBe(andrewsContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
         expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(120);
         expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(120);
 
@@ -312,7 +312,7 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
 
         // round 11
         expect(result.rounds[11].round).toBe(11);
-        expect(result.rounds[11].contestantRoundData[0].name).toBe(andrewsContestantLeagueData.name);
+        expect(result.rounds[11].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
         expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(550);
     });
