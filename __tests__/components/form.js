@@ -76,6 +76,23 @@ describe("LeagueConfigurationForm", ()=> {
         expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
     });
 
+    it("should submit a request with a valid status enum", ()=> {
+        // arrange
+        const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
+
+        const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        fireEvent.change(leagueStatusElm, {target: { value: "archived" }});
+
+        // act
+        fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
+
+        // assert
+        expect(fetchMock).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
+        expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
+    });
+
     it("should have inline error where the input doesn't validate", ()=> {
         const { getByTestId } = render(<LeagueConfigurationForm/>);
 
