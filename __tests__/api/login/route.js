@@ -107,6 +107,25 @@ describe("POST", () => {
         expect(LoginResponse).not.toBeNull();
     });
 
+    it("should catch an exception when one is thrown during verification and return a 401", async () => {
+
+        // Arrange
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            throw new Error("test error");
+        });
+
+        const requestMock = {
+            json: async () => (testRequestPayload),
+        };
+
+        // Act
+        const LoginResponse = await POST(requestMock);
+
+        // Assert
+        expect(LoginResponse).not.toBeNull();
+        expect(LoginResponse.status).toBe(401);
+    });
+
     it("should successfully call Redis", async ()=> {
         const request = {
             json: async () => (testRequestPayload),
