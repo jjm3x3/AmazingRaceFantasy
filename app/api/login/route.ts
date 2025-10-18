@@ -2,6 +2,7 @@ import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { writeGoogleUserData } from "@/app/dataSources/dbFetch";
 import { createSession } from "../session/session";
+import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
@@ -15,6 +16,8 @@ export async function POST(request: NextRequest) {
         });
     } catch (authError) {
         console.warn(`Issue verifying google identity ${authError}`);
+
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
     }
     
     const payload:TokenPayload | undefined = authResponse !== null ? authResponse.getPayload() : undefined;
