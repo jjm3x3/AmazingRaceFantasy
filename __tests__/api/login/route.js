@@ -21,7 +21,7 @@ const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
 });
 
-const verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+let verifyIdTokenMock = jest.fn().mockImplementation(()=> {
     return {
         getPayload: getPayloadMock
     }
