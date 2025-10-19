@@ -30,7 +30,7 @@ export default function Navigation({ pages }: {
         testId: "navigation-menu",
         classes: ""
     };
-    const { sessionInfo } = useContext(SessionContext);
+    const { sessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const [shouldNavigateClose, setShouldNavigateClose] = useState(true);
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
@@ -67,14 +67,16 @@ export default function Navigation({ pages }: {
                             childElements={page.subpages.map((subpage: ISubpage) => {
                                 const subpageKeyName = subpage.name.toLowerCase().replaceAll(" ", "-");
                                 return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>
-                                    <Link href={subpage.path} className={styles["sub-level-link"]}>{subpage.name}</Link>
+                                    <Link href={subpage.path} className={styles["sub-level-link"]} onNavigate={()=> { setShouldNavigateClose(true) }}>{subpage.name}</Link>
                                 </li>;
                             })} />
                     </li>);
                 })}
-                { !sessionInfo.isLoggedIn ?
-                    <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton setShouldNavigateClose={setShouldNavigateClose}/></li>
-                    : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton/></li>}
+                { googleSdkLoaded && (
+                    !sessionInfo.isLoggedIn ?
+                        <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton setShouldNavigateClose={setShouldNavigateClose}/></li>
+                        : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton/></li>
+                )}
                 </>} />
     </nav>);
 }

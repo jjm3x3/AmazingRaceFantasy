@@ -9,11 +9,11 @@ interface GoogleLogin {
 }
 
 export default function GoogleLoginButton({ setShouldNavigateClose }:{ setShouldNavigateClose: (_e: boolean) => void}){
-    const { setSessionInfo } = useContext(SessionContext);
+    const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleLoginRef = useRef(null);
 
     useEffect(()=> {
-        if(window.google){
+        if(googleSdkLoaded && window.google){
             const google = window.google;
             google.accounts.id.initialize({
                 client_id: "43091874093-mphj7iu8lffvm04ft4qru0sl3ekfjl00.apps.googleusercontent.com",
@@ -32,7 +32,7 @@ export default function GoogleLoginButton({ setShouldNavigateClose }:{ setShould
                 });
             }
         }
-    }, [window.google]);
+    }, [googleSdkLoaded]);
     
     function handleCredentialResponse(response:GoogleLogin) {
         fetch("/api/login", {
