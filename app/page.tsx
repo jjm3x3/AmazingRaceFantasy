@@ -10,7 +10,7 @@ export default async function Home() {
         <>
             <div className="site-notice">
                 <p>
-                    Submissions for the Big Brother 27 league are out now. If you would like to participate and did not get one, email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link>. If you have already submitted,give us some time to process it. If you still don't see it, message us.
+                    Submissions for the Survivor 49 & Amazing Race 38 leagues are currently closed. If you would like to participate, email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link> and we will see what we can do.
                 </p>
             </div>
             {pages.map((p: IPage) => { 
