@@ -31,7 +31,7 @@ export default function Navigation({ pages }: {
         classes: ""
     };
     const { sessionInfo, googleSdkLoaded } = useContext(SessionContext);
-    const [shouldNavigateClose, setShouldNavigateClose] = useState(true);
+    const [shouldNavigateClose, setShouldNavigateClose] = useState(false);
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
         <NavigationItem inputAttr={rootNavInputAttr} 
