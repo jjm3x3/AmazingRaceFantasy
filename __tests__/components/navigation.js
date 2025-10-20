@@ -1,8 +1,25 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import Navigation from "../../app/components/navigation/navigation";
-import { SessionProvider } from "../../app/contexts/session";
+import { SessionContext } from "../../app/contexts/session";
+import { beforeEach } from "node:test";
+
+const mockgoogleSdkLoaded = true;
+const mockSetGoogleSdkLoaded = jest.fn();
+let mockSessionInfo = {
+    isLoggedIn: false,
+    userName: "Default User Name From Context",
+    googleUserId: "xxx-xxx-xxx"
+};
+const mockSetSessionInfo = jest.fn();
 
 describe("Navigation Component", () => {
+    beforeEach(()=> {
+        mockSessionInfo = {
+            isLoggedIn: false,
+            userName: "Default User Name From Context",
+            googleUserId: "xxx-xxx-xxx"
+        }
+    })
     it("should render a hamburger navigation if there are pages found", async () => {
         const pages = [
             {
@@ -73,7 +90,7 @@ describe("Navigation Component", () => {
                 ],
             },
         ];
-        const { getByTestId } = render(<Navigation pages={pages} />);
+        const { getByTestId } = render(<SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}><Navigation pages={pages} /></SessionContext.Provider>);
         expect(getByTestId("navigation")).toBeTruthy();
 
         const toggleButton = getByTestId("hamburger-nav-btn");
@@ -114,10 +131,11 @@ describe("Navigation Component", () => {
                 ],
             },
         ];
+        mockSessionInfo.isLoggedIn = true;
         const { getByTestId } = render(
-            <SessionProvider hasSessionCookie={true}>
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <Navigation pages={pages} />
-            </SessionProvider>);
+            </SessionContext.Provider>);
         expect(getByTestId("navigation")).toBeTruthy();
 
         const toggleButton = getByTestId("hamburger-nav-btn");
