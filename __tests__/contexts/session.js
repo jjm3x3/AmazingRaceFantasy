@@ -2,6 +2,10 @@ import { render } from "@testing-library/react";
 import { SessionProvider } from "../../app/contexts/session";
 import Navigation from "../../app/components/navigation/navigation";
 
+const mockRouter = { push: jest.fn() };
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
+
 const pages = [
     {
         name: "Current",

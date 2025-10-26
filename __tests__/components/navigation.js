@@ -2,6 +2,10 @@ import { render, fireEvent, waitFor } from "@testing-library/react";
 import Navigation from "../../app/components/navigation/navigation";
 import { SessionProvider } from "../../app/contexts/session";
 
+const mockRouter = { push: jest.fn() };
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
+
 describe("Navigation Component", () => {
     it("should render a hamburger navigation if there are pages found", async () => {
         const pages = [
