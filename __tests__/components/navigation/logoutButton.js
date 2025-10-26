@@ -2,12 +2,17 @@ import { render, fireEvent } from "@testing-library/react";
 import LogoutButton from "../../../app/components/navigation/logoutButton.tsx";
 import React from "react"
 import { clearLocalStorage } from "@/app/dataSources/localStorageShim";
+import { useRouter } from "next/navigation";
 
 jest.mock("../../../app/dataSources/localStorageShim");
 
 clearLocalStorage.mockImplementation(() => {
     return;
 });
+
+const mockRouter = { push: jest.fn() };
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 describe("LogoutButton", () => {
     it("should render", () => {
