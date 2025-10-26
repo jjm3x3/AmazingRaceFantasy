@@ -78,4 +78,21 @@ describe("LogoutButton", () => {
 
         expect(clearLocalStorage).toHaveBeenCalled();
     });
+
+    it("should redirect to / when a 205 is returned", () => {
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve({status: 205});
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+        useRouter().push = jest.fn(); // reset it just for this test
+
+        const { getByTestId } = render(
+            <LogoutButton/>
+        );
+        const logoutButton = getByTestId("logout-button-core");
+        fireEvent.click(logoutButton);
+
+        expect(useRouter().push).toHaveBeenCalledTimes(1);
+    });
 });
