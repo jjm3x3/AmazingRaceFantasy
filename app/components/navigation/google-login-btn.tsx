@@ -3,6 +3,7 @@ import Script from "next/script";
 import { useEffect, useState, useRef, useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
+import config from "@/app/config";
 
 interface GoogleLogin {
     credential: string,
@@ -21,7 +22,7 @@ export default function GoogleLoginButton(){
         if(scriptLoaded){
             const google = window.google;
             google.accounts.id.initialize({
-                client_id: "43091874093-mphj7iu8lffvm04ft4qru0sl3ekfjl00.apps.googleusercontent.com",
+                client_id: config.googleAuthClientId,
                 callback: handleCredentialResponse,
                 use_fedcm_for_prompt: true
             });
