@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import styles from "./text.module.scss";
 
 const defaultValidationPattern = "^[a-zA-Z()_0-9]+$";
@@ -8,15 +8,19 @@ const defaultValidationPattern = "^[a-zA-Z()_0-9]+$";
 export default function TextInput({
     label,
     placeholder,
+    updateFormValidation,
+    id,
+    getFormValidity,
     isRequired=false,
-    validationPattern=defaultValidationPattern,
-    id
+    validationPattern=defaultValidationPattern
 }:{
     label: string,
     placeholder: string,
+    updateFormValidation?: Dispatch<SetStateAction<boolean>>,
+    id: string
+    getFormValidity:()=> boolean,
     isRequired: boolean,
     validationPattern?: string,
-    id: string
 }){
     const [validity, setValidity] = useState(true);
     const inputHandler:React.ChangeEventHandler<HTMLInputElement> = (event)=> {
@@ -27,6 +31,7 @@ export default function TextInput({
         } else {
             setValidity(inputValidity);
         }
+        updateFormValidation && updateFormValidation(getFormValidity());
     }
     return (
         <div className={`flex-auto ${styles.textComponentContainer}`}>

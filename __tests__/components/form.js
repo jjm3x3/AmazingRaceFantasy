@@ -87,10 +87,12 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
 
         // assert
-        expect(fetchMock).toHaveBeenCalledWith(
-            expect.anything(),
-            expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
-        expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
+        waitFor(()=> {
+            expect(fetchMock).toHaveBeenCalledWith(
+                expect.anything(),
+                expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
+            expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
+        });
     });
 
     it("should have inline error where the input doesn't validate", ()=> {
@@ -128,5 +130,64 @@ describe("LeagueConfigurationForm", ()=> {
         waitFor(()=> {
             expect(getByTestId("leagueConfiguration-form-submission-error")).toBeTruthy();
         })
+    })
+
+    it("should prevent form submission if there are form input errors", ()=> {
+        // act 
+        const { getByTestId } = render(<LeagueConfigurationForm/>);
+        const wikiPageNameElm = getByTestId("test-input-wikiPageName");
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        const contestantTypeElm = getByTestId("test-input-contestantType");
+        // This is an invalid value for the contestant type
+        fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
+        const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+        fireEvent.change(googleSheetUrlElm, {target: { value: "https://test.com" }});
+
+        // assert
+        expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
+        const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+        expect(formBtn.disabled).toBe(true);
+    })
+
+    it("should prevent form submission if there are remaining form input errors after input correction", ()=> {
+        // act 
+        const { getByTestId } = render(<LeagueConfigurationForm/>);
+        const wikiPageNameElm = getByTestId("test-input-wikiPageName");
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        fireEvent.change(leagueKeyElm, {target: { value: "@*&6!3*&^!@GHJ" }});
+        const contestantTypeElm = getByTestId("test-input-contestantType");
+        // This is an invalid value for the contestant type
+        fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
+        const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+        fireEvent.change(googleSheetUrlElm, {target: { value: "https://test.com" }});
+
+        // assert
+        expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
+        const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+        expect(formBtn.disabled).toBe(true);
+
+        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+       
+        expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
+        expect(getByTestId("test-label-leagueKey-errorMsg")).not.toBe(null);
+        expect(formBtn.disabled).toBe(true);
+
+        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+       
+        expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
+        expect(document.querySelector("[data-testId='test-label-leagueKey-errorMsg']")).toBe(null);
+        expect(formBtn.disabled).toBe(false);
+
     })
 })
