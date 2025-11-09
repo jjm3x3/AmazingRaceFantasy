@@ -175,28 +175,22 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.change(googleSheetUrlElm, {target: { value: "https://test.com" }});
 
         // assert
-        waitFor(()=> {
-            expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
-            const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
-            expect(formBtn.disabled).toBe(true);
-        });
+        expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
+        const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+        expect(formBtn.disabled).toBe(true);
 
         fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
        
-        waitFor(()=> {
-            expect(getByTestId("test-label-contestantType-errorMsg")).toBeFalsy();
-            expect(getByTestId("test-label-leagueKey-errorMsg")).toBeTruthy();
-            const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
-            expect(formBtn.disabled).toBe(false);
-        });
+        expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
+        expect(getByTestId("test-label-leagueKey-errorMsg")).not.toBe(null);
+        expect(formBtn.disabled).toBe(true);
 
-        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
        
+        expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
+        expect(document.querySelector("[data-testId='test-label-leagueKey-errorMsg']")).toBe(null);
+        expect(formBtn.disabled).toBe(false);
         waitFor(()=> {
-            expect(getByTestId("test-label-contestantType-errorMsg")).toBeFalsy();
-            expect(getByTestId("test-label-leagueKey-errorMsg")).toBeFalse();
-            const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
-            expect(formBtn.disabled).toBe(true);
         });
 
     })
