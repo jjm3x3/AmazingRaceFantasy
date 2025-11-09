@@ -150,11 +150,9 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.change(googleSheetUrlElm, {target: { value: "https://test.com" }});
 
         // assert
-        waitFor(()=> {
-            expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
-            const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
-            expect(formBtn.disabled).toBe(true);
-        })
+        expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
+        const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+        expect(formBtn.disabled).toBe(true);
     })
 
     it("should prevent form submission if there are remaining form input errors after input correction", ()=> {
