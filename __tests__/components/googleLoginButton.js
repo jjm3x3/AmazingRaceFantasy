@@ -2,7 +2,7 @@ import React from "react";
 import { render, waitFor } from "@testing-library/react";
 import GoogleLoginButton from "../../app/components/navigation/google-login-btn";
 import { SessionProvider } from "@/app/contexts/session";
-import { originalGoogle, mockGoogleAccounts, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleLoginButton";
+import { originalGoogle, mockGoogleAccounts, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleAccountsSdk";
 
 beforeEach(() => {
     window.google = { accounts: mockGoogleAccounts };

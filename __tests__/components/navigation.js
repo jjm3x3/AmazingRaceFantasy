@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import Navigation from "../../app/components/navigation/navigation";
 import { SessionContext } from "../../app/contexts/session";
-import { originalGoogle, mockGoogleAccounts } from "../setupGoogleLoginButton";
+import { originalGoogle, mockGoogleAccounts } from "../setupGoogleAccountsSdk";
 
 const mockgoogleSdkLoaded = true;
 const mockSetGoogleSdkLoaded = jest.fn();
