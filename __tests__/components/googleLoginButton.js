@@ -2,23 +2,7 @@ import React from "react";
 import { render, waitFor } from "@testing-library/react";
 import GoogleLoginButton from "../../app/components/navigation/google-login-btn";
 import { SessionProvider } from "@/app/contexts/session";
-
-const originalGoogle = window.google; // Store original object
-const initializeGoogleMock = jest.fn();
-const requestAccessTokenMock = jest.fn().mockResolvedValue({ access_token: "mock_token" });
-const getClientMock = jest.fn().mockReturnValue({
-    requestAccessToken: requestAccessTokenMock,
-});
-const renderButtonMock = jest.fn().mockReturnValue(()=> {
-    return <div data-testid="google-test-btn">This is my google button</div>
-})
-const mockGoogleAccounts = {
-    id: {
-        initialize: initializeGoogleMock,
-        getClient: getClientMock,
-        renderButton: renderButtonMock
-    },
-};
+import { originalGoogle, mockGoogleAccounts, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleLoginButton";
 
 beforeEach(() => {
     window.google = { accounts: mockGoogleAccounts };

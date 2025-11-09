@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import Navigation from "../../app/components/navigation/navigation";
 import { SessionContext } from "../../app/contexts/session";
-import { afterEach } from "node:test";
+import { originalGoogle, mockGoogleAccounts } from "../setupGoogleLoginButton";
 
 const mockgoogleSdkLoaded = true;
 const mockSetGoogleSdkLoaded = jest.fn();
@@ -36,24 +36,6 @@ const pages = [
         ],
     },
 ];
-
-const originalGoogle = window.google; // Store original object
-const initializeGoogleMock = jest.fn();
-const requestAccessTokenMock = jest.fn().mockResolvedValue({ access_token: "mock_token" });
-const getClientMock = jest.fn().mockReturnValue({
-    requestAccessToken: requestAccessTokenMock,
-});
-const renderButtonMock = jest.fn().mockReturnValue(()=> {
-    const initializationArgs = initializeGoogleMock.mock.calls[0][0];
-    return <button data-testid="google-test-btn" onClick={initializationArgs.callback}>Google Btn</button>
-})
-const mockGoogleAccounts = {
-    id: {
-        initialize: initializeGoogleMock,
-        getClient: getClientMock,
-        renderButton: renderButtonMock
-    }
-}
 
 describe("Navigation Component", () => {
     beforeEach(()=> {
