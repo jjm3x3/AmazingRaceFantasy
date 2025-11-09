@@ -87,10 +87,12 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
 
         // assert
-        expect(fetchMock).toHaveBeenCalledWith(
-            expect.anything(),
-            expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
-        expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
+        waitFor(()=> {
+            expect(fetchMock).toHaveBeenCalledWith(
+                expect.anything(),
+                expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
+            expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
+        });
     });
 
     it("should have inline error where the input doesn't validate", ()=> {
