@@ -5,7 +5,7 @@ import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
 import NavigationItem from "./navigation-item";
 import GoogleLoginButton from "./google-login-btn";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SessionContext } from "@/app/contexts/session";
 import LogoutButton from "@/app/components/navigation/logoutButton"
 
@@ -30,13 +30,14 @@ export default function Navigation({ pages }: {
         testId: "navigation-menu",
         classes: ""
     };
-    const { sessionInfo } = useContext(SessionContext);
+    const { sessionInfo, googleSdkLoaded } = useContext(SessionContext);
+    const [shouldNavigateClose, setShouldNavigateClose] = useState(false);
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
         <NavigationItem inputAttr={rootNavInputAttr} 
             labelAttr={rootNavLabelAttr} 
             listAttr={rootNavListAttr} 
-            navigationClose={sessionInfo.isLoggedIn}
+            navigationClose={shouldNavigateClose}
             childElements={
                 <>{pages.map((page: IPage) => {
                     const keyName = page.name.toLowerCase().replaceAll(" ", "-");
@@ -62,18 +63,20 @@ export default function Navigation({ pages }: {
                         <NavigationItem inputAttr={subpageInputAttr} 
                             labelAttr={subpageLabelAttr} 
                             listAttr={subpageListAttr} 
-                            navigationClose={sessionInfo.isLoggedIn}
+                            navigationClose={shouldNavigateClose}
                             childElements={page.subpages.map((subpage: ISubpage) => {
                                 const subpageKeyName = subpage.name.toLowerCase().replaceAll(" ", "-");
                                 return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>
-                                    <Link href={subpage.path} className={styles["sub-level-link"]}>{subpage.name}</Link>
+                                    <Link href={subpage.path} className={styles["sub-level-link"]} onNavigate={()=> { setShouldNavigateClose(true) }}>{subpage.name}</Link>
                                 </li>;
                             })} />
                     </li>);
                 })}
-                { !sessionInfo.isLoggedIn ?
-                    <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton/></li>
-                    : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton/></li>}
+                { googleSdkLoaded && (
+                    !sessionInfo.isLoggedIn ?
+                        <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton setShouldNavigateClose={setShouldNavigateClose}/></li>
+                        : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton setShouldNavigateClose={setShouldNavigateClose} /></li>
+                )}
                 </>} />
     </nav>);
 }
