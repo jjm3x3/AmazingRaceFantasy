@@ -140,11 +140,12 @@ describe("LeagueConfigurationForm", ()=> {
         const leagueKeyElm = getByTestId("test-input-leagueKey");
         fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
         const contestantTypeElm = getByTestId("test-input-contestantType");
-        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+        // This is an invalid value for the contestant type
+        fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
         fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
         const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
-        fireEvent.change(googleSheetUrlElm, {target: { value: "http://test.com" }});
+        fireEvent.change(googleSheetUrlElm, {target: { value: "https://test.com" }});
 
         // assert
         waitFor(()=> {
@@ -164,6 +165,7 @@ describe("LeagueConfigurationForm", ()=> {
         const leagueKeyElm = getByTestId("test-input-leagueKey");
         fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
         const contestantTypeElm = getByTestId("test-input-contestantType");
+        // This is an invalid value for the contestant type
         fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
         fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
