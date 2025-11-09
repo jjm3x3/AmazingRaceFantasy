@@ -10,6 +10,9 @@ let mockSessionInfo = {
     googleUserId: "xxx-xxx-xxx"
 };
 const mockSetSessionInfo = jest.fn();
+const mockRouter = { push: jest.fn() };
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 const pages = [
     {

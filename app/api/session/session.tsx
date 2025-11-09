@@ -33,6 +33,7 @@ export const decrypt = async function(session: string | undefined = "") {
         })
         return payload
     } catch (error) {
+        console.warn(`Encountered error while verifying session token: ${error}`);
         return NextResponse.json(
             {"error": "Failed to verify session"},
             {status: 401}

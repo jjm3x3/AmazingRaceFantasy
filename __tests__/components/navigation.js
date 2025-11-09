@@ -37,6 +37,10 @@ const pages = [
     },
 ];
 
+const mockRouter = { push: jest.fn() };
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
+
 describe("Navigation Component", () => {
     beforeEach(()=> {
         mockSessionInfo = {
