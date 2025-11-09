@@ -14,7 +14,7 @@ export default function Button({
     kind: "primary" | "secondary",
     id: string,
     clickHandler: (_e: MouseEvent<HTMLButtonElement>) => void,
-    disabled?: boolean
+    disabled: boolean
 }){
     return (
         <button type={type} 
