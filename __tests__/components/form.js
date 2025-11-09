@@ -13,7 +13,7 @@ const testFormData = {
     wikiPageName: "test",
     wikiSectionHeader: "test",
     leagueKey: "test",
-    contestantType: "test",
+    contestantType: "test with space",
     leagueStatus: "active",
     googleSheetUrl: "https://test.com"
 }
