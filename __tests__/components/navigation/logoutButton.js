@@ -2,12 +2,17 @@ import { render, fireEvent } from "@testing-library/react";
 import LogoutButton from "../../../app/components/navigation/logoutButton.tsx";
 import React from "react"
 import { clearLocalStorage } from "@/app/dataSources/localStorageShim";
+import { useRouter } from "next/navigation";
 
 jest.mock("../../../app/dataSources/localStorageShim");
 
 clearLocalStorage.mockImplementation(() => {
     return;
 });
+
+const mockRouter = { push: jest.fn() };
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 describe("LogoutButton", () => {
     it("should render", () => {
@@ -72,5 +77,22 @@ describe("LogoutButton", () => {
         fireEvent.click(logoutButton);
 
         expect(clearLocalStorage).toHaveBeenCalled();
+    });
+
+    it("should redirect to / when a 205 is returned", () => {
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve({status: 205});
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+        useRouter().push = jest.fn(); // reset it just for this test
+
+        const { getByTestId } = render(
+            <LogoutButton/>
+        );
+        const logoutButton = getByTestId("logout-button-core");
+        fireEvent.click(logoutButton);
+
+        expect(useRouter().push).toHaveBeenCalledWith("/");
     });
 });
