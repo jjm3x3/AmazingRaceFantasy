@@ -11,7 +11,7 @@ export default function LeagueConfigurationForm(){
     // This is needed to allow for query selector below
     const formRef = useRef(null as HTMLFormElement | null);
     const [errorMsg, setErrorMsg] = useState("");
-    const [formValidation, setFormValidation] = useState(true);
+    const [formValidation, setFormValidation] = useState(false);
     const router = useRouter();
     const formSubmit = async (e: MouseEvent)=> { 
         e.preventDefault();

@@ -163,7 +163,7 @@ describe("LeagueConfigurationForm", ()=> {
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
         const leagueKeyElm = getByTestId("test-input-leagueKey");
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(leagueKeyElm, {target: { value: "@*&6!3*&^!@GHJ" }});
         const contestantTypeElm = getByTestId("test-input-contestantType");
         // This is an invalid value for the contestant type
         fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
@@ -174,7 +174,7 @@ describe("LeagueConfigurationForm", ()=> {
 
         // assert
         waitFor(()=> {
-            expect(getByTestId("test-label-googleSheetUrl-errorMsg")).toBeTruthy();
+            expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
             const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
             expect(formBtn.disabled).toBe(true);
         });
@@ -182,9 +182,19 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
        
         waitFor(()=> {
-            expect(getByTestId("test-label-googleSheetUrl-errorMsg")).toBeFalsy();
+            expect(getByTestId("test-label-contestantType-errorMsg")).toBeFalsy();
+            expect(getByTestId("test-label-leagueKey-errorMsg")).toBeTruthy();
             const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
             expect(formBtn.disabled).toBe(false);
+        });
+
+        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+       
+        waitFor(()=> {
+            expect(getByTestId("test-label-contestantType-errorMsg")).toBeFalsy();
+            expect(getByTestId("test-label-leagueKey-errorMsg")).toBeFalse();
+            const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+            expect(formBtn.disabled).toBe(true);
         });
 
     })
