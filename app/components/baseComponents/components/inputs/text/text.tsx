@@ -10,6 +10,7 @@ export default function TextInput({
     placeholder,
     updateFormValidation,
     id,
+    getFormValidity,
     isRequired=false,
     validationPattern=defaultValidationPattern
 }:{
@@ -17,6 +18,7 @@ export default function TextInput({
     placeholder: string,
     updateFormValidation?: Dispatch<SetStateAction<boolean>>,
     id: string
+    getFormValidity:()=> boolean,
     isRequired: boolean,
     validationPattern?: string,
 }){
@@ -26,11 +28,10 @@ export default function TextInput({
         const inputValidity = !!event.currentTarget.value.match(validationPattern);
         if(event.currentTarget.value.length === 0){
             setValidity(true);
-            updateFormValidation && updateFormValidation(true);
         } else {
             setValidity(inputValidity);
-            updateFormValidation && updateFormValidation(inputValidity);
         }
+        updateFormValidation && updateFormValidation(getFormValidity());
     }
     return (
         <div className={`flex-auto ${styles.textComponentContainer}`}>

@@ -153,4 +153,37 @@ describe("LeagueConfigurationForm", ()=> {
             expect(formBtn.disabled).toBe(true);
         })
     })
+
+     it("should prevent form submission if there are remaining form input errors after input correction", ()=> {
+        // act 
+        const { getByTestId } = render(<LeagueConfigurationForm/>);
+        const wikiPageNameElm = getByTestId("test-input-wikiPageName");
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        const contestantTypeElm = getByTestId("test-input-contestantType");
+        fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
+        const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+        fireEvent.change(googleSheetUrlElm, {target: { value: "https://test.com" }});
+
+        // assert
+        waitFor(()=> {
+            expect(getByTestId("test-label-googleSheetUrl-errorMsg")).toBeTruthy();
+            const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+            expect(formBtn.disabled).toBe(true);
+        });
+
+        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+       
+        waitFor(()=> {
+            expect(getByTestId("test-label-googleSheetUrl-errorMsg")).toBeFalsy();
+            const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+            expect(formBtn.disabled).toBe(false);
+        });
+
+    })
 })

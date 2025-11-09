@@ -55,6 +55,7 @@ export default function LeagueConfigurationForm(){
                     isRequired={true}
                     validationPattern={validationPattern.wikiPageUrl.string}
                     updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current.checkValidity()}
                     id="wikiPageName"
                 />
                 <TextInput
@@ -63,6 +64,7 @@ export default function LeagueConfigurationForm(){
                     isRequired={true}
                     validationPattern={validationPattern.wikiSectionHeader.string}
                     updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current.checkValidity()}
                     id="wikiSectionHeader"
                 />
                 <TextInput
@@ -71,6 +73,7 @@ export default function LeagueConfigurationForm(){
                     isRequired={true}
                     validationPattern={validationPattern.leagueKey.string}
                     updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current.checkValidity()}
                     id="leagueKey"
                 />
                 <TextInput
@@ -79,6 +82,7 @@ export default function LeagueConfigurationForm(){
                     isRequired={true}
                     validationPattern={validationPattern.contestantType.string}
                     updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current.checkValidity()}
                     id="contestantType"
                 />
                 <Select 
@@ -100,6 +104,7 @@ export default function LeagueConfigurationForm(){
                     isRequired={true}
                     validationPattern={validationPattern.googleSheetUrl.string}
                     updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current.checkValidity()}
                     id="googleSheetUrl"
                 />
                 <Button text="Create League"
