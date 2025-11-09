@@ -22,7 +22,7 @@ const validationPattern = {
     },
     contestantType: {
         zod: z.string(),
-        string: "^[a-zA-Z0-9]+$"
+        string: "^[a-zA-Z0-9 ]+$"
     },
     leagueKey: {
         zod: z.string().regex(/^[a-zA-Z0-9_:]+$/),
