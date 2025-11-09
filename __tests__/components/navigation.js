@@ -146,4 +146,25 @@ describe("Navigation Component", () => {
             expect(navMenu).not.toBeVisible();
         }); 
     });
+    it("should close the navigation on logout", ()=> {
+        mockSessionInfo.isLoggedIn = false;
+        const { getByTestId } = render(
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
+                <Navigation pages={pages} />
+            </SessionContext.Provider>
+        );
+        const toggleButton = getByTestId("hamburger-nav-btn");
+        const navMenu = getByTestId("navigation-menu");
+        // Act
+        fireEvent.click(toggleButton);
+        waitFor(()=> {
+            // Need to wait for the navigation hydration to cycle through and rerender the navigation in opened state
+            const logoutBtn = getByTestId("logout-button-core");
+            fireEvent.click(logoutBtn);
+        });
+        waitFor(()=> {
+            // Need to wait for the login flow to cycle through and rerender the navigation in closed state
+            expect(navMenu).not.toBeVisible();
+        }); 
+    });
 });
