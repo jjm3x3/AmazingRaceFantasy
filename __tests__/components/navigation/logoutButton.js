@@ -93,6 +93,6 @@ describe("LogoutButton", () => {
         const logoutButton = getByTestId("logout-button-core");
         fireEvent.click(logoutButton);
 
-        expect(useRouter().push).toHaveBeenCalledTimes(1);
+        expect(useRouter().push).toHaveBeenCalledWith("/");
     });
 });
