@@ -149,7 +149,7 @@ describe("LeagueConfigurationForm", ()=> {
 
         // assert
         waitFor(()=> {
-            expect(getByTestId("test-label-googleSheetUrl-errorMsg")).toBeTruthy();
+            expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
             const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
             expect(formBtn.disabled).toBe(true);
         })
