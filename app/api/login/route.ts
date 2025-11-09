@@ -2,17 +2,25 @@ import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { writeGoogleUserData } from "@/app/dataSources/dbFetch";
 import { createSession } from "../session/session";
+import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
     const body = await request.json();
     const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
-    const authResponse = await client.verifyIdToken({
-        idToken: body.token,
-        audience: clientId
-    });
+    let authResponse = null;
+    try {
+        authResponse = await client.verifyIdToken({
+            idToken: body.token,
+            audience: clientId
+        });
+    } catch (authError) {
+        console.warn(`Issue verifying google identity ${authError}`);
+
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
+    }
     
-    const payload:TokenPayload | undefined = authResponse.getPayload();
+    const payload:TokenPayload | undefined = authResponse !== null ? authResponse.getPayload() : undefined;
 
     if(payload){
         const googleUserId = payload["sub"];

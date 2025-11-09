@@ -1,6 +1,18 @@
 import { render } from "@testing-library/react";
-import { SessionProvider } from "../../app/contexts/session";
+import { SessionContext } from "../../app/contexts/session";
 import Navigation from "../../app/components/navigation/navigation";
+
+const mockgoogleSdkLoaded = true;
+const mockSetGoogleSdkLoaded = jest.fn();
+let mockSessionInfo = {
+    isLoggedIn: false,
+    userName: "Default User Name From Context",
+    googleUserId: "xxx-xxx-xxx"
+};
+const mockSetSessionInfo = jest.fn();
+const mockRouter = { push: jest.fn() };
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 const pages = [
     {
@@ -29,16 +41,17 @@ const pages = [
 
 describe("Session", ()=> {
     it("should show the login button if there is no session cookie", ()=> {
-        const { getByTestId } = render(<SessionProvider hasSessionCookie={false}>
+        const { getByTestId } = render(<SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
             <Navigation pages={pages}/>
-        </SessionProvider>);
+        </SessionContext.Provider>);
         expect(getByTestId("google-login-btn")).toBeTruthy();
     });
 
     it("should hide the login button if there is a session cookie", ()=> {
-        const { queryByTestId } = render(<SessionProvider hasSessionCookie={true}>
+        mockSessionInfo.isLoggedIn = true;
+        const { queryByTestId } = render(<SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
             <Navigation pages={pages}/>
-        </SessionProvider>);
+        </SessionContext.Provider>);
         expect(queryByTestId("google-login-btn")).toBeFalsy();
     });
 })

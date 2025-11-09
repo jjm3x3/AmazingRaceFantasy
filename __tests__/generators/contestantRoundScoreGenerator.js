@@ -269,4 +269,51 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(550);
     });
+
+    it("Should return a league with Seans scoring for BigBrother_27", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                [ { name: "", name2: "Name\nAge\nOccupation\nResidence\nResult", col1: "", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Ashley Hollis", name2: "Ashley Hollis", col1: "25", col2: "Attorney", col3: "New York City, New York", col4: "WinnerDay 83", col5: "", col6: "", col7: "" }, { name: "Vince Panaro", name2: "Vince Panaro", col1: "34", col2: "Unemployed", col3: "West Hills, California", col4: "Runner-upDay 83", col5: "", col6: "", col7: "" }, { name: "Morgan Pope", name2: "Morgan Pope", col1: "33", col2: "Gamer", col3: "Los Angeles, California", col4: "Evicted Day 83", col5: "", col6: "", col7: "" }, { name: "Ava Pearl", name2: "Ava Pearl", col1: "24", col2: "Aura painter", col3: "New York City, New York", col4: "Evicted Day 80", col5: "", col6: "", col7: "" }, { name: "Keanu Soto", name2: "Keanu Soto", col1: "33", col2: "Dungeon master", col3: "McKinney, Texas", col4: "Evicted Day 77", col5: "", col6: "", col7: "" }, { name: "Lauren Domingue", name2: "Lauren Domingue", col1: "22", col2: "Bridal stylist", col3: "Lafayette, Louisiana", col4: "Evicted Day 73", col5: "", col6: "", col7: "" }, { name: "Kelley Jorgensen", name2: "Kelley Jorgensen", col1: "29", col2: "Web designer", col3: "Burbank, South Dakota", col4: "", col5: "", col6: "", col7: "" }, { name: "Cliffton \"Will\" Williams", name2: "Cliffton \"Will\" Williams", col1: "50", col2: "College sports podcaster", col3: "Charlotte, North Carolina", col4: "Evicted Day 66", col5: "", col6: "", col7: "" }, { name: "Rachel Reilly", name2: "Rachel Reilly Big Brother 12 &  Big Brother 13", col1: "40", col2: "TV personality", col3: "Hoover, Alabama", col4: "EliminatedDay 60", col5: "", col6: "", col7: "" }, { name: "Mickey Lee", name2: "Mickey Lee", col1: "35", col2: "Event curator", col3: "Atlanta, Georgia", col4: "Evicted Day 59", col5: "", col6: "", col7: "" }, { name: "Katherine Woodman", name2: "Katherine Woodman", col1: "23", col2: "Fine dining server", col3: "Columbia, South Carolina", col4: "Evicted Day 52", col5: "", col6: "", col7: "" }, { name: "Rylie Jeffries", name2: "Rylie Jeffries", col1: "27", col2: "Professional bull rider", col3: "Luther, Oklahoma", col4: "Evicted Day 45", col5: "", col6: "", col7: "" }, { name: "Zach Cornell", name2: "Zach Cornell", col1: "27", col2: "Marketing manager", col3: "Cartersville, Georgia", col4: "Evicted Day 38", col5: "", col6: "", col7: "" }, { name: "Jimmy Heagerty", name2: "Jimmy Heagerty", col1: "25", col2: "Strategy consultant", col3: "Washington, D.C.", col4: "Evicted Day 31", col5: "", col6: "", col7: "" }, { name: "Adrian Rocha", name2: "Adrian Rocha", col1: "23", col2: "Carpenter", col3: "San Antonio, Texas", col4: "Evicted Day 24", col5: "", col6: "", col7: "" }, { name: "Amy Bingham", name2: "Amy Bingham[a]", col1: "43", col2: "Insurance agent", col3: "Stockton, California", col4: "Evicted Day 17", col5: "", col6: "", col7: "" }, { name: "Isaiah \"Zae\" Frederich", name2: "Isaiah \"Zae\" Frederich", col1: "23", col2: "Salesperson", col3: "Phoenix, Arizona", col4: "Evicted Day 10", col5: "", col6: "", col7: "" } ]
+            );
+        });
+
+        const seansRawTeamList = [ "Morgan Pope", "Katherine Woodman", "Kelley Jorgensen", "Zach Cornell", "Keanu Soto", "Lauren Domingue", "Rylie Jeffries", "Rachel Reilly", "Ava Pearl", "Mickey Lee", "Jimmy Heagerty", "Cliffton \"Will\" Williams", "Vince Panaro", "Isaiah \"Zae\" Frederich", "Adrian Rocha", "Ashley Hollis", "Amy Bingham" ];
+
+        const seansContestantLeagueData = {
+            name: "Sean",
+            userId: "EABAE0D9-0AD0-4F2F-97E3-DF22212A375F",
+            ranking: seansRawTeamList
+        };
+        const listOfContetantLeagueData = [seansContestantLeagueData]
+
+        const expectedNumberOfRounds = 16;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, parseBigBrotherEntities, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(150);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(150);
+
+        //// round 1..10 not testing because we aren't using them today
+
+        result.rounds.forEach(r => {
+            console.log(`Round ${r.round}: has score: ${r.contestantRoundData[0].totalScore} adding ${r.contestantRoundData[0].roundScore}`);
+        });
+
+        // round 11
+        expect(result.rounds[15].round).toBe(15);
+        expect(result.rounds[15].contestantRoundData[0].name).toBe(seansContestantLeagueData.name);
+        expect(result.rounds[15].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[15].contestantRoundData[0].totalScore).toBe(1000);
+    });
 });
