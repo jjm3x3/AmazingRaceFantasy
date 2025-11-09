@@ -17,5 +17,7 @@ describe("backup GET", () => {
 
         // Assert
         expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
     });
 });
+
