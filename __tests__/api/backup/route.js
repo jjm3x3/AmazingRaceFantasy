@@ -25,5 +25,19 @@ describe("backup GET", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
     });
+
+    it("should fail with a 401 when the secret is not provided", async () => {
+        // Arrange
+        const request = {
+            headers: { get: () => "" } // no secret
+        };
+
+        // Act
+        const response = await GET(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(401);
+    });
 });
 
