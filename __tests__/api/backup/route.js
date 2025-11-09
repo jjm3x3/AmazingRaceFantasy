@@ -4,12 +4,18 @@
 
 import { GET } from "@/app/api/backup/route.ts";
 
+const aSecretValue = "iAmAVerySercretValue";
+
+beforeEach(() => {
+    process.env.CRON_SECRET = aSecretValue
+});
+
 describe("backup GET", () => {
 
     it("should pass when the secret is provided", async () => {
         // Arrange
         const request = {
-            headers: { get: () => "Bearer someToken" }
+            headers: { get: () => `Bearer ${aSecretValue}` }
         };
 
         // Act
