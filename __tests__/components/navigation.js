@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import Navigation from "../../app/components/navigation/navigation";
 import { SessionContext } from "../../app/contexts/session";
-import { beforeEach } from "node:test";
+import { afterEach } from "node:test";
 
 const mockgoogleSdkLoaded = true;
 const mockSetGoogleSdkLoaded = jest.fn();
@@ -12,6 +12,49 @@ let mockSessionInfo = {
 };
 const mockSetSessionInfo = jest.fn();
 
+const pages = [
+    {
+        name: "Current",
+        subpages: [
+            {
+                name: "Contestants",
+                path: "/contestants",
+            },
+            {
+                name: "Scoring",
+                path: "/scoring",
+            },
+        ],
+    },
+    {
+        name: "Past",
+        subpages: [
+            {
+                name: "Contestants",
+                path: "/archive/contestants",
+            },
+        ],
+    },
+];
+
+const originalGoogle = window.google; // Store original object
+const initializeGoogleMock = jest.fn();
+const requestAccessTokenMock = jest.fn().mockResolvedValue({ access_token: "mock_token" });
+const getClientMock = jest.fn().mockReturnValue({
+    requestAccessToken: requestAccessTokenMock,
+});
+const renderButtonMock = jest.fn().mockReturnValue(()=> {
+    const initializationArgs = initializeGoogleMock.mock.calls[0][0];
+    return <button data-testid="google-test-btn" onClick={initializationArgs.callback}>Google Btn</button>
+})
+const mockGoogleAccounts = {
+    id: {
+        initialize: initializeGoogleMock,
+        getClient: getClientMock,
+        renderButton: renderButtonMock
+    }
+}
+
 describe("Navigation Component", () => {
     beforeEach(()=> {
         mockSessionInfo = {
@@ -19,32 +62,27 @@ describe("Navigation Component", () => {
             userName: "Default User Name From Context",
             googleUserId: "xxx-xxx-xxx"
         }
+        window.google = { accounts: mockGoogleAccounts };
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({ 
+                    name: {
+                        firstName: "Test",
+                        googleUserId: "Test"
+                    }
+                }),
+            })
+        );
+
+    });
+
+    afterEach(()=> {
+        window.google = originalGoogle; // Restore original object
+        jest.clearAllMocks();
     })
+
     it("should render a hamburger navigation if there are pages found", async () => {
-        const pages = [
-            {
-                name: "Current",
-                subpages: [
-                    {
-                        name: "Contestants",
-                        path: "/contestants",
-                    },
-                    {
-                        name: "Scoring",
-                        path: "/scoring",
-                    },
-                ],
-            },
-            {
-                name: "Past",
-                subpages: [
-                    {
-                        name: "Contestants",
-                        path: "/archive/contestants",
-                    },
-                ],
-            },
-        ];
         const { getByTestId } = render(<Navigation pages={pages} />);
         expect(getByTestId("navigation")).toBeTruthy();
         const toggleButton = getByTestId("hamburger-nav-btn");
@@ -66,30 +104,6 @@ describe("Navigation Component", () => {
     });
 
     it("should render a google login button if the client does not have a session cookie", async () => {
-        const pages = [
-            {
-                name: "Current",
-                subpages: [
-                    {
-                        name: "Contestants",
-                        path: "/contestants",
-                    },
-                    {
-                        name: "Scoring",
-                        path: "/scoring",
-                    },
-                ],
-            },
-            {
-                name: "Past",
-                subpages: [
-                    {
-                        name: "Contestants",
-                        path: "/archive/contestants",
-                    },
-                ],
-            },
-        ];
         const { getByTestId } = render(<SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}><Navigation pages={pages} /></SessionContext.Provider>);
         expect(getByTestId("navigation")).toBeTruthy();
 
@@ -107,30 +121,6 @@ describe("Navigation Component", () => {
     });
 
     it("should render a logout button if the client does not have a session cookie", async () => {
-        const pages = [
-            {
-                name: "Current",
-                subpages: [
-                    {
-                        name: "Contestants",
-                        path: "/contestants",
-                    },
-                    {
-                        name: "Scoring",
-                        path: "/scoring",
-                    },
-                ],
-            },
-            {
-                name: "Past",
-                subpages: [
-                    {
-                        name: "Contestants",
-                        path: "/archive/contestants",
-                    },
-                ],
-            },
-        ];
         mockSessionInfo.isLoggedIn = true;
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
@@ -149,5 +139,25 @@ describe("Navigation Component", () => {
 
         const logoutButton = getByTestId("logout-btn");
         expect(logoutButton).toBeVisible();
+    });
+    it("should hide navigation on login complete", async () => {
+        mockSessionInfo.isLoggedIn = false;
+        const { getByTestId } = render(
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
+                <Navigation pages={pages} />
+            </SessionContext.Provider>);
+        const toggleButton = getByTestId("hamburger-nav-btn");
+        const navMenu = getByTestId("navigation-menu");
+        // Act
+        fireEvent.click(toggleButton);
+        waitFor(()=> {
+            // Need to wait for the navigation hydration to cycle through and rerender the navigation in opened state
+            const loginBtn = getByTestId("google-test-btn");
+            fireEvent.click(loginBtn);
+        });
+        waitFor(()=> {
+            // Need to wait for the login flow to cycle through and rerender the navigation in closed state
+            expect(navMenu).not.toBeVisible();
+        }); 
     });
 });
