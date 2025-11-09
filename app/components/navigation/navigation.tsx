@@ -75,7 +75,7 @@ export default function Navigation({ pages }: {
                 { googleSdkLoaded && (
                     !sessionInfo.isLoggedIn ?
                         <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton setShouldNavigateClose={setShouldNavigateClose}/></li>
-                        : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton/></li>
+                        : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton setShouldNavigateClose={setShouldNavigateClose} /></li>
                 )}
                 </>} />
     </nav>);
