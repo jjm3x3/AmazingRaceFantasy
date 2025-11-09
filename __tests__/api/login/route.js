@@ -21,7 +21,7 @@ const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
 });
 
-const verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+let verifyIdTokenMock = jest.fn().mockImplementation(()=> {
     return {
         getPayload: getPayloadMock
     }
@@ -83,6 +83,49 @@ describe("POST", () => {
             googleUserId: testAuthData.sub
         });
     });
+
+    it("should catch an exception when one is thrown during verification", async () => {
+
+        // Arrange
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            throw new Error("test error");
+        });
+
+        const requestMock = {
+            json: async () => (testRequestPayload),
+        };
+
+        // Act
+        let LoginResponse = null;
+        try {
+            LoginResponse = await POST(requestMock);
+        } catch (testError) {
+        // Assert
+            expect(testError).toBeFalsy(); // should not throw
+        }
+
+        expect(LoginResponse).not.toBeNull();
+    });
+
+    it("should catch an exception when one is thrown during verification and return a 401", async () => {
+
+        // Arrange
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            throw new Error("test error");
+        });
+
+        const requestMock = {
+            json: async () => (testRequestPayload),
+        };
+
+        // Act
+        const LoginResponse = await POST(requestMock);
+
+        // Assert
+        expect(LoginResponse).not.toBeNull();
+        expect(LoginResponse.status).toBe(401);
+    });
+
     it("should successfully call Redis", async ()=> {
         const request = {
             json: async () => (testRequestPayload),
