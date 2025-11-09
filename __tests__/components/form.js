@@ -154,7 +154,7 @@ describe("LeagueConfigurationForm", ()=> {
         })
     })
 
-     it("should prevent form submission if there are remaining form input errors after input correction", ()=> {
+    it("should prevent form submission if there are remaining form input errors after input correction", ()=> {
         // act 
         const { getByTestId } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
