@@ -190,8 +190,6 @@ describe("LeagueConfigurationForm", ()=> {
         expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
         expect(document.querySelector("[data-testId='test-label-leagueKey-errorMsg']")).toBe(null);
         expect(formBtn.disabled).toBe(false);
-        waitFor(()=> {
-        });
 
     })
 })
