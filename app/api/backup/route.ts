@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as S3 from "@aws-sdk/client-s3";
+import { awsCredentialsProvider } from "@vercel/oidc-aws-credentials-provider";
 
 const AWS_REGION = process.env.AWS_REGION;
+const AWS_ROLE_ARN = process.env.AWS_ROLE_ARN;
 
 const s3Client = new S3.S3Client({
-    region: AWS_REGION
+    region: AWS_REGION,
+    credentials: awsCredentialsProvider({
+        roleArn: AWS_ROLE_ARN
+    })
 });
 
 export async function GET(request: NextRequest) {
