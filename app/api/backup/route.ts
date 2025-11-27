@@ -1,4 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import * as S3 from "@aws-sdk/client-s3";
+
+const AWS_REGION = process.env.AWS_REGION;
+
+const s3Client = new S3.S3Client({
+    region: AWS_REGION
+});
 
 export async function GET(request: NextRequest) {
     console.log("cron endpoint hit");
