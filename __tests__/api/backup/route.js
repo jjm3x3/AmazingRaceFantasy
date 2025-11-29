@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 
+jest.mock("../../../app/dataSources/dbFetch");
 jest.mock("../../../app/dataSources/s3Provider");
 import { GET } from "@/app/api/backup/route.ts";
 import { saveObject } from "@/app/dataSources/s3Provider";
