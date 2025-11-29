@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getAllKeys } from "@/app/dataSources/dbFetch";
 import { saveObject } from "@/app/dataSources/s3Provider";
 
 // doing both typing the local and coalescing to capture the type checking as
@@ -19,6 +20,8 @@ export async function GET(request: NextRequest) {
 
     const currentTimeString = new Date(Date.now()).toJSON();
     console.log(`cron function triggered at ${currentTimeString}`);
+
+    const dbKeys = await getAllKeys();
 
     const result = await saveObject({
         Bucket: S3_BUCKET_NAME,
