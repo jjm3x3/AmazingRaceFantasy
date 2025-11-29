@@ -17,7 +17,8 @@ export async function GET(request: NextRequest) {
         });
     }
 
-    console.log("cron function triggered");
+    const currentTimeString = new Date(Date.now()).toJSON();
+    console.log(`cron function triggered at ${currentTimeString}`);
 
     const result = await saveObject({
         Bucket: S3_BUCKET_NAME,
