@@ -47,5 +47,19 @@ describe("backup GET", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(401);
     });
+
+    it("should call saveObject from an s3Provider layer", async () => {
+        // Arrange
+        const request = {
+            headers: { get: () => `Bearer ${aSecretValue}` }
+        };
+
+        // Act
+        await GET(request);
+
+        // Assert
+        expect(saveObject).toHaveBeenCalled();
+    });
+
 });
 
