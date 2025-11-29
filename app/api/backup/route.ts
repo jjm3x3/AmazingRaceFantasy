@@ -22,8 +22,8 @@ export async function GET(request: NextRequest) {
 
     const result = await saveObject({
         Bucket: S3_BUCKET_NAME,
-        Key: "test",
-        Body: "some text in a file..."
+        Key: "LastTrigger.txt",
+        Body: `some text in a file... at time ${currentTimeString}`
     });
 
     console.log(result);
