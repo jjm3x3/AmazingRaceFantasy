@@ -11,6 +11,8 @@ const aSecretValue = "iAmAVerySercretValue";
 beforeEach(() => {
     process.env.CRON_SECRET = aSecretValue
 
+    jest.resetAllMocks()
+
     saveObject.mockImplementation(() => {
         return new Promise((resolve, _reject) => {
             resolve({key: "value"});
