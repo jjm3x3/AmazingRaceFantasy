@@ -126,3 +126,22 @@ export async function writeGoogleUserData (googleUserId: string){
     await redis.json.set(`user:${googleUserId}`, "$", leagueConfigString)
 }
 
+export async function getAllKeys(keyPrefix: string = "*"): Promise<string[]> {
+
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    });
+
+    let allKeysCursor = await redis.scan("0", {match: keyPrefix});
+    let allKeysResults = allKeysCursor[1];
+    let cursorStart = allKeysCursor[0];
+    while(cursorStart !== "0"){
+        allKeysCursor = await redis.scan(cursorStart, {match: keyPrefix});
+        allKeysResults = allKeysResults.concat(allKeysCursor[1]);
+        cursorStart = allKeysCursor[0];
+    }
+
+    return allKeysResults;
+}
+
