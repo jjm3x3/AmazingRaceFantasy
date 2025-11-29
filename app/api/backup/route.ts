@@ -3,7 +3,7 @@ import { saveObject } from "@/app/dataSources/s3Provider";
 
 // doing both typing the local and coalescing to capture the type checking as
 // early as possible
-const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME ?? "bucketNamePlaceholder";
+const S3_BUCKET_NAME: string = process.env.S3_BUCKET_NAME ?? "bucketNamePlaceholder";
 
 export async function GET(request: NextRequest) {
     console.log("cron endpoint hit");
