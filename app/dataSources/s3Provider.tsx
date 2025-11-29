@@ -13,7 +13,13 @@ const s3Client = new S3.S3Client({
     })
 });
 
-export async function saveObject(putCommandObject) {
+interface PutCommand {
+    Bucket: string,
+    Key: string,
+    Body: string
+}
+
+export async function saveObject(putCommandObject: PutCommand) {
     return await s3Client.send(
         new S3.PutObjectCommand(putCommandObject)
     );
