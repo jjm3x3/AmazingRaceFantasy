@@ -2,12 +2,20 @@
  * @jest-environment node
  */
 
+jest.mock("../../../app/dataSources/s3Provider");
 import { GET } from "@/app/api/backup/route.ts";
+import { saveObject } from "@/app/dataSources/s3Provider";
 
 const aSecretValue = "iAmAVerySercretValue";
 
 beforeEach(() => {
     process.env.CRON_SECRET = aSecretValue
+
+    saveObject.mockImplementation(() => {
+        return new Promise((resolve, _reject) => {
+            resolve({key: "value"});
+        });
+    });
 });
 
 describe("backup GET", () => {
