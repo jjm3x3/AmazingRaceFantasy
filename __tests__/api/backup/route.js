@@ -6,6 +6,7 @@ jest.mock("../../../app/dataSources/dbFetch");
 jest.mock("../../../app/dataSources/s3Provider");
 import { GET } from "@/app/api/backup/route.ts";
 import { saveObject } from "@/app/dataSources/s3Provider";
+import { getAllKeys } from "@/app/dataSources/dbFetch";
 
 const aSecretValue = "iAmAVerySercretValue";
 
@@ -17,6 +18,12 @@ beforeEach(() => {
     saveObject.mockImplementation(() => {
         return new Promise((resolve, _reject) => {
             resolve({key: "value"});
+        });
+    });
+
+    getAllKeys.mockImplementation(() => {
+        return new Promise((resolve, _reject) => {
+            resolve(["aKey", "aSecondKey"]);
         });
     });
 });
