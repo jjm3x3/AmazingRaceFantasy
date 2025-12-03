@@ -116,7 +116,7 @@ export async function writeGoogleUserData (googleUserId: string){
     await redis.json.set(`user:${googleUserId}`, "$", leagueConfigString)
 }
 
-export async function getAllKeys(keyPrefix: string = "*"): Promise<string[]> {
+export async function getAllKeys(keyPrefix: string): Promise<string[]> {
 
     const redis = new Redis({
         url: process.env.KV_REST_API_URL,
