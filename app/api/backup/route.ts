@@ -35,3 +35,18 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true });
 }
+
+async function getAndSaveKeyValue(key: string): Promise {
+
+    const aJson = await getJson(key);
+
+    const jsonString = JSON.stringify(aJson);
+
+    const result = await saveObject({
+        Bucket: S3_BUCKET_NAME,
+        Key: `${key}`,
+        Body: jsonString
+    });
+
+    return result;
+}
