@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 
     const dbKeys = await getAllKeys("*");
 
-    const aJson = await getJson(dbKeys[0]);
+    getAndSaveKeyValue(dbKeys[0]);
 
     const result = await saveObject({
         Bucket: S3_BUCKET_NAME,
