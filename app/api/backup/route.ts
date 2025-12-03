@@ -23,7 +23,14 @@ export async function GET(request: NextRequest) {
 
     const dbKeys = await getAllKeys("*");
 
-    getAndSaveKeyValue(dbKeys[0]);
+    const keyPromises = dbKeys.map(k => getAndSaveKeyValue(k));
+
+    try {
+        // check to make sure all are finished before proceeding
+        await Promise.all(keyPromises);
+    } catch(error) {
+        console.error(`Error backing up all keys to the db: ${error}`);
+    }
 
     const result = await saveObject({
         Bucket: S3_BUCKET_NAME,
