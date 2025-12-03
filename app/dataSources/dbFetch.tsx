@@ -135,3 +135,21 @@ export async function getAllKeys(keyPrefix: string): Promise<string[]> {
     return allKeysResults;
 }
 
+export async function getJson<T>(key: string): Promise<T> {
+
+    if (key === undefined) {
+        throw new Error("Unable to getJson. Provided param 'key' is undefined but must have a value\"");
+    }
+
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    })
+    const jsonResult: T | null = await redis.json.get(key);
+    if (jsonResult !== null){
+        return jsonResult;
+    } else {
+        throw new Error("There is no json found for the key provided");
+    }
+}
+
