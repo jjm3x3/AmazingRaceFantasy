@@ -30,6 +30,7 @@ export async function GET(request: NextRequest) {
         await Promise.all(keyPromises);
     } catch(error) {
         console.error(`Error backing up all keys to the db: ${error}`);
+        return NextResponse.json("Internal Server Error", { status: 500 });
     }
 
     const result = await saveObject({
