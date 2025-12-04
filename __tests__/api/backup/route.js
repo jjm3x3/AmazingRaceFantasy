@@ -71,5 +71,27 @@ describe("backup GET", () => {
         expect(saveObject).toHaveBeenCalled();
     });
 
+    it("should call catch when one of individual saves fails", async () => {
+        // Arrange
+        saveObject
+            .mockReturnValue(new Promise((resolve, _reject) => {
+                resolve({key: "value"});
+            }))
+            .mockReturnValue(new Promise((_resolve, reject) => {
+                reject({key: "value"});
+            }));
+
+        const request = {
+            headers: { get: () => `Bearer ${aSecretValue}` }
+        };
+
+        // Act
+        const response = await GET(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(500);
+    });
+
 });
 
