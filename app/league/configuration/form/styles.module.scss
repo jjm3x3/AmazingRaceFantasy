@@ -1,4 +1,26 @@
-.form {
+@use '../../../components/baseComponents/styles/colors';
+
+.errorMsg, .form {
     min-width: 50vw;
-    margin: 3rem 20px 0;
+    margin: 2rem 20px 0;
+}
+
+.errorMsg + .form {
+    margin-top: 0.5rem;
+}
+
+.errorMsg {
+    color: colors.$errorRed;
+    font-weight: 600;
+    .errorIcon {
+        font-size: 0.7rem;
+        font-weight: 800;
+        border-radius: 50%;
+        border: 2px solid colors.$errorRed;
+        width: 1.25rem;
+        height: 1.25rem;
+        display: inline-block;
+        text-align: center;
+        margin-right: 0.3rem;
+    }
 }

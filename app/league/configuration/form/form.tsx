@@ -6,7 +6,12 @@ import styles from "./styles.module.scss";
 import TextInput from "@/app/components/baseComponents/components/inputs/text/text";
 import Select from "@/app/components/baseComponents/components/inputs/select/select";
 import Button from "@/app/components/baseComponents/components/button/button";
+import { UNAUTHENTICATED_ERROR_MESSAGE, UNAUTHORIZED_ERROR_MESSAGE, GENERIC_FORM_ERROR_MESSAGE } from "@/app/dataSources/errorMsgs";
 
+interface FormError {
+    status: number,
+    message: string
+}
 export default function LeagueConfigurationForm(){
     // This is needed to allow for query selector below
     const formRef = useRef(null as HTMLFormElement | null);
@@ -33,21 +38,31 @@ export default function LeagueConfigurationForm(){
                     body: formDataAsJson
                 });
                 if(!response.ok){
-                    setErrorMsg("There was a problem. Please check the form and try to resubmit.");
+                    throw response;
                 }
                 const result = await response.json();
                 if(result.message === "posted"){
                     router.push("/");
                 }
-            } catch(err){
+            } catch(err: unknown){
+                console.log(err);
                 setFormValidation(false);
-                setErrorMsg("There was a problem. Please check the form and try to resubmit.");
+                switch((err as FormError).status){
+                case 401:
+                    setErrorMsg(UNAUTHENTICATED_ERROR_MESSAGE);
+                    break;
+                case 403:
+                    setErrorMsg(UNAUTHORIZED_ERROR_MESSAGE);
+                    break
+                default:
+                    setErrorMsg(GENERIC_FORM_ERROR_MESSAGE);
+                }
             }
         }
     };
     return (
         <>
-            {errorMsg && <p data-testId={"leagueConfiguration-form-submission-error"}>{errorMsg}</p>}
+            {errorMsg && <p className={styles.errorMsg} data-testId={"leagueConfiguration-form-submission-error"}><span className={styles.errorIcon}>!</span>{errorMsg}</p>}
             <form ref={formRef} className={styles.form}>
                 <TextInput
                     label="Wikipedia Page Name"
