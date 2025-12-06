@@ -208,7 +208,7 @@ describe("LeagueConfigurationForm", ()=> {
         const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
 
         // act
-        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiPageNameElm, {target: { value: "@*&6!3*&^!@GHJ" }});
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
         fireEvent.change(leagueKeyElm, {target: { value: "@*&6!3*&^!@GHJ" }});
         fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
@@ -230,17 +230,17 @@ describe("LeagueConfigurationForm", ()=> {
         // assert
         await waitFor(()=>{
             expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
-            expect(getByTestId("test-label-leagueKey-errorMsg")).not.toBe(null);
+            expect(getByTestId("test-label-wikiPageName-errorMsg")).not.toBe(null);
             expect(formBtn.disabled).toBe(true);
         });
 
         // act
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
        
         // assert
         await waitFor(()=> {
             expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
-            expect(document.querySelector("[data-testId='test-label-leagueKey-errorMsg']")).toBe(null);
+            expect(document.querySelector("[data-testId='test-label-wikiPageName-errorMsg']")).toBe(null);
             expect(formBtn.disabled).toBe(false);
         });
     });
