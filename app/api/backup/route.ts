@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const result = await saveObject({
+        await saveObject({
             Bucket: S3_BUCKET_NAME,
             Key: "LastTrigger.txt",
             Body: `some text in a file... at time ${currentTimeString}`
