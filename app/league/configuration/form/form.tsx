@@ -82,6 +82,22 @@ export default function LeagueConfigurationForm(){
                     getFormValidity={()=> formRef.current!.checkValidity()}
                     id="wikiSectionHeader"
                 />
+                <Select
+                    labelText="Show Name"
+                    selectOptions={
+                        [{
+                            value: "amazing_race",
+                            text: "Amazing Race"
+                        },{
+                            value: "big_brother",
+                            text: "Big Brother"
+                        },{
+                            value: "survivor",
+                            text: "Survivor"
+                        }]
+                    }
+                    id="showName"
+                />
                 <TextInput
                     label="League Key Prefix"
                     placeholder="example: big_brother:27"
