@@ -20,9 +20,14 @@ This app requires setting a local environment variable. Here's how to set up thi
 1. Set this variable equal to the value you generated in step 1.
 1. Stop and start your app.
 
-1. In your `.env.development.local`, create a variable named `SESSION_SECRET`
-1. Set this variable equal to the value you generated in step 1.
-1. Stop and start your app.
+In order to test or develop on the backup cron you will need the following variables set:
+
+``` SH
+CRON_SECRET=<can be anything when running locally>
+AWS_ROLE_ARN=<ask @jjm3x3>
+AWS_REGION="us-east-2"
+S3_BUCKET_NAME="league-data-nonprod-backup"
+```
 
 ### Commands
 <a name="commands"></a>
