@@ -44,7 +44,7 @@ export default function LeagueConfigurationForm(){
                 if(result.message === "posted"){
                     router.push("/");
                 }
-            } catch(err: unknown){ // eslint-disable-line @typescript-eslint/no-explicit-any
+            } catch(err: unknown){
                 setFormValidation(false);
                 switch((err as FormError).status){
                 case 401:
