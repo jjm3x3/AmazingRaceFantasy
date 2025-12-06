@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
         await saveObject({
             Bucket: S3_BUCKET_NAME,
             Key: "LastTrigger.txt",
-            Body: `some text in a file... at time ${currentTimeString}`
+            Body: `File saved to indicate a complete DB backup at: ' ${currentTimeString}'`
         });
 
     } catch(error) {
