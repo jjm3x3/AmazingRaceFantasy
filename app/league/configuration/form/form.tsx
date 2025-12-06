@@ -11,6 +11,7 @@ export default function LeagueConfigurationForm(){
     // This is needed to allow for query selector below
     const formRef = useRef(null as HTMLFormElement | null);
     const [errorMsg, setErrorMsg] = useState("");
+    const [formValidation, setFormValidation] = useState(false);
     const router = useRouter();
     const formSubmit = async (e: MouseEvent)=> { 
         e.preventDefault();
@@ -39,6 +40,7 @@ export default function LeagueConfigurationForm(){
                     router.push("/");
                 }
             } catch(err){
+                setFormValidation(false);
                 setErrorMsg("There was a problem. Please check the form and try to resubmit.");
             }
         }
@@ -52,6 +54,8 @@ export default function LeagueConfigurationForm(){
                     placeholder="example: big_brother"
                     isRequired={true}
                     validationPattern={validationPattern.wikiPageUrl.string}
+                    updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current!.checkValidity()}
                     id="wikiPageName"
                 />
                 <TextInput
@@ -59,6 +63,8 @@ export default function LeagueConfigurationForm(){
                     placeholder="example: HouseGuests"
                     isRequired={true}
                     validationPattern={validationPattern.wikiSectionHeader.string}
+                    updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current!.checkValidity()}
                     id="wikiSectionHeader"
                 />
                 <TextInput
@@ -66,6 +72,8 @@ export default function LeagueConfigurationForm(){
                     placeholder="example: big_brother:27"
                     isRequired={true}
                     validationPattern={validationPattern.leagueKey.string}
+                    updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current!.checkValidity()}
                     id="leagueKey"
                 />
                 <TextInput
@@ -73,6 +81,8 @@ export default function LeagueConfigurationForm(){
                     placeholder="example: team"
                     isRequired={true}
                     validationPattern={validationPattern.contestantType.string}
+                    updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current!.checkValidity()}
                     id="contestantType"
                 />
                 <Select 
@@ -93,13 +103,16 @@ export default function LeagueConfigurationForm(){
                     placeholder="example: https://docs.google.com/spreadsheets/d/testurl"
                     isRequired={true}
                     validationPattern={validationPattern.googleSheetUrl.string}
+                    updateFormValidation={setFormValidation}
+                    getFormValidity={()=> formRef.current!.checkValidity()}
                     id="googleSheetUrl"
                 />
                 <Button text="Create League"
                     kind="primary"
                     type="submit"
                     id="leagueConfigurationSubmit"
-                    clickHandler={formSubmit} 
+                    clickHandler={formSubmit}
+                    disabled={!formValidation}
                 />
             </form>
         </>
