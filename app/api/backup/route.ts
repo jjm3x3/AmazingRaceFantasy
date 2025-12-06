@@ -21,7 +21,13 @@ export async function GET(request: NextRequest) {
     const currentTimeString = new Date(Date.now()).toJSON();
     console.log(`cron function triggered at ${currentTimeString}`);
 
-    const dbKeys = await getAllKeys("*");
+    let dbKeys = null;
+    try {
+        dbKeys = await getAllKeys("*");
+    } catch(error) {
+        console.error(`Error getting all the keys from the DB to backup: ${error}`);
+        return NextResponse.json("Internal Server Error", { status: 500 });
+    }
 
     const keyPromises = dbKeys.map(k => getAndSaveKeyValue(k));
 
