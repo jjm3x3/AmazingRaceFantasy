@@ -111,5 +111,31 @@ describe("backup GET", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(500);
     });
+
+    it("should catch when the last save fails", async () => {
+        // Arrange
+        saveObject
+            .mockImplementation(obj => {
+                if (obj.Key === "LastTrigger.txt") {
+                    return new Promise((_resolve, reject) => {
+                        reject({key: "lastTriggerFail"});
+                    })
+                }
+                return new Promise((resolve, _reject) => {
+                    resolve({key: "value"});
+                });
+            });
+
+        const request = {
+            headers: { get: () => `Bearer ${aSecretValue}` }
+        };
+
+        // Act
+        const response = await GET(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(500);
+    });
 });
 
