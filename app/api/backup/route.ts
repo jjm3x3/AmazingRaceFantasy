@@ -39,13 +39,17 @@ export async function GET(request: NextRequest) {
         return NextResponse.json("Internal Server Error", { status: 500 });
     }
 
-    const result = await saveObject({
-        Bucket: S3_BUCKET_NAME,
-        Key: "LastTrigger.txt",
-        Body: `some text in a file... at time ${currentTimeString}`
-    });
+    try {
+        const result = await saveObject({
+            Bucket: S3_BUCKET_NAME,
+            Key: "LastTrigger.txt",
+            Body: `some text in a file... at time ${currentTimeString}`
+        });
 
-    console.log(result);
+    } catch(error) {
+        console.error(`Error writing final checkfile to S3: ${error}`);
+        return NextResponse.json("Internal Server Error", { status: 500 });
+    }
 
     return NextResponse.json({ success: true });
 }
