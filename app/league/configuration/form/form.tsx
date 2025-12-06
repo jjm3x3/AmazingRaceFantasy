@@ -38,13 +38,14 @@ export default function LeagueConfigurationForm(){
                     body: formDataAsJson
                 });
                 if(!response.ok){
-                    setErrorMsg("There was a problem. Please check the form and try to resubmit.");
+                    throw response;
                 }
                 const result = await response.json();
                 if(result.message === "posted"){
                     router.push("/");
                 }
             } catch(err: unknown){
+                console.log(err);
                 setFormValidation(false);
                 switch((err as FormError).status){
                 case 401:
