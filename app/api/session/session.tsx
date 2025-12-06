@@ -58,12 +58,13 @@ export async function createSession({
     sub: string
 }) {
     const session = await encrypt({ envelope, sub, iat, exp });
+    const maxAge = exp - iat;
     response.cookies.set("session", session, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
         path: "/",
-        maxAge: exp
+        maxAge: maxAge
     });
 }
 
