@@ -93,5 +93,23 @@ describe("backup GET", () => {
         expect(response.status).toEqual(500);
     });
 
+    it("should call catch when one get keys fails", async () => {
+        // Arrange
+        getAllKeys
+            .mockReturnValue(new Promise((_resolve, reject) => {
+                reject(new Error("I am an error"));
+            }));
+
+        const request = {
+            headers: { get: () => `Bearer ${aSecretValue}` }
+        };
+
+        // Act
+        const response = await GET(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(500);
+    });
 });
 
