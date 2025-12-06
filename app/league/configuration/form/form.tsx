@@ -6,7 +6,12 @@ import styles from "./styles.module.scss";
 import TextInput from "@/app/components/baseComponents/components/inputs/text/text";
 import Select from "@/app/components/baseComponents/components/inputs/select/select";
 import Button from "@/app/components/baseComponents/components/button/button";
+import { UNAUTHENTICATED_ERROR_MESSAGE, UNAUTHORIZED_ERROR_MESSAGE, GENERIC_FORM_ERROR_MESSAGE } from "@/app/dataSources/errorMsgs";
 
+interface FormError {
+    status: number,
+    message: string
+}
 export default function LeagueConfigurationForm(){
     // This is needed to allow for query selector below
     const formRef = useRef(null as HTMLFormElement | null);
@@ -39,9 +44,18 @@ export default function LeagueConfigurationForm(){
                 if(result.message === "posted"){
                     router.push("/");
                 }
-            } catch(err){
+            } catch(err: unknown){ // eslint-disable-line @typescript-eslint/no-explicit-any
                 setFormValidation(false);
-                setErrorMsg("There was a problem. Please check the form and try to resubmit.");
+                switch((err as FormError).status){
+                case 401:
+                    setErrorMsg(UNAUTHENTICATED_ERROR_MESSAGE);
+                    break;
+                case 403:
+                    setErrorMsg(UNAUTHORIZED_ERROR_MESSAGE);
+                    break
+                default:
+                    setErrorMsg(GENERIC_FORM_ERROR_MESSAGE);
+                }
             }
         }
     };
