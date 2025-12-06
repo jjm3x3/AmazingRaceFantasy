@@ -62,7 +62,7 @@ export default function LeagueConfigurationForm(){
     };
     return (
         <>
-            {errorMsg && <p className={styles.errorMsg} data-testId={"leagueConfiguration-form-submission-error"}>{errorMsg}</p>}
+            {errorMsg && <p className={styles.errorMsg} data-testId={"leagueConfiguration-form-submission-error"}><span className={styles.errorIcon}>!</span>{errorMsg}</p>}
             <form ref={formRef} className={styles.form}>
                 <TextInput
                     label="Wikipedia Page Name"
