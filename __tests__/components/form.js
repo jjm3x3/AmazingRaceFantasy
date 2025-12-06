@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import LeagueConfigurationForm from "@/app/league/configuration/form/form.tsx";
-// import { UNAUTHENTICATED_ERROR_MESSAGE, UNAUTHORIZED_ERROR_MESSAGE, GENERIC_FORM_ERROR_MESSAGE } from "@/app/dataSources/errorMsgs";
+import { UNAUTHENTICATED_ERROR_MESSAGE } from "@/app/dataSources/errorMsgs";
 
 jest.mock("next/navigation", () => ({
     useRouter() {
@@ -130,6 +130,7 @@ describe("LeagueConfigurationForm", ()=> {
         // assert
         waitFor(()=> {
             expect(getByTestId("leagueConfiguration-form-submission-error")).toBeTruthy();
+            expect(getByTestId("leagueConfiguration-form-submission-error").innerText).toBe(UNAUTHENTICATED_ERROR_MESSAGE);
         })
     })
 
