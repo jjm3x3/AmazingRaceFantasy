@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllKeys, getJson } from "@/app/dataSources/dbFetch";
 import { saveObject } from "@/app/dataSources/s3Provider";
+import { PutObjectCommandOutput } from "@aws-sdk/client-s3";
 
 // doing both typing the local and coalescing to capture the type checking as
 // early as possible
@@ -54,7 +55,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: true });
 }
 
-async function getAndSaveKeyValue(key: string): Promise {
+async function getAndSaveKeyValue(key: string): Promise<PutObjectCommandOutput> {
 
     const aJson = await getJson(key);
 
