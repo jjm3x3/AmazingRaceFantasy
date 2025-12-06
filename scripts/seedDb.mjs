@@ -6,7 +6,7 @@ import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
 import bigBrother27Data from "../app/leagueData/BigBrother_27.js"
 import survivor47Data from "../app/leagueData/Survivor_47.js"
 import survivor49Data from "../app/leagueData/Survivor_49.js"
-import amazingRace37LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_37.js"
+//import amazingRace37LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_37.js"
 import { Redis } from "@upstash/redis"
 
 console.log("Seeding the db");
@@ -71,7 +71,7 @@ async function recreateLeagueData(leagueKeyPrefix, dataRepo) {
 }
 
 
-async function recreateLeagueConfigurationData(leagueConfigurationKey, dataRepo) {
+async function _recreateLeagueConfigurationData(leagueConfigurationKey, dataRepo) {
 
     console.log(`Setting league configuration data for '${leagueConfigurationKey}'`);
     
