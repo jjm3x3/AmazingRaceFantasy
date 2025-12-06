@@ -39,7 +39,8 @@ export async function POST(request: NextRequest) {
         const response = NextResponse.json(userObj);
         await createSession({
             envelope: body.envelope, 
-            exp: payload.exp, 
+            exp: payload.exp,
+            iat: payload.iat, 
             sub: googleUserId,
             response
         });
