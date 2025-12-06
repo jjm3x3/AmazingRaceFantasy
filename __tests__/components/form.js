@@ -114,6 +114,28 @@ describe("LeagueConfigurationForm", ()=> {
         });
     });
 
+    it("should submit a request with a valid leagueKey from it's compoenent fields", async ()=> {
+        // arrange
+        const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
+
+        const showNameElm = getByTestId("test-select-showName");
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
+        const showSeasonElm = getByTestId("test-input-showSeason");
+        fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
+        const expectedLeagueKey = testFormData.showName + ":" + testFormData.showSeason;
+
+        // act
+        fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
+
+        // assert
+        await waitFor(()=> {
+            expect(fetchMock).toHaveBeenCalledWith(
+                expect.anything(),
+                expect.objectContaining({"body": expect.stringContaining(`"leagueKey":"${expectedLeagueKey}"`)}));
+            expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
+        });
+    });
+
     it("should have inline error where the input doesn't validate", async ()=> {
         const { getByTestId } = render(<LeagueConfigurationForm/>);
 
