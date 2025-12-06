@@ -99,13 +99,13 @@ export default function LeagueConfigurationForm(){
                     id="showName"
                 />
                 <TextInput
-                    label="League Key Prefix"
-                    placeholder="example: big_brother:27"
+                    label="Show Season"
+                    placeholder="example: 27"
                     isRequired={true}
-                    validationPattern={validationPattern.leagueKey.string}
+                    validationPattern={validationPattern.frontend.showSeason}
                     updateFormValidation={setFormValidation}
                     getFormValidity={()=> formRef.current!.checkValidity()}
-                    id="leagueKey"
+                    id="showSeason"
                 />
                 <TextInput
                     label="Contestant Type"
