@@ -37,9 +37,10 @@ export async function POST(request: NextRequest) {
         }
 
         const response = NextResponse.json(userObj);
+        const maxSessionAge = payload.exp - payload.iat;
         await createSession({
             envelope: body.envelope, 
-            exp: payload.exp, 
+            exp: maxSessionAge, 
             sub: googleUserId,
             response
         });
