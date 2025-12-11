@@ -8,10 +8,12 @@ const encodedKey = new TextEncoder().encode(sessionSecretKey);
 export async function encrypt({ 
     envelope, 
     sub, 
+    iat,
     exp 
 }:{ 
     envelope: JWTPayload, 
     sub: string, 
+    iat: number,
     exp: number 
 }) {
     if(sessionSecretKey !== undefined){
@@ -20,6 +22,7 @@ export async function encrypt({
             .setIssuedAt()
             .setSubject(sub)
             .setExpirationTime(exp)
+            .setIssuedAt(iat)
             .sign(encodedKey)
     } else {
         throw Error("sessionSecretKey is unset. Have you gone through the setup in the README?")
@@ -45,20 +48,23 @@ export async function createSession({
     response, 
     envelope, 
     exp,
+    iat,
     sub
 }:{ 
     response: NextResponse, 
     envelope: JWTPayload, 
     exp: number,
+    iat: number,
     sub: string
 }) {
-    const session = await encrypt({ envelope, sub, exp });
+    const session = await encrypt({ envelope, sub, iat, exp });
+    const maxAge = exp - iat;
     response.cookies.set("session", session, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
         path: "/",
-        maxAge: exp
+        maxAge: maxAge
     });
 }
 
