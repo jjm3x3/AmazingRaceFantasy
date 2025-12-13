@@ -10,8 +10,8 @@ import { UNAUTHENTICATED_ERROR_MESSAGE, UNAUTHORIZED_ERROR_MESSAGE, GENERIC_FORM
 
 interface FormError {
     status: number,
-    message: string
 }
+
 export default function LeagueConfigurationForm(){
     // This is needed to allow for query selector below
     const formRef = useRef(null as HTMLFormElement | null);
