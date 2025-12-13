@@ -95,14 +95,15 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
 
         // act
-        fireEvent.change(leagueStatusElm, {target: { value: "active" }});
+        fireEvent.change(leagueStatusElm, {target: { value: "archived" }});
         fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
 
         // assert
         await waitFor(()=> {
+            expect(fetchMock).toHaveBeenCalled();
             expect(fetchMock).toHaveBeenCalledWith(
                 expect.anything(),
-                expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"active\"")}));
+                expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
             expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
         });
     });
