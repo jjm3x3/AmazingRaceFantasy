@@ -28,7 +28,7 @@ global.fetch = jest.fn(() =>
 const leagueConfigFetchSuccessMock = () => Promise.resolve({
     ok: true,
     status: 200,
-    json: async () => {}
+    json: () => { return new Promise((res,_rej) => { res({message: "some text from the server"}) }) }
 });
 
 const leagueConfigFetch401ErrorMock = () => Promise.resolve({
