@@ -86,7 +86,6 @@ describe("LeagueConfigurationForm", ()=> {
         const contestantTypeElm = getByTestId("test-input-contestantType");
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
         const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
-        const submitButton = getByTestId("test-button-leagueConfigurationSubmit")
         
         fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
