@@ -77,7 +77,7 @@ describe("LeagueConfigurationForm", ()=> {
         expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
     });
 
-    it("should submit a request with a valid status enum", async ()=> {
+    it("should submit a request with a valid status enum when archived is selected status", async ()=> {
         // arrange
         const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
