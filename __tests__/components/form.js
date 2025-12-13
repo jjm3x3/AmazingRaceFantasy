@@ -80,8 +80,20 @@ describe("LeagueConfigurationForm", ()=> {
     it("should submit a request with a valid status enum when archived is selected status", async ()=> {
         // arrange
         const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
+        const wikiPageNameElm = getByTestId("test-input-wikiPageName");
+        const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
+        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        const contestantTypeElm = getByTestId("test-input-contestantType");
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+        const submitButton = getByTestId("test-button-leagueConfigurationSubmit")
         
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+        fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
+
         // act
         fireEvent.change(leagueStatusElm, {target: { value: "active" }});
         fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
