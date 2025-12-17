@@ -32,7 +32,7 @@ const leagueConfigFetchSuccessMock = () => Promise.resolve({
 });
 
 const leagueConfigFetch401ErrorMock = () => Promise.resolve({
-    ok: true,
+    ok: false,
     status: 401,
     json: async () => {}
 });
@@ -77,26 +77,25 @@ describe("LeagueConfigurationForm", ()=> {
         expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
     });
 
-    it("should submit a request with a valid status enum", ()=> {
+    it("should submit a request with a valid status enum", async ()=> {
         // arrange
         const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
-
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
-        fireEvent.change(leagueStatusElm, {target: { value: "archived" }});
-
+        
         // act
+        fireEvent.change(leagueStatusElm, {target: { value: "active" }});
         fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
 
         // assert
-        waitFor(()=> {
+        await waitFor(()=> {
             expect(fetchMock).toHaveBeenCalledWith(
                 expect.anything(),
-                expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
+                expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"active\"")}));
             expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
         });
     });
 
-    it("should have inline error where the input doesn't validate", ()=> {
+    it("should have inline error where the input doesn't validate", async ()=> {
         const { getByTestId } = render(<LeagueConfigurationForm/>);
 
         // act
@@ -104,92 +103,111 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.change(wikiPageNameElm, {target: { value: "12#$ABC_+)(" }});
 
         // assert
-        expect(getByTestId("test-label-wikiPageName-errorMsg")).toBeTruthy();
-        expect(wikiPageNameElm).toBeInvalid();
+        await waitFor(()=> {
+            expect(getByTestId("test-label-wikiPageName-errorMsg")).toBeTruthy();
+            expect(wikiPageNameElm).toBeInvalid();
+        })
     });
     
-    it("should display error when form submission fails", ()=> {
-        // act 
-        fetchMock = jest.spyOn(global, "fetch")
-            .mockImplementation(leagueConfigFetch401ErrorMock);
-        const { getByTestId } = render(<LeagueConfigurationForm/>);
+    it("should display error when form submission fails", async ()=> {
+        // setup
+        fetchMock = jest.spyOn(global, "fetch").mockImplementation(leagueConfigFetch401ErrorMock);
+        const { getByTestId, getByText } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
-        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
-        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
         const leagueKeyElm = getByTestId("test-input-leagueKey");
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
         const contestantTypeElm = getByTestId("test-input-contestantType");
-        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
-        fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
         const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+
+        // act 
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+        fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
         fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
         fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
-
+        
         // assert
-        waitFor(()=> {
+        await waitFor(()=> {
+            expect(fetchMock).toHaveBeenCalled();
             expect(getByTestId("leagueConfiguration-form-submission-error")).toBeTruthy();
-            expect(getByTestId("leagueConfiguration-form-submission-error").innerText).toBe(UNAUTHENTICATED_ERROR_MESSAGE);
+            expect(getByText(UNAUTHENTICATED_ERROR_MESSAGE)).toBeTruthy();
         })
     })
 
-    it("should prevent form submission if there are form input errors", ()=> {
-        // act 
+    it("should prevent form submission if there are form input errors", async ()=> {
+        // setup
         const { getByTestId } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
-        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
-        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
         const leagueKeyElm = getByTestId("test-input-leagueKey");
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
         const contestantTypeElm = getByTestId("test-input-contestantType");
+        const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+        const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+
+        // act 
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
         // This is an invalid value for the contestant type
         fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
-        const leagueStatusElm = getByTestId("test-select-leagueStatus");
         fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
-        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
         fireEvent.change(googleSheetUrlElm, {target: { value: "https://test.com" }});
 
         // assert
-        expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
-        const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
-        expect(formBtn.disabled).toBe(true);
+        await waitFor(()=> {
+            expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
+            expect(formBtn.disabled).toBe(true);
+        });
     })
 
-    it("should prevent form submission if there are remaining form input errors after input correction", ()=> {
-        // act 
+    it("should prevent form submission if there are remaining form input errors after input correction", async ()=> {
+        // setup
         const { getByTestId } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
-        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
-        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
         const leagueKeyElm = getByTestId("test-input-leagueKey");
-        fireEvent.change(leagueKeyElm, {target: { value: "@*&6!3*&^!@GHJ" }});
         const contestantTypeElm = getByTestId("test-input-contestantType");
+        const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+        const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
+
+        // act
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        fireEvent.change(leagueKeyElm, {target: { value: "@*&6!3*&^!@GHJ" }});
         // This is an invalid value for the contestant type
         fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
-        const leagueStatusElm = getByTestId("test-select-leagueStatus");
         fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
-        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
         fireEvent.change(googleSheetUrlElm, {target: { value: "https://test.com" }});
 
         // assert
-        expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
-        const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
-        expect(formBtn.disabled).toBe(true);
+        await waitFor(()=> {
+            expect(getByTestId("test-label-contestantType-errorMsg")).toBeTruthy();
+            expect(formBtn.disabled).toBe(true);
+        });
 
+        // act
         fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
-       
-        expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
-        expect(getByTestId("test-label-leagueKey-errorMsg")).not.toBe(null);
-        expect(formBtn.disabled).toBe(true);
 
+        // assert
+        await waitFor(()=>{
+            expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
+            expect(getByTestId("test-label-leagueKey-errorMsg")).not.toBe(null);
+            expect(formBtn.disabled).toBe(true);
+        });
+
+        // act
         fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
        
-        expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
-        expect(document.querySelector("[data-testId='test-label-leagueKey-errorMsg']")).toBe(null);
-        expect(formBtn.disabled).toBe(false);
-
+        // assert
+        await waitFor(()=> {
+            expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
+            expect(document.querySelector("[data-testId='test-label-leagueKey-errorMsg']")).toBe(null);
+            expect(formBtn.disabled).toBe(false);
+        });
     });
 })
