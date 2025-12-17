@@ -120,10 +120,22 @@ describe("LeagueConfigurationForm", ()=> {
         // arrange
         const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
 
+        const wikiPageNameElm = getByTestId("test-input-wikiPageName");
+        const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
         const showNameElm = getByTestId("test-select-showName");
-        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
         const showSeasonElm = getByTestId("test-input-showSeason");
+        const contestantTypeElm = getByTestId("test-input-contestantType");
+        const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
         fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
+        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+        fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
+        fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
+
         const expectedLeagueKey = testFormData.showName + ":" + testFormData.showSeason;
 
         // act
