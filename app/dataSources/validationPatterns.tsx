@@ -27,6 +27,9 @@ const validationPattern = {
     leagueKey: {
         zod: z.string().regex(/^[a-zA-Z0-9_:]+$/),
         string: "^[a-zA-Z0-9_:]+$"
+    },
+    frontend: { // patterns for the frontend only
+        showSeason: "^[0-9]{0,4}$"
     }
 }
 

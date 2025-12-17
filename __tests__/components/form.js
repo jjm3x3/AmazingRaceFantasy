@@ -13,7 +13,8 @@ jest.mock("next/navigation", () => ({
 const testFormData = {
     wikiPageName: "test",
     wikiSectionHeader: "test",
-    leagueKey: "test",
+    showName: "amazing_race",
+    showSeason: "37",
     contestantType: "test with space",
     leagueStatus: "active",
     googleSheetUrl: "https://test.com"
@@ -66,8 +67,10 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
-        const leagueKeyElm = getByTestId("test-input-leagueKey");
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        const showNameElm = getByTestId("test-select-showName");
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
+        const showSeasonElm = getByTestId("test-input-showSeason");
+        fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
         const contestantTypeElm = getByTestId("test-input-contestantType");
         fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
@@ -86,14 +89,16 @@ describe("LeagueConfigurationForm", ()=> {
         const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
-        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        const showNameElm = getByTestId("test-select-showName");
+        const showSeasonElm = getByTestId("test-input-showSeason");
         const contestantTypeElm = getByTestId("test-input-contestantType");
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
         const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
         
         fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
+        fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
         fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
         fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
 
@@ -107,6 +112,40 @@ describe("LeagueConfigurationForm", ()=> {
             expect(fetchMock).toHaveBeenCalledWith(
                 expect.anything(),
                 expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
+            expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
+        });
+    });
+
+    it("should submit a request with a valid leagueKey from it's compoenent fields", async ()=> {
+        // arrange
+        const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
+
+        const wikiPageNameElm = getByTestId("test-input-wikiPageName");
+        const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
+        const showNameElm = getByTestId("test-select-showName");
+        const showSeasonElm = getByTestId("test-input-showSeason");
+        const contestantTypeElm = getByTestId("test-input-contestantType");
+        const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
+
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
+        fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
+        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+        fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
+        fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
+
+        const expectedLeagueKey = testFormData.showName + ":" + testFormData.showSeason;
+
+        // act
+        fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
+
+        // assert
+        await waitFor(()=> {
+            expect(fetchMock).toHaveBeenCalledWith(
+                expect.anything(),
+                expect.objectContaining({"body": expect.stringContaining(`"leagueKey":"${expectedLeagueKey}"`)}));
             expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
         });
     });
@@ -131,7 +170,8 @@ describe("LeagueConfigurationForm", ()=> {
         const { getByTestId, getByText } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
-        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        const showNameElm = getByTestId("test-select-showName");
+        const showSeasonElm = getByTestId("test-input-showSeason");
         const contestantTypeElm = getByTestId("test-input-contestantType");
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
         const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
@@ -139,7 +179,8 @@ describe("LeagueConfigurationForm", ()=> {
         // act 
         fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
+        fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
         fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
         fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
         fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
@@ -158,7 +199,8 @@ describe("LeagueConfigurationForm", ()=> {
         const { getByTestId } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
-        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        const showNameElm = getByTestId("test-select-showName");
+        const showSeasonElm = getByTestId("test-input-showSeason");
         const contestantTypeElm = getByTestId("test-input-contestantType");
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
         const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
@@ -167,7 +209,8 @@ describe("LeagueConfigurationForm", ()=> {
         // act 
         fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
+        fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
         // This is an invalid value for the contestant type
         fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
         fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
@@ -185,16 +228,18 @@ describe("LeagueConfigurationForm", ()=> {
         const { getByTestId } = render(<LeagueConfigurationForm/>);
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
-        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        const showNameElm = getByTestId("test-select-showName");
+        const showSeasonElm = getByTestId("test-input-showSeason");
         const contestantTypeElm = getByTestId("test-input-contestantType");
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
         const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
         const formBtn = getByTestId("test-button-leagueConfigurationSubmit");
 
         // act
-        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiPageNameElm, {target: { value: "@*&6!3*&^!@GHJ" }});
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
-        fireEvent.change(leagueKeyElm, {target: { value: "@*&6!3*&^!@GHJ" }});
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
+        fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
         // This is an invalid value for the contestant type
         fireEvent.change(contestantTypeElm, {target: { value: "2@$%$sdfsd" }});
         fireEvent.change(leagueStatusElm, {target: { value: testFormData.leagueStatus }});
@@ -212,17 +257,17 @@ describe("LeagueConfigurationForm", ()=> {
         // assert
         await waitFor(()=>{
             expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
-            expect(getByTestId("test-label-leagueKey-errorMsg")).not.toBe(null);
+            expect(getByTestId("test-label-wikiPageName-errorMsg")).not.toBe(null);
             expect(formBtn.disabled).toBe(true);
         });
 
         // act
-        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
        
         // assert
         await waitFor(()=> {
             expect(document.querySelector("[data-testId='test-label-contestantType-errorMsg']")).toBe(null);
-            expect(document.querySelector("[data-testId='test-label-leagueKey-errorMsg']")).toBe(null);
+            expect(document.querySelector("[data-testId='test-label-wikiPageName-errorMsg']")).toBe(null);
             expect(formBtn.disabled).toBe(false);
         });
     });
