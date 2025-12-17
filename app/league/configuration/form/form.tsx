@@ -24,6 +24,9 @@ export default function LeagueConfigurationForm(){
             const formData = new FormData(formRef.current);
             const formObject = Object.fromEntries(formData);
 
+            // Construct leagueKey based on user input
+            formObject.leagueKey = formObject.showName + ":" + formObject.showSeason;
+
             // Convert "archived" friendly name into valid enum for api
             formObject.leagueStatus  = formObject.leagueStatus === "archived" ? "archive" : formObject.leagueStatus;
 
