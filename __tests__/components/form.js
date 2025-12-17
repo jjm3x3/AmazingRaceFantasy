@@ -90,6 +90,8 @@ describe("LeagueConfigurationForm", ()=> {
         const wikiPageNameElm = getByTestId("test-input-wikiPageName");
         const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
         const leagueKeyElm = getByTestId("test-input-leagueKey");
+        const showNameElm = getByTestId("test-select-showName");
+        const showSeasonElm = getByTestId("test-input-showSeason");
         const contestantTypeElm = getByTestId("test-input-contestantType");
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
         const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
@@ -97,6 +99,8 @@ describe("LeagueConfigurationForm", ()=> {
         fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
         fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
         fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(showNameElm, {target: { value: testFormData.showName }});
+        fireEvent.change(showSeasonElm, {target: { value: testFormData.showSeason }});
         fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
         fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
 
