@@ -28,7 +28,11 @@ global.fetch = jest.fn(() =>
 const leagueConfigFetchSuccessMock = () => Promise.resolve({
     ok: true,
     status: 200,
-    json: async () => {}
+    json: () => {
+        return new Promise((res,_rej) => {
+            res({message: "some text from the server"})
+        });
+    }
 });
 
 const leagueConfigFetch401ErrorMock = () => Promise.resolve({
@@ -77,20 +81,32 @@ describe("LeagueConfigurationForm", ()=> {
         expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
     });
 
-    it("should submit a request with a valid status enum", async ()=> {
+    it("should submit a request with a valid status enum when archived is selected status", async ()=> {
         // arrange
         const { getByTestId, queryByTestId } = render(<LeagueConfigurationForm/>);
+        const wikiPageNameElm = getByTestId("test-input-wikiPageName");
+        const wikiSectionHeaderElm = getByTestId("test-input-wikiSectionHeader");
+        const leagueKeyElm = getByTestId("test-input-leagueKey");
+        const contestantTypeElm = getByTestId("test-input-contestantType");
         const leagueStatusElm = getByTestId("test-select-leagueStatus");
+        const googleSheetUrlElm = getByTestId("test-input-googleSheetUrl");
         
+        fireEvent.change(wikiPageNameElm, {target: { value: testFormData.wikiPageName }});
+        fireEvent.change(wikiSectionHeaderElm, {target: { value: testFormData.wikiSectionHeader }});
+        fireEvent.change(leagueKeyElm, {target: { value: testFormData.leagueKey }});
+        fireEvent.change(contestantTypeElm, {target: { value: testFormData.contestantType }});
+        fireEvent.change(googleSheetUrlElm, {target: { value: testFormData.googleSheetUrl }});
+
         // act
-        fireEvent.change(leagueStatusElm, {target: { value: "active" }});
+        fireEvent.change(leagueStatusElm, {target: { value: "archived" }});
         fireEvent.click(getByTestId("test-button-leagueConfigurationSubmit"));
 
         // assert
         await waitFor(()=> {
+            expect(fetchMock).toHaveBeenCalled();
             expect(fetchMock).toHaveBeenCalledWith(
                 expect.anything(),
-                expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"active\"")}));
+                expect.objectContaining({"body": expect.stringContaining("\"leagueStatus\":\"archive\"")}));
             expect(queryByTestId("leagueConfiguration-form-submission-error")).not.toBeTruthy();
         });
     });
