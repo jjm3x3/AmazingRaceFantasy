@@ -316,4 +316,52 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[15].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[15].contestantRoundData[0].totalScore).toBe(1000);
     });
+
+    it("Should return a league with Rach scoring for AmazingRace_38", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                [ { name: "", name2: "Contestants\nAge\nRelationship\nHometown\nStatus", col1: "", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Giacomo \"Jack\" Palumbo", name2: "Giacomo \"Jack\" Palumbo", col1: "40", col2: "Jersey Brothers", col3: "Marlton, New Jersey", col4: "Eliminated 1st(in Amsterdam, Netherlands)", col5: "", col6: "", col7: "" }, { name: "Vincenzo \"Enzo\" Palumbo", name2: "Vincenzo \"Enzo\" PalumboBig Brother 12& Big Brother 22", col1: "47", col2: "Bayonne, New Jersey", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Angela Murray", name2: "Angela MurrayBig Brother 26", col1: "51", col2: "Mother & Daughter", col3: "Syracuse, Utah", col4: "Eliminated 2nd(in Prague, Czech Republic)", col5: "", col6: "", col7: "" }, { name: "Lexi Murray", name2: "Lexi Murray", col1: "23", col2: "Las Vegas, Nevada", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Megan Belmonte", name2: "Megan Belmonte", col1: "24", col2: "Newlyweds", col3: "Providence, Rhode Island", col4: "Eliminated 3rd(in Nové Dvory, Czech Republic)", col5: "", col6: "", col7: "" }, { name: "Matt Turner", name2: "Matt TurnerBig Brother 24", col1: "25", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Kathryn \"Kat\" Dunn", name2: "Kathryn \"Kat\" DunnBig Brother 21", col1: "35", col2: "Dating", col3: "Dallas, Texas", col4: "Eliminated 4th(in Budapest, Hungary)", col5: "", col6: "", col7: "" }, { name: "Alex Romo", name2: "Alex Romo", col1: "32", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Hannah Chaddha", name2: "Hannah ChaddhaBig Brother 23", col1: "25", col2: "Sisters", col3: "Washington, D.C.", col4: "Eliminated 5th(in Dubrovnik, Croatia)", col5: "", col6: "", col7: "" }, { name: "Simone Chaddha", name2: "Simone Chaddha", col1: "22", col2: "Los Angeles, California", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Kristine Bernabe", name2: "Kristine Bernabe", col1: "38", col2: "Sisters", col3: "Los Angeles, California", col4: "Eliminated 6th(in Prapratno, Croatia)", col5: "", col6: "", col7: "" }, { name: "Rubina Bernabe", name2: "Rubina BernabeBig Brother 26", col1: "36", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Natalie Negrotti", name2: "Natalie NegrottiBig Brother 18", col1: "34", col2: "Sisters", col3: "New York City, New York", col4: "Eliminated 7th(in Bucharest, Romania)", col5: "", col6: "", col7: "" }, { name: "Stephanie Negrotti", name2: "Stephanie Negrotti", col1: "36", col2: "Kauai, Hawaii", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Tucker Des Lauriers", name2: "Tucker Des LauriersBig Brother 26", col1: "31", col2: "Brothers", col3: "Brooklyn, New York", col4: "Eliminated 8th(in Athens, Greece)", col5: "", col6: "", col7: "" }, { name: "Eric Des Lauriers", name2: "Eric Des Lauriers", col1: "32", col2: "Boston, Massachusetts", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Jack Baham", name2: "Jack Baham", col1: "58", col2: "Father & Daughter", col3: "Rancho Cucamonga, California", col4: "Eliminated 9th(in Corbetta, Italy)", col5: "", col6: "", col7: "" }, { name: "Chelsie Baham", name2: "Chelsie BahamBig Brother 26", col1: "28", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Isabel \"Izzy\" Gleicher", name2: "Isabel \"Izzy\" GleicherBig Brother 25", col1: "34", col2: "Engaged", col3: "New York City, New York", col4: "Eliminated 10th(in Paris, France)", col5: "", col6: "", col7: "" }, { name: "Paige Seber", name2: "Paige Seber", col1: "32", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Joseph Abdin", name2: "Joseph AbdinBig Brother 24", col1: "28", col2: "Brothers", col3: "Palm Beach, Florida", col4: "Third place", col5: "", col6: "", col7: "" }, { name: "Adam Abdin", name2: "Adam Abdin", col1: "24", col2: "Miami, Florida", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Kyland Young", name2: "Kyland YoungBig Brother 23", col1: "34", col2: "Dating", col3: "Los Angeles, California", col4: "Runners-up", col5: "", col6: "", col7: "" }, { name: "Taylor Hale", name2: "Taylor HaleBig Brother 24& Big Brother Reindeer Games", col1: "30", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Jas Bains", name2: "Jas Bains", col1: "28", col2: "Brothers & Entrepreneurs", col3: "Omak, Washington", col4: "Winners", col5: "", col6: "", col7: "" }, { name: "Jag Bains", name2: "Jag BainsBig Brother 25", col1: "27", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" } ]
+            );
+        });
+
+        const rachsRawTeamList = [ "Isabel \"Izzy\" Gleicher & Paige Seber", "Jas Bains & Jag Bains", "Natalie Negrotti & Stephanie Negrotti", "Tucker Des Lauriers & Eric Des Lauriers", "Kyland Young & Taylor Hale", "Joseph Abdin & Adam Abdin", "Hannah Chaddha & Simone Chaddha", "Kristine Bernabe & Rubina Bernabe", "Kathryn \"Kat\" Dunn & Alex Romo", "Jack Baham & Chelsie Baham", "Angela Murray & Lexi Murray", "Megan Belmonte & Matt Turner", "Giacomo \"Jack\" Palumbo & Vincenzo \"Enzo\" Palumbo" ]
+
+
+        const rachsContestantLeagueData = {
+            name: "Rach",
+            userId: "E3BA8CF1-0F66-4911-88D8-A9ECFEEB37A7",
+            ranking: rachsRawTeamList
+        };
+        const listOfContetantLeagueData = [rachsContestantLeagueData]
+
+        const expectedNumberOfRounds = 12;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, parseAmazingRaceEntities, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(rachsContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(120);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(120);
+
+        //// round 1..10 not testing because we aren't using them today
+
+        result.rounds.forEach(r => {
+            console.log(`Round ${r.round}: has score: ${r.contestantRoundData[0].totalScore} adding ${r.contestantRoundData[0].roundScore}`);
+        });
+
+        // round 11
+        expect(result.rounds[11].round).toBe(11);
+        expect(result.rounds[11].contestantRoundData[0].name).toBe(rachsContestantLeagueData.name);
+        expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(650);
+    });
 });
