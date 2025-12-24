@@ -901,4 +901,111 @@ describe("Regression Tests Checking Scoring of Archived Leagues", () => {
         expect(rachsRoundScores[11].contestantRoundData[0].roundScore).toBe(0);
         expect(rachsRoundScores[11].contestantRoundData[0].totalScore).toBe(650);
     });
+
+    it("Should Score Antoinette correctly for Survivor 49", () => {
+
+        // Arrange
+        const antoinettesRawTeamList = [ { teamName: "Jeremiah Ing", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 4 }, { teamName: "Savannah Louie", relationship: "needed for ITeam", isParticipating: true, eliminationOrder: 1.7976931348623157e+308 }, { teamName: "Jason Treul", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 6 }, { teamName: "Rizo Velovic", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 15 }, { teamName: "Sage Ahrens-Nichols", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 16 }, { teamName: "Sophi Balerdi", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 17 }, { teamName: "Steven Ramm", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 13 }, { teamName: "Michelle \"MC\" Chukwujekwu", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 9 }, { teamName: "Shannon Fairweather", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 7 }, { teamName: "Matt Williams", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 5 }, { teamName: "Jawan Pitts", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 11 }, { teamName: "Kristina Mills", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 14 }, { teamName: "Sophie Segreti", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 12 }, { teamName: "Kimberly \"Annie\" Davis", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 2 }, { teamName: "Jake Latimer", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 3 }, { teamName: "Nate Moore", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 8 }, { teamName: "Alex Moore", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 10 }, { teamName: "Nicole Mazullo", relationship: "needed for ITeam", isParticipating: false, eliminationOrder: 1 } ];
+
+        const antoinettesParsedAndEmbelishedTeamList = antoinettesRawTeamList.map(t => {
+            return new CompetingEntity(t);
+        });
+
+        const expectedNumberOfRounds = 17;
+        const handicap = 0;
+        const sut = new League(antoinettesParsedAndEmbelishedTeamList);
+
+        // Act
+        const antoinettesRoundScores = sut.generateContestantRoundScores(antoinettesParsedAndEmbelishedTeamList, "testingAntoinette", handicap);
+
+        // Assert
+        expect(antoinettesRoundScores.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting on contestant into the league
+        // round 0
+        expect(antoinettesRoundScores[0].round).toBe(0);
+        expect(antoinettesRoundScores[0].contestantRoundData[0].roundScore).toBe(170);
+        expect(antoinettesRoundScores[0].contestantRoundData[0].totalScore).toBe(170);
+
+        // round 1
+        expect(antoinettesRoundScores[1].round).toBe(1);
+        expect(antoinettesRoundScores[1].contestantRoundData[0].roundScore).toBe(150);
+        expect(antoinettesRoundScores[1].contestantRoundData[0].totalScore).toBe(320);
+
+        // round 2
+        expect(antoinettesRoundScores[2].round).toBe(2);
+        expect(antoinettesRoundScores[2].contestantRoundData[0].roundScore).toBe(130);
+        expect(antoinettesRoundScores[2].contestantRoundData[0].totalScore).toBe(450);
+
+        // round 3
+        expect(antoinettesRoundScores[3].round).toBe(3);
+        expect(antoinettesRoundScores[3].contestantRoundData[0].roundScore).toBe(120);
+        expect(antoinettesRoundScores[3].contestantRoundData[0].totalScore).toBe(570);
+
+        // round 4
+        expect(antoinettesRoundScores[4].round).toBe(4);
+        expect(antoinettesRoundScores[4].contestantRoundData[0].roundScore).toBe(110);
+        expect(antoinettesRoundScores[4].contestantRoundData[0].totalScore).toBe(680);
+
+        // round 5
+        expect(antoinettesRoundScores[5].round).toBe(5);
+        expect(antoinettesRoundScores[5].contestantRoundData[0].roundScore).toBe(90);
+        expect(antoinettesRoundScores[5].contestantRoundData[0].totalScore).toBe(770);
+
+        // round 6
+        expect(antoinettesRoundScores[6].round).toBe(6);
+        expect(antoinettesRoundScores[6].contestantRoundData[0].roundScore).toBe(70);
+        expect(antoinettesRoundScores[6].contestantRoundData[0].totalScore).toBe(840);
+
+        // round 7
+        expect(antoinettesRoundScores[7].round).toBe(7);
+        expect(antoinettesRoundScores[7].contestantRoundData[0].roundScore).toBe(60);
+        expect(antoinettesRoundScores[7].contestantRoundData[0].totalScore).toBe(900);
+
+        // round 8
+        expect(antoinettesRoundScores[8].round).toBe(8);
+        expect(antoinettesRoundScores[8].contestantRoundData[0].roundScore).toBe(50);
+        expect(antoinettesRoundScores[8].contestantRoundData[0].totalScore).toBe(950);
+
+        // round 9
+        expect(antoinettesRoundScores[9].round).toBe(9);
+        expect(antoinettesRoundScores[9].contestantRoundData[0].roundScore).toBe(50);
+        expect(antoinettesRoundScores[9].contestantRoundData[0].totalScore).toBe(1000);
+
+        // round 10
+        expect(antoinettesRoundScores[10].round).toBe(10);
+        expect(antoinettesRoundScores[10].contestantRoundData[0].roundScore).toBe(50);
+        expect(antoinettesRoundScores[10].contestantRoundData[0].totalScore).toBe(1050);
+
+        // round 11
+        expect(antoinettesRoundScores[11].round).toBe(11);
+        expect(antoinettesRoundScores[11].contestantRoundData[0].roundScore).toBe(40);
+        expect(antoinettesRoundScores[11].contestantRoundData[0].totalScore).toBe(1090);
+
+        // round 12
+        expect(antoinettesRoundScores[12].round).toBe(12);
+        expect(antoinettesRoundScores[12].contestantRoundData[0].roundScore).toBe(30);
+        expect(antoinettesRoundScores[12].contestantRoundData[0].totalScore).toBe(1120);
+
+        // round 13
+        expect(antoinettesRoundScores[13].round).toBe(13);
+        expect(antoinettesRoundScores[13].contestantRoundData[0].roundScore).toBe(20);
+        expect(antoinettesRoundScores[13].contestantRoundData[0].totalScore).toBe(1140);
+
+        // round 14
+        expect(antoinettesRoundScores[14].round).toBe(14);
+        expect(antoinettesRoundScores[14].contestantRoundData[0].roundScore).toBe(10);
+        expect(antoinettesRoundScores[14].contestantRoundData[0].totalScore).toBe(1150);
+
+        // round 15
+        expect(antoinettesRoundScores[15].round).toBe(15);
+        expect(antoinettesRoundScores[15].contestantRoundData[0].roundScore).toBe(10);
+        expect(antoinettesRoundScores[15].contestantRoundData[0].totalScore).toBe(1160);
+
+        // round 16
+        expect(antoinettesRoundScores[16].round).toBe(16);
+        expect(antoinettesRoundScores[16].contestantRoundData[0].roundScore).toBe(0);
+        expect(antoinettesRoundScores[16].contestantRoundData[0].totalScore).toBe(1160);
+    });
 });

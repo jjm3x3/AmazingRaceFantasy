@@ -364,4 +364,47 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(650);
     });
+
+    it("Should return a league with Antoinettes scoring for Survivor_49", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                [ { name: "", name2: "Contestant\nAge\nFrom\nTribe\nFinish", col1: "", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "", name2: "Original\nFirstswitch\nSecondswitch\nMerged\nPlacement\nDay", col1: "", col2: "", col3: "", col4: "", col5: "", col6: "", col7: "" }, { name: "Nicole Mazullo", name2: "Nicole Mazullo", col1: "26", col2: "Philadelphia,Pennsylvania", col3: "Kele", col4: "", col5: "", col6: "", col7: "1st voted out" }, { name: "Kimberly \"Annie\" Davis", name2: "Kimberly \"Annie\" Davis", col1: "49", col2: "Austin,Texas", col3: "2nd voted out", col4: "Day 5", col5: "", col6: "", col7: "" }, { name: "Jake Latimer", name2: "Jake Latimer", col1: "35", col2: "St. Albert,Alberta", col3: "Medically evacuated", col4: "Day 6", col5: "", col6: "", col7: "" }, { name: "Jeremiah Ing", name2: "Jeremiah Ing", col1: "38", col2: "Toronto,Ontario", col3: "3rd voted out", col4: "", col5: "", col6: "", col7: "" }, { name: "Matt Williams", name2: "Matt Williams", col1: "52", col2: "St. George,Utah", col3: "Hina", col4: "Hina", col5: "4th voted out", col6: "Day 8", col7: "" }, { name: "Jason Treul", name2: "Jason Treul", col1: "32", col2: "Santa Ana,California", col3: "5th voted out", col4: "Day 10", col5: "", col6: "", col7: "" }, { name: "Shannon Fairweather", name2: "Shannon Fairweather", col1: "27", col2: "Boston,Massachusetts", col3: "Uli", col4: "Kele", col5: "Kele", col6: "6th voted out", col7: "Day 12" }, { name: "Nate Moore", name2: "Nate Moore", col1: "47", col2: "Hermosa Beach,California", col3: "Hina", col4: "Uli", col5: "Lewatu", col6: "7th voted out1st jury member", col7: "Day 14" }, { name: "Michelle \"MC\" Chukwujekwu", name2: "Michelle \"MC\" Chukwujekwu", col1: "29", col2: "San Diego,California", col3: "Hina", col4: "Kele", col5: "Hina", col6: "8th voted out2nd jury member", col7: "Day 15" }, { name: "Alex Moore", name2: "Alex Moore", col1: "26", col2: "Washington,D.C.", col3: "Kele", col4: "Uli", col5: "9th voted out3rd jury member", col6: "Day 17", col7: "" }, { name: "Jawan Pitts", name2: "Jawan Pitts", col1: "28", col2: "Los Angeles,California", col3: "Uli", col4: "Hina", col5: "Kele", col6: "10th voted out4th jury member", col7: "Day 19" }, { name: "Sophie Segreti", name2: "Sophie Segreti", col1: "31", col2: "New York City,New York", col3: "Hina", col4: "Kele", col5: "Uli", col6: "11th voted out5th jury member", col7: "Day 21" }, { name: "Steven Ramm", name2: "Steven Ramm", col1: "35", col2: "Denver,Colorado", col3: "Kele", col4: "12th voted out6th jury member", col5: "Day 23", col6: "", col7: "" }, { name: "Kristina Mills", name2: "Kristina Mills", col1: "35", col2: "Edmond,Oklahoma", col3: "Uli", col4: "13th voted out7th jury member", col5: "Day 24", col6: "", col7: "" }, { name: "Rizo Velovic", name2: "Rizo Velovic", col1: "25", col2: "Yonkers,New York", col3: "Uli", col4: "Hina", col5: "Hina", col6: "Eliminated8th jury member", col7: "Day 25" }, { name: "Sage Ahrens-Nichols", name2: "Sage Ahrens-Nichols", col1: "30", col2: "Olympia,Washington", col3: "Kele", col4: "Kele", col5: "2nd runner-up", col6: "Day 26", col7: "" }, { name: "Sophi Balerdi", name2: "Sophi Balerdi", col1: "27", col2: "Miami,Florida", col3: "Kele", col4: "Hina", col5: "Hina", col6: "Runner-up", col7: "" }, { name: "Savannah Louie", name2: "Savannah Louie", col1: "31", col2: "Atlanta,Georgia", col3: "Uli", col4: "Sole Survivor", col5: "", col6: "", col7: "" } ]
+            );
+        });
+
+        const antoinettesRawTeamList = [ "Jeremiah Ing", "Savannah Louie", "Jason Treul", "Rizo Velovic", "Sage Ahrens-Nichols", "Sophi Balerdi", "Steven Ramm", "Michelle \"MC\" Chukwujekwu", "Shannon Fairweather", "Matt Williams", "Jawan Pitts", "Kristina Mills", "Sophie Segreti", "Kimberly \"Annie\" Davis", "Jake Latimer", "Nate Moore", "Alex Moore", "Nicole Mazullo"];
+
+        const antoinettesContestantLeagueData = {
+            name: "Antoinette",
+            userId: "DCC9DCDC-AE5C-4A53-AF09-23F3C957D60B",
+            ranking: antoinettesRawTeamList
+        };
+        const listOfContetantLeagueData = [antoinettesContestantLeagueData]
+
+        const expectedNumberOfRounds = 17;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, parseSurvivorEntities, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(170);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(170);
+
+        //// round 1..13 not testing because we aren't using them today
+
+        // round 16
+        expect(result.rounds[16].round).toBe(16);
+        expect(result.rounds[16].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
+        expect(result.rounds[16].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[16].contestantRoundData[0].totalScore).toBe(1160);
+    });
 });
