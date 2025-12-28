@@ -1,9 +1,10 @@
+import GoogleLoginButton from "@/app/components/navigation/google-login-btn";
 
 export default async function Login() {
 
     return (
         <div>
-            <button>I am a login button</button>
+            <GoogleLoginButton/>
         </div>
     );
 }
