@@ -9,7 +9,7 @@ interface GoogleLogin {
     select_by: string
 }
 
-export default function GoogleLoginButton({ setShouldNavigateClose }:{ setShouldNavigateClose: (_e: boolean) => void}){
+export default function GoogleLoginButton(){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleLoginRef = useRef(null);
 
@@ -46,7 +46,6 @@ export default function GoogleLoginButton({ setShouldNavigateClose }:{ setShould
         const data = await response.json();
         setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
         setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
-        setShouldNavigateClose(true);
     }
 
     return (<>
