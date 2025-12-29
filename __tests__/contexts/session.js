@@ -44,7 +44,7 @@ describe("Session", ()=> {
         const { getByTestId } = render(<SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
             <Navigation pages={pages}/>
         </SessionContext.Provider>);
-        expect(getByTestId("google-login-btn")).toBeTruthy();
+        expect(getByTestId("login-link")).toBeTruthy();
     });
 
     it("should hide the login button if there is a session cookie", ()=> {
