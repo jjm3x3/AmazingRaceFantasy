@@ -24,10 +24,9 @@ const mockSetSessionInfo = jest.fn();
 describe("GoogleLoginButton Component", () => {
     it("should render a google login button", async () => {
         // setup
-        const setShouldNavigateCloseMock = jest.fn();
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleLoginButton setShouldNavigateClose={setShouldNavigateCloseMock}/>
+                <GoogleLoginButton/>
             </SessionContext.Provider>);
         
         // assert
