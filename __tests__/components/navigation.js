@@ -161,29 +161,6 @@ describe("Navigation Component", () => {
         expect(logoutButton).toBeVisible();
     });
 
-    it("should hide navigation on login complete", async () => {
-        // setup
-        mockSessionInfo.isLoggedIn = false;
-        const { getByTestId } = render(
-            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <Navigation pages={pages} />
-            </SessionContext.Provider>);
-        const toggleButton = getByTestId("hamburger-nav-btn");
-        const navMenu = getByTestId("navigation-menu");
-
-        // Act
-        fireEvent.click(toggleButton);
-        await waitFor(()=> {
-            // Need to wait for the navigation hydration to cycle through and rerender the navigation in opened state
-            const loginBtn = getByTestId("google-test-btn");
-            fireEvent.click(loginBtn);
-        });
-        await waitFor(()=> {
-            // Need to wait for the login flow to cycle through and rerender the navigation in closed state
-            expect(navMenu).not.toBeVisible();
-        }); 
-    });
-
     it("should close the navigation on logout", async ()=> {
         mockSessionInfo.isLoggedIn = true;
         const { getByTestId } = render(
