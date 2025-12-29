@@ -3,6 +3,11 @@ import { render, waitFor } from "@testing-library/react";
 import GoogleLoginButton from "../../app/components/navigation/google-login-btn";
 import { SessionContext } from "@/app/contexts/session";
 import { originalGoogle, mockGoogleAccounts, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleAccountsSdk";
+import { useRouter } from "next/navigation";
+
+const mockRouter = { push: jest.fn() };
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 beforeEach(() => {
     window.google = { accounts: mockGoogleAccounts };
