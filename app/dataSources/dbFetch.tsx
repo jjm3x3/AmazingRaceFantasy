@@ -116,6 +116,18 @@ export async function writeGoogleUserData (googleUserId: string){
     await redis.json.set(`user:${googleUserId}`, "$", leagueConfigString)
 }
 
+export async function writeGoogleUserDataWithId (userDbObj: {googleUserId: string, userId: string}){
+    const redisOptions = {
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    };
+    const redis = new Redis(redisOptions);
+
+    // Post to DB
+    const leagueConfigString = JSON.stringify(userDbObj)
+    await redis.json.set(`user:${userDbObj.userId}`, "$", leagueConfigString)
+}
+
 export async function getAllKeys(keyPrefix: string): Promise<string[]> {
 
     const redis = new Redis({
