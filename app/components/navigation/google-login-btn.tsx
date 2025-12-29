@@ -3,6 +3,7 @@ import { useEffect, useRef, useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
+import { useRouter } from "next/navigation";
 
 interface GoogleLogin {
     credential: string,
@@ -12,6 +13,7 @@ interface GoogleLogin {
 export default function GoogleLoginButton(){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleLoginRef = useRef(null);
+    const router = useRouter();
 
     useEffect(()=> {
         if(googleSdkLoaded && window.google){
@@ -46,6 +48,7 @@ export default function GoogleLoginButton(){
         const data = await response.json();
         setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
         setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
+        router.push("/");
     }
 
     return (<>
