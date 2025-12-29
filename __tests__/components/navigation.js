@@ -105,7 +105,7 @@ describe("Navigation Component", () => {
         });
     });
 
-    it("should render a google login button if the client does not have a session cookie", async () => {
+    it("should render a login link if the client does not have a session cookie", async () => {
         // setup
         const { getByTestId } = render(<SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}><Navigation pages={pages} /></SessionContext.Provider>);
         const toggleButton = getByTestId("hamburger-nav-btn");
@@ -125,7 +125,7 @@ describe("Navigation Component", () => {
         });
 
         // setup
-        const googleLoginButton = getByTestId("google-login-btn");
+        const googleLoginButton = getByTestId("login-link");
 
         // assert
         expect(googleLoginButton).toBeVisible();
