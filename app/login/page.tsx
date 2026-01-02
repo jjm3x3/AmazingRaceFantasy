@@ -3,11 +3,9 @@ import GoogleLoginButton from "@/app/components/navigation/google-login-btn";
 export default async function Login() {
 
     return (
-        <div>
-            <div className="flex justify-center">
+        <div className="grid place-items-center h-screen">
+            <div>
                 <p>Login</p>
-            </div>
-            <div className="flex justify-center">
                 <GoogleLoginButton/>
             </div>
         </div>
