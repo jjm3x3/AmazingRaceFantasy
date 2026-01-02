@@ -1,9 +1,8 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import GoogleLoginButton from "../../app/components/navigation/google-login-btn";
 import { SessionContext } from "@/app/contexts/session";
 import { originalGoogle, mockGoogleAccounts, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleAccountsSdk";
-import { useRouter } from "next/navigation";
 
 const mockRouter = { push: jest.fn() };
 
@@ -41,6 +40,34 @@ describe("GoogleLoginButton Component", () => {
             const googleBtnElm = getByTestId("google-test-btn");
             expect(googleBtnElm).toBeTruthy();
             expect(googleBtnElm.textContent).toEqual("This is my google button");
+        });
+    });
+
+    it("should redirect to / after login completed", async () => {
+        // setup
+        const fakeResponse = {
+            json: () => new Promise((res,_rej) => {
+                res({ name: { firstName: "AFirstName" } })
+            })
+        };
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve(fakeResponse);
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
+                <GoogleLoginButton/>
+            </SessionContext.Provider>);
+
+        // Act
+        const googleBtnElm = getByTestId("google-test-btn");
+        fireEvent.click(googleBtnElm);
+
+        // Assert
+        await waitFor(() => {
+            expect(mockRouter.push).toHaveBeenCalledWith("/");
         });
     });
 });
