@@ -4,7 +4,6 @@ import Link from "next/link";
 import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
 import NavigationItem from "./navigation-item";
-import GoogleLoginButton from "./google-login-btn";
 import { useContext, useState } from "react";
 import { SessionContext } from "@/app/contexts/session";
 import LogoutButton from "@/app/components/navigation/logoutButton"
@@ -30,7 +29,7 @@ export default function Navigation({ pages }: {
         testId: "navigation-menu",
         classes: ""
     };
-    const { sessionInfo, googleSdkLoaded } = useContext(SessionContext);
+    const { sessionInfo } = useContext(SessionContext);
     const [shouldNavigateClose, setShouldNavigateClose] = useState(false);
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
@@ -72,11 +71,10 @@ export default function Navigation({ pages }: {
                             })} />
                     </li>);
                 })}
-                { googleSdkLoaded && (
-                    !sessionInfo.isLoggedIn ?
-                        <li className={styles["top-level-link"]} data-testid="google-login-btn" key={"nav-toplevellink-login"}><GoogleLoginButton setShouldNavigateClose={setShouldNavigateClose}/></li>
-                        : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton setShouldNavigateClose={setShouldNavigateClose} /></li>
-                )}
+                { !sessionInfo.isLoggedIn ?
+                    <li className={styles["top-level-link"]} data-testid="login-link" key={"nav-toplevellink-login"}><Link href="/login">Login</Link></li>
+                    : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton setShouldNavigateClose={setShouldNavigateClose} /></li>
+                }
                 </>} />
     </nav>);
 }
