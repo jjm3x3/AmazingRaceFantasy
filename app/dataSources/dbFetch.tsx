@@ -147,6 +147,20 @@ export async function getAllKeys(keyPrefix: string): Promise<string[]> {
     return allKeysResults;
 }
 
+export async function getUser(googleUserId: string) {
+
+    if (googleUserId === undefined) {
+        throw new Error("Unable to getUser. Provided param 'googleUserId' is undefined but must have a value\"");
+    }
+
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    })
+    const jsonResult = await redis.json.get(`user:${googleUserId}`);
+    return jsonResult;
+}
+
 export async function getJson<T>(key: string): Promise<T> {
 
     if (key === undefined) {

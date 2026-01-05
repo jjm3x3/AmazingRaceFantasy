@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
-import { writeGoogleUserDataWithId } from "@/app/dataSources/dbFetch";
+import { getUser,writeGoogleUserDataWithId } from "@/app/dataSources/dbFetch";
 import { createSession } from "../session/session";
 import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
@@ -25,31 +25,37 @@ export async function POST(request: NextRequest) {
 
     if(payload){
         const googleUserId = payload["sub"];
-        const uuid = randomUUID();
-        const userDbObj = {
-            googleUserId: googleUserId,
-            userId: uuid
-        }
-        writeGoogleUserDataWithId(userDbObj);
-        // Data to send to the front end
-        const userObjForClient = {
-            email: payload?.email,
-            name: {
-                firstName: payload?.given_name,
-                lastName: payload?.family_name
-            },
-            googleUserId: googleUserId
-        }
 
-        const response = NextResponse.json(userObjForClient);
-        await createSession({
-            envelope: body.envelope, 
-            exp: payload.exp,
-            iat: payload.iat, 
-            sub: uuid,
-            response
-        });
-        
-        return response;
+        // Check if user already exists with googleUserId
+        const existingGoogleUser = await getUser(googleUserId);
+        if (existingGoogleUser){
+            return NextResponse.json({"error": "User already exists with the provided google user id"}, {status: 409});
+        } else {
+            const uuid = randomUUID();
+            const userDbObj = {
+                googleUserId: googleUserId,
+                userId: uuid
+            }
+            writeGoogleUserDataWithId(userDbObj);
+
+            // Data to send to the front end
+            const userObjForClient = {
+                email: payload?.email,
+                name: {
+                    firstName: payload?.given_name,
+                    lastName: payload?.family_name
+                },
+                googleUserId: googleUserId
+            }
+            const response = NextResponse.json(userObjForClient);
+            await createSession({
+                envelope: body.envelope, 
+                exp: payload.exp,
+                iat: payload.iat, 
+                sub: uuid,
+                response
+            });
+            return response;
+        }
     }
 }
