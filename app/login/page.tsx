@@ -1,4 +1,5 @@
 import GoogleLoginButton from "@/app/components/navigation/google-login-btn";
+import styles from "./styles.module.scss"
 
 export default async function Login() {
 
