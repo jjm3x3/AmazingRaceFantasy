@@ -3,11 +3,16 @@ import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { getUser,writeGoogleUserDataWithId } from "@/app/dataSources/dbFetch";
 import { createSession } from "../session/session";
-import { unauthenticatedErrorMessage, badGatewayErrorMessage } from "@/app/api/constants/errors";
+import { unauthenticatedErrorMessage, badGatewayErrorMessage, missingBodyErrorMessage, malformedBodyErrorMessage } from "@/app/api/constants/errors";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
     const body = await request.json();
+    if(!body.token){
+        return NextResponse.json({"error": missingBodyErrorMessage}, {status: 400});
+    } else if (body.token.trim() === "" || (body.token).test(/^[0-9a-zA-Z=.]+/g) === false){
+        return NextResponse.json({"error": malformedBodyErrorMessage}, {status: 400});
+    }
     const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
     let authResponse = null;
     try {
