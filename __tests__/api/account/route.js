@@ -4,7 +4,7 @@
 
 jest.mock("google-auth-library");
 import { OAuth2Client } from "google-auth-library";
-import { POST } from "@/app/api/create-account/route.ts";
+import { POST } from "@/app/api/account/route.ts";
 
 const testRequestPayload = {
     token: "testToken"
@@ -178,7 +178,7 @@ describe("POST", () => {
             }
         });
 
-        const { POST } = await import ("../../../app/api/create-account/route");
+        const { POST } = await import ("../../../app/api/account/route");
         const request = {
             json: async () => (testRequestAccountExistsPayload),
         };
