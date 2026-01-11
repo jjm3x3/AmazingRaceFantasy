@@ -3,7 +3,7 @@ import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { getUser,writeGoogleUserDataWithId } from "@/app/dataSources/dbFetch";
 import { createSession } from "../session/session";
-import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
+import { unauthenticatedErrorMessage, badGatewayErrorMessage } from "@/app/api/constants/errors";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();
@@ -23,9 +23,10 @@ export async function POST(request: NextRequest) {
     
     const payload:TokenPayload | undefined = authResponse !== null ? authResponse.getPayload() : undefined;
 
-    if(payload){
+    if(!payload){
+        return NextResponse.json({ "error": badGatewayErrorMessage }, { status: 502 });
+    } else {
         const googleUserId = payload["sub"];
-
         // Check if user already exists with googleUserId
         const existingGoogleUser = await getUser(googleUserId);
         if (existingGoogleUser){
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
                 userId: uuid
             }
             writeGoogleUserDataWithId(userDbObj);
-
+    
             // Data to send to the front end
             const userObjForClient = {
                 email: payload?.email,
