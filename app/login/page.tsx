@@ -4,9 +4,10 @@ export default async function Login() {
 
     return (
         <div className="grid place-items-center h-screen">
-            <div>
-                <p>Login</p>
-                <GoogleLoginButton/>
+            <div className="text-center">
+                <p className="text-xl">Login</p>
+                <GoogleLoginButton />
+                <p>Don't have an account? Create One.</p>
             </div>
         </div>
     );
