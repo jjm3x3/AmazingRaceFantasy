@@ -121,7 +121,7 @@ export async function writeGoogleUserData (googleUserId: string){
     await redis.json.set(`user:${googleUserId}`, "$", leagueConfigString)
 }
 
-export async function writeGoogleUserDataWithId (userDbObj: {googleUserId: string, userId: string}){
+export async function writeGoogleUserDataWithId (userDbObj: IUserData){
     const redisOptions = {
         url: process.env.KV_REST_API_URL,
         token: process.env.KV_REST_API_TOKEN
