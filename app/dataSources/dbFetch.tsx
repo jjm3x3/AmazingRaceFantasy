@@ -130,7 +130,7 @@ export async function writeGoogleUserDataWithId (userDbObj: {googleUserId: strin
 
     // Post to DB
     const leagueConfigString = JSON.stringify(userDbObj)
-    await redis.json.set(`user:${userDbObj.userId}`, "$", leagueConfigString)
+    await redis.json.set(`user:${userDbObj.googleUserId}`, "$", leagueConfigString)
 }
 
 export async function getAllKeys(keyPrefix: string): Promise<string[]> {
