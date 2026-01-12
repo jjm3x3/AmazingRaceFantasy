@@ -19,6 +19,11 @@ export interface ILeagueConfigurationData {
     contestantLeagueDataKeyPrefix: string
 }
 
+export interface IUserData {
+    googleUserId: string
+    userId: string
+}
+
 export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
 
     if (keyPrefix === undefined) {
@@ -147,17 +152,13 @@ export async function getAllKeys(keyPrefix: string): Promise<string[]> {
     return allKeysResults;
 }
 
-export async function getUser(googleUserId: string) {
+export async function getUser(googleUserId: string): Promise<IUserData> {
 
     if (googleUserId === undefined) {
         throw new Error("Unable to getUser. Provided param 'googleUserId' is undefined but must have a value\"");
     }
 
-    const redis = new Redis({
-        url: process.env.KV_REST_API_URL,
-        token: process.env.KV_REST_API_TOKEN
-    })
-    const jsonResult = await redis.json.get(`user:${googleUserId}`);
+    const jsonResult = getJson<IUserData>(`user:${googleUserId}`);
     return jsonResult;
 }
 
