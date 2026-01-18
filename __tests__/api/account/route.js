@@ -214,8 +214,7 @@ describe("POST", () => {
                 getPayload: getAccountExistsPayloadMock
             }
         });
-
-        const { POST } = await import ("../../../app/api/account/route");
+        
         const request = {
             json: async () => (testRequestAccountExistsPayload),
         };
