@@ -36,32 +36,31 @@ export async function POST(request: NextRequest) {
     const existingGoogleUser = await getUser(googleUserId);
     if (existingGoogleUser){
         return NextResponse.json({"error": "User already exists with the provided google user id"}, {status: 409});
-    } else {
-        const uuid = randomUUID();
-        const userDbObj = {
-            googleUserId: googleUserId,
-            userId: uuid
-        }
-        writeGoogleUserDataWithId(userDbObj);
-
-        // Data to send to the front end
-        const userObjForClient = {
-            email: payload?.email,
-            name: {
-                firstName: payload?.given_name,
-                lastName: payload?.family_name
-            },
-            googleUserId: googleUserId,
-            userId: uuid
-        }
-        const response = NextResponse.json(userObjForClient);
-        await createSession({
-            envelope: body.envelope, 
-            exp: payload.exp,
-            iat: payload.iat, 
-            sub: uuid,
-            response
-        });
-        return response;
     }
+    const uuid = randomUUID();
+    const userDbObj = {
+        googleUserId: googleUserId,
+        userId: uuid
+    }
+    writeGoogleUserDataWithId(userDbObj);
+
+    // Data to send to the front end
+    const userObjForClient = {
+        email: payload?.email,
+        name: {
+            firstName: payload?.given_name,
+            lastName: payload?.family_name
+        },
+        googleUserId: googleUserId,
+        userId: uuid
+    }
+    const response = NextResponse.json(userObjForClient);
+    await createSession({
+        envelope: body.envelope, 
+        exp: payload.exp,
+        iat: payload.iat, 
+        sub: uuid,
+        response
+    });
+    return response;
 }
