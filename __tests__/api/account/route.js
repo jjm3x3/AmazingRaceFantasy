@@ -111,15 +111,15 @@ describe("POST", () => {
         };
 
         // Act
-        let CreateAccountResponse = null;
+        let createAccountResponse = null;
         try {
-            CreateAccountResponse = await POST(requestMock);
+            createAccountResponse = await POST(requestMock);
         } catch (testError) {
         // Assert
             expect(testError).toBeFalsy(); // should not throw
         }
 
-        expect(CreateAccountResponse).not.toBeNull();
+        expect(createAccountResponse).not.toBeNull();
     });
 
     it("should catch an exception when one is thrown during verification and return a 401", async () => {
@@ -134,11 +134,11 @@ describe("POST", () => {
         };
 
         // Act
-        const CreateAccountResponse = await POST(requestMock);
+        const createAccountResponse = await POST(requestMock);
 
         // Assert
-        expect(CreateAccountResponse).not.toBeNull();
-        expect(CreateAccountResponse.status).toBe(401);
+        expect(createAccountResponse).not.toBeNull();
+        expect(createAccountResponse.status).toBe(401);
     });
 
     it("should return a 400 when no token is provided", async () => {
@@ -147,12 +147,12 @@ describe("POST", () => {
         };
 
         // Act
-        const CreateAccountResponse = await POST(requestMock);
-        const jsonResponse = await CreateAccountResponse.json();
+        const createAccountResponse = await POST(requestMock);
+        const jsonResponse = await createAccountResponse.json();
 
         // Assert
-        expect(CreateAccountResponse).not.toBeNull();
-        expect(CreateAccountResponse.status).toBe(400);
+        expect(createAccountResponse).not.toBeNull();
+        expect(createAccountResponse.status).toBe(400);
         expect(jsonResponse).toEqual({ error: missingBodyErrorMessage });
     });
 
@@ -162,12 +162,12 @@ describe("POST", () => {
         };
 
         // Act
-        const CreateAccountResponse = await POST(requestMock);
-        const jsonResponse = await CreateAccountResponse.json();
+        const createAccountResponse = await POST(requestMock);
+        const jsonResponse = await createAccountResponse.json();
 
         // Assert
-        expect(CreateAccountResponse).not.toBeNull();
-        expect(CreateAccountResponse.status).toBe(400);
+        expect(createAccountResponse).not.toBeNull();
+        expect(createAccountResponse.status).toBe(400);
         expect(jsonResponse).toEqual({ error: malformedBodyErrorMessage });
     });
 
@@ -177,12 +177,12 @@ describe("POST", () => {
         };
 
         // Act
-        const CreateAccountResponse = await POST(requestMock);
-        const jsonResponse = await CreateAccountResponse.json();
+        const createAccountResponse = await POST(requestMock);
+        const jsonResponse = await createAccountResponse.json();
 
         // Assert
-        expect(CreateAccountResponse).not.toBeNull();
-        expect(CreateAccountResponse.status).toBe(400);
+        expect(createAccountResponse).not.toBeNull();
+        expect(createAccountResponse.status).toBe(400);
         expect(jsonResponse).toEqual({ error: malformedBodyErrorMessage });
     });
 
@@ -190,8 +190,8 @@ describe("POST", () => {
         const request = {
             json: async () => (testRequestPayload),
         };
-        const CreateAccountResponse = await POST(request);
-        await CreateAccountResponse.json();
+        const createAccountResponse = await POST(request);
+        await createAccountResponse.json();
         
         const expectedRedisResponse = [ "user:123googleTestId", "$", expect.stringContaining("{\"googleUserId\":\"123googleTestId\"")];
         expect(redisJsonSetMock).toHaveBeenCalled();
@@ -214,14 +214,14 @@ describe("POST", () => {
                 getPayload: getAccountExistsPayloadMock
             }
         });
-        
+
         const request = {
             json: async () => (testRequestAccountExistsPayload),
         };
 
         // Act
-        const CreateAccountResponse = await POST(request);
-        const jsonResponse = await CreateAccountResponse.json();
+        const createAccountResponse = await POST(request);
+        const jsonResponse = await createAccountResponse.json();
 
         // Assert
         expect(jsonResponse).toEqual({ error: "User already exists with the provided google user id" });
