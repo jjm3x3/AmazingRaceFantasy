@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { getUser,writeGoogleUserDataWithId } from "@/app/dataSources/dbFetch";
-import { createSession } from "../session/session";
+import { createSession } from "@/app/api/session/session";
 import { unauthenticatedErrorMessage, badGatewayErrorMessage, missingBodyErrorMessage, malformedBodyErrorMessage } from "@/app/api/constants/errors";
 
 export async function POST(request: NextRequest) {
