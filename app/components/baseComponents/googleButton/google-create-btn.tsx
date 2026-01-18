@@ -26,7 +26,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
             const parent = googleCreateRef.current;
             if(googleCreateRef && parent){
                 google.accounts.id.renderButton(parent, {
-                    text: "signin",
+                    text: "signup_with",
                     size: "medium",
                     logo_alignment: "left",
                     shape: "rectangular",
