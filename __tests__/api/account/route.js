@@ -103,7 +103,8 @@ describe("POST", () => {
                 firstName: testAuthData.given_name,
                 lastName: testAuthData.family_name
             },
-            googleUserId: testAuthData.sub
+            googleUserId: testAuthData.sub,
+            "userId": "google-user-uuid-mock",
         });
     });
 
