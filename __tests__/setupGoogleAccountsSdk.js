@@ -1,6 +1,8 @@
 export const originalGoogle = window.google; // Store original object
 
-export const initializeGoogleMock = jest.fn();
+export const initializeGoogleMock = jest.fn().mockImplementation(()=> {
+    requestAccessTokenMock();
+})
 
 export const requestAccessTokenMock = jest.fn().mockResolvedValue({ access_token: "mock_token" });
 
@@ -8,9 +10,13 @@ const getClientMock = jest.fn().mockReturnValue({
     requestAccessToken: requestAccessTokenMock
 });
 
-const renderButtonMock = jest.fn().mockReturnValue(()=> {
+const renderButtonMock = jest.fn().mockImplementation(()=> {
     const initializationArgs = initializeGoogleMock.mock.calls[0][0];
-    return <button data-testid="google-test-btn" onClick={initializationArgs.callback}>Google Btn</button>
+    const googleBtnMock = document.createElement("button");
+    googleBtnMock.textContent = "This is my google button";
+    googleBtnMock.setAttribute("data-testid", "google-test-btn");
+    googleBtnMock.addEventListener("click", initializationArgs.callback);
+    document.getElementById("google_login_btn").appendChild(googleBtnMock);
 });
 
 export const mockGoogleAccounts = {

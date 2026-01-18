@@ -3,15 +3,17 @@ import { useEffect, useRef, useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
+import { useRouter } from "next/navigation";
 
 interface GoogleLogin {
     credential: string,
     select_by: string
 }
 
-export default function GoogleLoginButton({ setShouldNavigateClose }:{ setShouldNavigateClose: (_e: boolean) => void}){
+export default function GoogleLoginButton({classes}: {classes: string}){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleLoginRef = useRef(null);
+    const router = useRouter();
 
     useEffect(()=> {
         if(googleSdkLoaded && window.google){
@@ -46,10 +48,10 @@ export default function GoogleLoginButton({ setShouldNavigateClose }:{ setShould
         const data = await response.json();
         setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
         setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
-        setShouldNavigateClose(true);
+        router.push("/");
     }
 
     return (<>
-        <div ref={googleLoginRef} id="google_login_btn"/>
+        <div ref={googleLoginRef} id="google_login_btn" className={classes}/>
     </>);
 }

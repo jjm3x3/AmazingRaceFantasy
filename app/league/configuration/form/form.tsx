@@ -10,8 +10,8 @@ import { UNAUTHENTICATED_ERROR_MESSAGE, UNAUTHORIZED_ERROR_MESSAGE, GENERIC_FORM
 
 interface FormError {
     status: number,
-    message: string
 }
+
 export default function LeagueConfigurationForm(){
     // This is needed to allow for query selector below
     const formRef = useRef(null as HTMLFormElement | null);
@@ -23,6 +23,9 @@ export default function LeagueConfigurationForm(){
         if(formRef.current){
             const formData = new FormData(formRef.current);
             const formObject = Object.fromEntries(formData);
+
+            // Construct leagueKey based on user input
+            formObject.leagueKey = formObject.showName + ":" + formObject.showSeason;
 
             // Convert "archived" friendly name into valid enum for api
             formObject.leagueStatus  = formObject.leagueStatus === "archived" ? "archive" : formObject.leagueStatus;
@@ -82,14 +85,30 @@ export default function LeagueConfigurationForm(){
                     getFormValidity={()=> formRef.current!.checkValidity()}
                     id="wikiSectionHeader"
                 />
+                <Select
+                    labelText="Show Name"
+                    selectOptions={
+                        [{
+                            value: "amazing_race",
+                            text: "Amazing Race"
+                        },{
+                            value: "big_brother",
+                            text: "Big Brother"
+                        },{
+                            value: "survivor",
+                            text: "Survivor"
+                        }]
+                    }
+                    id="showName"
+                />
                 <TextInput
-                    label="League Key Prefix"
-                    placeholder="example: big_brother:27"
+                    label="Show Season"
+                    placeholder="example: 27"
                     isRequired={true}
-                    validationPattern={validationPattern.leagueKey.string}
+                    validationPattern={validationPattern.frontend.showSeason}
                     updateFormValidation={setFormValidation}
                     getFormValidity={()=> formRef.current!.checkValidity()}
-                    id="leagueKey"
+                    id="showSeason"
                 />
                 <TextInput
                     label="Contestant Type"

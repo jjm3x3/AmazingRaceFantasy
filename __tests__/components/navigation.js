@@ -52,6 +52,7 @@ describe("Navigation Component", () => {
         global.fetch = jest.fn(() =>
             Promise.resolve({
                 ok: true,
+                status: 205,
                 json: () => Promise.resolve({ 
                     name: {
                         firstName: "Test",
@@ -69,85 +70,99 @@ describe("Navigation Component", () => {
     })
 
     it("should render a hamburger navigation if there are pages found", async () => {
+        // setup
         const { getByTestId } = render(<Navigation pages={pages} />);
-        expect(getByTestId("navigation")).toBeTruthy();
         const toggleButton = getByTestId("hamburger-nav-btn");
         const navMenu = getByTestId("navigation-menu");
+
+        // assert
+        expect(getByTestId("navigation")).toBeTruthy();
         expect(toggleButton).toBeTruthy();
         expect(navMenu).not.toBeVisible();
+
+        // act
         fireEvent.click(toggleButton);
-        waitFor(() => {
+
+        // assert
+        await waitFor(() => {
             expect(navMenu).toBeVisible();
         });
+
+        // setup
         const subPageToggle = getByTestId("subpage-current-label");
         const subPageList = getByTestId("subpage-current-dropdown");
+
+        // assert
         expect(subPageToggle).toBeTruthy();
         expect(subPageList).not.toBeVisible();
+
+        // act
         fireEvent.click(subPageToggle);
-        waitFor(() => {
+
+        // assert
+        await waitFor(() => {
             expect(subPageList).toBeVisible();
         });
     });
 
-    it("should render a google login button if the client does not have a session cookie", async () => {
+    it("should render a login link if the client does not have a session cookie", async () => {
+        // setup
         const { getByTestId } = render(<SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}><Navigation pages={pages} /></SessionContext.Provider>);
-        expect(getByTestId("navigation")).toBeTruthy();
-
         const toggleButton = getByTestId("hamburger-nav-btn");
         const navMenu = getByTestId("navigation-menu");
+        
+        // assert
+        expect(getByTestId("navigation")).toBeTruthy();
         expect(toggleButton).toBeTruthy();
         expect(navMenu).not.toBeVisible();
+
+        // act
         fireEvent.click(toggleButton);
-        waitFor(() => {
+
+        // assert
+        await waitFor(() => {
             expect(navMenu).toBeVisible();
         });
 
-        const googleLoginButton = getByTestId("google-login-btn");
+        // setup
+        const googleLoginButton = getByTestId("login-link");
+
+        // assert
         expect(googleLoginButton).toBeVisible();
     });
 
     it("should render a logout button if the client does not have a session cookie", async () => {
+        // setup
         mockSessionInfo.isLoggedIn = true;
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <Navigation pages={pages} />
             </SessionContext.Provider>);
-        expect(getByTestId("navigation")).toBeTruthy();
-
         const toggleButton = getByTestId("hamburger-nav-btn");
         const navMenu = getByTestId("navigation-menu");
+
+        // assert
+        expect(getByTestId("navigation")).toBeTruthy();
         expect(toggleButton).toBeTruthy();
         expect(navMenu).not.toBeVisible();
+
+        // act
         fireEvent.click(toggleButton);
-        waitFor(() => {
+
+        // assert
+        await waitFor(() => {
             expect(navMenu).toBeVisible();
         });
 
+        // setup
         const logoutButton = getByTestId("logout-btn");
+
+        // assert
         expect(logoutButton).toBeVisible();
     });
-    it("should hide navigation on login complete", async () => {
-        mockSessionInfo.isLoggedIn = false;
-        const { getByTestId } = render(
-            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <Navigation pages={pages} />
-            </SessionContext.Provider>);
-        const toggleButton = getByTestId("hamburger-nav-btn");
-        const navMenu = getByTestId("navigation-menu");
-        // Act
-        fireEvent.click(toggleButton);
-        waitFor(()=> {
-            // Need to wait for the navigation hydration to cycle through and rerender the navigation in opened state
-            const loginBtn = getByTestId("google-test-btn");
-            fireEvent.click(loginBtn);
-        });
-        waitFor(()=> {
-            // Need to wait for the login flow to cycle through and rerender the navigation in closed state
-            expect(navMenu).not.toBeVisible();
-        }); 
-    });
-    it("should close the navigation on logout", ()=> {
-        mockSessionInfo.isLoggedIn = false;
+
+    it("should close the navigation on logout", async ()=> {
+        mockSessionInfo.isLoggedIn = true;
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <Navigation pages={pages} />
@@ -157,12 +172,13 @@ describe("Navigation Component", () => {
         const navMenu = getByTestId("navigation-menu");
         // Act
         fireEvent.click(toggleButton);
-        waitFor(()=> {
+        await waitFor(()=> {
             // Need to wait for the navigation hydration to cycle through and rerender the navigation in opened state
             const logoutBtn = getByTestId("logout-button-core");
             fireEvent.click(logoutBtn);
         });
-        waitFor(()=> {
+        
+        await waitFor(()=> {
             // Need to wait for the login flow to cycle through and rerender the navigation in closed state
             expect(navMenu).not.toBeVisible();
         }); 
