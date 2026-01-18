@@ -52,6 +52,6 @@ export default function GoogleLoginButton({classes}: {classes: string}){
     }
 
     return (<>
-        <div ref={googleLoginRef} id="google_login_btn"/>
+        <div ref={googleLoginRef} id="google_login_btn" className={classes}/>
     </>);
 }
