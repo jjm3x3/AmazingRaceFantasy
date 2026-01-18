@@ -152,14 +152,17 @@ export async function getAllKeys(keyPrefix: string): Promise<string[]> {
     return allKeysResults;
 }
 
-export async function getUser(googleUserId: string): Promise<IUserData> {
+export async function getUser(googleUserId: string): Promise<IUserData | null> {
 
     if (googleUserId === undefined) {
         throw new Error("Unable to getUser. Provided param 'googleUserId' is undefined but must have a value\"");
     }
-
-    const jsonResult = getJson<IUserData>(`user:${googleUserId}`);
-    return jsonResult;
+    try {
+        const jsonResult = getJson<IUserData>(`user:${googleUserId}`);
+        return jsonResult;
+    } catch (_error){
+        return null;
+    }
 }
 
 export async function getJson<T>(key: string): Promise<T> {

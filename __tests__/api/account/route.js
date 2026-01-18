@@ -25,7 +25,6 @@ const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
 });
 
-
 let verifyIdTokenMock = jest.fn().mockImplementation(()=> {
     return {
         getPayload: getPayloadMock
@@ -43,15 +42,6 @@ jest.mock("../../../app/api/session/session", ()=> {
         ...jest.requireActual("../../../app/api/session/session"), 
         createSession: jest.fn().mockImplementation(()=>{
             return "someTokenHeader.someTokenBody.someTokenSig"
-        })
-    }
-});
-
-jest.mock("crypto", ()=> {
-    return {
-        ...jest.requireActual("crypto"),
-        randomUUID: jest.fn().mockImplementation(()=> {
-            return "google-user-uuid-mock"
         })
     }
 });

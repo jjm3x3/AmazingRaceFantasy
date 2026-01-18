@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     if(!body.token){
         return NextResponse.json({"error": missingBodyErrorMessage}, {status: 400});
-    } else if (body.token.trim() === "" || (body.token).test(/^[0-9a-zA-Z=.]+/g) === false){
+    } else if (body.token.trim() === "" || (/^[0-9a-zA-Z=.]+/g).test(body.token) === false){
         return NextResponse.json({"error": malformedBodyErrorMessage}, {status: 400});
     }
     const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
         const googleUserId = payload["sub"];
         // Check if user already exists with googleUserId
         const existingGoogleUser = await getUser(googleUserId);
+        console.log(existingGoogleUser);
         if (existingGoogleUser){
             return NextResponse.json({"error": "User already exists with the provided google user id"}, {status: 409});
         } else {
