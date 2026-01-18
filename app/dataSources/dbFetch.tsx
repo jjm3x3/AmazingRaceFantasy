@@ -19,6 +19,11 @@ export interface ILeagueConfigurationData {
     contestantLeagueDataKeyPrefix: string
 }
 
+export interface IUserData {
+    googleUserId: string
+    userId?: string
+}
+
 export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
 
     if (keyPrefix === undefined) {
@@ -116,6 +121,18 @@ export async function writeGoogleUserData (googleUserId: string){
     await redis.json.set(`user:${googleUserId}`, "$", leagueConfigString)
 }
 
+export async function writeGoogleUserDataWithId (userDbObj: IUserData){
+    const redisOptions = {
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    };
+    const redis = new Redis(redisOptions);
+
+    // Post to DB
+    const leagueConfigString = JSON.stringify(userDbObj)
+    await redis.json.set(`user:${userDbObj.googleUserId}`, "$", leagueConfigString)
+}
+
 export async function getAllKeys(keyPrefix: string): Promise<string[]> {
 
     const redis = new Redis({
@@ -133,6 +150,20 @@ export async function getAllKeys(keyPrefix: string): Promise<string[]> {
     }
 
     return allKeysResults;
+}
+
+export async function getUser(googleUserId: string): Promise<IUserData | null> {
+
+    if (googleUserId === undefined) {
+        throw new Error("Unable to getUser. Provided param 'googleUserId' is undefined but must have a value\"");
+    }
+
+    try {
+        const jsonResult = await getJson<IUserData>(`user:${googleUserId}`);
+        return jsonResult;
+    } catch (_error){
+        return null;
+    }
 }
 
 export async function getJson<T>(key: string): Promise<T> {
