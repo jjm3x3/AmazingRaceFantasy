@@ -81,8 +81,8 @@ describe("POST", () => {
         const requestMock = {
             json: async () => (testRequestPayload),
         };
-        const CreateAccountResponse = await POST(requestMock);
-        const body = await CreateAccountResponse.json();
+        const createAccountResponse = await POST(requestMock);
+        const body = await createAccountResponse.json();
         expect(verifyIdTokenMock).toHaveBeenCalledWith({
             idToken: testRequestPayload.token,
             audience: clientId
