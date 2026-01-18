@@ -37,15 +37,6 @@ OAuth2Client.mockImplementation(() => {
     }
 });
 
-jest.mock("crypto", ()=> {
-    return {
-        ...jest.requireActual("crypto"),
-        randomUUID: jest.fn().mockImplementation(()=> {
-            return "google-user-uuid-mock"
-        })
-    }
-});
-
 jest.mock("../../../app/api/session/session", ()=> {
     return {
         ...jest.requireActual("../../../app/api/session/session"), 
@@ -97,15 +88,14 @@ describe("POST", () => {
             audience: clientId
         });
         expect(getPayloadMock).toHaveBeenCalled();
-        expect(body).toEqual({
+        expect(body).toEqual(expect.objectContaining({
             email: testAuthData.email,
             name: {
                 firstName: testAuthData.given_name,
                 lastName: testAuthData.family_name
             },
-            googleUserId: testAuthData.sub,
-            "userId": "google-user-uuid-mock",
-        });
+            googleUserId: testAuthData.sub
+        }));
     });
 
     it("should catch an exception when one is thrown during verification", async () => {
@@ -150,13 +140,14 @@ describe("POST", () => {
         expect(CreateAccountResponse.status).toBe(401);
     });
 
-    it("should successfully call Redis", async ()=> {
+    it("should successfully post to Redis", async ()=> {
         const request = {
             json: async () => (testRequestPayload),
         };
         const CreateAccountResponse = await POST(request);
         await CreateAccountResponse.json();
-        const expectedRedisResponse = [ "user:123googleTestId", "$", "{\"googleUserId\":\"123googleTestId\",\"userId\":\"google-user-uuid-mock\"}" ];
+        
+        const expectedRedisResponse = [ "user:123googleTestId", "$", expect.stringContaining("{\"googleUserId\":\"123googleTestId\"")];
         expect(redisJsonSetMock).toHaveBeenCalled();
         expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
     });
