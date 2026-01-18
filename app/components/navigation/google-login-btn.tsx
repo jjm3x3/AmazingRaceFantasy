@@ -10,7 +10,7 @@ interface GoogleLogin {
     select_by: string
 }
 
-export default function GoogleLoginButton(){
+export default function GoogleLoginButton({classes}: {classes: string}){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleLoginRef = useRef(null);
     const router = useRouter();
@@ -52,6 +52,6 @@ export default function GoogleLoginButton(){
     }
 
     return (<>
-        <div ref={googleLoginRef} id="google_login_btn"/>
+        <div ref={googleLoginRef} id="google_login_btn" className={classes}/>
     </>);
 }
