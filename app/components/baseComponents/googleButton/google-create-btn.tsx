@@ -52,6 +52,6 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     }
 
     return (<>
-        <div ref={googleCreateRef} id="google_login_btn" className={classes}/>
+        <div ref={googleCreateRef} id="google_create_btn" className={classes}/>
     </>);
 }
