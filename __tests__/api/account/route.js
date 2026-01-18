@@ -37,6 +37,15 @@ OAuth2Client.mockImplementation(() => {
     }
 });
 
+jest.mock("crypto", ()=> {
+    return {
+        ...jest.requireActual("crypto"),
+        randomUUID: jest.fn().mockImplementation(()=> {
+            return "google-user-uuid-mock"
+        })
+    }
+});
+
 jest.mock("../../../app/api/session/session", ()=> {
     return {
         ...jest.requireActual("../../../app/api/session/session"), 
@@ -146,7 +155,7 @@ describe("POST", () => {
         };
         const CreateAccountResponse = await POST(request);
         await CreateAccountResponse.json();
-        const expectedRedisResponse = [ "user:google-user-uuid-mock", "$",  "{\"googleUserId\":\"123googleTestId\",\"userId\":\"google-user-uuid-mock\"}" ];
+        const expectedRedisResponse = [ "user:123googleTestId", "$", "{\"googleUserId\":\"123googleTestId\",\"userId\":\"google-user-uuid-mock\"}" ];
         expect(redisJsonSetMock).toHaveBeenCalled();
         expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
     });
