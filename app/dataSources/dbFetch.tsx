@@ -21,7 +21,7 @@ export interface ILeagueConfigurationData {
 
 export interface IUserData {
     googleUserId: string
-    userId: string
+    userId?: string
 }
 
 export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
@@ -157,7 +157,7 @@ export async function getUser(googleUserId: string): Promise<IUserData | null> {
     if (googleUserId === undefined) {
         throw new Error("Unable to getUser. Provided param 'googleUserId' is undefined but must have a value\"");
     }
-    
+
     try {
         const jsonResult = await getJson<IUserData>(`user:${googleUserId}`);
         return jsonResult;
