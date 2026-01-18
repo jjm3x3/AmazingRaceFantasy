@@ -12,7 +12,7 @@ interface GoogleLogin {
 
 export default function GoogleCreateButton({classes}: {classes: string}){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
-    const googleLoginRef = useRef(null);
+    const googleCreateRef = useRef(null);
     const router = useRouter();
 
     useEffect(()=> {
@@ -23,8 +23,8 @@ export default function GoogleCreateButton({classes}: {classes: string}){
                 callback: handleCredentialResponse,
                 use_fedcm_for_prompt: true
             });
-            const parent = googleLoginRef.current;
-            if(googleLoginRef && parent){
+            const parent = googleCreateRef.current;
+            if(googleCreateRef && parent){
                 google.accounts.id.renderButton(parent, {
                     text: "signin",
                     size: "medium",
@@ -52,6 +52,6 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     }
 
     return (<>
-        <div ref={googleLoginRef} id="google_login_btn" className={classes}/>
+        <div ref={googleCreateRef} id="google_login_btn" className={classes}/>
     </>);
 }
