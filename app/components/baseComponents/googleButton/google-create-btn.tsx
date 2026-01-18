@@ -38,7 +38,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     }, [googleSdkLoaded]);
     
     function handleCredentialResponse(response:GoogleLogin) {
-        fetch("/api/login", {
+        fetch("/api/account", {
             method: "POST",
             body: JSON.stringify({ token: response.credential }),
         }).then(handleLogin);
