@@ -7,7 +7,7 @@ export default async function Login() {
         <div className="grid place-items-center h-screen">
             <div className="text-center">
                 <p className="text-xl">Login</p>
-                <GoogleLoginButton />
+                <GoogleLoginButton classes={styles.google_login_btn} />
                 <p>Don't have an account? Create One.</p>
             </div>
         </div>
