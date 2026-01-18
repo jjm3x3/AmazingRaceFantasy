@@ -11,6 +11,10 @@ const testRequestPayload = {
     token: "testToken"
 }
 
+const testRequestWithSpecialCharsPayload = {
+    token: "test-Token_1.2=3"
+}
+
 const testRequestAccountExistsPayload = {
     token: "testTokenAccountExists"
 }
@@ -189,6 +193,18 @@ describe("POST", () => {
     it("should successfully post to Redis", async ()=> {
         const request = {
             json: async () => (testRequestPayload),
+        };
+        const createAccountResponse = await POST(request);
+        await createAccountResponse.json();
+        
+        const expectedRedisResponse = [ "user:123googleTestId", "$", expect.stringContaining("{\"googleUserId\":\"123googleTestId\"")];
+        expect(redisJsonSetMock).toHaveBeenCalled();
+        expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
+    });
+
+    it("should successfully post to Redis with special character token", async ()=> {
+        const request = {
+            json: async () => (testRequestWithSpecialCharsPayload),
         };
         const createAccountResponse = await POST(request);
         await createAccountResponse.json();
