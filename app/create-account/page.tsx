@@ -1,4 +1,4 @@
-import GoogleLoginButton from "@/app/components/navigation/google-login-btn";
+import GoogleCreateButton from "@/app/components/baseComponents/googleButton/createButton";
 import styles from "./styles.module.scss"
 
 export default async function CreateAccount() {
@@ -7,7 +7,7 @@ export default async function CreateAccount() {
         <div className="grid place-items-center h-screen">
             <div className="text-center">
                 <p className="text-xl">Create Account</p>
-                <GoogleLoginButton classes={styles.google_login_btn} />
+                <GoogleCreateButton classes={styles.google_login_btn} />
                 <p>Already have an account? Login</p>
             </div>
         </div>
