@@ -5,6 +5,7 @@
 jest.mock("google-auth-library");
 import { OAuth2Client } from "google-auth-library";
 import { POST } from "@/app/api/account/route.ts";
+import { missingBodyErrorMessage, malformedBodyErrorMessage } from "@/app/api/constants/errors";
 
 const testRequestPayload = {
     token: "testToken"
@@ -138,6 +139,51 @@ describe("POST", () => {
         // Assert
         expect(CreateAccountResponse).not.toBeNull();
         expect(CreateAccountResponse.status).toBe(401);
+    });
+
+    it("should return a 400 when no token is provided", async () => {
+        const requestMock = {
+            json: async () => ({}),
+        };
+
+        // Act
+        const CreateAccountResponse = await POST(requestMock);
+        const jsonResponse = await CreateAccountResponse.json();
+
+        // Assert
+        expect(CreateAccountResponse).not.toBeNull();
+        expect(CreateAccountResponse.status).toBe(400);
+        expect(jsonResponse).toEqual({ error: missingBodyErrorMessage });
+    });
+
+    it("should return a 400 when only white space as a token is provided", async () => {
+        const requestMock = {
+            json: async () => ({ token: "   " }),
+        };
+
+        // Act
+        const CreateAccountResponse = await POST(requestMock);
+        const jsonResponse = await CreateAccountResponse.json();
+
+        // Assert
+        expect(CreateAccountResponse).not.toBeNull();
+        expect(CreateAccountResponse.status).toBe(400);
+        expect(jsonResponse).toEqual({ error: malformedBodyErrorMessage });
+    });
+
+    it("should return a 400 when a token with invalid characters is provided", async () => {
+        const requestMock = {
+            json: async () => ({ token: "123456!@#" }),
+        };
+
+        // Act
+        const CreateAccountResponse = await POST(requestMock);
+        const jsonResponse = await CreateAccountResponse.json();
+
+        // Assert
+        expect(CreateAccountResponse).not.toBeNull();
+        expect(CreateAccountResponse.status).toBe(400);
+        expect(jsonResponse).toEqual({ error: malformedBodyErrorMessage });
     });
 
     it("should successfully post to Redis", async ()=> {
