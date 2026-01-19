@@ -4,7 +4,7 @@ import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
 import { useRouter } from "next/navigation";
-import styles from "./google-create-btn.module.scss";
+import styles from "./createButton.module.scss";
 
 interface GoogleLogin {
     credential: string,
