@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     if(!body.token){
         return NextResponse.json({"error": missingBodyErrorMessage}, {status: 400});
-    } else if (body.token.trim() === "" || (/^[0-9a-zA-Z=-_.]+$/).test(body.token) === false){
+    } else if (body.token.trim() === "" || (/^[0-9a-zA-Z=\-_.]+$/).test(body.token) === false){
         return NextResponse.json({"error": malformedBodyErrorMessage}, {status: 400});
     }
     const clientId = process.env.GOOGLE_LOGIN_CLIENT_ID;
