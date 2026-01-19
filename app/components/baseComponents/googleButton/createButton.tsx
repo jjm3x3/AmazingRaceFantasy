@@ -4,12 +4,8 @@ import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
 import { useRouter } from "next/navigation";
+import { GoogleLogin } from "./models";
 import styles from "./createButton.module.scss";
-
-interface GoogleLogin {
-    credential: string,
-    select_by: string
-}
 
 export default function GoogleCreateButton({classes}: {classes: string}){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
