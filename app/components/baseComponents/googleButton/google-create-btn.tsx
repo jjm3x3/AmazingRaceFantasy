@@ -61,7 +61,8 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     return (<>
         <div ref={googleCreateRef} id="google_create_btn" className={classes}/>
         { getError ? <div>
-            <p className={`${styles.error}`}>
+            <p className={`${styles.error} ${styles.errorMsg}`}>
+                <span className={`${styles.error} ${styles.errorIcon}`}>!</span>
                 There was an error
             </p>
         </div> : <div/> }
