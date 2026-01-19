@@ -1,6 +1,6 @@
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
-import { writeGoogleUserData } from "@/app/dataSources/dbFetch";
+import { writeGoogleUserData, getUser } from "@/app/dataSources/dbFetch";
 import { createSession } from "../session/session";
 import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
@@ -24,6 +24,10 @@ export async function POST(request: NextRequest) {
 
     if(payload){
         const googleUserId = payload["sub"];
+        const doesUserExist = await getUser(googleUserId);
+        if (!doesUserExist){
+            return NextResponse.json({"error": "User does not exists with the provided google user id"}, { status: 404 });
+        }
         writeGoogleUserData (googleUserId);
     
         // Data to send to the front end
