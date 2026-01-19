@@ -5,7 +5,6 @@
 jest.mock("google-auth-library");
 import { OAuth2Client } from "google-auth-library";
 import { POST } from "@/app/api/login/route.ts";
-import { afterEach } from "node:test";
 
 const testRequestPayload = {
     token: "testToken"
@@ -74,9 +73,6 @@ beforeAll(()=> {
 })
 
 describe("POST", () => {
-    afterEach(() => {
-        jest.resetAllMocks();
-    });
 
     it("should return the mocked access token", async () => {
         const requestMock = {
