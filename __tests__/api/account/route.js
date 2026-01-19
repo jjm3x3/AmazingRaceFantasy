@@ -82,6 +82,9 @@ beforeAll(()=> {
 });
 
 describe("POST", () => {
+    afterEach((() => {
+        jest.resetAllMocks();
+    }));
     it("should return the mocked access token", async () => {
         const requestMock = {
             json: async () => (testRequestPayload),
