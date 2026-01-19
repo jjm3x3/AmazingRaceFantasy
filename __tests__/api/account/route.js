@@ -82,6 +82,18 @@ beforeAll(()=> {
 });
 
 describe("POST", () => {
+    beforeEach(() => {
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            return {
+                getPayload: getPayloadMock
+            }
+        });
+    });
+
+    afterEach(()=> {
+        jest.clearAllMocks();
+    });
+    
     it("should return the mocked access token", async () => {
         const requestMock = {
             json: async () => (testRequestPayload),
@@ -177,7 +189,7 @@ describe("POST", () => {
 
     it("should return a 400 when a token with invalid characters is provided", async () => {
         const requestMock = {
-            json: async () => ({ token: "123456!@#" }),
+            json: async () => ({ token: "123456!@#*$%" }),
         };
 
         // Act
@@ -197,6 +209,7 @@ describe("POST", () => {
         const createAccountResponse = await POST(request);
         await createAccountResponse.json();
         
+        expect(createAccountResponse.status).toBe(200);
         const expectedRedisResponse = [ "user:123googleTestId", "$", expect.stringContaining("{\"googleUserId\":\"123googleTestId\"")];
         expect(redisJsonSetMock).toHaveBeenCalled();
         expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
@@ -209,7 +222,7 @@ describe("POST", () => {
         const createAccountResponse = await POST(request);
         await createAccountResponse.json();
         
-        expect(createAccountResponse.status).not.toBe(400);
+        expect(createAccountResponse.status).toBe(200);
         const expectedRedisResponse = [ "user:123googleTestId", "$", expect.stringContaining("{\"googleUserId\":\"123googleTestId\"")];
         expect(redisJsonSetMock).toHaveBeenCalled();
         expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
