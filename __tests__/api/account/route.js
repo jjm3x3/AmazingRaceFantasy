@@ -82,6 +82,18 @@ beforeAll(()=> {
 });
 
 describe("POST", () => {
+    beforeEach(() => {
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            return {
+                getPayload: getPayloadMock
+            }
+        });
+    });
+
+    afterEach(()=> {
+        jest.clearAllMocks();
+    });
+    
     it("should return the mocked access token", async () => {
         const requestMock = {
             json: async () => (testRequestPayload),
