@@ -209,6 +209,7 @@ describe("POST", () => {
         const createAccountResponse = await POST(request);
         await createAccountResponse.json();
         
+        expect(createAccountResponse.status).toBe(200);
         const expectedRedisResponse = [ "user:123googleTestId", "$", expect.stringContaining("{\"googleUserId\":\"123googleTestId\"")];
         expect(redisJsonSetMock).toHaveBeenCalled();
         expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
@@ -221,7 +222,7 @@ describe("POST", () => {
         const createAccountResponse = await POST(request);
         await createAccountResponse.json();
         
-        expect(createAccountResponse.status).not.toBe(400);
+        expect(createAccountResponse.status).toBe(200);
         const expectedRedisResponse = [ "user:123googleTestId", "$", expect.stringContaining("{\"googleUserId\":\"123googleTestId\"")];
         expect(redisJsonSetMock).toHaveBeenCalled();
         expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
