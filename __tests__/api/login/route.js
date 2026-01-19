@@ -5,6 +5,7 @@
 jest.mock("google-auth-library");
 import { OAuth2Client } from "google-auth-library";
 import { POST } from "@/app/api/login/route.ts";
+import Session from "@/app/api/session/session";
 
 const testRequestPayload = {
     token: "testToken"
@@ -166,14 +167,25 @@ describe("POST", () => {
         expect(LoginResponse.status).toBe(401);
     });
 
-    it("should successfully call Redis", async ()=> {
+    it("should not call Redis to write to database", async ()=> {
         const request = {
             json: async () => (testRequestPayload),
         };
         const LoginResponse = await POST(request);
         await LoginResponse.json();
-        const expectedRedisResponse = [ "user:123googleTestId", "$", "{\"googleUserId\":\"123googleTestId\"}" ];
-        expect(redisJsonSetMock).toHaveBeenCalled();
-        expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
+        expect(redisJsonSetMock).not.toHaveBeenCalled();
+    });
+
+    it("should create a session token on successful login", async ()=> {
+        const createSessionSpy = jest.spyOn(Session, "createSession");
+        const request = {
+            json: async () => (testRequestPayload),
+        };
+        const LoginResponse = await POST(request);
+        await LoginResponse.json();
+        const expectedSessionData = {
+            sub: testAuthData.sub
+        };
+        expect(createSessionSpy).toHaveBeenCalledWith(expect.objectContaining(expectedSessionData));
     });
 });
