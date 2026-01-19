@@ -43,6 +43,8 @@ jest.mock("../../../app/api/session/session", ()=> {
     }
 });
 
+const existingUserId = "existing-app-user-id";
+
 const redisJsonSetMock = jest.fn();
 const redisJsonGetMock = jest.fn().mockImplementation((userKey) => {
     if(userKey === "user:userDoesntExist123") {
@@ -50,7 +52,7 @@ const redisJsonGetMock = jest.fn().mockImplementation((userKey) => {
     }
     return {
         googleUserId: "123googleTestIdExists",
-        userId: "existing-app-user-id"
+        userId: existingUserId
     };
 });
 
@@ -92,7 +94,8 @@ describe("POST", () => {
                 firstName: testAuthData.given_name,
                 lastName: testAuthData.family_name
             },
-            googleUserId: testAuthData.sub
+            googleUserId: testAuthData.sub,
+            userId: existingUserId
         });
     });
 
@@ -206,7 +209,8 @@ describe("POST", () => {
                 firstName: testAuthData.given_name,
                 lastName: testAuthData.family_name
             },
-            googleUserId: testAuthData.sub
+            googleUserId: testAuthData.sub,
+            userId: existingUserId
         });
     });
 });
