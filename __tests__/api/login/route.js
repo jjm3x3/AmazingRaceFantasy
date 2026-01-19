@@ -5,6 +5,7 @@
 jest.mock("google-auth-library");
 import { OAuth2Client } from "google-auth-library";
 import { POST } from "@/app/api/login/route.ts";
+import Session from "@/app/api/session/session";
 
 const testRequestPayload = {
     token: "testToken"
@@ -15,6 +16,18 @@ const testAuthData = {
     email: "test@test.com",
     given_name: "TestFirstName",
     family_name: "TestLastName"
+}
+
+const existingUserId = "existing-app-user-id";
+
+const successfulResponse = {
+    email: testAuthData.email,
+    name: {
+        firstName: testAuthData.given_name,
+        lastName: testAuthData.family_name
+    },
+    googleUserId: testAuthData.sub,
+    userId: existingUserId
 }
 
 const getPayloadMock = jest.fn().mockImplementation(()=> {
@@ -49,7 +62,7 @@ const redisJsonGetMock = jest.fn().mockImplementation((userKey) => {
     }
     return {
         googleUserId: "123googleTestIdExists",
-        userId: "existing-app-user-id"
+        userId: existingUserId
     };
 });
 
@@ -73,26 +86,8 @@ beforeAll(()=> {
 })
 
 describe("POST", () => {
-
-    it("should return the mocked access token", async () => {
-        const requestMock = {
-            json: async () => (testRequestPayload),
-        };
-        const LoginResponse = await POST(requestMock);
-        const body = await LoginResponse.json();
-        expect(verifyIdTokenMock).toHaveBeenCalledWith({
-            idToken: testRequestPayload.token,
-            audience: clientId
-        });
-        expect(getPayloadMock).toHaveBeenCalled();
-        expect(body).toEqual({
-            email: testAuthData.email,
-            name: {
-                firstName: testAuthData.given_name,
-                lastName: testAuthData.family_name
-            },
-            googleUserId: testAuthData.sub
-        });
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     it("should catch an exception when one is thrown during verification", async () => {
@@ -166,14 +161,45 @@ describe("POST", () => {
         expect(LoginResponse.status).toBe(401);
     });
 
-    it("should successfully call Redis", async ()=> {
+    it("should not call Redis to write to database", async ()=> {
         const request = {
             json: async () => (testRequestPayload),
         };
         const LoginResponse = await POST(request);
         await LoginResponse.json();
-        const expectedRedisResponse = [ "user:123googleTestId", "$", "{\"googleUserId\":\"123googleTestId\"}" ];
-        expect(redisJsonSetMock).toHaveBeenCalled();
-        expect(redisJsonSetMock).toHaveBeenCalledWith(...expectedRedisResponse);
+        expect(redisJsonSetMock).not.toHaveBeenCalled();
+    });
+
+    it("should create a session token on successful login", async ()=> {
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            return {
+                getPayload: getPayloadMock
+            }
+        });
+        const createSessionSpy = jest.spyOn(Session, "createSession");
+        const request = {
+            json: async () => (testRequestPayload),
+        };
+        const LoginResponse = await POST(request);
+        await LoginResponse.json();
+        const expectedSessionData = {
+            sub: testAuthData.sub
+        };
+        expect(createSessionSpy).toHaveBeenCalledTimes(1);
+        expect(createSessionSpy).toHaveBeenCalledWith(expect.objectContaining(expectedSessionData));
+    });
+
+    it("should return the response on a successful login and session creation", async ()=> {
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            return {
+                getPayload: getPayloadMock
+            }
+        });
+        const request = {
+            json: async () => (testRequestPayload),
+        };
+        const LoginResponse = await POST(request);
+        const responseJson = await LoginResponse.json();
+        expect(responseJson).toEqual(successfulResponse);
     });
 });
