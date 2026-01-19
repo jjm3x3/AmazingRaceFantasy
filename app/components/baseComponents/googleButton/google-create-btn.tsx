@@ -4,6 +4,7 @@ import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
 import { useRouter } from "next/navigation";
+import styles from "./google-create-btn.module.scss";
 
 interface GoogleLogin {
     credential: string,
@@ -60,7 +61,9 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     return (<>
         <div ref={googleCreateRef} id="google_create_btn" className={classes}/>
         { getError ? <div>
-            <p>There was an error</p>
+            <p className={`${styles.error}`}>
+                There was an error
+            </p>
         </div> : <div/> }
     </>);
 }
