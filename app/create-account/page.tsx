@@ -7,7 +7,7 @@ export default async function CreateAccount() {
         <div className="grid place-items-center h-screen">
             <div className="text-center">
                 <p className="text-xl">Create Account</p>
-                <GoogleCreateButton classes={styles.google_login_btn} />
+                <GoogleCreateButton classes={styles.google_create_btn} />
                 <p>Already have an account? Login</p>
             </div>
         </div>
