@@ -45,10 +45,14 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     }
 
     async function handleLogin(response: Response) {
-        const data = await response.json();
-        setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
-        setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
-        router.push("/");
+        if (response.status === 409) {
+            console.error("That account already exists, try logging in");
+        } else {
+            const data = await response.json();
+            setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
+            setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
+            router.push("/");
+        }
     }
 
     return (<>
