@@ -14,6 +14,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleCreateRef = useRef(null);
     const router = useRouter();
+    const [getError, setError] = useState(false);
 
     useEffect(()=> {
         if(googleSdkLoaded && window.google){
@@ -47,6 +48,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     async function handleLogin(response: Response) {
         if (response.status === 409) {
             console.error("That account already exists, try logging in");
+            setError(true);
         } else {
             const data = await response.json();
             setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
@@ -57,5 +59,8 @@ export default function GoogleCreateButton({classes}: {classes: string}){
 
     return (<>
         <div ref={googleCreateRef} id="google_create_btn" className={classes}/>
+        { getError ? <div>
+            <p>There was an error</p>
+        </div> : <div/> }
     </>);
 }
