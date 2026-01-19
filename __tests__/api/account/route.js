@@ -189,7 +189,7 @@ describe("POST", () => {
 
     it("should return a 400 when a token with invalid characters is provided", async () => {
         const requestMock = {
-            json: async () => ({ token: "123456!@#" }),
+            json: async () => ({ token: "123456!@#*$%" }),
         };
 
         // Act
