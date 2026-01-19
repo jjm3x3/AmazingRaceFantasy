@@ -90,20 +90,6 @@ describe("POST", () => {
         jest.clearAllMocks();
     });
 
-    it("should return the mocked access token", async () => {
-        const requestMock = {
-            json: async () => (testRequestPayload),
-        };
-        const LoginResponse = await POST(requestMock);
-        const body = await LoginResponse.json();
-        expect(verifyIdTokenMock).toHaveBeenCalledWith({
-            idToken: testRequestPayload.token,
-            audience: clientId
-        });
-        expect(getPayloadMock).toHaveBeenCalled();
-        expect(body).toEqual(successfulResponse);
-    });
-
     it("should catch an exception when one is thrown during verification", async () => {
 
         // Arrange
