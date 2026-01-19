@@ -24,8 +24,9 @@ export async function POST(request: NextRequest) {
 
     if(payload){
         const googleUserId = payload["sub"];
-        const doesUserExist = await getUser(googleUserId);
-        if (!doesUserExist){
+        const user = await getUser(googleUserId);
+        const userDoesNotExist = user === null;
+        if (userDoesNotExist){
             return NextResponse.json({"error": "User does not exists with the provided google user id"}, { status: 404 });
         }
     
@@ -36,7 +37,8 @@ export async function POST(request: NextRequest) {
                 firstName: payload?.given_name,
                 lastName: payload?.family_name
             },
-            googleUserId: googleUserId
+            googleUserId: googleUserId,
+            userId: user.userId
         }
 
         const response = NextResponse.json(userObj);
