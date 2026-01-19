@@ -18,6 +18,18 @@ const testAuthData = {
     family_name: "TestLastName"
 }
 
+const existingUserId = "existing-app-user-id";
+
+const successfulResponse = {
+    email: testAuthData.email,
+    name: {
+        firstName: testAuthData.given_name,
+        lastName: testAuthData.family_name
+    },
+    googleUserId: testAuthData.sub,
+    userId: existingUserId
+}
+
 const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
 });
@@ -42,8 +54,6 @@ jest.mock("../../../app/api/session/session", ()=> {
         })
     }
 });
-
-const existingUserId = "existing-app-user-id";
 
 const redisJsonSetMock = jest.fn();
 const redisJsonGetMock = jest.fn().mockImplementation((userKey) => {
@@ -88,15 +98,7 @@ describe("POST", () => {
             audience: clientId
         });
         expect(getPayloadMock).toHaveBeenCalled();
-        expect(body).toEqual({
-            email: testAuthData.email,
-            name: {
-                firstName: testAuthData.given_name,
-                lastName: testAuthData.family_name
-            },
-            googleUserId: testAuthData.sub,
-            userId: existingUserId
-        });
+        expect(body).toEqual(successfulResponse);
     });
 
     it("should catch an exception when one is thrown during verification", async () => {
@@ -203,14 +205,6 @@ describe("POST", () => {
         };
         const LoginResponse = await POST(request);
         const responseJson = await LoginResponse.json();
-        expect(responseJson).toEqual({
-            email: testAuthData.email,
-            name: {
-                firstName: testAuthData.given_name,
-                lastName: testAuthData.family_name
-            },
-            googleUserId: testAuthData.sub,
-            userId: existingUserId
-        });
+        expect(responseJson).toEqual(successfulResponse);
     });
 });
