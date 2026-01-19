@@ -82,8 +82,25 @@ beforeAll(()=> {
 });
 
 describe("POST", () => {
-    afterEach(() => {
-        jest.clearAllMocks();
+    it("should return the mocked access token", async () => {
+        const requestMock = {
+            json: async () => (testRequestPayload),
+        };
+        const createAccountResponse = await POST(requestMock);
+        const body = await createAccountResponse.json();
+        expect(verifyIdTokenMock).toHaveBeenCalledWith({
+            idToken: testRequestPayload.token,
+            audience: clientId
+        });
+        expect(getPayloadMock).toHaveBeenCalled();
+        expect(body).toEqual(expect.objectContaining({
+            email: testAuthData.email,
+            name: {
+                firstName: testAuthData.given_name,
+                lastName: testAuthData.family_name
+            },
+            googleUserId: testAuthData.sub
+        }));
     });
 
     it("should catch an exception when one is thrown during verification", async () => {
