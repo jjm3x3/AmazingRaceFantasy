@@ -188,4 +188,25 @@ describe("POST", () => {
         };
         expect(createSessionSpy).toHaveBeenCalledWith(expect.objectContaining(expectedSessionData));
     });
+
+    it("should return the response on a successful login and session creation", async ()=> {
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            return {
+                getPayload: getPayloadMock
+            }
+        });
+        const request = {
+            json: async () => (testRequestPayload),
+        };
+        const LoginResponse = await POST(request);
+        const responseJson = await LoginResponse.json();
+        expect(responseJson).toEqual({
+            email: testAuthData.email,
+            name: {
+                firstName: testAuthData.given_name,
+                lastName: testAuthData.family_name
+            },
+            googleUserId: testAuthData.sub
+        });
+    });
 });
