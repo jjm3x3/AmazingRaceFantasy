@@ -44,8 +44,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
 
     async function handleLogin(response: Response) {
         if (response.status === 409) {
-            console.error("That account already exists, try logging in");
-            setError(true);
+            setError(true); // since we are using a boolean we are assuming this is the only error possible at this time
         } else {
             const data = await response.json();
             setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
