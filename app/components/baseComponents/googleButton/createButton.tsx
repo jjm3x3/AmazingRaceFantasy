@@ -59,7 +59,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
         { getError ? <div>
             <p className={`${styles.error} ${styles.errorMsg}`}>
                 <span className={`${styles.error} ${styles.errorIcon}`}>!</span>
-                There was an error
+                An account with that google user already exists, try logging in instead
             </p>
         </div> : <div/> }
     </>);
