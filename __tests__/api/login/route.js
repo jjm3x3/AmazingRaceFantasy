@@ -86,6 +86,9 @@ beforeAll(()=> {
 })
 
 describe("POST", () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
     it("should return the mocked access token", async () => {
         const requestMock = {
@@ -182,6 +185,11 @@ describe("POST", () => {
     });
 
     it("should create a session token on successful login", async ()=> {
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            return {
+                getPayload: getPayloadMock
+            }
+        });
         const createSessionSpy = jest.spyOn(Session, "createSession");
         const request = {
             json: async () => (testRequestPayload),
@@ -191,6 +199,7 @@ describe("POST", () => {
         const expectedSessionData = {
             sub: testAuthData.sub
         };
+        expect(createSessionSpy).toHaveBeenCalledTimes(1);
         expect(createSessionSpy).toHaveBeenCalledWith(expect.objectContaining(expectedSessionData));
     });
 
