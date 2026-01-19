@@ -5,6 +5,7 @@
 jest.mock("google-auth-library");
 import { OAuth2Client } from "google-auth-library";
 import { POST } from "@/app/api/login/route.ts";
+import { afterEach } from "node:test";
 
 const testRequestPayload = {
     token: "testToken"
@@ -43,13 +44,23 @@ jest.mock("../../../app/api/session/session", ()=> {
 });
 
 const redisJsonSetMock = jest.fn();
+const redisJsonGetMock = jest.fn().mockImplementation((userKey) => {
+    if(userKey === "user:userDoesntExist123") {
+        return null; // simulate user does not exist
+    }
+    return {
+        googleUserId: "123googleTestIdExists",
+        userId: "existing-app-user-id"
+    };
+});
 
 jest.mock("@upstash/redis", () => {
     return {
         Redis: jest.fn().mockImplementation(() => {
             return {
                 json: {
-                    set: redisJsonSetMock
+                    set: redisJsonSetMock,
+                    get: redisJsonGetMock
                 }
             };
         }),
@@ -63,6 +74,10 @@ beforeAll(()=> {
 })
 
 describe("POST", () => {
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
+
     it("should return the mocked access token", async () => {
         const requestMock = {
             json: async () => (testRequestPayload),
@@ -105,6 +120,35 @@ describe("POST", () => {
         }
 
         expect(LoginResponse).not.toBeNull();
+    });
+
+    it("should return a 404 when user does not exist", async () => {
+
+        verifyIdTokenMock = jest.fn().mockImplementation(()=> {
+            return {
+                getPayload: jest.fn().mockImplementation(()=> {
+                    return {
+                        sub: "userDoesntExist123",
+                        email: "test@test.com",
+                        given_name: "TestFirstName",
+                        family_name: "TestLastName"
+                    }
+                })
+            };
+        });
+
+        const requestMock = {
+            json: async () => (testRequestPayload),
+        };
+
+        // Act
+        const LoginResponse = await POST(requestMock);
+        const LoginJson = await LoginResponse.json();
+
+        // Assert
+        expect(LoginResponse).not.toBeNull();
+        expect(LoginResponse.status).toBe(404);
+        expect(LoginJson.error).toBe("User does not exists with the provided google user id");
     });
 
     it("should catch an exception when one is thrown during verification and return a 401", async () => {
