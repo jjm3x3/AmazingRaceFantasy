@@ -1,3 +1,6 @@
+
+import styles from "./errorMessage.module.scss";
+
 export default function ErrorMessage({message}: {message: string}){
     return (
         <div>
