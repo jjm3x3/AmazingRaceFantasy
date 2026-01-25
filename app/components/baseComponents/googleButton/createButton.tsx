@@ -5,7 +5,7 @@ import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
 import { useRouter } from "next/navigation";
 import { GoogleLogin } from "./models";
-import styles from "./createButton.module.scss";
+import ErrorMessage from "@/app/components/baseComponents/components/errorMessage/errorMessage";
 
 export default function GoogleCreateButton({classes}: {classes: string}){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
@@ -56,10 +56,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
     return (<>
         <div ref={googleCreateRef} id="google_create_btn" className={classes}/>
         { getError ? <div>
-            <p className={`${styles.error} ${styles.errorMsg}`}>
-                <span className={`${styles.error} ${styles.errorIcon}`}>!</span>
-                There was an issue creating an account. Try logging in instead
-            </p>
+            <ErrorMessage message="There was an issue creating an account. Try logging in instead"/>
         </div> : <div/> }
     </>);
 }
