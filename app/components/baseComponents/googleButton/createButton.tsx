@@ -34,7 +34,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
             }
         }
     }, [googleSdkLoaded]);
-    
+
     function handleCredentialResponse(response:GoogleLogin) {
         fetch("/api/account", {
             method: "POST",
