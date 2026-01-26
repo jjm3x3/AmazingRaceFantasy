@@ -26,7 +26,7 @@ let mockSessionInfo = {
 const mockSetSessionInfo = jest.fn();
 
 describe("GoogleCreateButton Component", () => {
-    it("should render a google login button", async () => {
+    it("should render a google create button", async () => {
         // setup
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
@@ -43,7 +43,7 @@ describe("GoogleCreateButton Component", () => {
         });
     });
 
-    it("should redirect to / after login completed", async () => {
+    it("should redirect to / after create (and login) completed", async () => {
         // setup
         const fakeResponse = {
             json: () => new Promise((res,_rej) => {
