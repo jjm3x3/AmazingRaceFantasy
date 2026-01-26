@@ -7,11 +7,12 @@ import { useRouter } from "next/navigation";
 import { GoogleLogin } from "./models";
 import ErrorMessage from "@/app/components/baseComponents/components/errorMessage/errorMessage";
 
-export default function GoogleButton({classes, text, endpoint, errorMessage}: {
+export default function GoogleButton({classes, text, endpoint, errorMessage, testId}: {
     classes: string, 
     text: "signin" | "signup_with", 
     endpoint: "/api/login" | "/api/account", 
-    errorMessage: string
+    errorMessage: string,
+    testId: string
 }){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleCreateRef = useRef(null);
@@ -39,7 +40,7 @@ export default function GoogleButton({classes, text, endpoint, errorMessage}: {
             }
         }
     }, [googleSdkLoaded]);
-    
+
     function handleCredentialResponse(response:GoogleLogin) {
         fetch(endpoint, {
             method: "POST",
@@ -60,7 +61,7 @@ export default function GoogleButton({classes, text, endpoint, errorMessage}: {
 
     return (<>
         <div ref={googleCreateRef} id="google_create_btn" className={classes}/>
-        { getError ? <div>
+        { getError ? <div data-testid={testId}>
             <ErrorMessage message={errorMessage}/>
         </div> : <div/> }
     </>);
