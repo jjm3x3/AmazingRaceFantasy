@@ -2,14 +2,14 @@ import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import GoogleCreateButton from "../../../../app/components/baseComponents/googleButton/createButton";
 import { SessionContext } from "@/app/contexts/session";
-import { originalGoogle, mockGoogleAccounts, initializeGoogleMock, requestAccessTokenMock } from "../../../setupGoogleAccountsSdk";
+import { originalGoogle, getMockGoogleAccount, initializeGoogleMock, requestAccessTokenMock } from "../../../setupGoogleAccountsSdk";
 
 const mockRouter = { push: jest.fn() };
 
 jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 beforeEach(() => {
-    window.google = { accounts: mockGoogleAccounts };
+    window.google = { accounts: getMockGoogleAccount("google_create_btn") };
 });
 
 afterEach(() => {
