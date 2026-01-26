@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import { GoogleLogin } from "./models";
 import ErrorMessage from "@/app/components/baseComponents/components/errorMessage/errorMessage";
 
-export default function GoogleButton({classes, text, endpoint, errorMessage, testId}: {
+export default function GoogleButton({classes, googleButtonText, endpoint, errorMessage, testId}: {
     classes: string, 
-    text: "signin" | "signup_with", 
+    googleButtonText: "signin" | "signup_with", 
     endpoint: "/api/login" | "/api/account", 
     errorMessage: string,
     testId: string
@@ -30,7 +30,7 @@ export default function GoogleButton({classes, text, endpoint, errorMessage, tes
             const parent = googleCreateRef.current;
             if(googleCreateRef && parent){
                 google.accounts.id.renderButton(parent, {
-                    text: text,
+                    text: googleButtonText,
                     size: "medium",
                     logo_alignment: "left",
                     shape: "rectangular",
