@@ -21,6 +21,16 @@ function renderButtonMock(buttonId) {
     });
 }
 
+export function getMockGoogleAccount(buttonId) {
+    return {
+        id: {
+            initialize: initializeGoogleMock,
+            getClient: getClientMock,
+            renderButton: renderButtonMock(buttonId)
+        }
+    };
+}
+
 export const mockGoogleAccounts = {
     id: {
         initialize: initializeGoogleMock,
