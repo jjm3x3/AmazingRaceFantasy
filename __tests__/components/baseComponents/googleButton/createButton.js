@@ -10,6 +10,7 @@ jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 beforeEach(() => {
     window.google = { accounts: getMockGoogleAccount("google_create_btn") };
+    initializeGoogleMock.mockClear();
 });
 
 afterEach(() => {
