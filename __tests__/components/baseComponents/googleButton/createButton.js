@@ -32,7 +32,7 @@ describe("GoogleCreateButton Component", () => {
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <GoogleCreateButton/>
             </SessionContext.Provider>);
-        
+
         // assert
         await waitFor(()=> {
             expect(initializeGoogleMock).toHaveBeenCalled();
