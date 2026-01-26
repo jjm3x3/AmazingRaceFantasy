@@ -1,8 +1,8 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import GoogleLoginButton from "../../app/components/navigation/google-login-btn";
+import GoogleCreateButton from "../../../../app/components/baseComponents/googleButton/createButton";
 import { SessionContext } from "@/app/contexts/session";
-import { originalGoogle, mockGoogleAccounts, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleAccountsSdk";
+import { originalGoogle, mockGoogleAccounts, initializeGoogleMock, requestAccessTokenMock } from "../../../setupGoogleAccountsSdk";
 
 const mockRouter = { push: jest.fn() };
 
@@ -25,12 +25,12 @@ let mockSessionInfo = {
 };
 const mockSetSessionInfo = jest.fn();
 
-describe("GoogleLoginButton Component", () => {
+describe("GoogleCreateButton Component", () => {
     it("should render a google login button", async () => {
         // setup
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleLoginButton/>
+                <GoogleCreateButton/>
             </SessionContext.Provider>);
         
         // assert
@@ -58,7 +58,7 @@ describe("GoogleLoginButton Component", () => {
 
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleLoginButton/>
+                <GoogleCreateButton/>
             </SessionContext.Provider>);
 
         // Act
