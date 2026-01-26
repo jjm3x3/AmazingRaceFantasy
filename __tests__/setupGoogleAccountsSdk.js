@@ -31,10 +31,3 @@ export function getMockGoogleAccount(buttonId) {
     };
 }
 
-export const mockGoogleAccounts = {
-    id: {
-        initialize: initializeGoogleMock,
-        getClient: getClientMock,
-        renderButton: renderButtonMock("google_login_btn")
-    }
-};
