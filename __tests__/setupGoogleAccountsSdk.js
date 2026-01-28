@@ -10,19 +10,24 @@ const getClientMock = jest.fn().mockReturnValue({
     requestAccessToken: requestAccessTokenMock
 });
 
-const renderButtonMock = jest.fn().mockImplementation(()=> {
-    const initializationArgs = initializeGoogleMock.mock.calls[0][0];
-    const googleBtnMock = document.createElement("button");
-    googleBtnMock.textContent = "This is my google button";
-    googleBtnMock.setAttribute("data-testid", "google-test-btn");
-    googleBtnMock.addEventListener("click", initializationArgs.callback);
-    document.getElementById("google_login_btn").appendChild(googleBtnMock);
-});
+function renderButtonMock(buttonId) {
+    return jest.fn().mockImplementation(()=> {
+        const initializationArgs = initializeGoogleMock.mock.calls[0][0];
+        const googleBtnMock = document.createElement("button");
+        googleBtnMock.textContent = "This is my google button";
+        googleBtnMock.setAttribute("data-testid", "google-test-btn");
+        googleBtnMock.addEventListener("click", initializationArgs.callback);
+        document.getElementById(buttonId).appendChild(googleBtnMock);
+    });
+}
 
-export const mockGoogleAccounts = {
-    id: {
-        initialize: initializeGoogleMock,
-        getClient: getClientMock,
-        renderButton: renderButtonMock
-    }
-};
+export function getMockGoogleAccount(buttonId) {
+    return {
+        id: {
+            initialize: initializeGoogleMock,
+            getClient: getClientMock,
+            renderButton: renderButtonMock(buttonId)
+        }
+    };
+}
+
