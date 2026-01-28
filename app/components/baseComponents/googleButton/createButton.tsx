@@ -39,10 +39,10 @@ export default function GoogleCreateButton({classes}: {classes: string}){
         fetch("/api/account", {
             method: "POST",
             body: JSON.stringify({ token: response.credential }),
-        }).then(handleLogin);
+        }).then(handleAccountServiceResponse);
     }
 
-    async function handleLogin(response: Response) {
+    async function handleAccountServiceResponse(response: Response) {
         if (response.status === 409) {
             setError(true); // since we are using a boolean we are assuming this is the only error possible at this time
         } else {
