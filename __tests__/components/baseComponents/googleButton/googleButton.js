@@ -1,5 +1,5 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import GoogleCreateButton from "@/app/components/baseComponents/googleButton/createButton";
+import GoogleButton from "@/app/components/baseComponents/googleButton/googleButton";
 import { SessionContext } from "@/app/contexts/session";
 import { originalGoogle, getMockGoogleAccount, initializeGoogleMock, requestAccessTokenMock } from "../../../setupGoogleAccountsSdk";
 
@@ -30,7 +30,11 @@ describe("GoogleCreateButton Component", () => {
         // setup
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleCreateButton/>
+                <GoogleButton
+                    googleButtonText="signup_with" 
+                    endpoint="/api/account" 
+                    errorMessage="Example error message for create account. "
+                    testId="create-account-error"/>
             </SessionContext.Provider>);
 
         // assert
@@ -58,7 +62,11 @@ describe("GoogleCreateButton Component", () => {
 
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleCreateButton/>
+                <GoogleButton
+                    googleButtonText="signup_with" 
+                    endpoint="/api/account" 
+                    errorMessage="Example error message for create account. "
+                    testId="create-account-error"/>
             </SessionContext.Provider>);
 
         // Act
@@ -84,7 +92,11 @@ describe("GoogleCreateButton Component", () => {
 
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleCreateButton/>
+                <GoogleButton
+                    googleButtonText="signup_with" 
+                    endpoint="/api/account" 
+                    errorMessage="Example error message for create account. "
+                    testId="create-account-error"/>
             </SessionContext.Provider>);
 
         // Act
