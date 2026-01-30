@@ -1,4 +1,4 @@
-export interface GoogleLogin {
+export interface GoogleLoginResponse {
     credential: string
 }
 

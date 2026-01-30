@@ -4,7 +4,7 @@ import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
 import { useRouter } from "next/navigation";
-import { GoogleLogin } from "./models";
+import { GoogleLoginResponse } from "./models";
 import ErrorMessage from "@/app/components/baseComponents/components/errorMessage/errorMessage";
 
 export default function GoogleButton({classes, googleButtonText, endpoint, errorMessage, testId}: {
@@ -41,14 +41,14 @@ export default function GoogleButton({classes, googleButtonText, endpoint, error
         }
     }, [googleSdkLoaded]);
 
-    function handleCredentialResponse(response:GoogleLogin) {
+    function handleCredentialResponse(response: GoogleLoginResponse) {
         fetch(endpoint, {
             method: "POST",
             body: JSON.stringify({ token: response.credential }),
-        }).then(handleLogin);
+        }).then(handleAccountServiceResponse);
     }
 
-    async function handleLogin(response: Response) {
+    async function handleAccountServiceResponse(response: Response) {
         if (response.status === 409) {
             setError(true); // since we are using a boolean we are assuming this is the only error possible at this time
         } else {
