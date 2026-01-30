@@ -4,7 +4,7 @@ import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
 import { useRouter } from "next/navigation";
-import { GoogleLogin } from "./models";
+import { GoogleLoginResponse } from "./models";
 import styles from "./createButton.module.scss";
 
 export default function GoogleCreateButton({classes}: {classes: string}){
@@ -35,7 +35,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
         }
     }, [googleSdkLoaded]);
 
-    function handleCredentialResponse(response:GoogleLogin) {
+    function handleCredentialResponse(response:GoogleLoginResponse) {
         fetch("/api/account", {
             method: "POST",
             body: JSON.stringify({ token: response.credential }),
