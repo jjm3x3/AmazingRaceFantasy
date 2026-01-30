@@ -9,7 +9,7 @@ export default async function Login() {
             <div className="text-center">
                 <h3 className="text-xl">Login</h3>
                 <GoogleLoginButton classes={styles.google_login_btn} />
-                <p>Don't have an account? <Link className="standard-link" href={"/create-account"}>Create One</Link></p>
+                <p>Don't have an account? <Link className="standard-link" href={"/create-account"}>Create One</Link>.</p>
             </div>
         </div>
     );

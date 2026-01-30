@@ -9,7 +9,7 @@ export default async function CreateAccount() {
             <div className="text-center">
                 <h3 className="text-xl">Create Account</h3>
                 <GoogleCreateButton classes={styles.google_create_btn} />
-                <p>Already have an account? <Link className="standard-link" href={"/login"}>Login</Link></p>
+                <p>Already have an account? <Link className="standard-link" href={"/login"}>Login</Link>.</p>
             </div>
         </div>
     );
