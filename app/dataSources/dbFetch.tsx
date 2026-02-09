@@ -170,6 +170,15 @@ export async function getGoogleUser(googleUserId: string): Promise<GoogleUserDat
     }
 }
 
+export async function getUser(userId: string): Promise<IUserData> {
+
+    if (userId === undefined) {
+        throw new Error("Unable to getUser. Provided param 'googleUserId' is undefined but must have a value");
+    }
+
+    return getJson<IuserData>(`internal_user:${userId}`);
+}
+
 export async function getJson<T>(key: string): Promise<T> {
 
     if (key === undefined) {
