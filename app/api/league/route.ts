@@ -32,12 +32,15 @@ export async function POST(request: NextRequest) {
         if (invalidUserId || invalidGoogleUserSub ) {
             return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
-        const allowedGoogleUserIds = [
-            "108251633753098119380", // Jacob
-            "117801378252057178101", // Antoinette
-            "104157773450824616168" // Andrew
-        ];
-        const isUserDenied = allowedGoogleUserIds.indexOf(userId) < 0;
+        let userRole = null;
+
+        try {
+            const userData = await getUser(userId);
+            userRole = userData.role;
+        } catch(error) {
+            console.info(`No roles found for user '${userId}'`);
+        }
+        const isUserDenied = userRole !== "showAdmin";
         if(isUserDenied){
             return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403})
         }
