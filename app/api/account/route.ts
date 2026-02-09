@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
-import { getUser,writeGoogleUserDataWithId } from "@/app/dataSources/dbFetch";
+import { getGoogleUser, writeGoogleUserDataWithId } from "@/app/dataSources/dbFetch";
 import { createSession } from "@/app/api/session/session";
 import { unauthenticatedErrorMessage, badGatewayErrorMessage, missingBodyErrorMessage, malformedBodyErrorMessage } from "@/app/api/constants/errors";
 
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     }
     const googleUserId = payload["sub"];
     // Check if user already exists with googleUserId
-    const existingGoogleUser = await getUser(googleUserId);
+    const existingGoogleUser = await getGoogleUser(googleUserId);
     if (existingGoogleUser){
         return NextResponse.json({"error": "User already exists with the provided google user id"}, {status: 409});
     }
