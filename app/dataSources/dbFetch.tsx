@@ -182,7 +182,7 @@ export async function getUser(userId: string): Promise<IUserData> {
 export async function getJson<T>(key: string): Promise<T> {
 
     if (key === undefined) {
-        throw new Error("Unable to getJson. Provided param 'key' is undefined but must have a value\"");
+        throw new Error("Unable to getJson. Provided param 'key' is undefined but must have a value");
     }
 
     const redis = new Redis({
