@@ -13,7 +13,7 @@ export default async function Login() {
                     googleButtonText="signin" 
                     endpoint="/api/login" 
                     errorMessage="There was an issue logging in. Please try again."
-                    testId="google_login_btn"
+                    testId="google-login-btn"
                 />
                 <p>Don't have an account? <Link className="standard-link" href={"/create-account"}>Create One</Link>.</p>
             </div>
