@@ -24,6 +24,10 @@ export interface GoogleUserData {
     userId?: string
 }
 
+export interface IUserData {
+    role?: string
+}
+
 export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
 
     if (keyPrefix === undefined) {
