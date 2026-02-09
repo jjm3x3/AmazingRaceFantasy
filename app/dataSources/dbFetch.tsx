@@ -24,7 +24,7 @@ export interface GoogleUserData {
     userId?: string
 }
 
-export interface IUserData {
+export interface UserData {
     role?: string
 }
 
@@ -170,13 +170,13 @@ export async function getGoogleUser(googleUserId: string): Promise<GoogleUserDat
     }
 }
 
-export async function getUser(userId: string): Promise<IUserData> {
+export async function getUser(userId: string): Promise<UserData> {
 
     if (userId === undefined) {
         throw new Error("Unable to getUser. Provided param 'googleUserId' is undefined but must have a value");
     }
 
-    return getJson<IUserData>(`internal_user:${userId}`);
+    return getJson<UserData>(`internal_user:${userId}`);
 }
 
 export async function getJson<T>(key: string): Promise<T> {
