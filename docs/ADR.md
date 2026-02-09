@@ -1,0 +1,1 @@
+# Architetual Decision Record
