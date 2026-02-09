@@ -38,7 +38,6 @@ export async function POST(request: NextRequest) {
                 lastName: payload?.family_name
             },
             googleUserId: googleUserId,
-            userId: user.userId
         }
 
         const response = NextResponse.json(userObj);
@@ -46,7 +45,7 @@ export async function POST(request: NextRequest) {
             envelope: body.envelope, 
             exp: payload.exp,
             iat: payload.iat, 
-            sub: googleUserId,
+            sub: user.userId,
             response
         });
         

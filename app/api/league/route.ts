@@ -26,10 +26,10 @@ export async function POST(request: NextRequest) {
     const sessionCookie = request.cookies.get("session");
     if(sessionCookie){
         const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
-        const googleUserId = decryptedSessionCookie?.sub;
-        const invalidGoogleUserId = !googleUserId
+        const userId = decryptedSessionCookie?.sub;
+        const invalidUserId = !userId
         const invalidGoogleUserSub = Object.keys(decryptedSessionCookie).length !== 3;
-        if (invalidGoogleUserId || invalidGoogleUserSub ) {
+        if (invalidUserId || invalidGoogleUserSub ) {
             return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
         const allowedGoogleUserIds = [
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
             "117801378252057178101", // Antoinette
             "104157773450824616168" // Andrew
         ];
-        const isUserDenied = allowedGoogleUserIds.indexOf(googleUserId) < 0;
+        const isUserDenied = allowedGoogleUserIds.indexOf(userId) < 0;
         if(isUserDenied){
             return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403})
         }
