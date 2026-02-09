@@ -5,9 +5,15 @@ import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
 import { useRouter } from "next/navigation";
 import { GoogleLoginResponse } from "./models";
-import styles from "./createButton.module.scss";
+import ErrorMessage from "@/app/components/baseComponents/components/errorMessage/errorMessage";
 
-export default function GoogleCreateButton({classes}: {classes: string}){
+export default function GoogleButton({classes, googleButtonText, endpoint, errorMessage, testId}: {
+    classes?: string, 
+    googleButtonText: "signin" | "signup_with", 
+    endpoint: "/api/login" | "/api/account", 
+    errorMessage: string,
+    testId: string
+}){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleCreateRef = useRef(null);
     const router = useRouter();
@@ -24,7 +30,7 @@ export default function GoogleCreateButton({classes}: {classes: string}){
             const parent = googleCreateRef.current;
             if(googleCreateRef && parent){
                 google.accounts.id.renderButton(parent, {
-                    text: "signup_with",
+                    text: googleButtonText,
                     size: "medium",
                     logo_alignment: "left",
                     shape: "rectangular",
@@ -35,8 +41,8 @@ export default function GoogleCreateButton({classes}: {classes: string}){
         }
     }, [googleSdkLoaded]);
 
-    function handleCredentialResponse(response:GoogleLoginResponse) {
-        fetch("/api/account", {
+    function handleCredentialResponse(response: GoogleLoginResponse) {
+        fetch(endpoint, {
             method: "POST",
             body: JSON.stringify({ token: response.credential }),
         }).then(handleAccountServiceResponse);
@@ -55,11 +61,8 @@ export default function GoogleCreateButton({classes}: {classes: string}){
 
     return (<>
         <div ref={googleCreateRef} id="google_create_btn" className={classes}/>
-        { getError ? <div data-testid="create-account-error">
-            <p className={`${styles.error} ${styles.errorMsg}`}>
-                <span className={`${styles.error} ${styles.errorIcon}`}>!</span>
-                There was an issue creating an account. Try logging in instead
-            </p>
+        { getError ? <div data-testid={testId}>
+            <ErrorMessage message={errorMessage}/>
         </div> : <div/> }
     </>);
 }
