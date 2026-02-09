@@ -1,23 +1,20 @@
 "use client"
-import { useEffect, useRef, useContext, useState } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
 import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
 import { useRouter } from "next/navigation";
 import { GoogleLoginResponse } from "./models";
-import ErrorMessage from "@/app/components/baseComponents/components/errorMessage/errorMessage";
 
-export default function GoogleButton({classes, googleButtonText, endpoint, errorMessage, testId}: {
+export default function GoogleButton({classes, googleButtonText, endpoint, setError }: {
     classes?: string, 
     googleButtonText: "signin" | "signup_with", 
-    endpoint: "/api/login" | "/api/account", 
-    errorMessage: string,
-    testId: string
+    endpoint: "/api/login" | "/api/account",
+    setError: (_error: boolean) => void
 }){
     const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
     const googleCreateRef = useRef(null);
     const router = useRouter();
-    const [getError, setError] = useState(false);
 
     useEffect(()=> {
         if(googleSdkLoaded && window.google){
@@ -60,9 +57,6 @@ export default function GoogleButton({classes, googleButtonText, endpoint, error
     }
 
     return (<>
-        <div ref={googleCreateRef} id="google_create_btn" className={classes}/>
-        { getError ? <div data-testid={testId}>
-            <ErrorMessage message={errorMessage}/>
-        </div> : <div/> }
+        <div ref={googleCreateRef} id="google_btn" className={classes}/>
     </>);
 }
