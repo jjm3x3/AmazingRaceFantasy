@@ -28,8 +28,7 @@ export default function CreateAccountComponent() {
             <GoogleButton 
                 classes={styles.google_create_btn} 
                 googleButtonText="signup_with" 
-                endpoint="/api/account" 
-                setError={setError}
+                endpoint="/api/account"
                 accountServiceResponseHandler={handleAccountServiceResponse}
             />
             { getError ? <div data-testid="create-account-error">
