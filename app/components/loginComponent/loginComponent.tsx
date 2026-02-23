@@ -34,7 +34,6 @@ export default function LoginComponent() {
                 classes={styles.google_login_btn} 
                 googleButtonText="signin" 
                 endpoint="/api/login" 
-                setError={setError}
                 accountServiceResponseHandler={handleAccountServiceResponse}
             />
             { getError ? <div data-testid="login-error">
