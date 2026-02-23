@@ -1,20 +1,22 @@
 "use client"
 import { useEffect, useRef, useContext } from "react";
 import { SessionContext } from "@/app/contexts/session";
-import { setLocalUserData } from "@/app/dataSources/localStorageShim";
 import config from "@/app/config";
-import { useRouter } from "next/navigation";
 import { GoogleLoginResponse } from "./models";
 
-export default function GoogleButton({classes, googleButtonText, endpoint, setError }: {
+export default function GoogleButton({
+    classes,
+    googleButtonText,
+    endpoint,
+    accountServiceResponseHandler
+}: {
     classes?: string, 
     googleButtonText: "signin" | "signup_with", 
     endpoint: "/api/login" | "/api/account",
-    setError: (_error: boolean) => void
+    accountServiceResponseHandler: (_response: Response) => void
 }){
-    const { setSessionInfo, googleSdkLoaded } = useContext(SessionContext);
+    const { googleSdkLoaded } = useContext(SessionContext);
     const googleCreateRef = useRef(null);
-    const router = useRouter();
 
     useEffect(()=> {
         if(googleSdkLoaded && window.google){
@@ -42,18 +44,7 @@ export default function GoogleButton({classes, googleButtonText, endpoint, setEr
         fetch(endpoint, {
             method: "POST",
             body: JSON.stringify({ token: response.credential }),
-        }).then(handleAccountServiceResponse);
-    }
-
-    async function handleAccountServiceResponse(response: Response) {
-        if (response.status === 409) {
-            setError(true); // since we are using a boolean we are assuming this is the only error possible at this time
-        } else {
-            const data = await response.json();
-            setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
-            setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
-            router.push("/");
-        }
+        }).then(accountServiceResponseHandler);
     }
 
     return (<>
