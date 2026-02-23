@@ -8,7 +8,7 @@ const mockRouter = { push: jest.fn() };
 jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 beforeEach(() => {
-    window.google = { accounts: getMockGoogleAccount("google_create_btn") };
+    window.google = { accounts: getMockGoogleAccount("google_btn") };
     initializeGoogleMock.mockClear();
 });
 
@@ -24,17 +24,18 @@ let mockSessionInfo = {
     googleUserId: "xxx-xxx-xxx"
 };
 const mockSetSessionInfo = jest.fn();
+const mockAccountServiceResponseHandler = jest.fn();
 
-describe("GoogleCreateButton Component", () => {
+describe("GoogleButton Component", () => {
     it("should render a google create button", async () => {
         // setup
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <GoogleButton
                     googleButtonText="signup_with" 
-                    endpoint="/api/account" 
-                    errorMessage="Example error message for create account. "
-                    testId="create-account-error"/>
+                    endpoint="/api/account"
+                    accountServiceResponseHandler={mockAccountServiceResponseHandler}
+                />
             </SessionContext.Provider>);
 
         // assert
@@ -47,7 +48,7 @@ describe("GoogleCreateButton Component", () => {
         });
     });
 
-    it("should redirect to / after create (and login) completed", async () => {
+    it("should call the response handler", async () => {
         // setup
         const fakeResponse = {
             json: () => new Promise((res,_rej) => {
@@ -65,8 +66,8 @@ describe("GoogleCreateButton Component", () => {
                 <GoogleButton
                     googleButtonText="signup_with" 
                     endpoint="/api/account" 
-                    errorMessage="Example error message for create account. "
-                    testId="create-account-error"/>
+                    accountServiceResponseHandler={mockAccountServiceResponseHandler}
+                />
             </SessionContext.Provider>);
 
         // Act
@@ -75,38 +76,7 @@ describe("GoogleCreateButton Component", () => {
 
         // Assert
         await waitFor(() => {
-            expect(mockRouter.push).toHaveBeenCalledWith("/");
-        });
-    });
-
-    it("should display an error when create returns a 409", async () => {
-        // setup
-        const fakeResponse = {
-            status: 409
-        };
-        const fetchPromise = { then: jest.fn((resolve) => {
-            resolve(fakeResponse);
-        })};
-        window.fetch = jest.fn()
-            .mockImplementation(() => fetchPromise);
-
-        const { getByTestId } = render(
-            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleButton
-                    googleButtonText="signup_with" 
-                    endpoint="/api/account" 
-                    errorMessage="Example error message for create account. "
-                    testId="create-account-error"/>
-            </SessionContext.Provider>);
-
-        // Act
-        const googleBtnElm = getByTestId("google-test-btn");
-        fireEvent.click(googleBtnElm);
-
-        // Assert
-        await waitFor(() => {
-            const errorElement = getByTestId("create-account-error");
-            expect(errorElement).toBeTruthy();
+            expect(mockAccountServiceResponseHandler).toHaveBeenCalled();
         });
     });
 });
