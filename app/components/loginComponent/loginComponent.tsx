@@ -16,7 +16,7 @@ export default function LoginComponent() {
     let errorMessage = "";
     const handleAccountServiceResponse = async (response: Response) => {
         if (response.status === 404) {
-            errorMessage = "There was no account found. Try creating one";
+            errorMessage = "There was no account found. Try creating one.";
             setError(true); // since we are using a boolean we are assuming this is the only error possible at this time
         } else if (response.status === 401) {
             errorMessage = "There was an issue logging in. Please try again.";
