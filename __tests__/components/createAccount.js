@@ -28,13 +28,12 @@ const mockSetSessionInfo = jest.fn();
 describe("GoogleButton Component", () => {
     it("should render a google create button", async () => {
         // setup
-        const { getByTestId, container } = render(
+        const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <CreateAccountComponent/>
             </SessionContext.Provider>);
         // assert
         await waitFor(()=> {
-            console.log(container.innerHTML);
             expect(initializeGoogleMock).toHaveBeenCalled();
             expect(requestAccessTokenMock).toHaveBeenCalled();
             const googleBtnElm = getByTestId("google-test-btn");
