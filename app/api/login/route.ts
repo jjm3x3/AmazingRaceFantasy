@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
             envelope: body.envelope, 
             exp: payload.exp,
             iat: payload.iat, 
-            sub: googleUserId,
+            sub: user.userId,
             response
         });
         

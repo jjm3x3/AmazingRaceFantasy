@@ -11,14 +11,14 @@ const testRequestPayload = {
     token: "testToken"
 }
 
+const existingUserId = "existing-app-user-id";
+
 const testAuthData = {
-    sub: "123googleTestId",
+    sub: existingUserId,
     email: "test@test.com",
     given_name: "TestFirstName",
     family_name: "TestLastName"
 }
-
-const existingUserId = "existing-app-user-id";
 
 const successfulResponse = {
     email: testAuthData.email,
