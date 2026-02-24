@@ -25,7 +25,7 @@ let mockSessionInfo = {
 };
 const mockSetSessionInfo = jest.fn();
 
-describe("GoogleButton Component", () => {
+describe("CreateAccount Component", () => {
     it("should render a google create button", async () => {
         // setup
         const { getByTestId } = render(
