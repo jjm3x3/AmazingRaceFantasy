@@ -97,4 +97,32 @@ describe("Login Component", () => {
             expect(errorElement.textContent).toEqual("!There was an issue logging in. Please try again.");
         });
     });
+
+    it("should redirect to / after login completed", async () => {
+        // setup
+        const fakeResponse = {
+            json: () => new Promise((res,_rej) => {
+                res({ name: { firstName: "AFirstName" } })
+            })
+        };
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve(fakeResponse);
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
+                <LoginComponent/>
+            </SessionContext.Provider>);
+
+        // Act
+        const googleBtnElm = getByTestId("google-test-btn");
+        fireEvent.click(googleBtnElm);
+
+        // Assert
+        await waitFor(() => {
+            expect(mockRouter.push).toHaveBeenCalledWith("/");
+        });
+    });
 });
