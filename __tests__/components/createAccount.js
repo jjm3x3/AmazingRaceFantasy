@@ -69,4 +69,31 @@ describe("GoogleButton Component", () => {
             expect(mockRouter.push).toHaveBeenCalledWith("/");
         });
     });
+
+    it("should display an error when create returns a 409", async () => {
+        // setup
+        const fakeResponse = {
+            status: 409
+        };
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve(fakeResponse);
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
+                <CreateAccountComponent/>
+            </SessionContext.Provider>);
+
+        // Act
+        const googleBtnElm = getByTestId("google-test-btn");
+        fireEvent.click(googleBtnElm);
+
+        // Assert
+        await waitFor(() => {
+            const errorElement = getByTestId("create-account-error");
+            expect(errorElement).toBeTruthy();
+        });
+    });
 });
