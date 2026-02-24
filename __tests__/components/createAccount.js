@@ -26,7 +26,7 @@ let mockSessionInfo = {
 const mockSetSessionInfo = jest.fn();
 
 describe("CreateAccount Component", () => {
-    it("should render a google create button", async () => {
+    it("should render a google button", async () => {
         // setup
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
