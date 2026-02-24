@@ -42,7 +42,7 @@ describe("CreateAccount Component", () => {
         });
     });
 
-    it("should redirect to / after create (and login) completed", async () => {
+    it("should redirect to / after create completed", async () => {
         // setup
         const fakeResponse = {
             json: () => new Promise((res,_rej) => {
