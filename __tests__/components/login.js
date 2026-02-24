@@ -1,5 +1,5 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import LoginComponent from "@/app/components/loginComponent/loginComponent"
+import LoginComponent from "@/app/components/loginComponent/loginComponent";
 import { SessionContext } from "@/app/contexts/session";
 import { originalGoogle, getMockGoogleAccount, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleAccountsSdk";
 
@@ -39,6 +39,62 @@ describe("Login Component", () => {
             const googleBtnElm = getByTestId("google-test-btn");
             expect(googleBtnElm).toBeTruthy();
             expect(googleBtnElm.textContent).toEqual("This is my google button");
+        });
+    });
+
+    it("should display an error when create returns a 404", async () => {
+        // setup
+        const fakeResponse = {
+            status: 404
+        };
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve(fakeResponse);
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
+                <LoginComponent/>
+            </SessionContext.Provider>);
+
+        // Act
+        const googleBtnElm = getByTestId("google-test-btn");
+        fireEvent.click(googleBtnElm);
+
+        // Assert
+        await waitFor(() => {
+            const errorElement = getByTestId("login-error");
+            expect(errorElement).toBeTruthy();
+            expect(errorElement.textContent).toEqual("!There was no account found. Try creating one.");
+        });
+    });
+
+    it("should display an error when create returns a 404", async () => {
+        // setup
+        const fakeResponse = {
+            status: 401
+        };
+        const fetchPromise = { then: jest.fn((resolve) => {
+            resolve(fakeResponse);
+        })};
+        window.fetch = jest.fn()
+            .mockImplementation(() => fetchPromise);
+
+        const { getByTestId } = render(
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
+                <LoginComponent/>
+            </SessionContext.Provider>);
+
+        // Act
+        const googleBtnElm = getByTestId("google-test-btn");
+        fireEvent.click(googleBtnElm);
+
+        // Assert
+        await waitFor(() => {
+            const errorElement = getByTestId("login-error");
+            expect(errorElement).toBeTruthy();
+            expect(errorElement.textContent).toEqual("!There was an issue logging in. Please try again.");
         });
     });
 });

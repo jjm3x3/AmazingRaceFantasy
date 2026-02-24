@@ -11,15 +11,15 @@ import styles from "./styles.module.scss"
 
 export default function LoginComponent() {
     const [getError, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const { setSessionInfo } = useContext(SessionContext);
     const router = useRouter();
-    let errorMessage = "";
     const handleAccountServiceResponse = async (response: Response) => {
         if (response.status === 404) {
-            errorMessage = "There was no account found. Try creating one.";
-            setError(true); // since we are using a boolean we are assuming this is the only error possible at this time
+            setErrorMessage("There was no account found. Try creating one.")
+            setError(true);
         } else if (response.status === 401) {
-            errorMessage = "There was an issue logging in. Please try again.";
+            setErrorMessage("There was an issue logging in. Please try again.");
             setError(true);
         } else {
             const data = await response.json();
