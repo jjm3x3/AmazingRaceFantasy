@@ -70,7 +70,7 @@ describe("Login Component", () => {
         });
     });
 
-    it("should display an error when create returns a 404", async () => {
+    it("should display an error when create returns a 401", async () => {
         // setup
         const fakeResponse = {
             status: 401
