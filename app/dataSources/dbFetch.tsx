@@ -21,7 +21,7 @@ export interface ILeagueConfigurationData {
 
 export interface IUserData {
     googleUserId: string
-    userId?: string
+    userId: string
 }
 
 export async function getContestantData(keyPrefix: string): Promise<IContestantData[]> {
