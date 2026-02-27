@@ -35,7 +35,8 @@ export async function POST(request: NextRequest) {
         const allowedGoogleUserIds = [
             "108251633753098119380", // Jacob
             "117801378252057178101", // Antoinette
-            "104157773450824616168" // Andrew
+            "104157773450824616168", // Andrew
+            "109398108712120627198" // Cindy
         ];
         const isUserDenied = allowedGoogleUserIds.indexOf(googleUserId) < 0;
         if(isUserDenied){
