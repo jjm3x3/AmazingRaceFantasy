@@ -10,7 +10,7 @@ export default async function Home() {
         <>
             <div className="site-notice">
                 <p>
-                    There are no currently active leagues. Survivor 50 will be in early 2026. If you would like to participate, email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link> and we will see what we can do.
+                    League Submission forms for Survivor 50 have been sent out. If you would like to participate and didn't get one, email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link> and we will see what we can do.
                 </p>
             </div>
             {pages.map((p: IPage) => { 
