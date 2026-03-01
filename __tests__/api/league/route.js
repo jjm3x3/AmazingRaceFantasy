@@ -134,6 +134,30 @@ describe("POST (unit tests)", () => {
         expect(response.status).toEqual(403);
     });
 
+    it("should return a 403 when getUser throws an exception", async () => {
+        // Arrange
+        getUser.mockImplementation(() => {
+            return Promise.reject(new Error("Database error"));
+        });
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(403);
+    });
+
     it("should return a 400 when missing wikiPageName", async () => {
         // Aarrange
         happyPathRequest.wikiPageName = null;
