@@ -32,12 +32,6 @@ writeLeagueConfigurationData.mockImplementation(() => {
     return () => { }
 });
 
-getUser.mockImplementation(() => {
-    return Promise.resolve({
-        role: "showAdmin"
-    });
-});
-
 jest.mock("../../../app/api/session/session", ()=> {
     const actual = jest.requireActual("../../../app/api/session/session");
     return {
@@ -71,6 +65,13 @@ beforeEach(() => {
         contestantType: "team",
         leagueKey: "some_show_name:and_season_1"
     };
+
+    getUser.mockImplementation(() => {
+        return Promise.resolve({
+            role: "showAdmin"
+        });
+    });
+
 });
 
 afterEach(() => {
