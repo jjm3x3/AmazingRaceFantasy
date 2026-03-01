@@ -1,15 +1,15 @@
-import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import GoogleLoginButton from "../../app/components/navigation/google-login-btn";
+import GoogleButton from "@/app/components/baseComponents/googleButton/googleButton";
 import { SessionContext } from "@/app/contexts/session";
-import { originalGoogle, getMockGoogleAccount, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleAccountsSdk";
+import { originalGoogle, getMockGoogleAccount, initializeGoogleMock, requestAccessTokenMock } from "../../../setupGoogleAccountsSdk";
 
 const mockRouter = { push: jest.fn() };
 
 jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 beforeEach(() => {
-    window.google = { accounts: getMockGoogleAccount("google_login_btn") };
+    window.google = { accounts: getMockGoogleAccount("google_btn") };
+    initializeGoogleMock.mockClear();
 });
 
 afterEach(() => {
@@ -24,15 +24,20 @@ let mockSessionInfo = {
     googleUserId: "xxx-xxx-xxx"
 };
 const mockSetSessionInfo = jest.fn();
+const mockAccountServiceResponseHandler = jest.fn();
 
-describe("GoogleLoginButton Component", () => {
-    it("should render a google login button", async () => {
+describe("GoogleButton Component", () => {
+    it("should render a google button", async () => {
         // setup
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleLoginButton/>
+                <GoogleButton
+                    googleButtonText="signup_with" 
+                    endpoint="/api/account"
+                    accountServiceResponseHandler={mockAccountServiceResponseHandler}
+                />
             </SessionContext.Provider>);
-        
+
         // assert
         await waitFor(()=> {
             expect(initializeGoogleMock).toHaveBeenCalled();
@@ -43,7 +48,7 @@ describe("GoogleLoginButton Component", () => {
         });
     });
 
-    it("should redirect to / after login completed", async () => {
+    it("should call the response handler", async () => {
         // setup
         const fakeResponse = {
             json: () => new Promise((res,_rej) => {
@@ -58,7 +63,11 @@ describe("GoogleLoginButton Component", () => {
 
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleLoginButton/>
+                <GoogleButton
+                    googleButtonText="signup_with" 
+                    endpoint="/api/account" 
+                    accountServiceResponseHandler={mockAccountServiceResponseHandler}
+                />
             </SessionContext.Provider>);
 
         // Act
@@ -67,7 +76,7 @@ describe("GoogleLoginButton Component", () => {
 
         // Assert
         await waitFor(() => {
-            expect(mockRouter.push).toHaveBeenCalledWith("/");
+            expect(mockAccountServiceResponseHandler).toHaveBeenCalled();
         });
     });
 });

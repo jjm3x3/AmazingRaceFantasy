@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     }
     
     const payload:TokenPayload | undefined = authResponse !== null ? authResponse.getPayload() : undefined;
-
     if(payload){
         const googleUserId = payload["sub"];
         const user = await getGoogleUser(googleUserId);
@@ -46,7 +45,7 @@ export async function POST(request: NextRequest) {
             envelope: body.envelope, 
             exp: payload.exp,
             iat: payload.iat, 
-            sub: googleUserId,
+            sub: user.userId,
             response
         });
         

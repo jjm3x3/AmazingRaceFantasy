@@ -1,15 +1,14 @@
-import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import GoogleCreateButton from "@/app/components/baseComponents/googleButton/createButton";
+import CreateAccountComponent from "@/app/components/createAccountComponent/createAccountComponent"
 import { SessionContext } from "@/app/contexts/session";
-import { originalGoogle, getMockGoogleAccount, initializeGoogleMock, requestAccessTokenMock } from "../../../setupGoogleAccountsSdk";
+import { originalGoogle, getMockGoogleAccount, initializeGoogleMock, requestAccessTokenMock } from "../setupGoogleAccountsSdk";
 
 const mockRouter = { push: jest.fn() };
 
 jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
 
 beforeEach(() => {
-    window.google = { accounts: getMockGoogleAccount("google_create_btn") };
+    window.google = { accounts: getMockGoogleAccount("google_btn") };
     initializeGoogleMock.mockClear();
 });
 
@@ -26,14 +25,13 @@ let mockSessionInfo = {
 };
 const mockSetSessionInfo = jest.fn();
 
-describe("GoogleCreateButton Component", () => {
-    it("should render a google create button", async () => {
+describe("CreateAccount Component", () => {
+    it("should render a google button", async () => {
         // setup
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleCreateButton/>
+                <CreateAccountComponent/>
             </SessionContext.Provider>);
-
         // assert
         await waitFor(()=> {
             expect(initializeGoogleMock).toHaveBeenCalled();
@@ -44,7 +42,7 @@ describe("GoogleCreateButton Component", () => {
         });
     });
 
-    it("should redirect to / after create (and login) completed", async () => {
+    it("should redirect to / after create completed", async () => {
         // setup
         const fakeResponse = {
             json: () => new Promise((res,_rej) => {
@@ -59,7 +57,7 @@ describe("GoogleCreateButton Component", () => {
 
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleCreateButton/>
+                <CreateAccountComponent/>
             </SessionContext.Provider>);
 
         // Act
@@ -85,7 +83,7 @@ describe("GoogleCreateButton Component", () => {
 
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
-                <GoogleCreateButton/>
+                <CreateAccountComponent/>
             </SessionContext.Provider>);
 
         // Act

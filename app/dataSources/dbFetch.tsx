@@ -21,7 +21,7 @@ export interface ILeagueConfigurationData {
 
 export interface GoogleUserData {
     googleUserId: string
-    userId?: string
+    userId: string
 }
 
 export interface UserData {

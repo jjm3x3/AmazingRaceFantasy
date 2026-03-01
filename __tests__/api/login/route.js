@@ -11,14 +11,15 @@ const testRequestPayload = {
     token: "testToken"
 }
 
+const existingUserId = "existing-app-user-id";
+const googleUserId = "123googleTestId";
+
 const testAuthData = {
-    sub: "123googleTestId",
+    sub: googleUserId,
     email: "test@test.com",
     given_name: "TestFirstName",
     family_name: "TestLastName"
 }
-
-const existingUserId = "existing-app-user-id";
 
 const successfulResponse = {
     email: testAuthData.email,
@@ -26,7 +27,7 @@ const successfulResponse = {
         firstName: testAuthData.given_name,
         lastName: testAuthData.family_name
     },
-    googleUserId: testAuthData.sub,
+    googleUserId: googleUserId,
     userId: existingUserId
 }
 
@@ -61,7 +62,7 @@ const redisJsonGetMock = jest.fn().mockImplementation((userKey) => {
         return null; // simulate user does not exist
     }
     return {
-        googleUserId: "123googleTestIdExists",
+        googleUserId: "123googleTestId",
         userId: existingUserId
     };
 });
@@ -183,7 +184,7 @@ describe("POST", () => {
         const LoginResponse = await POST(request);
         await LoginResponse.json();
         const expectedSessionData = {
-            sub: testAuthData.sub
+            sub: existingUserId
         };
         expect(createSessionSpy).toHaveBeenCalledTimes(1);
         expect(createSessionSpy).toHaveBeenCalledWith(expect.objectContaining(expectedSessionData));
