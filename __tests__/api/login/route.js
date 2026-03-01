@@ -26,8 +26,8 @@ const successfulResponse = {
         firstName: testAuthData.given_name,
         lastName: testAuthData.family_name
     },
-    googleUserId: testAuthData.sub,
-    userId: existingUserId
+    googleUserId: "123googleTestId",
+    userId: testAuthData.sub
 }
 
 const getPayloadMock = jest.fn().mockImplementation(()=> {
@@ -61,7 +61,7 @@ const redisJsonGetMock = jest.fn().mockImplementation((userKey) => {
         return null; // simulate user does not exist
     }
     return {
-        googleUserId: "123googleTestIdExists",
+        googleUserId: "123googleTestId",
         userId: existingUserId
     };
 });
