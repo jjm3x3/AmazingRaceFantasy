@@ -821,4 +821,32 @@ describe("POST (unit tests)", () => {
                 "contestantLeagueDataKeyPrefix": `${happyPathRequest.leagueKey}:*`
             }));
     });
+
+    it("should call writeLeagueConfigurationData with a config with a createdBy field from the session token", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "createdBy": testAuthData.sub
+            }));
+    });
 });
