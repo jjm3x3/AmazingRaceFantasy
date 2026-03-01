@@ -16,7 +16,8 @@ export interface ILeagueConfigurationData {
     preGoogleSheetsLinkText: string,
     postGoogleSheetsLinkText: string,
     competitingEntityName: string,
-    contestantLeagueDataKeyPrefix: string
+    contestantLeagueDataKeyPrefix: string,
+    createdBy?: string
 }
 
 export interface GoogleUserData {
