@@ -103,6 +103,11 @@ describe("POST (unit tests)", () => {
 
     it("should return a 403 when auth token does not have exact right userId claim", async () => {
         // Arrange
+        getUser.mockImplementation(() => {
+            return Promise.resolve({
+                role: "anybody"
+            });
+        });
         jest.spyOn(sessionModule, "decrypt").mockImplementationOnce(()=> {
             return {
                 sub: "123googleTestId",
