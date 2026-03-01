@@ -66,3 +66,8 @@ A any user can navigate to our various read-only pages.
 ### Create A League
 
 If you are a user that would like to create a league will you will first need to have an account.
+
+#### How To
+
+1. Create an account, by going to our [Create Account Page](https://xfactorleague.com/create-account)
+1. Let @jjm3x3 know, and he can get you setup
