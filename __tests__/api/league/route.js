@@ -6,7 +6,7 @@ jest.mock("google-auth-library");
 jest.mock("../../../app/dataSources/dbFetch");
 import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
-import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { writeLeagueConfigurationData, getUser } from "@/app/dataSources/dbFetch";
 import { POST } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
@@ -30,6 +30,12 @@ OAuth2Client.mockImplementation(() => {
 
 writeLeagueConfigurationData.mockImplementation(() => {
     return () => { }
+});
+
+getUser.mockImplementation(() => {
+    return Promise.resolve({
+        role: "showAdmin"
+    });
 });
 
 jest.mock("../../../app/api/session/session", ()=> {
