@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     }
     
     const payload:TokenPayload | undefined = authResponse !== null ? authResponse.getPayload() : undefined;
-    console.log(payload);
     if(payload){
         const googleUserId = payload["sub"];
         const user = await getUser(googleUserId);
@@ -37,7 +36,7 @@ export async function POST(request: NextRequest) {
                 firstName: payload?.given_name,
                 lastName: payload?.family_name
             },
-            googleUserId: user?.googleUserId ?? googleUserId,
+            googleUserId: googleUserId,
             userId: user.userId
         }
 

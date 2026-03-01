@@ -12,9 +12,10 @@ const testRequestPayload = {
 }
 
 const existingUserId = "existing-app-user-id";
+const googleUserId = "123googleTestId";
 
 const testAuthData = {
-    sub: existingUserId,
+    sub: googleUserId,
     email: "test@test.com",
     given_name: "TestFirstName",
     family_name: "TestLastName"
@@ -26,8 +27,8 @@ const successfulResponse = {
         firstName: testAuthData.given_name,
         lastName: testAuthData.family_name
     },
-    googleUserId: "123googleTestId",
-    userId: testAuthData.sub
+    googleUserId: googleUserId,
+    userId: existingUserId
 }
 
 const getPayloadMock = jest.fn().mockImplementation(()=> {
@@ -183,7 +184,7 @@ describe("POST", () => {
         const LoginResponse = await POST(request);
         await LoginResponse.json();
         const expectedSessionData = {
-            sub: testAuthData.sub
+            sub: existingUserId
         };
         expect(createSessionSpy).toHaveBeenCalledTimes(1);
         expect(createSessionSpy).toHaveBeenCalledWith(expect.objectContaining(expectedSessionData));
