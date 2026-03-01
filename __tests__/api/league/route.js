@@ -6,7 +6,7 @@ jest.mock("google-auth-library");
 jest.mock("../../../app/dataSources/dbFetch");
 import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
-import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { writeLeagueConfigurationData, getUser } from "@/app/dataSources/dbFetch";
 import { POST } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
@@ -38,7 +38,7 @@ jest.mock("../../../app/api/session/session", ()=> {
         ...actual,
         decrypt: jest.fn().mockImplementation(()=> {
             return {
-                sub: "108251633753098119380",
+                sub: "108251633753098119380xxxxxxx",
                 ias: "",
                 exp: ""
             }
@@ -65,6 +65,13 @@ beforeEach(() => {
         contestantType: "team",
         leagueKey: "some_show_name:and_season_1"
     };
+
+    getUser.mockImplementation(() => {
+        return Promise.resolve({
+            role: "showAdmin"
+        });
+    });
+
 });
 
 afterEach(() => {
@@ -96,6 +103,11 @@ describe("POST (unit tests)", () => {
 
     it("should return a 403 when auth token does not have exact right userId claim", async () => {
         // Arrange
+        getUser.mockImplementation(() => {
+            return Promise.resolve({
+                role: "anybody"
+            });
+        });
         jest.spyOn(sessionModule, "decrypt").mockImplementationOnce(()=> {
             return {
                 sub: "123googleTestId",
@@ -112,6 +124,30 @@ describe("POST (unit tests)", () => {
                 })
             },
             json: async () => { return { } }
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(403);
+    });
+
+    it("should return a 403 when getUser throws an exception", async () => {
+        // Arrange
+        getUser.mockImplementation(() => {
+            return Promise.reject(new Error("Database error"));
+        });
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
         };
 
         // Act

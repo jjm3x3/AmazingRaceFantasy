@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
-import { writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getUser, writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
 interface decryptionPayload {
@@ -26,19 +26,21 @@ export async function POST(request: NextRequest) {
     const sessionCookie = request.cookies.get("session");
     if(sessionCookie){
         const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
-        const googleUserId = decryptedSessionCookie?.sub;
-        const invalidGoogleUserId = !googleUserId
-        const invalidGoogleUserSub = Object.keys(decryptedSessionCookie).length !== 3;
-        if (invalidGoogleUserId || invalidGoogleUserSub ) {
+        const userId = decryptedSessionCookie?.sub;
+        const invalidUserId = !userId
+        const invalidUserSub = Object.keys(decryptedSessionCookie).length !== 3;
+        if (invalidUserId || invalidUserSub ) {
             return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
-        const allowedGoogleUserIds = [
-            "108251633753098119380", // Jacob
-            "117801378252057178101", // Antoinette
-            "104157773450824616168", // Andrew
-            "109398108712120627198" // Cindy
-        ];
-        const isUserDenied = allowedGoogleUserIds.indexOf(googleUserId) < 0;
+        let userRole = null;
+
+        try {
+            const userData = await getUser(userId);
+            userRole = userData.role;
+        } catch(error) {
+            console.info(`No roles found for user '${userId}'`);
+        }
+        const isUserDenied = userRole !== "showAdmin";
         if(isUserDenied){
             return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403})
         }
