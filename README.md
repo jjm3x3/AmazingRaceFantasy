@@ -3,9 +3,9 @@
 X Factor League provides a space to create fantasy leagues for reality game shows. Currently, we support Amazing Race and Big Brother, with Survivor being in the works. The site runs on NextJS, React, and Redis, reading data from the relevant Wikipedia pages.
 
 ## Table of Contents
-1.[Getting Started](#getting-started)
-1.[Commands](#commands)
-1.[Seeding the Database](#seeding-db)
+1. [Getting Started](#getting-started)
+1. [Commands](#commands)
+1. [Seeding the Database](#seeding-db)
 
 ## Getting Started
 <a name="getting-started"></a>
