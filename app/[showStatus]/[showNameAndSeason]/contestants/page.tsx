@@ -1,9 +1,9 @@
+import styles from "./contestantsPageContent.module.scss";
 import { parseEntities } from "@/app/utils/entityParserSwitch"
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
-import CompetingEntity from "@/app/models/CompetingEntity"
-
+import ContestantsPageContent from "./contestantsPageContent";
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
 
@@ -18,7 +18,6 @@ export async function generateStaticParams() {
 export default async function Contestants({ params }: {
     params: Promise<{ showStatus: string; showNameAndSeason: string }>
   }) {
-
     // Wait for parsing and retrieving params
     const { showNameAndSeason, showStatus } = await params;
     // Formatting to file naming convention
@@ -35,26 +34,18 @@ export default async function Contestants({ params }: {
 
     const final = parseEntities(wikiContestants, showName);
 
+    // This is a workaround to ensure the data is serializable and can be passed to a client-side component.
+    // To understand better, see: https://stackoverflow.com/questions/77091418/warning-only-plain-objects-can-be-passed-to-client-components-from-server-compo
+    const parsedFinal = JSON.parse(JSON.stringify(final));
+
     return (
         <div>
-            <br/>
             <h1 className="text-2xl text-center">Contestants</h1>
-            <br/>
-            <p className="text-lg text-center">{final.length} {competitingEntityName}</p>
-            <br/>
-            <div className="text-center">
-                {final.map((t: CompetingEntity) => {
-                    return (<>
-                        <p key={t.teamName}>
-                            {t.isParticipating ? t.teamName : <s>{t.teamName}</s>}
-                        </p>
-                    </>);
-                })}
-            </div>
-            <br/>
+            <p className={`text-lg text-center ${styles.contestantsCount}`}>{parsedFinal.length} {competitingEntityName}</p>
+            <ContestantsPageContent contestantsData={parsedFinal}/>
             <div>
                 <p>
-                    Data provided by <a className="standard-link" href={wikiPageUrl} >Wikipedia</a> for this season of {friendlyShowName}
+                    Data provided by <a className="standard-link" href={wikiPageUrl}>Wikipedia</a> for this season of {friendlyShowName}
                 </p>
             </div>
         </div>
