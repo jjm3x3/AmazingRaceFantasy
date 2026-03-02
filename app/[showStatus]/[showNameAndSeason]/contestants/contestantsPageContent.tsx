@@ -23,7 +23,7 @@ export default function ContestantsPageContent({ contestantsData }: {
                 {contestantsData.map((t: CompetingEntity) => {
                     return (<>
                         <p key={t.teamName}>
-                            {(!t.isParticipating && showEliminationStatus) ? <s>{t.teamName}</s> : t.teamName }
+                            {(!t.isParticipating && showEliminationStatus) ? <s key={`eliminated-${t.teamName}`}>{t.teamName}</s> : t.teamName }
                         </p>
                     </>);
                 })}
