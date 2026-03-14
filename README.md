@@ -70,5 +70,5 @@ If you are a user who would like to create a league, first you need to have an a
 #### How To
 
 1. Create an account by going to our [Create Account Page](https://xfactorleague.com/create-account). 
-1. Let @jjm3x3 know, and he can get you setup
+1. Let @jjm3x3 know, and he can get you set up.
 1. Navigate to the [League Creation Page](https://xfactorleague.com/league/configuration), fill out the form, and hit submit
