@@ -15,6 +15,11 @@ const CONTESTANT_LEAGUE_DATA = [
         name: "Jacob",
         userId: "C7D10281-8879-4F41-929B-723EFBE4A1C4",
         ranking: [ "Emily Flippen", "Quintavius \"Q\" Burdette", "Joe Hunter", "Savannah Louie", "Jonathan Young", "Benjamin \"Coach\" Wade", "Christian Hubicki", "Oscar \"Ozzy\" Lusth", "Aubry Bracco", "Kamilla Karthigesu", "Genevieve Mushaluk", "Tiffany Ervin", "Rick Devens", "Stephenie LaGrossa Kendrick", "Cirie Fields", "Dee Valladares", "Colby Donaldson", "Chrissy Hofbeck", "Charlie Davis", "Rizo Velovic", "Angelina Keeley", "Mike White", "Kyle Fraser", "Jenna Lewis-Dougherty" ]
+    },
+    {
+        name: "Sam",
+        userId: "CD9F9A71-FF9C-416A-8D0D-C268A13B021F",
+        ranking: [ "Aubry Bracco", "Rizo Velovic", "Charlie Davis", "Genevieve Mushaluk", "Kamilla Karthigesu", "Rick Devens", "Christian Hubicki", "Emily Flippen", "Joe Hunter", "Mike White", "Quintavius \"Q\" Burdette", "Jonathan Young", "Chrissy Hofbeck", "Dee Valladares", "Savannah Louie", "Angelina Keeley", "Colby Donaldson", "Stephenie LaGrossa Kendrick", "Tiffany Ervin", "Oscar \"Ozzy\" Lusth", "Cirie Fields", "Benjamin \"Coach\" Wade", "Kyle Fraser", "Jenna Lewis-Dougherty" ]
     }
 ];
 
