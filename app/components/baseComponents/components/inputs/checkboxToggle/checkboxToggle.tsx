@@ -15,7 +15,9 @@ export default function CheckboxToggle({
     return (
         <div className={styles.dropdownContainer}>
             {checkboxPosition === "left" && checkboxElement}
-            <label className={styles.checkboxLabel} htmlFor={id}>{labelText}</label>
+            <label className={styles.checkboxLabel} htmlFor={id} data-testid={`test-checkboxToggle-label-${id}`}>
+                {labelText}
+            </label>
             {checkboxPosition === "right" && checkboxElement}
         </div>
     );
