@@ -59,7 +59,7 @@ Since we do not have authentication or authorization on the site for now, all da
 
 ## Using The Site
 
-### Nromal Usage
+### Normal Usage
 
 A any user can navigate to our various read-only pages.
 
