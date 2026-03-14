@@ -30,9 +30,9 @@ describe("ContestantsPageContent Component", () => {
 
         const { getByText, getByTestId } = render(<ContestantsPageContent contestantsData={mockContestantsData}/>);
         
-        const contestant1Elm = getByText("Contestant 1");
+        let contestant1Elm = getByText("Contestant 1");
         let contestant2Elm = getByText("Contestant 2");
-        const contestant3Elm = getByText("Contestant 3");
+        let contestant3Elm = getByText("Contestant 3");
 
         // assert
         expect(contestant1Elm.tagName).toBe("P");
@@ -41,7 +41,9 @@ describe("ContestantsPageContent Component", () => {
 
         const toggleBtn = getByTestId("test-checkboxToggle-contestant-elimination-status-toggle");
         fireEvent.click(toggleBtn);
+        contestant1Elm = getByText("Contestant 1");
         contestant2Elm = getByText("Contestant 2");
+        contestant3Elm = getByText("Contestant 3");
 
         expect(contestant1Elm.tagName).toBe("P");
         expect(contestant2Elm.tagName).toBe("S");
