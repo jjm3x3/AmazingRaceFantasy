@@ -32,13 +32,15 @@ writeLeagueConfigurationData.mockImplementation(() => {
     return () => { }
 });
 
+const ourUserId = "ourUserId67C20C65-064D-444C-9AC0-DB5E14A38863";
+
 jest.mock("../../../app/api/session/session", ()=> {
     const actual = jest.requireActual("../../../app/api/session/session");
     return {
         ...actual,
         decrypt: jest.fn().mockImplementation(()=> {
             return {
-                sub: "108251633753098119380xxxxxxx",
+                sub: ourUserId,
                 ias: "",
                 exp: ""
             }
@@ -46,11 +48,9 @@ jest.mock("../../../app/api/session/session", ()=> {
     }
 })
 
-
-
 beforeEach(() => {
     testAuthData = {
-        sub: "108251633753098119380",
+        sub: "googleUserId108251633753098119380xxx",
         email: "test@test.com",
         given_name: "TestFirstName",
         family_name: "TestLastName"
@@ -819,6 +819,34 @@ describe("POST (unit tests)", () => {
             expect.anything(),
             expect.objectContaining({
                 "contestantLeagueDataKeyPrefix": `${happyPathRequest.leagueKey}:*`
+            }));
+    });
+
+    it("should call writeLeagueConfigurationData with a config with a createdBy field from the session token", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest
+            })
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                "createdBy": ourUserId
             }));
     });
 });
