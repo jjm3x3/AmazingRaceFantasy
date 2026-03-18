@@ -3,7 +3,7 @@ import { parseEntities } from "@/app/utils/entityParserSwitch"
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
-import ContestantsPageContent from "./contestantsPageContent";
+import TeamListWithToggle from "./teamListWithToggle";
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
 
@@ -42,7 +42,7 @@ export default async function Contestants({ params }: {
         <div>
             <h1 className="text-2xl text-center">Contestants</h1>
             <p className={`text-lg text-center ${styles.contestantsCount}`}>{parsedFinal.length} {competitingEntityName}</p>
-            <ContestantsPageContent contestantsData={parsedFinal}/>
+            <TeamListWithToggle contestantsData={parsedFinal}/>
             <div>
                 <p>
                     Data provided by <a className="standard-link" href={wikiPageUrl}>Wikipedia</a> for this season of {friendlyShowName}
