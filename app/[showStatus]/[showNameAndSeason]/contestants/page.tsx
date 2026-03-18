@@ -33,10 +33,11 @@ export default async function Contestants({ params }: {
     const wikiContestants = await getWikipediaContestantData(wikiApiUrl, castPhrase);
 
     const final = parseEntities(wikiContestants, showName);
+    const randomizedContestants = [...final].sort(() => Math.random() - 0.5);
 
     // This is a workaround to ensure the data is serializable and can be passed to a client-side component.
     // To understand better, see: https://stackoverflow.com/questions/77091418/warning-only-plain-objects-can-be-passed-to-client-components-from-server-compo
-    const parsedFinal = JSON.parse(JSON.stringify(final));
+    const parsedFinal = JSON.parse(JSON.stringify(randomizedContestants));
 
     return (
         <div>
