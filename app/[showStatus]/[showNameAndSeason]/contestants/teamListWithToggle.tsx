@@ -3,9 +3,10 @@
 import { useState } from "react";
 import CompetingEntity from "@/app/models/CompetingEntity"
 import CheckboxToggle from "@/app/components/baseComponents/components/inputs/checkboxToggle/checkboxToggle";
+import TeamList from "@/app/components/teamList";
 import styles from "./contestantsPageContent.module.scss";
 
-export default function ContestantsPageContent({ contestantsData }: { 
+export default function TeamListWithToggle({ contestantsData }: { 
     contestantsData: CompetingEntity[]
 }) {
     const [showEliminationStatus, setShowEliminationStatus] = useState(false);
@@ -20,13 +21,10 @@ export default function ContestantsPageContent({ contestantsData }: {
                 />
             </div>
             <div className="text-center">
-                {contestantsData.map((t: CompetingEntity) => {
-                    return (<>
-                        <p key={t.teamName}>
-                            {(!t.isParticipating && showEliminationStatus) ? <s key={`eliminated-${t.teamName}`}>{t.teamName}</s> : t.teamName }
-                        </p>
-                    </>);
-                })}
+                <TeamList
+                    teamList={contestantsData}
+                    showEliminationStatus={showEliminationStatus}
+                />
             </div>
         </>
     );
