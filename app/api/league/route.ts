@@ -24,9 +24,10 @@ export async function POST(request: NextRequest) {
     // check auth
     const body = await request.json();
     const sessionCookie = request.cookies.get("session");
+    let userId: string | undefined;
     if(sessionCookie){
         const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
-        const userId = decryptedSessionCookie?.sub;
+        userId = decryptedSessionCookie?.sub;
         const invalidUserId = !userId
         const invalidUserSub = Object.keys(decryptedSessionCookie).length !== 3;
         if (invalidUserId || invalidUserSub ) {
@@ -73,7 +74,8 @@ export async function POST(request: NextRequest) {
         preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
         postGoogleSheetsLinkText: "which was populated using a google form.",
         competitingEntityName: body.contestantType,
-        contestantLeagueDataKeyPrefix: `${body.leagueKey}:*`
+        contestantLeagueDataKeyPrefix: `${body.leagueKey}:*`,
+        createdBy: userId
     };
 
     await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);

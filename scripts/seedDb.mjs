@@ -6,6 +6,7 @@ import bigBrother26Data from "../app/leagueData/BigBrother_26.js"
 import bigBrother27Data from "../app/leagueData/BigBrother_27.js"
 import survivor47Data from "../app/leagueData/Survivor_47.js"
 import survivor49Data from "../app/leagueData/Survivor_49.js"
+import survivor50Data from "../app/leagueData/Survivor_50.js"
 //import amazingRace37LeagueConfiguration from "../app/leagueConfiguration/AmazingRace_37.js"
 import { Redis } from "@upstash/redis"
 
@@ -30,6 +31,7 @@ await recreateLeagueData("big_brother:26:", bigBrother26Data)
 await recreateLeagueData("big_brother:27:", bigBrother27Data)
 await recreateLeagueData("survivor:47:", survivor47Data)
 await recreateLeagueData("survivor:49:", survivor49Data)
+await recreateLeagueData("survivor:50:", survivor50Data)
 
 // Create league configuration data
 // Note: leaving this commented out code, should we need to add another config
