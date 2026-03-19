@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import CompetingEntity from "@/app/models/CompetingEntity"
-import CheckboxToggle from "@/app/components/baseComponents/components/inputs/checkboxToggle/checkboxToggle";
+import { CheckboxToggle } from "@/app/components/baseComponents";
 import TeamList from "@/app/components/teamList";
 import styles from "./contestantsPageContent.module.scss";
 
