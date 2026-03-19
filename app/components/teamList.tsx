@@ -4,20 +4,27 @@ import { shouldBeScored } from "../utils/teamListUtils";
 
 export default function TeamList({
     teamList,
+    showEliminationStatus,
     roundNumber,
     eliminationOrder,
     teamsEliminatedSoFar
 }: {
     teamList: CompetingEntity[],
-    roundNumber: number
-    eliminationOrder: number
-    teamsEliminatedSoFar: number
+    showEliminationStatus: boolean,
+    roundNumber?: number
+    eliminationOrder?: number
+    teamsEliminatedSoFar?: number
 }) {
     return <div>
-        {teamList.map(t => {
+        {teamList.map((t, index) => {
+            let competingEntityElement = (!t.isParticipating && showEliminationStatus) ?  <s key={`eliminated-${t.teamName}`}>{t.teamName}</s> : t.teamName;
+            if(roundNumber && eliminationOrder && teamsEliminatedSoFar) {
+                competingEntityElement = (shouldBeScored(teamList, t, eliminationOrder, teamsEliminatedSoFar) && showEliminationStatus) ? t.friendlyName() : <s>{t.friendlyName()}</s>;
+            }
+            const teamKey = t.teamName + (roundNumber ? roundNumber : index);
             return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
-                <p key={t.teamName+roundNumber}>
-                    {shouldBeScored(teamList, t, eliminationOrder, teamsEliminatedSoFar) ? t.friendlyName() : <s>{t.friendlyName()}</s> }
+                <p key={teamKey}>
+                    {competingEntityElement}
                 </p>
             </Fragment>);
         })}

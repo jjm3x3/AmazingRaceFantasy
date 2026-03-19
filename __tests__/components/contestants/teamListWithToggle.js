@@ -1,0 +1,53 @@
+import TeamListWithToggle from "@/app/[showStatus]/[showNameAndSeason]/contestants/teamListWithToggle";
+import { render, fireEvent } from "@testing-library/react";
+
+
+
+describe("ContestantsPageContent Component", () => {
+    it("should render the correct number of contestants", () => {
+        // setup
+        const mockContestantsData = [
+            { teamName: "Contestant 1" },
+            { teamName: "Contestant 2" },
+            { teamName: "Contestant 3" }
+        ];
+
+        const { getByText } = render(<TeamListWithToggle contestantsData={mockContestantsData}/>);
+
+        // assert
+        expect(getByText("Contestant 1")).toBeTruthy();
+        expect(getByText("Contestant 2")).toBeTruthy();
+        expect(getByText("Contestant 3")).toBeTruthy();
+    });
+
+    it("should toggle the elimination status", () => {
+        // setup
+        const mockContestantsData = [
+            { teamName: "Contestant 1", isParticipating: true },
+            { teamName: "Contestant 2", isParticipating: false },
+            { teamName: "Contestant 3", isParticipating: true }
+        ];
+
+        const { getByText, getByTestId } = render(<TeamListWithToggle contestantsData={mockContestantsData}/>);
+        
+        let contestant1Elm = getByText("Contestant 1");
+        let contestant2Elm = getByText("Contestant 2");
+        let contestant3Elm = getByText("Contestant 3");
+
+        // assert
+        expect(contestant1Elm.tagName).toBe("P");
+        expect(contestant2Elm.tagName).toBe("P");
+        expect(contestant3Elm.tagName).toBe("P");
+
+        const toggleBtn = getByTestId("test-checkboxToggle-contestant-elimination-status-toggle");
+        fireEvent.click(toggleBtn);
+        contestant1Elm = getByText("Contestant 1");
+        contestant2Elm = getByText("Contestant 2");
+        contestant3Elm = getByText("Contestant 3");
+
+        expect(contestant1Elm.tagName).toBe("P");
+        expect(contestant2Elm.tagName).toBe("S");
+        expect(contestant3Elm.tagName).toBe("P");
+
+    });
+});

@@ -33,6 +33,7 @@ export default function Round({
                     roundNumber={roundNumber}
                     eliminationOrder={eliminationOrder}
                     teamsEliminatedSoFar={teamsEliminatedSoFar}
+                    showEliminationStatus={true}
                 />
             </div>
             <div className="basis-1/2">
@@ -41,6 +42,7 @@ export default function Round({
                     roundNumber={roundNumber}
                     eliminationOrder={eliminationOrder}
                     teamsEliminatedSoFar={teamsEliminatedSoFar}
+                    showEliminationStatus={true}
                 />
             </div>
         </div>
