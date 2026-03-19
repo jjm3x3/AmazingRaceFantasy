@@ -17,7 +17,7 @@ describe("CheckboxToggle", ()=> {
         expect(getByTestId("test-checkboxToggle-test").nextElementSibling).toBe(getByTestId("test-checkboxToggle-label-test"));
     });
 
-    it("should toggle the checkbox", ()=> {
+    it("should toggle the checkbox", async ()=> {
         const { getByTestId } = render(<CheckboxToggle labelText="Test Label"
                                                         id="test"
                                                         checkboxPosition="left"
