@@ -25,7 +25,7 @@ describe("CheckboxToggle", ()=> {
         expect(getByTestId("test-checkboxToggle-test")).toBeTruthy();
         expect(getByTestId("test-checkboxToggle-test").checked).toBe(false);
         fireEvent.click(getByTestId("test-checkboxToggle-test"));
-        waitFor(()=> {
+        await waitFor(()=> {
             expect(getByTestId("test-checkboxToggle-test").checked).toBe(true);
         });
     });
