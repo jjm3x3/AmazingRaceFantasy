@@ -40,7 +40,7 @@ export default async function Contestants({ params }: {
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
 
     return (
-        <div>
+        <div className={styles.contestantsPageContainer}>
             <h1 className="text-2xl text-center">Contestants</h1>
             <p className={`text-lg text-center ${styles.contestantsCount}`}>{parsedFinal.length} {competitingEntityName}</p>
             <TeamListWithToggle playerData={contestantRoundData} contestantsData={parsedFinal}/>
