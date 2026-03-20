@@ -5,7 +5,6 @@ import CompetingEntity from "@/app/models/CompetingEntity"
 import League from "@/app/models/League";
 import { CheckboxToggle, Select } from "@/app/components/baseComponents";
 import TeamList from "@/app/components/teamList";
-import styles from "./teamListWithToggle.module.scss";
 
 type PlayerData = {
     userId: string,
@@ -57,12 +56,12 @@ export default function TeamListWithToggle({ playerData, contestantsData }: {
 
 
     return (
-        <div className={styles.teamListWithToggleContainer}>
+        <div>
             <Select labelText={defaultDataSelectOption.text} 
                 selectOptions={selectOptions} 
                 id="player-selector"
                 changeHandler={onSelectHandler}/>
-            <div className={`text-center ${styles.filterBar}`}>
+            <div>
                 <CheckboxToggle
                     id="contestant-elimination-status-toggle"
                     labelText="Show Elimination Status"
