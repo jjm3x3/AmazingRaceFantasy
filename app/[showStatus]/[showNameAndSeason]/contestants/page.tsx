@@ -1,4 +1,4 @@
-import styles from "./contestantsPageContent.module.scss";
+import styles from "./contestantsPage.module.scss";
 import { parseEntities } from "@/app/utils/entityParserSwitch"
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys, getContestantData } from "@/app/dataSources/dbFetch";

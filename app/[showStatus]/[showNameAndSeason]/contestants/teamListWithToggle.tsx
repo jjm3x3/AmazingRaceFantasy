@@ -5,7 +5,7 @@ import CompetingEntity from "@/app/models/CompetingEntity"
 import League from "@/app/models/League";
 import { CheckboxToggle, Select } from "@/app/components/baseComponents";
 import TeamList from "@/app/components/teamList";
-import styles from "./contestantsPageContent.module.scss";
+import styles from "./teamListWithToggle.module.scss";
 
 type PlayerData = {
     userId: string,
@@ -47,7 +47,7 @@ export default function TeamListWithToggle({ playerData, contestantsData }: {
         }
     }, []);
 
-    const onSelectHandler = (e)=> {
+    const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;
         const selectedOption = selectOptions.find(option => option.value === selectedValue);
         if (selectedOption) {
@@ -57,7 +57,7 @@ export default function TeamListWithToggle({ playerData, contestantsData }: {
 
 
     return (
-        <>
+        <div className={styles.teamListWithToggleContainer}>
             <Select labelText={defaultDataSelectOption.text} 
                 selectOptions={selectOptions} 
                 id="player-selector"
@@ -76,6 +76,6 @@ export default function TeamListWithToggle({ playerData, contestantsData }: {
                     showEliminationStatus={showEliminationStatus}
                 />
             </div>
-        </>
+        </div>
     );
 }
