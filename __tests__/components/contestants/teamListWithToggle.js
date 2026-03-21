@@ -100,7 +100,5 @@ describe("ContestantsPageContent Component", () => {
         expect(firstListElem.textContent).toBe("Contestant 2");
         expect(firstListElem.nextElementSibling.textContent).toBe("Contestant 3");
         expect(firstListElem.nextElementSibling.nextElementSibling?.textContent).toBe("Contestant 1");
-
-
     });
 });
