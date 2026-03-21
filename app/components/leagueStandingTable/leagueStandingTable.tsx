@@ -2,24 +2,13 @@ import { Table } from "../baseComponents";
 import { TableRowItem } from "../baseComponents/models/tableData";
 import styles from "./leagueStandingTable.module.scss";
 
-interface ContestantRoundData {
-    name: string,
-    roundScore: number,
-    totalScore: number
-}
-
 interface TableDataItem {
     round: number,
-    contestantRoundData: ContestantRoundData[]
-}
-
-interface TableHeaderItem {
-    key: string,
-    value: string
+    contestantRoundData: TableRowItem[]
 }
 
 export default async function LeagueStandingTable({ contestantsScores }:{ contestantsScores: TableDataItem[] }){
-    const tableColumnNames: TableHeaderItem[] = [{
+    const tableColumnNames: TableRowItem[] = [{
         key: "rank",
         value: "Rank"
     }, {
@@ -39,7 +28,7 @@ export default async function LeagueStandingTable({ contestantsScores }:{ contes
         rows: mostRecentScore.contestantRoundData
     };
 
-    tableData.rows.sort((a: ContestantRoundData, b: ContestantRoundData) => {
+    tableData.rows.sort((a: TableRowItem, b: TableRowItem) => {
         const aScore = a.totalScore;
         const bScore = b.totalScore;
         const sortIndicator = aScore > bScore ? -1 : 1;
