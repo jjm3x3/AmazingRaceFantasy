@@ -76,4 +76,31 @@ describe("ContestantsPageContent Component", () => {
         expect(contestant3Elm.tagName).toBe("P");
 
     });
+
+    it("should update the list with the selected contestant", () => {
+        // setup
+        const mockContestantsData = [
+            { teamName: "Contestant 1", isParticipating: true },
+            { teamName: "Contestant 2", isParticipating: false },
+            { teamName: "Contestant 3", isParticipating: true }
+        ];
+
+        const { getByTestId } = render(<TeamListWithToggle playerData={playerData} contestantsData={mockContestantsData}/>);
+        const selectEl = getByTestId("test-select-player-selector");
+        let contestantsList = getByTestId("team-list-container");
+        let firstListElem = contestantsList.firstElementChild.firstElementChild;
+
+        // assert
+        expect(firstListElem).toBeTruthy();
+        expect(firstListElem.textContent).toBe("Contestant 1");
+        expect(firstListElem.nextElementSibling.textContent).toBe("Contestant 2");
+        expect(firstListElem.nextElementSibling.nextElementSibling?.textContent).toBe("Contestant 3");
+        fireEvent.change(selectEl, { target: { value: "user-two" } });
+        firstListElem = contestantsList.firstElementChild.firstElementChild;
+        expect(firstListElem.textContent).toBe("Contestant 2");
+        expect(firstListElem.nextElementSibling.textContent).toBe("Contestant 3");
+        expect(firstListElem.nextElementSibling.nextElementSibling?.textContent).toBe("Contestant 1");
+
+
+    });
 });

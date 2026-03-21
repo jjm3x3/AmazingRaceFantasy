@@ -69,7 +69,7 @@ export default function TeamListWithToggle({ playerData, contestantsData }: {
                     checkboxPosition="left"
                 />
             </div>
-            <div className="text-center">
+            <div className="text-center" data-testid="team-list-container">
                 <TeamList
                     teamList={selectedContestant.teamList}
                     showEliminationStatus={showEliminationStatus}
