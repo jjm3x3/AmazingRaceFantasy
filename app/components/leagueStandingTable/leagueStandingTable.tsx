@@ -13,8 +13,25 @@ interface TableDataItem {
     contestantRoundData: ContestantRoundData[]
 }
 
+interface TableHeaderItem {
+    key: string,
+    value: string
+}
+
 export default async function LeagueStandingTable({ contestantsScores }:{ contestantsScores: TableDataItem[] }){
-    const tableColumnNames: string[] = ["Rank", "Name", "Score"];
+    const tableColumnNames: TableHeaderItem[] = [{
+        key: "rank",
+        value: "Rank"
+    }, {
+        key: "name",
+        value: "Name"
+    }, {
+        key: "roundScore",
+        value: "Round Score"
+    }, {
+        key: "totalScore",
+        value: "Total Score"
+    }];
     const defaultTableDataItem: TableDataItem = Object.create(null);
     const mostRecentScore = contestantsScores.at(-1) ?? defaultTableDataItem;
     const tableData = {
