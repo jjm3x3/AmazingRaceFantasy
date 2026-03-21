@@ -5,8 +5,10 @@ X Factor League provides a space to create fantasy leagues for reality game show
 ## Table of Contents
 
 1. [Getting Started](#getting-started)
-1. [Commands](#commands)
-1. [Seeding the Database](#seeding-db)
+    1. [Commands](#commands)
+    1. [Seeding the Database](#seeding-db)
+    1. [Operational Notes](#operational-notes)
+1. [Using The Site](#using-the-site)
 
 ## Getting Started
 <a name="getting-started"></a>
@@ -39,10 +41,12 @@ S3_BUCKET_NAME="league-data-nonprod-backup"
 - `npm run lint`: Runs our linter, built in ESLint. If you want to autofix the problems, run `npm run lint:fix`.
 
 
-### [Seeding The DB](#seeding-the-db)
-<a name="seeding-db"></a>
+### Seeding The DB
 
-Since we do not have authentication or authorization on the site for now, all data stored in the backend has been stored in source [see leagueData](https://github.com/jjm3x3/AmazingRaceFantasy/tree/main/app/leagueData) and in our database. We have created two new npm stages under the ["scripts" section of package.json](https://docs.npmjs.com/cli/v7/using-npm/scripts). They are `seed:dev` and `seed:prod`, which will run the [seedDb script](https://github.com/jjm3x3/AmazingRaceFantasy/blob/main/scripts/seedDb.mjs).
+Since we do not have authentication or authorization on the site for now, all data stored in the backend has been stored in source
+[see leagueData](https://github.com/jjm3x3/AmazingRaceFantasy/tree/main/app/leagueData) and in our database. We have created two
+new npm stages under the ["scripts" section of package.json](https://docs.npmjs.com/cli/v7/using-npm/scripts). They are `seed:dev`
+and `seed:prod`, which will run the [seedDb script](https://github.com/jjm3x3/AmazingRaceFantasy/blob/main/scripts/seedDb.mjs).
 
 #### How to run
 
@@ -56,6 +60,14 @@ Since we do not have authentication or authorization on the site for now, all da
 1. Run either `seed:dev` or `seed:prod` depending which you need. 
     1. These have different credentials. Make sure you have the appropriate ones.
     1. Make sure you seed prod before you deploy updated code to prod.
+
+### Operational Notes
+
+This is a small section to get some ideas about how the site may be configured to work.
+
+#### Config
+
+- Wikipedia calls are configured to cache for 3600s (or 1h)
 
 ## Using The Site
 
