@@ -1,6 +1,32 @@
 import TeamListWithToggle from "@/app/[showStatus]/[showNameAndSeason]/contestants/teamListWithToggle";
 import { render, fireEvent } from "@testing-library/react";
 
+const playerData = [{
+    userId: "user1",
+    name: "User One",
+    ranking: [
+        "Contestant 1",
+        "Contestant 2",
+        "Contestant 3"
+    ]
+}, {
+    userId: "user2",
+    name: "User Two",
+    ranking: [
+        "Contestant 2",
+        "Contestant 3",
+        "Contestant 1"
+    ]
+}, {
+    userId: "user3",
+    name: "User Three",
+    ranking: [
+        "Contestant 3",
+        "Contestant 1",
+        "Contestant 2"
+    ]
+}];
+
 
 
 describe("ContestantsPageContent Component", () => {
@@ -12,7 +38,7 @@ describe("ContestantsPageContent Component", () => {
             { teamName: "Contestant 3" }
         ];
 
-        const { getByText } = render(<TeamListWithToggle contestantsData={mockContestantsData}/>);
+        const { getByText } = render(<TeamListWithToggle playerData={playerData} contestantsData={mockContestantsData}/>);
 
         // assert
         expect(getByText("Contestant 1")).toBeTruthy();
@@ -28,7 +54,7 @@ describe("ContestantsPageContent Component", () => {
             { teamName: "Contestant 3", isParticipating: true }
         ];
 
-        const { getByText, getByTestId } = render(<TeamListWithToggle contestantsData={mockContestantsData}/>);
+        const { getByText, getByTestId } = render(<TeamListWithToggle playerData={playerData} contestantsData={mockContestantsData}/>);
         
         let contestant1Elm = getByText("Contestant 1");
         let contestant2Elm = getByText("Contestant 2");
