@@ -1,5 +1,5 @@
 import IRound from "./IRound";
-import IContestantRoundData from "./IContestantRoundData";
+import ContestantRoundData from "./ContestantRoundData";
 import CompetingEntity from "./CompetingEntity";
 import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders, convertNamesToTeamList } from "../utils/teamListUtils";
 
@@ -70,7 +70,7 @@ export default class League {
         contestantTeamsList: CompetingEntity[],
         contestantName: string,
         handicap: number,
-        addToRoundList: (_n: number, _eo: number, _cot: number, _crd: IContestantRoundData) => void
+        addToRoundList: (_n: number, _eo: number, _cot: number, _crd: ContestantRoundData) => void
     ): void {
 
         let grandTotal = handicap === undefined ? 0 : handicap;

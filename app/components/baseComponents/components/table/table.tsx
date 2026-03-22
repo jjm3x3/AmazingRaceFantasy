@@ -21,7 +21,7 @@ export default function Table({tableData, tableClassName}:{ tableData: TableData
         });
         headerRow = <thead><tr className={styles.tableHeaderRow}>{headerColumnNames}</tr></thead>;
     }
-    const tableRows = tableData.rows.map((tableRow: TableRowItem) => {
+    const tableRows = tableData.rows.map((tableRow) => {
         return getTableRow({columnNames: tableData.columnNames, tableRow});
     });
     let footerRow;

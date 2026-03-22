@@ -1,10 +1,11 @@
 import { Table } from "../baseComponents";
 import { TableRowItem } from "../baseComponents/models/tableData";
+import { ContestantRoundData } from "../../models/ContestantRoundData";
 import styles from "./leagueStandingTable.module.scss";
 
 interface TableDataItem {
     round: number,
-    contestantRoundData: TableRowItem[]
+    contestantRoundData: ContestantRoundData[]
 }
 
 export default async function LeagueStandingTable({ contestantsScores }:{ contestantsScores: TableDataItem[] }){
@@ -21,11 +22,13 @@ export default async function LeagueStandingTable({ contestantsScores }:{ contes
         key: "totalScore",
         value: "Total Score"
     }];
+
     const defaultTableDataItem: TableDataItem = Object.create(null);
     const mostRecentScore = contestantsScores.at(-1) ?? defaultTableDataItem;
+    const roundData = mostRecentScore.contestantRoundData as TableRowItem[];
     const tableData = {
         columnNames: tableColumnNames,
-        rows: mostRecentScore.contestantRoundData
+        rows: roundData
     };
 
     tableData.rows.sort((a: TableRowItem, b: TableRowItem) => {
