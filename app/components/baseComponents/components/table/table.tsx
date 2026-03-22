@@ -2,9 +2,9 @@ import { TableData, TableRowItem, TableFooterItem }  from "../../models/tableDat
 import styles from "./table.module.scss";
 
 const getTableRow = ({columnNames, tableRow}:{ columnNames: TableRowItem[], tableRow: TableRowItem })=> {
-    return <tr className={styles.tableRow}>{
+    return <tr className={styles.tableRow} key={`tableRow-${tableRow.name}`}>{
         columnNames.map((columnValue, index) => {
-            return <td key={`tableRow-${index}`} className={styles.tableCell}>{tableRow[columnValue.key]}</td>
+            return <td key={`tableRow-${tableRow.name}-${columnValue.key}-${index}`} className={styles.tableCell}>{tableRow[columnValue.key]}</td>
         })
     }</tr>;
 };
