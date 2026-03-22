@@ -1,7 +1,7 @@
 import Round from "./round";
 import CompetingEntity from "../models/CompetingEntity";
 import IRound from "../models/IRound";
-import ContestantRoundData from "../models/ContestantRoundData";
+import { ContestantRoundData } from "../models/ContestantRoundData";
 
 export default function ContestantRoundList({
     perfectRoundScores,
