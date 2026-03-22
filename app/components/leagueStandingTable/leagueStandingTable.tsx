@@ -25,7 +25,7 @@ export default async function LeagueStandingTable({ contestantsScores }:{ contes
 
     const defaultTableDataItem: TableDataItem = Object.create(null);
     const mostRecentScore = contestantsScores.at(-1) ?? defaultTableDataItem;
-    const roundData = mostRecentScore.contestantRoundData as TableRowItem[];
+    const roundData = mostRecentScore.contestantRoundData;
     const tableData = {
         columnNames: tableColumnNames,
         rows: roundData
