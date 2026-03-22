@@ -1,4 +1,4 @@
-import ContestantRoundData from "./ContestantRoundData";
+import { ContestantRoundData } from "./ContestantRoundData";
 
 export default interface IRound {
     round: number

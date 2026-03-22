@@ -1,5 +1,5 @@
 import IRound from "./IRound";
-import ContestantRoundData from "./ContestantRoundData";
+import { ContestantRoundData } from "./ContestantRoundData";
 import CompetingEntity from "./CompetingEntity";
 import { shouldBeScored, getNumberOfTeamsToEliminate, getRoundEliminationOrderMapping, getUniqueEliminationOrders, convertNamesToTeamList } from "../utils/teamListUtils";
 
