@@ -31,14 +31,14 @@ export default async function LeagueStandingTable({ contestantsScores }:{ contes
         rows: roundData
     };
 
-    tableData.rows.sort((a: TableRowItem, b: TableRowItem) => {
+    tableData.rows.sort((a: ContestantRoundData, b: ContestantRoundData) => {
         const aScore = a.totalScore;
         const bScore = b.totalScore;
         const sortIndicator = aScore > bScore ? -1 : 1;
         return sortIndicator;
     });
 
-    tableData.rows.map((tableRow: TableRowItem, index: number) => {
+    tableData.rows.map((tableRow: ContestantRoundData, index: number) => {
         const tableRowWithRank = tableRow;
         tableRowWithRank["rank"] = index + 1;
         return tableRowWithRank;
