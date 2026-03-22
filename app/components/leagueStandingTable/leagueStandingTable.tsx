@@ -1,6 +1,6 @@
 import { Table } from "../baseComponents";
 import { TableRowItem } from "../baseComponents/models/tableData";
-import { ContestantRoundData } from "../../models/ContestantRoundData";
+import { ContestantRoundData } from "@/app/models/ContestantRoundData";
 import styles from "./leagueStandingTable.module.scss";
 
 interface TableDataItem {
