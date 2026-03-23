@@ -12,14 +12,14 @@ const getTableRow = ({columnNames, tableRow}:{ columnNames: TableRowItem[], tabl
 export default function Table({tableData, tableClassName}:{ tableData: TableData, tableClassName?:string }){
     let headerRow;
     if(tableData.columnNames){
-        const headerColumnNames = tableData.columnNames.map((columnValue: TableRowItem, index: number) => {
+        const columnHeaderItem = tableData.columnNames.map((columnValue: TableRowItem, index: number) => {
             return <th className={styles.tableCell} 
                 key={`headerTableCol-${index}`}
                 scope="col">
                 <strong>{columnValue.value}</strong>
             </th>
         });
-        headerRow = <thead><tr className={styles.tableHeaderRow}>{headerColumnNames}</tr></thead>;
+        headerRow = <thead><tr className={styles.tableHeaderRow}>{columnHeaderItem}</tr></thead>;
     }
     const tableRows = tableData.rows.map((tableRow) => {
         return getTableRow({columnNames: tableData.columnNames, tableRow});
