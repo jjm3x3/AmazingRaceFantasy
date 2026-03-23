@@ -30,11 +30,12 @@ export default function TeamListWithToggle({ playerData, contestantsData }: {
     useEffect(() => {
         const fetchData = async () => {
             const playerDataSelectOptions = playerData.map(contestant => {
+                const computerFriendlyName = contestant.name.toLowerCase().replace(/\s/g, "-")
                 return {
-                    key: contestant.name.toLowerCase().replace(/\s/g, "-"),
+                    key: computerFriendlyName,
                     text: contestant.name,
-                    value: contestant.name.toLowerCase().replace(/\s/g, "-"),
-                    id: contestant.name.toLowerCase().replace(/\s/g, "-"),
+                    value: computerFriendlyName,
+                    id: computerFriendlyName,
                     teamList: league.getTeamList(contestant.ranking)
                 }
             });
