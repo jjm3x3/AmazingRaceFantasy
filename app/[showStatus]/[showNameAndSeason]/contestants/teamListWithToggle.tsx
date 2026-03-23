@@ -6,7 +6,7 @@ import League from "@/app/models/League";
 import { CheckboxToggle, Select } from "@/app/components/baseComponents";
 import TeamList from "@/app/components/teamList";
 
-type PlayerData = {
+interface PlayerData {
     userId: string,
     name: string,
     ranking: string[]
