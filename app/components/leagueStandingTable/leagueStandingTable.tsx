@@ -40,7 +40,7 @@ export default async function LeagueStandingTable({ contestantsScores }:{ contes
 
     tableData.rows.map((tableRow: ContestantRoundData, index: number) => {
         const tableRowWithRank = tableRow;
-        tableRowWithRank["rank"] = index + 1;
+        tableRowWithRank.rank = index + 1;
         return tableRowWithRank;
     });
 
