@@ -4,15 +4,12 @@ export interface TableFooterItem {
 }
 
 export interface TableRowItem {
-    rank?: number,
-    name: string,
-    totalScore: number,
-    roundScore?: number
+    [key: string]: string | number
 }
 
 export interface TableData {
     caption?: string, 
-    columnNames: Array<string>,
+    columnNames: TableRowItem[],
     rows: TableRowItem[],
     tableFooterContent?: TableFooterItem[]
 }

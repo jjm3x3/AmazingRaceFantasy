@@ -1,12 +1,7 @@
 import { Table } from "../baseComponents";
 import { TableRowItem } from "../baseComponents/models/tableData";
+import { ContestantRoundData } from "@/app/models/ContestantRoundData";
 import styles from "./leagueStandingTable.module.scss";
-
-interface ContestantRoundData {
-    name: string,
-    roundScore: number,
-    totalScore: number
-}
 
 interface TableDataItem {
     round: number,
@@ -14,12 +9,26 @@ interface TableDataItem {
 }
 
 export default async function LeagueStandingTable({ contestantsScores }:{ contestantsScores: TableDataItem[] }){
-    const tableColumnNames: string[] = ["Rank", "Name", "Score"];
+    const tableColumnNames: TableRowItem[] = [{
+        key: "rank",
+        value: "Rank"
+    }, {
+        key: "name",
+        value: "Name"
+    }, {
+        key: "roundScore",
+        value: "Round Score"
+    }, {
+        key: "totalScore",
+        value: "Total Score"
+    }];
+
     const defaultTableDataItem: TableDataItem = Object.create(null);
     const mostRecentScore = contestantsScores.at(-1) ?? defaultTableDataItem;
+    const roundData = mostRecentScore.contestantRoundData;
     const tableData = {
         columnNames: tableColumnNames,
-        rows: mostRecentScore.contestantRoundData
+        rows: roundData
     };
 
     tableData.rows.sort((a: ContestantRoundData, b: ContestantRoundData) => {
@@ -29,11 +38,21 @@ export default async function LeagueStandingTable({ contestantsScores }:{ contes
         return sortIndicator;
     });
 
-    tableData.rows.map((tableRow: TableRowItem, index: number) => {
+    tableData.rows.map((tableRow: ContestantRoundData, index: number) => {
         const tableRowWithRank = tableRow;
-        tableRowWithRank["rank"] = index + 1;
+        tableRowWithRank.rank = index + 1;
         return tableRowWithRank;
     });
 
-    return <Table tableClassName={`flex-auto ${styles.table}`} tableData={tableData}/>;
+    const finalTableData = {
+        columnNames: tableColumnNames,
+        rows: tableData.rows.map((row) => ({
+            rank: row.rank,
+            name: row.name,
+            roundScore: row.roundScore,
+            totalScore: row.totalScore
+        })) as TableRowItem[]
+    };
+
+    return <Table tableClassName={`flex-auto ${styles.table}`} tableData={finalTableData}/>;
 }
