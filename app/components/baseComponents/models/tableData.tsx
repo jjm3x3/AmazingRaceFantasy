@@ -3,7 +3,7 @@ export interface TableFooterItem {
     cellWidth: number
 }
 
-export type TableRowItem = {
+export interface TableRowItem {
     [key: string]: string | number
 }
 
