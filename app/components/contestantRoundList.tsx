@@ -1,7 +1,7 @@
 import Round from "./round";
 import CompetingEntity from "../models/CompetingEntity";
 import IRound from "../models/IRound";
-import IContestantRoundData from "../models/IContestantRoundData";
+import { ContestantRoundData } from "../models/ContestantRoundData";
 
 export default function ContestantRoundList({
     perfectRoundScores,
@@ -24,12 +24,12 @@ export default function ContestantRoundList({
                     console.warn("Something is wrong that the rounds are out of order");
                 }
 
-                const perfectRound = round.contestantRoundData.filter((x: IContestantRoundData) => x.name === "*perfect*")[0];
+                const perfectRound = round.contestantRoundData.filter((x: ContestantRoundData) => x.name === "*perfect*")[0];
                 const perfectScore = perfectRound.roundScore;
                 const grandTotal = perfectRound.totalScore;
 
                 const contestantRound = contestantRoundScores[roundNumber]; // check round number
-                const filteredContestantRound = contestantRound.contestantRoundData.filter((x: IContestantRoundData) => x.name === contestantName)[0];
+                const filteredContestantRound = contestantRound.contestantRoundData.filter((x: ContestantRoundData) => x.name === contestantName)[0];
                 const contestantRoundScore = filteredContestantRound.roundScore;
                 const contestantGrandTotal = filteredContestantRound.totalScore;
 

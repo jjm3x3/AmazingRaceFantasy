@@ -50,7 +50,7 @@ export function getWikipediaContestantDataFetcher(wikiUrl: string, contestantSec
 }
 
 async function fetchWikipediaSections(wikiUrl: string): Promise<ParseResult> {
-    const response = await fetch(wikiUrl);
+    const response = await fetch(wikiUrl, { next: { revalidate: 3600 } });
     if (!response.ok) {
         console.error(`There was an non 200 status code (${response.status}) getting wikipedia sections for page: '${wikiUrl}'`);
     }
