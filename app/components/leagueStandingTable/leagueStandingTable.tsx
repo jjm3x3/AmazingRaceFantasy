@@ -44,5 +44,15 @@ export default async function LeagueStandingTable({ contestantsScores }:{ contes
         return tableRowWithRank;
     });
 
-    return <Table tableClassName={`flex-auto ${styles.table}`} tableData={tableData}/>;
+    const finalTableData = {
+        columnNames: tableColumnNames,
+        rows: tableData.rows.map((row) => ({
+            rank: row.rank,
+            name: row.name,
+            roundScore: row.roundScore,
+            totalScore: row.totalScore
+        })) as TableRowItem[]
+    };
+
+    return <Table tableClassName={`flex-auto ${styles.table}`} tableData={finalTableData}/>;
 }
