@@ -38,6 +38,7 @@ export default async function Contestants({ params }: {
     // To understand better, see: https://stackoverflow.com/questions/77091418/warning-only-plain-objects-can-be-passed-to-client-components-from-server-compo
     const parsedFinal = JSON.parse(JSON.stringify(randomizedContestants));
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
+    
 
     return (
         <div className={styles.contestantsPageContainer}>

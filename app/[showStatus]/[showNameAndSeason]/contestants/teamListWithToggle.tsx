@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CompetingEntity from "@/app/models/CompetingEntity"
 import League from "@/app/models/League";
 import { CheckboxToggle, Select } from "@/app/components/baseComponents";
@@ -25,27 +25,18 @@ export default function TeamListWithToggle({ playerData, contestantsData }: {
         teamList: contestantsData
     }
     const [selectedContestant, setSelectedContestant] = useState(defaultDataSelectOption);
-    const [selectOptions, setSelectedOptions] = useState([defaultDataSelectOption]);
     const league = new League(contestantsData);
-    useEffect(() => {
-        const fetchData = async () => {
-            const playerDataSelectOptions = playerData.map(contestant => {
-                const computerFriendlyName = contestant.name.toLowerCase().replace(/\s/g, "-")
-                return {
-                    key: computerFriendlyName,
-                    text: contestant.name,
-                    value: computerFriendlyName,
-                    id: computerFriendlyName,
-                    teamList: league.getTeamList(contestant.ranking)
-                }
-            });
-            const allSelectOptions = [defaultDataSelectOption, ...playerDataSelectOptions];
-            setSelectedOptions(allSelectOptions);
+    const playerDataSelectOptions = playerData.map(contestant => {
+        const computerFriendlyName = contestant.name.toLowerCase().replace(/\s/g, "-")
+        return {
+            key: computerFriendlyName,
+            text: contestant.name,
+            value: computerFriendlyName,
+            id: computerFriendlyName,
+            teamList: league.getTeamList(contestant.ranking)
         }
-        if(selectOptions.length === 1){
-            fetchData();
-        }
-    }, []);
+    });
+    const selectOptions = [defaultDataSelectOption, ...playerDataSelectOptions];
 
     const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;
