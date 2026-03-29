@@ -40,6 +40,10 @@ function constructPageInformation(leagueConfigurationKey:string){
     }
 }
 
+export function getLeagueDetailsPath(pageInformation:PageInformation){
+    return `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/league-details`;
+}
+
 function generateContestantSubpage(pageInformation:PageInformation){
     const subpages:Array<ISubpage> = [];
     subpages.push({
