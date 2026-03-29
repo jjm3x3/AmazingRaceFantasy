@@ -1,14 +1,6 @@
+import IPage from "@/app/models/IPage";
+import ISubpage from "@/app/models/ISubpage";
 import { getLeagueConfigurationKeys, hasContestantData } from "../dataSources/dbFetch";
-
-interface ILeagueLink {
-    name: string
-    subpages: IPage[]
-}
-
-interface IPage {
-    name: string
-    path: string
-}
 
 interface PageInformation {
     showStatus: string, 
