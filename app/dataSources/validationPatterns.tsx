@@ -2,8 +2,8 @@ import * as z from "zod/v4";
 
 const validationPattern = {
     wikiPageUrl: {
-        zod: z.string().regex(/^[a-zA-Z()_0-9]+$/),
-        string: "^[a-zA-Z()_0-9]+$"
+        zod: z.string().regex(/^[a-zA-Z:()_0-9]+$/),
+        string: "^[a-zA-Z:()_0-9]+$"
     },
     googleSheetUrl: {
         zod: z.url({
