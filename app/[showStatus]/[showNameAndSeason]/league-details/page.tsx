@@ -34,7 +34,7 @@ export default async function LeagueDetails({ params }: {
             <dl className="mx-auto max-w-3xl grid grid-cols-1 gap-2 text-sm" data-testid="league-details-configuration">
                 {Object.entries(leagueConfigurationData).map(([key, value]) => (
                     <div key={key} className="grid grid-cols-4 gap-2 p-2 border rounded">
-                        <dt className="col-span-1 font-semibold text-gray-700">{key}</dt>
+                        <dt className="col-span-1 font-semibold text-gray-700 break-words">{key}</dt>
                         <dd className="col-span-3 text-gray-900 break-words">{value ? value.toString() : "(none)"}</dd>
                     </div>
                 ))}
