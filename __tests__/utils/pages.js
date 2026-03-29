@@ -117,6 +117,8 @@ describe("pages getShowPages", () =>  {
         expect(bigBrotherSubpages.length).toBe(1);
         expect(bigBrotherSubpages[0].name).toBe("Contestants");
         expect(bigBrotherSubpages[0].path).toBe("/active/big-brother-26/contestants");
+        expect(pages[0].detailsPath).toBe("/active/big-brother-26/league-details");
+
         const amazingRaceSubpages = pages[1].subpages;
         expect(amazingRaceSubpages.length).toBe(3);
         expect(amazingRaceSubpages[0].name).toBe("Contestants");
