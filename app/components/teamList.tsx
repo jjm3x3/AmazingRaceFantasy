@@ -22,7 +22,7 @@ export default function TeamList({
                 competingEntityElement = (shouldBeScored(teamList, t, eliminationOrder, teamsEliminatedSoFar) && showEliminationStatus) ? t.friendlyName() : <s>{t.friendlyName()}</s>;
             }
             const teamKey = t.teamName + (roundNumber ? roundNumber : index);
-            return (<Fragment key={"teamStanding"+t.teamName+roundNumber}>
+            return (<Fragment key={"teamStanding"+t.teamName+(roundNumber ? roundNumber : index)}>
                 <p key={teamKey}>
                     {competingEntityElement}
                 </p>

@@ -4,6 +4,7 @@ import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys, getContestantData } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
 import TeamListWithToggle from "./teamListWithToggle";
+import League from "@/app/models/League";
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
 
@@ -38,13 +39,24 @@ export default async function Contestants({ params }: {
     // To understand better, see: https://stackoverflow.com/questions/77091418/warning-only-plain-objects-can-be-passed-to-client-components-from-server-compo
     const parsedFinal = JSON.parse(JSON.stringify(randomizedContestants));
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
+    const league = new League(parsedFinal);
+    const playerDataSelectOptions = contestantRoundData.map(contestant => {
+        const computerFriendlyName = contestant.name.toLowerCase().replace(/\s/g, "-")
+        return {
+            key: computerFriendlyName,
+            text: contestant.name,
+            value: computerFriendlyName,
+            id: computerFriendlyName,
+            teamList: league.getTeamList(contestant.ranking)
+        }
+    });
     
 
     return (
         <div className={styles.contestantsPageContainer}>
             <h1 className="text-2xl text-center">Contestants</h1>
             <p className={`text-lg text-center ${styles.contestantsCount}`}>{parsedFinal.length} {competitingEntityName}</p>
-            <TeamListWithToggle playerData={contestantRoundData} contestantsData={parsedFinal}/>
+            <TeamListWithToggle playerData={playerDataSelectOptions} contestantsData={parsedFinal}/>
             <div>
                 <p>
                     Data provided by <a className="standard-link" href={wikiPageUrl}>Wikipedia</a> for this season of {friendlyShowName}

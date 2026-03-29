@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import CompetingEntity from "@/app/models/CompetingEntity"
-import League from "@/app/models/League";
 import { CheckboxToggle, Select } from "@/app/components/baseComponents";
 import TeamList from "@/app/components/teamList";
 
 interface PlayerData {
-    userId: string,
-    name: string,
-    ranking: string[]
+    key: string,
+    text: string,
+    value: string,
+    id: string,
+    teamList: CompetingEntity[]
 }
 
 export default function TeamListWithToggle({ playerData, contestantsData }: { 
@@ -25,18 +26,7 @@ export default function TeamListWithToggle({ playerData, contestantsData }: {
         teamList: contestantsData
     }
     const [selectedContestant, setSelectedContestant] = useState(defaultDataSelectOption);
-    const league = new League(contestantsData);
-    const playerDataSelectOptions = playerData.map(contestant => {
-        const computerFriendlyName = contestant.name.toLowerCase().replace(/\s/g, "-")
-        return {
-            key: computerFriendlyName,
-            text: contestant.name,
-            value: computerFriendlyName,
-            id: computerFriendlyName,
-            teamList: league.getTeamList(contestant.ranking)
-        }
-    });
-    const selectOptions = [defaultDataSelectOption, ...playerDataSelectOptions];
+    const selectOptions = [defaultDataSelectOption, ...playerData];
 
     const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;

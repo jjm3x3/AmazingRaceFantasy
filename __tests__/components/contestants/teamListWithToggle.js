@@ -1,26 +1,32 @@
 import TeamListWithToggle from "@/app/[showStatus]/[showNameAndSeason]/contestants/teamListWithToggle";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 
 const playerData = [{
-    userId: "user1",
-    name: "User One",
-    ranking: [
+    key: "user1",
+    value: "user1",
+    id: "user1",
+    text: "User One",
+    teamList: [
         "Contestant 1",
         "Contestant 2",
         "Contestant 3"
     ]
 }, {
-    userId: "user2",
-    name: "User Two",
-    ranking: [
+    key: "user2",
+    value: "user2",
+    id: "user2",
+    text: "User Two",
+    teamList: [
         "Contestant 2",
         "Contestant 3",
         "Contestant 1"
     ]
 }, {
-    userId: "user3",
-    name: "User Three",
-    ranking: [
+    key: "user3",
+    value: "user3",
+    id: "user3",
+    text: "User Three",
+    teamList: [
         "Contestant 3",
         "Contestant 1",
         "Contestant 2"
@@ -30,6 +36,10 @@ const playerData = [{
 
 
 describe("ContestantsPageContent Component", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should render the correct number of contestants", () => {
         // setup
         const mockContestantsData = [
@@ -67,13 +77,15 @@ describe("ContestantsPageContent Component", () => {
 
         const toggleBtn = getByTestId("test-checkboxToggle-contestant-elimination-status-toggle");
         fireEvent.click(toggleBtn);
-        contestant1Elm = getByText("Contestant 1");
-        contestant2Elm = getByText("Contestant 2");
-        contestant3Elm = getByText("Contestant 3");
-
-        expect(contestant1Elm.tagName).toBe("P");
-        expect(contestant2Elm.tagName).toBe("S");
-        expect(contestant3Elm.tagName).toBe("P");
+        waitFor(() => {
+            contestant1Elm = getByText("Contestant 1");
+            contestant2Elm = getByText("Contestant 2");
+            contestant3Elm = getByText("Contestant 3");
+    
+            expect(contestant1Elm.tagName).toBe("P");
+            expect(contestant2Elm.tagName).toBe("S");
+            expect(contestant3Elm.tagName).toBe("P");
+        });
 
     });
 
@@ -95,10 +107,15 @@ describe("ContestantsPageContent Component", () => {
         expect(firstListElem.textContent).toBe("Contestant 1");
         expect(firstListElem.nextElementSibling.textContent).toBe("Contestant 2");
         expect(firstListElem.nextElementSibling.nextElementSibling?.textContent).toBe("Contestant 3");
-        fireEvent.change(selectEl, { target: { value: "user-two" } });
+
+        fireEvent.change(selectEl, { target: { value: "user2" } });
+        contestantsList = getByTestId("team-list-container");
         firstListElem = contestantsList.firstElementChild.firstElementChild;
-        expect(firstListElem.textContent).toBe("Contestant 2");
-        expect(firstListElem.nextElementSibling.textContent).toBe("Contestant 3");
-        expect(firstListElem.nextElementSibling.nextElementSibling?.textContent).toBe("Contestant 1");
+
+        waitFor(() => {
+            expect(firstListElem.textContent).toBe("Contestant 2");
+            expect(firstListElem.nextElementSibling.textContent).toBe("Contestant 3");
+            expect(firstListElem.nextElementSibling.nextElementSibling?.textContent).toBe("Contestant 1");
+        });
     });
 });
