@@ -180,7 +180,6 @@ describe("LeagueConfigurationForm", ()=> {
 
         fireEvent.change(wikiPageNameElm, {target: { value: "abc123:ABC:()_12309" }});
 
-        // assert
         await waitFor(()=> {
             wikiPageNameElm = getByTestId("test-input-wikiPageName");
             expect(wikiPageNameElm).toBeValid();
