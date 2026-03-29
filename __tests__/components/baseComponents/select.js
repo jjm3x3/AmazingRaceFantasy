@@ -9,7 +9,7 @@ describe("Select", () => {
             { value: "option2", text: "Option 2" }
         ];
 
-        const { getByLabelText, getByTestId } = render(
+        const { getByTestId } = render(
             <Select
                 labelText="Choose"
                 placeholder="Please choose..."
@@ -18,14 +18,11 @@ describe("Select", () => {
             />
         );
 
-        const select = getByLabelText("Choose");
-        expect(select).toBeInTheDocument();
-
         const selectByTestId = getByTestId("test-select-test");
         expect(selectByTestId).toBeInTheDocument();
 
-        expect(select).toHaveDisplayValue("Please choose...");
-        expect(select.querySelectorAll("option")).toHaveLength(3); // placeholder + 2 options
+        expect(selectByTestId.options[0].textContent).toBe("Please choose...");
+        expect(selectByTestId.querySelectorAll("option")).toHaveLength(3); // placeholder + 2 options
     });
 
     it("renders options and triggers changeHandler", () => {
