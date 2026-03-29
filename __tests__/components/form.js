@@ -151,17 +151,27 @@ describe("LeagueConfigurationForm", ()=> {
     });
 
     it("should have inline error where the input doesn't validate", async ()=> {
-        const { getByTestId } = render(<LeagueConfigurationForm/>);
+        const { queryByTestId, getByTestId } = render(<LeagueConfigurationForm/>);
 
         // act
-        const wikiPageNameElm = getByTestId("test-input-wikiPageName");
+        let wikiPageNameElm = getByTestId("test-input-wikiPageName");
         fireEvent.change(wikiPageNameElm, {target: { value: "12#$ABC_+)(" }});
 
         // assert
         await waitFor(()=> {
             expect(getByTestId("test-label-wikiPageName-errorMsg")).toBeTruthy();
             expect(wikiPageNameElm).toBeInvalid();
-        })
+        });
+
+        // act;
+        fireEvent.change(wikiPageNameElm, {target: { value: "abc123:ABC" }});
+
+        // assert
+        await waitFor(()=> {
+            wikiPageNameElm = getByTestId("test-input-wikiPageName");
+            expect(wikiPageNameElm).toBeValid();
+            expect(queryByTestId("test-label-wikiPageName-errorMsg")).not.toBeTruthy();
+        });
     });
     
     it("should display error when form submission fails", async ()=> {
