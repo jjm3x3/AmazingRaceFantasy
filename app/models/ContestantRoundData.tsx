@@ -1,4 +1,4 @@
-export type ContestantRoundData = {
+export interface ContestantRoundData {
     name: string
     roundScore: number
     totalScore: number
