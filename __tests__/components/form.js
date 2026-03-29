@@ -151,7 +151,7 @@ describe("LeagueConfigurationForm", ()=> {
     });
 
     it("should have inline error where the input doesn't validate", async ()=> {
-        const { queryByTestId, getByTestId } = render(<LeagueConfigurationForm/>);
+        const { getByTestId } = render(<LeagueConfigurationForm/>);
 
         // act
         let wikiPageNameElm = getByTestId("test-input-wikiPageName");
@@ -162,9 +162,23 @@ describe("LeagueConfigurationForm", ()=> {
             expect(getByTestId("test-label-wikiPageName-errorMsg")).toBeTruthy();
             expect(wikiPageNameElm).toBeInvalid();
         });
+    });
 
-        // act;
+    it("should validate with allowed special characters", async ()=> {
+        const { queryByTestId, getByTestId } = render(<LeagueConfigurationForm/>);
+
+        // act
+        let wikiPageNameElm = getByTestId("test-input-wikiPageName");
         fireEvent.change(wikiPageNameElm, {target: { value: "abc123:ABC" }});
+
+        // assert
+        await waitFor(()=> {
+            wikiPageNameElm = getByTestId("test-input-wikiPageName");
+            expect(wikiPageNameElm).toBeValid();
+            expect(queryByTestId("test-label-wikiPageName-errorMsg")).not.toBeTruthy();
+        });
+
+        fireEvent.change(wikiPageNameElm, {target: { value: "abc123:ABC:()_12309" }});
 
         // assert
         await waitFor(()=> {
