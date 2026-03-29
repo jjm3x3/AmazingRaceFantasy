@@ -1,14 +1,6 @@
+import IPage from "@/app/models/IPage";
+import ISubpage from "@/app/models/ISubpage";
 import { getLeagueConfigurationKeys, hasContestantData } from "../dataSources/dbFetch";
-
-interface ILeagueLink {
-    name: string
-    subpages: IPage[]
-}
-
-interface IPage {
-    name: string
-    path: string
-}
 
 interface PageInformation {
     showStatus: string, 
@@ -35,7 +27,7 @@ function constructPageInformation(leagueConfigurationKey:string){
 }
 
 function generateContestantSubpage(pageInformation:PageInformation){
-    const subpages:Array<IPage> = [];
+    const subpages:Array<ISubpage> = [];
     subpages.push({
         name: "Contestants",
         path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/contestants`
@@ -44,7 +36,7 @@ function generateContestantSubpage(pageInformation:PageInformation){
 }
 
 function generateScoringAndLeagueSubpages(pageInformation:PageInformation){
-    const subpages:Array<IPage> = [];
+    const subpages:Array<ISubpage> = [];
     const scoringSubpage = {
         name: "Scoring",
         path: `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/scoring`
@@ -57,7 +49,7 @@ function generateScoringAndLeagueSubpages(pageInformation:PageInformation){
     return subpages;
 }
 
-function generatePathObj(pageData:PageInformation, subpages: Array<IPage>){
+function generatePathObj(pageData:PageInformation, subpages: Array<ISubpage>){
     if(pageData.showStatus === "active"){
         pageData.friendlyName = `Current (${pageData.friendlyName})`
     }
@@ -67,17 +59,17 @@ function generatePathObj(pageData:PageInformation, subpages: Array<IPage>){
     }
 }
 
-export async function getShowPages(): Promise<ILeagueLink[]> {
+export async function getShowPages(): Promise<IPage[]> {
     // Based on availability in leagueConfiguration
     const leagueConfigurationKeys = await getLeagueConfigurationKeys();
-    const activeLeaguePaths:Array<ILeagueLink> = [];
-    const archiveLeaguePaths:Array<ILeagueLink> = [];
+    const activeLeaguePaths:Array<IPage> = [];
+    const archiveLeaguePaths:Array<IPage> = [];
     for(const leagueConfigurationKey of leagueConfigurationKeys){
         const pageData: PageInformation = constructPageInformation(leagueConfigurationKey);
         const contestantDataExists = await hasContestantData(pageData.contestantDataKey);
-        let subpages:Array<IPage> = generateContestantSubpage(pageData);
+        let subpages:Array<ISubpage> = generateContestantSubpage(pageData);
         if(contestantDataExists){
-            const contestantDataExistsSubpages:Array<IPage> = generateScoringAndLeagueSubpages(pageData);
+            const contestantDataExistsSubpages:Array<ISubpage> = generateScoringAndLeagueSubpages(pageData);
             subpages = subpages.concat(contestantDataExistsSubpages);
         }
         const pathObj = generatePathObj(pageData, subpages);
@@ -89,7 +81,7 @@ export async function getShowPages(): Promise<ILeagueLink[]> {
             archiveLeaguePaths.push(pathObj);
         }
     }
-    const paths:Array<ILeagueLink> = [...activeLeaguePaths,...archiveLeaguePaths];
+    const paths:Array<IPage> = [...activeLeaguePaths,...archiveLeaguePaths];
     return paths;
 }
 
