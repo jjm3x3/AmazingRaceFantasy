@@ -2,17 +2,48 @@
 
 import { useState } from "react";
 import CompetingEntity from "@/app/models/CompetingEntity"
-import CheckboxToggle from "@/app/components/baseComponents/components/inputs/checkboxToggle/checkboxToggle";
+import { CheckboxToggle, Select } from "@/app/components/baseComponents";
 import TeamList from "@/app/components/teamList";
-import styles from "./contestantsPageContent.module.scss";
 
-export default function TeamListWithToggle({ contestantsData }: { 
+interface PlayerData {
+    key: string,
+    text: string,
+    value: string,
+    id: string,
+    teamList: CompetingEntity[]
+}
+
+export default function TeamListWithToggle({ playerData, contestantsData }: { 
+    playerData: PlayerData[],
     contestantsData: CompetingEntity[]
 }) {
     const [showEliminationStatus, setShowEliminationStatus] = useState(false);
+    const defaultDataSelectOption = {
+        value: "default",
+        text: "Select a contestant",
+        id: "default",
+        key: "default",
+        teamList: contestantsData
+    }
+    const [selectedContestant, setSelectedContestant] = useState(defaultDataSelectOption);
+    const selectOptions = [defaultDataSelectOption, ...playerData];
+
+    const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = e.target.value;
+        const selectedOption = selectOptions.find(option => option.value === selectedValue);
+        if (selectedOption) {
+            setSelectedContestant(selectedOption);
+        }
+    }
+
+
     return (
-        <>
-            <div className={`text-center ${styles.filterBar}`}>
+        <div>
+            <Select labelText={defaultDataSelectOption.text} 
+                selectOptions={selectOptions} 
+                id="player-selector"
+                changeHandler={onSelectHandler}/>
+            <div>
                 <CheckboxToggle
                     id="contestant-elimination-status-toggle"
                     labelText="Show Elimination Status"
@@ -20,12 +51,12 @@ export default function TeamListWithToggle({ contestantsData }: {
                     checkboxPosition="left"
                 />
             </div>
-            <div className="text-center">
+            <div className="text-center" data-testid="team-list-container">
                 <TeamList
-                    teamList={contestantsData}
+                    teamList={selectedContestant.teamList}
                     showEliminationStatus={showEliminationStatus}
                 />
             </div>
-        </>
+        </div>
     );
 }

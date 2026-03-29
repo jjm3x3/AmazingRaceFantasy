@@ -1,9 +1,10 @@
-import styles from "./contestantsPageContent.module.scss";
+import styles from "./contestantsPage.module.scss";
 import { parseEntities } from "@/app/utils/entityParserSwitch"
 import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
-import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
+import { getLeagueConfigurationData, getLeagueConfigurationKeys, getContestantData } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
 import TeamListWithToggle from "./teamListWithToggle";
+import League from "@/app/models/League";
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
 
@@ -28,22 +29,34 @@ export default async function Contestants({ params }: {
     const friendlyShowName = showAndSeasonArr.join(" ");
     // "Dynamically" (still static site generated) retrieving modules
     const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
-    const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName } = leagueConfigurationData;
+    const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName, contestantLeagueDataKeyPrefix } = leagueConfigurationData;
 
     const wikiContestants = await getWikipediaContestantData(wikiApiUrl, castPhrase);
 
     const final = parseEntities(wikiContestants, showName);
     const randomizedContestants = [...final].sort(() => Math.random() - 0.5);
-
     // This is a workaround to ensure the data is serializable and can be passed to a client-side component.
     // To understand better, see: https://stackoverflow.com/questions/77091418/warning-only-plain-objects-can-be-passed-to-client-components-from-server-compo
     const parsedFinal = JSON.parse(JSON.stringify(randomizedContestants));
+    const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
+    const league = new League(parsedFinal);
+    const playerDataSelectOptions = contestantRoundData.map(contestant => {
+        const computerFriendlyName = contestant.name.toLowerCase().replace(/\s/g, "-")
+        return {
+            key: computerFriendlyName,
+            text: contestant.name,
+            value: computerFriendlyName,
+            id: computerFriendlyName,
+            teamList: league.getTeamList(contestant.ranking)
+        }
+    });
+    
 
     return (
-        <div>
+        <div className={styles.contestantsPageContainer}>
             <h1 className="text-2xl text-center">Contestants</h1>
             <p className={`text-lg text-center ${styles.contestantsCount}`}>{parsedFinal.length} {competitingEntityName}</p>
-            <TeamListWithToggle contestantsData={parsedFinal}/>
+            <TeamListWithToggle playerData={playerDataSelectOptions} contestantsData={parsedFinal}/>
             <div>
                 <p>
                     Data provided by <a className="standard-link" href={wikiPageUrl}>Wikipedia</a> for this season of {friendlyShowName}
