@@ -2,6 +2,20 @@ import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
 import { getLeagueConfigurationKeys, hasContestantData } from "../dataSources/dbFetch";
 
+<<<<<<< HEAD
+=======
+interface ILeagueLink {
+    name: string
+    subpages: IPage[]
+    detailsPath: string
+}
+
+interface IPage {
+    name: string
+    path: string
+}
+
+>>>>>>> bb7145d8 (Add leagueDetails to league pages model mode)
 interface PageInformation {
     showStatus: string, 
     showNameAndSeason: string,
