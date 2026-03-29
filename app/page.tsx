@@ -16,9 +16,12 @@ export default async function Home() {
             {pages.map((p: IPage) => { 
                 const keyName = p.name.toLowerCase().replaceAll(" ", "-");
                 return (<div key={`links-section-${keyName}`}>
-                    <p className="league-link-heading" >Links For { p.name } League</p>
+                    <div className="flex flex-wrap items-baseline gap-3 mb-2">
+                        <p className="league-link-heading m-0">Links For { p.name } League</p>
+                        <Link className="text-sm text-gray-600 hover:text-gray-800" href={p.detailsPath}>League config</Link>
+                    </div>
                     <div className="md:flex md:flex-row">{
-                        p.subpages.map((pSub: ISubpage, index) => (
+                        p.subpages.map((pSub: ISubpage, index: number) => (
                             <p className="standard-link-container md:basis-1/3" key={`${pSub.name.toLowerCase().replaceAll(" ", "-")}-subpage-${index}`}>
                                 <Link className="standard-link" key={`links-section-${keyName}-link-${pSub.name.toLowerCase().replaceAll(" ", "-")}`} href={pSub.path}>{ pSub.name}</Link>
                             </p>
