@@ -13,6 +13,23 @@ type Story = StoryObj<typeof meta>;
 
 // 👇 A story named Primary that renders `<Button primary label="Button" />`
 export const Primary: Story = {
+    argTypes: {
+        kind: {
+            description: "Only can be `primary` or `secondary`",
+            table: {
+                defaultValue: { 
+                    summary: "primary"
+                }
+            }
+        },
+        disabled: {
+            table: {
+                defaultValue: { 
+                    summary: "false"
+                }
+            }
+        },
+    },
     args: {
         text: "Test Button",
         kind: "primary",
