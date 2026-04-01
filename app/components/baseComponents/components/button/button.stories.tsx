@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     argTypes: {
         kind: {
-            description: "Only can be `primary` or `secondary`",
+            description: "Value can only be `primary` or `secondary`",
             table: {
                 defaultValue: { 
                     summary: "primary"
