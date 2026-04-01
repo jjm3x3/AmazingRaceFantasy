@@ -22,3 +22,14 @@ export const Primary: Story = {
         clickHandler: ()=> {}
     },
 };
+
+export const Secondary: Story = {
+    args: {
+        text: "Test Button",
+        kind: "secondary",
+        id:"test-btn",
+        type: "button",
+        disabled: false,
+        clickHandler: ()=> {}
+    },
+};
