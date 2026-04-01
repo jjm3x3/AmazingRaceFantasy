@@ -1,0 +1,24 @@
+import { Meta, Description, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './button.stories';
+ 
+<Meta name="Docs" of={ButtonStories} />
+ 
+# Definition
+ 
+Button is a clickable interactive element that triggers a response.
+
+Buttons are often used for user actions, such as form submissions and to toggle elements into view.
+ 
+## Usage
+ 
+The component comes in different variants such as `primary` and `secondary`. The component can also be disabled. 
+
+Disabled buttons should never be coded in, but rather set by server responses, such as form submission failure.
+ 
+<Canvas of={ButtonStories.Primary} />
+
+## Inputs
+ 
+Button has the following properties:
+
+<Controls of={ButtonStories.Primary} />
