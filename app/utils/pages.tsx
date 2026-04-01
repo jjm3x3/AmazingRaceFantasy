@@ -26,6 +26,10 @@ function constructPageInformation(leagueConfigurationKey:string){
     }
 }
 
+export function getLeagueDetailsPath(pageInformation:PageInformation){
+    return `/${pageInformation.showStatus}/${pageInformation.showNameAndSeason}/league-details`;
+}
+
 function generateContestantSubpage(pageInformation:PageInformation){
     const subpages:Array<ISubpage> = [];
     subpages.push({
@@ -73,12 +77,13 @@ export async function getShowPages(): Promise<IPage[]> {
             subpages = subpages.concat(contestantDataExistsSubpages);
         }
         const pathObj = generatePathObj(pageData, subpages);
+        const detailsPath = getLeagueDetailsPath(pageData);
 
         if(pageData.showStatus === "active"){
             pageData.friendlyName = `Current (${pageData.friendlyName})`
-            activeLeaguePaths.push(pathObj);
+            activeLeaguePaths.push({ ...pathObj, detailsPath });
         } else {
-            archiveLeaguePaths.push(pathObj);
+            archiveLeaguePaths.push({ ...pathObj, detailsPath });
         }
     }
     const paths:Array<IPage> = [...activeLeaguePaths,...archiveLeaguePaths];
