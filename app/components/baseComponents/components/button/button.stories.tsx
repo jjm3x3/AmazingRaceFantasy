@@ -16,6 +16,8 @@ export const Primary: Story = {
     argTypes: {
         kind: {
             description: "Value can only be `primary` or `secondary`",
+            control: "select",
+            options: ["primary", "secondary"],
             table: {
                 defaultValue: { 
                     summary: "primary"
