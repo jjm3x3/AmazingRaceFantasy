@@ -8,17 +8,45 @@ import * as ButtonStories from './button.stories';
 Button is a clickable interactive element that triggers a response.
 
 Buttons are often used for user actions, such as form submissions and to toggle elements into view.
+
+## Overview
+
+The `Button` component provides a styled interactive control for triggering actions. It supports primary and secondary variants, disabled state, and click event handling.
+
+## Props
  
+Button has the following properties:
+
+- `text` — The visible label shown on the button.
+- `kind` — The style variant of the button, such as `primary` or `secondary`.
+- `id` — Unique identifier for the button element.
+- `type` — The HTML button type, such as `button`, `submit`, or `reset`.
+- `disabled` — Whether the button is disabled.
+- `clickHandler` — Function called when the button is clicked.
+
 ## Usage
  
 The component comes in different variants such as `primary` and `secondary`. The component can also be disabled. 
 
 Disabled buttons should never be coded in, but rather set by server responses, such as form submission failure.
  
-<Canvas of={ButtonStories.Primary} />
+```tsx
+import Button from './button';
 
-## Inputs
- 
-Button has the following properties:
+export default function Example() {
+  return (
+    <Button
+      id="submit-button"
+      text="Submit"
+      kind="primary"
+      type="submit"
+      disabled={false}
+      clickHandler={() => console.log('Clicked')}
+    />
+  );
+}
+```
+
+## Example
 
 <Controls of={ButtonStories.Primary} />
