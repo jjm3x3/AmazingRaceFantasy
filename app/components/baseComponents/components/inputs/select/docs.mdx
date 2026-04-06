@@ -1,0 +1,43 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import * as Select from './select.stories';
+
+<Meta of={Select} />
+
+# Select Component
+
+The Select component is a customizable dropdown input element that allows users to choose from a list of options.
+
+## Overview
+
+This component renders a labeled select dropdown with support for placeholders and custom change handlers.
+
+## Props
+
+- `labelText`: The text displayed as the label for the select element
+- `placeholder` (optional): Placeholder text shown as the first disabled option
+- `selectOptions`: Array of option objects with `value` and `text` properties
+- `changeHandler` (optional): Function called when the select value changes
+- `id`: Unique identifier for the select element
+
+## Usage
+
+```tsx
+import Select from './select';
+
+const options = [
+  { value: 'apple', text: 'Apple' },
+  { value: 'banana', text: 'Banana' },
+];
+
+<Select
+  labelText="Choose a fruit"
+  selectOptions={options}
+  id="fruit-select"
+  changeHandler={(e) => console.log(e.target.value)}
+/>
+```
+
+## Example
+
+<Canvas of={Select.Default} />
