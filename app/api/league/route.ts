@@ -83,3 +83,60 @@ export async function POST(request: NextRequest) {
     // return
     return NextResponse.json({"message": "posted"});
 }
+
+export async function PUT (request: NextRequest) {
+    // check auth
+    const body = await request.json();
+    const sessionCookie = request.cookies.get("session");
+    let userId: string | undefined;
+    if(sessionCookie){
+        const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
+        userId = decryptedSessionCookie?.sub;
+        const invalidUserId = !userId;
+        const invalidUserSub = Object.keys(decryptedSessionCookie).length !== 3;
+        if (invalidUserId || invalidUserSub ) {
+            return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
+        }
+        
+        const isUserDenied = userId !== body.createdBy;
+        if(isUserDenied){
+            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+        }
+    } else {
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
+    }
+
+    // validate/sanitize input
+    try {
+        LeagueConfig.parse(body);
+    }
+    catch(error: unknown){
+        if (error instanceof z.ZodError) {
+            const firstIssue = error.issues[0];
+            return NextResponse.json(
+                {"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`},
+                {status: 400}
+            );
+        }
+    }
+
+    // insert into db
+    const leagueConfigKey = `league_configuration:${body.leagueStatus}:${body.leagueKey}`;
+    const leagueConfig = {
+        wikiPageUrl: body.wikiPageUrl,
+        wikiApiUrl: body.wikiApiUrl,
+        googleSheetUrl: body.googleSheetUrl,
+        leagueStatus: body.leagueStatus,
+        castPhrase: body.wikiSectionHeader,
+        preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
+        postGoogleSheetsLinkText: "which was populated using a google form.",
+        competitingEntityName: body.contestantType,
+        contestantLeagueDataKeyPrefix: `${body.leagueKey}:*`,
+        createdBy: userId
+    };
+
+    await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
+
+    // return
+    return NextResponse.json({"message": "posted"});
+}
