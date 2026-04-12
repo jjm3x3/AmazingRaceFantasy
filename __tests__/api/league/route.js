@@ -7,7 +7,7 @@ jest.mock("../../../app/dataSources/dbFetch");
 import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
 import { writeLeagueConfigurationData, getUser } from "@/app/dataSources/dbFetch";
-import { POST } from "@/app/api/league/route.ts";
+import { POST, PUT } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
 let happyPathRequest = {}
@@ -848,5 +848,98 @@ describe("POST (unit tests)", () => {
             expect.objectContaining({
                 "createdBy": ourUserId
             }));
+    });
+});
+
+describe("PUT (unit tests)", () => {
+    it("should return 200 when PUT conditions met", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return {
+                    ...happyPathRequest,
+                    createdBy: ourUserId,
+                    wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
+                    wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
+                };
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
+            expect.objectContaining({
+                googleSheetUrl: happyPathRequest.googleSheetUrl,
+                createdBy: ourUserId
+            })
+        );
+    });
+
+    it("should return a 403 when PUT createdBy does not match session user", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return {
+                    ...happyPathRequest,
+                    createdBy: "differentUser",
+                    wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
+                    wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
+                };
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(403);
+    });
+
+    it("should return a 400 when PUT has invalid leagueStatus", async () => {
+        // Arrange
+        const invalidRequestBody = {
+            ...happyPathRequest,
+            createdBy: ourUserId,
+            leagueStatus: "maybe-active",
+            wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
+            wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
+        };
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => invalidRequestBody)
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("leagueStatus");
     });
 });
