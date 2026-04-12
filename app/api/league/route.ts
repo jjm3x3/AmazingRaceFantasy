@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
-import { getUser, writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
 interface decryptionPayload {
@@ -97,10 +97,18 @@ export async function PUT (request: NextRequest) {
         if (invalidUserId || invalidUserSub ) {
             return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
-        
-        const isUserDenied = userId !== body.createdBy;
-        if(isUserDenied){
-            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+        const leagueConfigurationKeyArray = await getAllKeys(`league_configuration:*:${body.leagueKey}`);
+        if(leagueConfigurationKeyArray.length === 0){
+            return NextResponse.json({"error": "no league configuration found for that league key"}, {status: 404});
+        } else if (leagueConfigurationKeyArray.length > 1){
+            return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 500});
+        } else {
+            const leagueConfigurationKey = leagueConfigurationKeyArray[0];
+            const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);
+            const isUserDenied = userId !== leagueConfigurationData.createdBy;
+            if(isUserDenied){
+                return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+            }
         }
     } else {
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
