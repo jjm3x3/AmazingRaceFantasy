@@ -120,13 +120,13 @@ export async function PUT (request: NextRequest) {
         return NextResponse.json({"error": "no league configuration found for that league key"}, {status: 404});
     } else if (leagueConfigurationKeyArray.length > 1){
         return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 409});
-    } else {
-        const leagueConfigurationKey = leagueConfigurationKeyArray[0];
-        const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);
-        const isUserDenied = userId !== leagueConfigurationData.createdBy;
-        if(isUserDenied){
-            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
-        }
+    }
+    
+    const leagueConfigurationKey = leagueConfigurationKeyArray[0];
+    const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);
+    const isUserDenied = userId !== leagueConfigurationData.createdBy;
+    if(isUserDenied){
+        return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
     }
 
     // insert into db
