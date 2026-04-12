@@ -119,7 +119,7 @@ export async function PUT (request: NextRequest) {
     if(leagueConfigurationKeyArray.length === 0){
         return NextResponse.json({"error": "no league configuration found for that league key"}, {status: 404});
     } else if (leagueConfigurationKeyArray.length > 1){
-        return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 500});
+        return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 409});
     } else {
         const leagueConfigurationKey = leagueConfigurationKeyArray[0];
         const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);

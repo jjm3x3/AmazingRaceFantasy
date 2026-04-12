@@ -925,7 +925,7 @@ describe("PUT (unit tests)", () => {
         expect(response.status).toEqual(404);
     });
 
-    it("should return a 500 when multiple league configurations found", async () => {
+    it("should return a 409 when multiple league configurations found", async () => {
         // Arrange
         getAllKeys.mockImplementation(() => {
             return Promise.resolve([
@@ -953,7 +953,7 @@ describe("PUT (unit tests)", () => {
 
         // Assert
         expect(response).not.toBeNull();
-        expect(response.status).toEqual(500);
+        expect(response.status).toEqual(409);
     });
 
     it("should return a 403 when PUT userId does not match createdBy from database", async () => {
