@@ -7,10 +7,8 @@ const meta = {
 } satisfies Meta<typeof Button>;
  
 export default meta;
-// 👇 Type helper to reduce boilerplate 
 type Story = StoryObj<typeof meta>;
 
-// 👇 A story named Primary that renders `<Button primary label="Button" />`
 export const Primary: Story = {
     argTypes: {
         kind: {
