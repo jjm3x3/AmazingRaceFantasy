@@ -88,29 +88,15 @@ export async function PUT (request: NextRequest) {
     // check auth
     const body = await request.json();
     const sessionCookie = request.cookies.get("session");
-    let userId: string | undefined;
-    if(sessionCookie){
-        const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
-        userId = decryptedSessionCookie?.sub;
-        const invalidUserId = !userId;
-        const invalidUserSub = Object.keys(decryptedSessionCookie).length !== 3;
-        if (invalidUserId || invalidUserSub ) {
-            return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
-        }
-        const leagueConfigurationKeyArray = await getAllKeys(`league_configuration:*:${body.leagueKey}`);
-        if(leagueConfigurationKeyArray.length === 0){
-            return NextResponse.json({"error": "no league configuration found for that league key"}, {status: 404});
-        } else if (leagueConfigurationKeyArray.length > 1){
-            return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 500});
-        } else {
-            const leagueConfigurationKey = leagueConfigurationKeyArray[0];
-            const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);
-            const isUserDenied = userId !== leagueConfigurationData.createdBy;
-            if(isUserDenied){
-                return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
-            }
-        }
-    } else {
+    if(!sessionCookie){
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
+    }
+    
+    const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
+    const userId = decryptedSessionCookie?.sub;
+    const invalidUserId = !userId;
+    const invalidUserSub = Object.keys(decryptedSessionCookie).length !== 3;
+    if (invalidUserId || invalidUserSub ) {
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
     }
 
@@ -125,6 +111,21 @@ export async function PUT (request: NextRequest) {
                 {"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`},
                 {status: 400}
             );
+        }
+    }
+
+    // check permissions - only allow if user is league owner
+    const leagueConfigurationKeyArray = await getAllKeys(`league_configuration:*:${body.leagueKey}`);
+    if(leagueConfigurationKeyArray.length === 0){
+        return NextResponse.json({"error": "no league configuration found for that league key"}, {status: 404});
+    } else if (leagueConfigurationKeyArray.length > 1){
+        return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 500});
+    } else {
+        const leagueConfigurationKey = leagueConfigurationKeyArray[0];
+        const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);
+        const isUserDenied = userId !== leagueConfigurationData.createdBy;
+        if(isUserDenied){
+            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
         }
     }
 
