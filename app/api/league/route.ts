@@ -84,6 +84,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({"message": "posted"});
 }
 
+const LeagueConfigUpdate = z.object({
+    googleSheetUrl: validationPattern.googleSheetUrl.zod,
+    leagueStatus: validationPattern.leagueStatus.zod
+});
+
 export async function PUT (request: NextRequest) {
     // check auth
     const body = await request.json();
@@ -102,7 +107,7 @@ export async function PUT (request: NextRequest) {
 
     // validate/sanitize input
     try {
-        LeagueConfig.parse(body);
+        LeagueConfigUpdate.parse(body);
     }
     catch(error: unknown){
         if (error instanceof z.ZodError) {
@@ -121,7 +126,7 @@ export async function PUT (request: NextRequest) {
     } else if (leagueConfigurationKeyArray.length > 1){
         return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 409});
     }
-    
+
     const leagueConfigurationKey = leagueConfigurationKeyArray[0];
     const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);
     const isUserDenied = userId !== leagueConfigurationData.createdBy;
@@ -130,17 +135,17 @@ export async function PUT (request: NextRequest) {
     }
 
     // insert into db
-    const leagueConfigKey = `league_configuration:${body.leagueStatus}:${body.leagueKey}`;
+    const leagueConfigKey = `league_configuration:${body.leagueStatus}:${leagueConfigurationData.contestantLeagueDataKeyPrefix}`;
     const leagueConfig = {
-        wikiPageUrl: body.wikiPageUrl,
-        wikiApiUrl: body.wikiApiUrl,
+        wikiPageUrl: leagueConfigurationData.wikiPageUrl,
+        wikiApiUrl: leagueConfigurationData.wikiApiUrl,
         googleSheetUrl: body.googleSheetUrl,
         leagueStatus: body.leagueStatus,
-        castPhrase: body.wikiSectionHeader,
+        castPhrase: leagueConfigurationData.castPhrase,
         preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
         postGoogleSheetsLinkText: "which was populated using a google form.",
-        competitingEntityName: body.contestantType,
-        contestantLeagueDataKeyPrefix: `${body.leagueKey}:*`,
+        competitingEntityName: leagueConfigurationData.competitingEntityName,
+        contestantLeagueDataKeyPrefix: leagueConfigurationData.contestantLeagueDataKeyPrefix,
         createdBy: userId
     };
 
