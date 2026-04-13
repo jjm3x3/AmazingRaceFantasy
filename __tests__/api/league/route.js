@@ -6,7 +6,7 @@ jest.mock("google-auth-library");
 jest.mock("../../../app/dataSources/dbFetch");
 import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
-import { writeLeagueConfigurationData, getUser, getAllKeys, getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { writeLeagueConfigurationData, getUser, getAllKeys, getLeagueConfigurationData, deleteLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { POST, PUT } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
@@ -30,6 +30,10 @@ OAuth2Client.mockImplementation(() => {
 
 writeLeagueConfigurationData.mockImplementation(() => {
     return () => { }
+});
+
+deleteLeagueConfigurationData.mockImplementation(() => {
+    return Promise.resolve();
 });
 
 const ourUserId = "ourUserId67C20C65-064D-444C-9AC0-DB5E14A38863";
@@ -859,7 +863,8 @@ describe("PUT (unit tests)", () => {
 
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
-                createdBy: ourUserId
+                createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus
             });
         });
     });
@@ -875,6 +880,7 @@ describe("PUT (unit tests)", () => {
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
                 createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus,
                 wikiPageUrl: dbWikiPageUrl,
                 wikiApiUrl: dbWikiApiUrl,
                 castPhrase: dbCastPhrase,
@@ -1024,6 +1030,7 @@ describe("PUT (unit tests)", () => {
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
                 createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus,
                 wikiPageUrl: dbWikiPageUrl,
                 wikiApiUrl: dbWikiApiUrl,
                 castPhrase: "Cast",
@@ -1067,6 +1074,7 @@ describe("PUT (unit tests)", () => {
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
                 createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus,
                 wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
                 wikiApiUrl: "https://en.wikipedia.org/w/api.php",
                 castPhrase: dbCastPhrase,
@@ -1132,6 +1140,7 @@ describe("PUT (unit tests)", () => {
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
                 createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus,
                 wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
                 wikiApiUrl: "https://en.wikipedia.org/w/api.php",
                 castPhrase: "Cast",
@@ -1161,5 +1170,92 @@ describe("PUT (unit tests)", () => {
             `league_configuration:${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
             expect.anything()
         );
+    });
+
+    it("should delete the preexisting configuration when leagueStatus changes", async () => {
+        // Arrange
+        const preexistingLeagueConfigurationKey = `league_configuration:inactive:${happyPathRequest.leagueKey}`;
+        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        
+        getAllKeys.mockImplementation(() => {
+            return Promise.resolve([preexistingLeagueConfigurationKey]);
+        });
+
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: "inactive",
+                wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
+                wikiApiUrl: "https://en.wikipedia.org/w/api.php",
+                castPhrase: "Cast",
+                competitingEntityName: "person",
+                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return {
+                    ...happyPathRequest,
+                    leagueStatus: "active"
+                };
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(deleteLeagueConfigurationData).toHaveBeenCalledWith(preexistingLeagueConfigurationKey);
+    });
+
+    it("should not delete the preexisting configuration when leagueStatus does not change", async () => {
+        // Arrange
+        const preexistingLeagueConfigurationKey = `league_configuration:active:${happyPathRequest.leagueKey}`;
+        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        
+        getAllKeys.mockImplementation(() => {
+            return Promise.resolve([preexistingLeagueConfigurationKey]);
+        });
+
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: "active",
+                wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
+                wikiApiUrl: "https://en.wikipedia.org/w/api.php",
+                castPhrase: "Cast",
+                competitingEntityName: "person",
+                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
+            });
+        });
+
+        deleteLeagueConfigurationData.mockClear();
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(deleteLeagueConfigurationData).not.toHaveBeenCalled();
     });
 });

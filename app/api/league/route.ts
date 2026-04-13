@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
-import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData, deleteLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
 interface decryptionPayload {
@@ -127,11 +127,15 @@ export async function PUT (request: NextRequest) {
         return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 409});
     }
 
-    const leagueConfigurationKey = leagueConfigurationKeyArray[0];
-    const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);
+    const preexistingLeagueConfigurationKey = leagueConfigurationKeyArray[0];
+    const leagueConfigurationData = await getLeagueConfigurationData(preexistingLeagueConfigurationKey);
     const isUserDenied = userId !== leagueConfigurationData.createdBy;
     if(isUserDenied){
         return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+    }
+
+    if(leagueConfigurationData.leagueStatus !== body.leagueStatus){
+        await deleteLeagueConfigurationData(preexistingLeagueConfigurationKey);
     }
 
     // insert into db
