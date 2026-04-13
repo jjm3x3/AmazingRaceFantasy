@@ -866,6 +866,23 @@ describe("PUT (unit tests)", () => {
 
     it("should return 200 when PUT conditions met", async () => {
         // Arrange
+        const dbWikiPageUrl = "https://en.wikipedia.org/wiki/Original_Page";
+        const dbWikiApiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Original_Page";
+        const dbCastPhrase = "Original Cast";
+        const dbCompetitingEntityName = "person";
+        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                wikiPageUrl: dbWikiPageUrl,
+                wikiApiUrl: dbWikiApiUrl,
+                castPhrase: dbCastPhrase,
+                competitingEntityName: dbCompetitingEntityName,
+                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
+            });
+        });
+
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
@@ -873,11 +890,7 @@ describe("PUT (unit tests)", () => {
                 })
             },
             json: jest.fn().mockImplementation(async () => {
-                return {
-                    ...happyPathRequest,
-                    wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
-                    wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
-                };
+                return happyPathRequest;
             })
         };
 
@@ -890,9 +903,10 @@ describe("PUT (unit tests)", () => {
         expect(request.json).toHaveBeenCalledTimes(1);
         expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
         expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
-            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
+            `league_configuration:${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
             expect.objectContaining({
-                googleSheetUrl: happyPathRequest.googleSheetUrl
+                googleSheetUrl: happyPathRequest.googleSheetUrl,
+                leagueStatus: happyPathRequest.leagueStatus
             })
         );
     });
@@ -909,11 +923,7 @@ describe("PUT (unit tests)", () => {
                 })
             },
             json: jest.fn().mockImplementation(async () => {
-                return {
-                    ...happyPathRequest,
-                    wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
-                    wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
-                };
+                return happyPathRequest;
             })
         };
 
@@ -940,11 +950,7 @@ describe("PUT (unit tests)", () => {
                 })
             },
             json: jest.fn().mockImplementation(async () => {
-                return {
-                    ...happyPathRequest,
-                    wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
-                    wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
-                };
+                return happyPathRequest;
             })
         };
 
@@ -970,11 +976,7 @@ describe("PUT (unit tests)", () => {
                 })
             },
             json: jest.fn().mockImplementation(async () => {
-                return {
-                    ...happyPathRequest,
-                    wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
-                    wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
-                };
+                return happyPathRequest;
             })
         };
 
@@ -990,9 +992,7 @@ describe("PUT (unit tests)", () => {
         // Arrange
         const invalidRequestBody = {
             ...happyPathRequest,
-            leagueStatus: "maybe-active",
-            wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
-            wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
+            leagueStatus: "maybe-active"
         };
         const request = {
             cookies: {
@@ -1015,10 +1015,66 @@ describe("PUT (unit tests)", () => {
         expect(bodyString).toContain("leagueStatus");
     });
 
-    it("should use wikiPageUrl and wikiApiUrl from request body when updating", async () => {
+    it("should use wikiPageUrl and wikiApiUrl from database when updating", async () => {
         // Arrange
-        const customWikiPageUrl = "https://en.wikipedia.org/wiki/Custom_Page";
-        const customWikiApiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Custom_Page";
+        const dbWikiPageUrl = "https://en.wikipedia.org/wiki/Database_Page";
+        const dbWikiApiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Database_Page";
+        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                wikiPageUrl: dbWikiPageUrl,
+                wikiApiUrl: dbWikiApiUrl,
+                castPhrase: "Cast",
+                competitingEntityName: "person",
+                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                wikiPageUrl: dbWikiPageUrl,
+                wikiApiUrl: dbWikiApiUrl
+            })
+        );
+    });
+
+    it("should use castPhrase and competitingEntityName from database when updating", async () => {
+        // Arrange
+        const dbCastPhrase = "Original Cast";
+        const dbCompetitingEntityName = "person";
+        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
+                wikiApiUrl: "https://en.wikipedia.org/w/api.php",
+                castPhrase: dbCastPhrase,
+                competitingEntityName: dbCompetitingEntityName,
+                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
+            });
+        });
+
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
@@ -1028,8 +1084,8 @@ describe("PUT (unit tests)", () => {
             json: jest.fn().mockImplementation(async () => {
                 return {
                     ...happyPathRequest,
-                    wikiPageUrl: customWikiPageUrl,
-                    wikiApiUrl: customWikiApiUrl
+                    castPhrase: "Different Cast",
+                    contestantType: "team"
                 };
             })
         };
@@ -1043,8 +1099,8 @@ describe("PUT (unit tests)", () => {
         expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
             expect.anything(),
             expect.objectContaining({
-                wikiPageUrl: customWikiPageUrl,
-                wikiApiUrl: customWikiApiUrl
+                castPhrase: dbCastPhrase,
+                competitingEntityName: dbCompetitingEntityName
             })
         );
     });
@@ -1058,11 +1114,7 @@ describe("PUT (unit tests)", () => {
                 })
             },
             json: jest.fn().mockImplementation(async () => {
-                return {
-                    ...happyPathRequest,
-                    wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
-                    wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`
-                };
+                return happyPathRequest;
             })
         };
 
@@ -1072,5 +1124,42 @@ describe("PUT (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(getAllKeys).toHaveBeenCalledWith(`league_configuration:*:${happyPathRequest.leagueKey}`);
+    });
+
+    it("should construct the write key using database contestantLeagueDataKeyPrefix", async () => {
+        // Arrange
+        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
+                wikiApiUrl: "https://en.wikipedia.org/w/api.php",
+                castPhrase: "Cast",
+                competitingEntityName: "person",
+                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+            `league_configuration:${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
+            expect.anything()
+        );
     });
 });
