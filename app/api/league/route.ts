@@ -156,5 +156,5 @@ export async function PUT (request: NextRequest) {
     await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
 
     // return
-    return NextResponse.json({"message": "posted"});
+    return NextResponse.json({"message": "updated"});
 }
