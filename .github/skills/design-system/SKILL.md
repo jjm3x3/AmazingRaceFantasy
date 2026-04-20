@@ -7,7 +7,7 @@ description: This is the design system skill for the agent.
 
 ## Overview
 
-This skill provides a design system for the agent to use when rendering components. It creates a story for Storybook based on the example.stories.tsx file and documentation based on the docs.mdx file.
+This skill provides a design system for the agent to use when rendering components. It creates a story for Storybook based on the testComponent.stories.tsx file and documentation based on the docs.mdx file.
 
 ## Instructions
 
