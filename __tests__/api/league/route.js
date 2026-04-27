@@ -11,6 +11,7 @@ import { POST, PUT } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
 let happyPathRequest = {}
+const leagueConfigKey = "some_show_name:and_season_1";
 
 const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
@@ -60,16 +61,6 @@ beforeEach(() => {
         family_name: "TestLastName"
     };
 
-    happyPathRequest = {
-        token: "testToken",
-        wikiPageName: "someName",
-        googleSheetUrl: "https://some.url",
-        leagueStatus: "active",
-        wikiSectionHeader: "Show Contestants",
-        contestantType: "team",
-        leagueKey: "some_show_name:and_season_1"
-    };
-
     getUser.mockImplementation(() => {
         return Promise.resolve({
             role: "showAdmin"
@@ -83,6 +74,22 @@ afterEach(() => {
 });
 
 describe("POST (unit tests)", () => {
+    beforeEach(()=> {
+        happyPathRequest = {
+            token: "testToken",
+            wikiPageName: "someName",
+            googleSheetUrl: "https://some.url",
+            leagueStatus: "active",
+            wikiSectionHeader: "Show Contestants",
+            contestantType: "team",
+            leagueKey: leagueConfigKey
+        };
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should return 200 when conditions met", async () => {
         // Arrange
         const request = {
@@ -857,16 +864,27 @@ describe("POST (unit tests)", () => {
 
 describe("PUT (unit tests)", () => {
     beforeEach(() => {
+        happyPathRequest = {
+            createdBy: ourUserId,
+            leagueStatus: "active",
+            leagueKey: leagueConfigKey
+        };
+
+        getUser.mockImplementation(() => {
+            return Promise.resolve({
+                role: "showAdmin"
+            });
+        });
+
         getAllKeys.mockImplementation(() => {
             return Promise.resolve([`league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`]);
         });
 
-        getLeagueConfigurationData.mockImplementation(() => {
-            return Promise.resolve({
-                createdBy: ourUserId,
-                leagueStatus: happyPathRequest.leagueStatus
-            });
-        });
+        
+    });
+
+    afterEach(()=> {
+        jest.clearAllMocks();
     });
 
     it("should return 200 when PUT conditions met", async () => {
@@ -911,7 +929,7 @@ describe("PUT (unit tests)", () => {
         expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
             `league_configuration:${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
             expect.objectContaining({
-                googleSheetUrl: happyPathRequest.googleSheetUrl,
+                createdBy: happyPathRequest.createdBy,
                 leagueStatus: happyPathRequest.leagueStatus
             })
         );
@@ -1021,11 +1039,13 @@ describe("PUT (unit tests)", () => {
         expect(bodyString).toContain("leagueStatus");
     });
 
-    it("should use wikiPageUrl and wikiApiUrl from database when updating", async () => {
+    it("should use wikiPageUrl, wikiApiUrl, castPhrase, and competitingEntityName from database when updating", async () => {
         // Arrange
         const dbWikiPageUrl = "https://en.wikipedia.org/wiki/Database_Page";
         const dbWikiApiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Database_Page";
         const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        const dbCastPhrase = "Original Cast";
+        const dbCompetitingEntityName = "person";
         
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
@@ -1033,8 +1053,8 @@ describe("PUT (unit tests)", () => {
                 leagueStatus: happyPathRequest.leagueStatus,
                 wikiPageUrl: dbWikiPageUrl,
                 wikiApiUrl: dbWikiApiUrl,
-                castPhrase: "Cast",
-                competitingEntityName: "person",
+                castPhrase: dbCastPhrase,
+                competitingEntityName: dbCompetitingEntityName,
                 contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
             });
         });
@@ -1060,53 +1080,7 @@ describe("PUT (unit tests)", () => {
             expect.anything(),
             expect.objectContaining({
                 wikiPageUrl: dbWikiPageUrl,
-                wikiApiUrl: dbWikiApiUrl
-            })
-        );
-    });
-
-    it("should use castPhrase and competitingEntityName from database when updating", async () => {
-        // Arrange
-        const dbCastPhrase = "Original Cast";
-        const dbCompetitingEntityName = "person";
-        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
-        
-        getLeagueConfigurationData.mockImplementation(() => {
-            return Promise.resolve({
-                createdBy: ourUserId,
-                leagueStatus: happyPathRequest.leagueStatus,
-                wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
-                wikiApiUrl: "https://en.wikipedia.org/w/api.php",
-                castPhrase: dbCastPhrase,
-                competitingEntityName: dbCompetitingEntityName,
-                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
-            });
-        });
-
-        const request = {
-            cookies: {
-                get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
-                })
-            },
-            json: jest.fn().mockImplementation(async () => {
-                return {
-                    ...happyPathRequest,
-                    castPhrase: "Different Cast",
-                    contestantType: "team"
-                };
-            })
-        };
-
-        // Act
-        const response = await PUT(request);
-
-        // Assert
-        expect(response).not.toBeNull();
-        expect(response.status).toEqual(200);
-        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
-            expect.anything(),
-            expect.objectContaining({
+                wikiApiUrl: dbWikiApiUrl,
                 castPhrase: dbCastPhrase,
                 competitingEntityName: dbCompetitingEntityName
             })

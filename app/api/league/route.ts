@@ -85,13 +85,15 @@ export async function POST(request: NextRequest) {
 }
 
 const LeagueConfigUpdate = z.object({
-    googleSheetUrl: validationPattern.googleSheetUrl.zod,
-    leagueStatus: validationPattern.leagueStatus.zod
+    createdBy: validationPattern.createdBy.zod,
+    leagueStatus: validationPattern.leagueStatus.zod,
+    leagueKey: validationPattern.leagueKey.zod
 });
 
 export async function PUT (request: NextRequest) {
     // check auth
     const body = await request.json();
+    console.log(body);
     const sessionCookie = request.cookies.get("session");
     if(!sessionCookie){
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
@@ -108,8 +110,7 @@ export async function PUT (request: NextRequest) {
     // validate/sanitize input
     try {
         LeagueConfigUpdate.parse(body);
-    }
-    catch(error: unknown){
+    } catch(error: unknown){
         if (error instanceof z.ZodError) {
             const firstIssue = error.issues[0];
             return NextResponse.json(
