@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
-import { getUser, writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData, deleteLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
 interface decryptionPayload {
@@ -82,4 +82,79 @@ export async function POST(request: NextRequest) {
 
     // return
     return NextResponse.json({"message": "posted"});
+}
+
+const LeagueConfigUpdate = z.object({
+    createdBy: validationPattern.createdBy.zod,
+    leagueStatus: validationPattern.leagueStatus.zod,
+    leagueKey: validationPattern.leagueKey.zod
+});
+
+export async function PUT (request: NextRequest) {
+    // check auth
+    const body = await request.json();
+    const sessionCookie = request.cookies.get("session");
+    if(!sessionCookie){
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
+    }
+    
+    const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
+    const userId = decryptedSessionCookie?.sub;
+    const invalidUserId = !userId;
+    const invalidUserSub = Object.keys(decryptedSessionCookie).length !== 3;
+    if (invalidUserId || invalidUserSub ) {
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
+    }
+
+    // validate/sanitize input
+    try {
+        LeagueConfigUpdate.parse(body);
+    } catch(error: unknown){
+        if (error instanceof z.ZodError) {
+            const firstIssue = error.issues[0];
+            return NextResponse.json(
+                {"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`},
+                {status: 400}
+            );
+        }
+    }
+
+    // check permissions - only allow if user is league owner
+    const leagueConfigurationKeyArray = await getAllKeys(`league_configuration:*:${body.leagueKey}`);
+    if(leagueConfigurationKeyArray.length === 0){
+        return NextResponse.json({"error": "no league configuration found for that league key"}, {status: 404});
+    } else if (leagueConfigurationKeyArray.length > 1){
+        return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 409});
+    }
+
+    const preexistingLeagueConfigurationKey = leagueConfigurationKeyArray[0];
+    const leagueConfigurationData = await getLeagueConfigurationData(preexistingLeagueConfigurationKey);
+    const isUserDenied = userId !== leagueConfigurationData.createdBy;
+    if(isUserDenied){
+        return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+    }
+
+    if(leagueConfigurationData.leagueStatus !== body.leagueStatus){
+        await deleteLeagueConfigurationData(preexistingLeagueConfigurationKey);
+    }
+
+    // insert into db
+    const leagueConfigKey = `league_configuration:${body.leagueStatus}:${leagueConfigurationData.contestantLeagueDataKeyPrefix}`;
+    const leagueConfig = {
+        wikiPageUrl: leagueConfigurationData.wikiPageUrl,
+        wikiApiUrl: leagueConfigurationData.wikiApiUrl,
+        googleSheetUrl: body.googleSheetUrl,
+        leagueStatus: body.leagueStatus,
+        castPhrase: leagueConfigurationData.castPhrase,
+        preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
+        postGoogleSheetsLinkText: "which was populated using a google form.",
+        competitingEntityName: leagueConfigurationData.competitingEntityName,
+        contestantLeagueDataKeyPrefix: leagueConfigurationData.contestantLeagueDataKeyPrefix,
+        createdBy: userId
+    };
+
+    await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
+
+    // return
+    return NextResponse.json({"message": "updated"});
 }
