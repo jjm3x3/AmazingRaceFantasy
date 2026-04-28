@@ -93,7 +93,6 @@ const LeagueConfigUpdate = z.object({
 export async function PUT (request: NextRequest) {
     // check auth
     const body = await request.json();
-    console.log(body);
     const sessionCookie = request.cookies.get("session");
     if(!sessionCookie){
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
