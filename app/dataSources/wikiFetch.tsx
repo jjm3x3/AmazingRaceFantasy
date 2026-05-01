@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import wtf from "wtf_wikipedia";
 
 interface IWikipediaData {
     parse: {
