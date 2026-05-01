@@ -95,6 +95,26 @@ export async function writeLeagueConfigurationData(leagueConfigurationKey: strin
     await redis.json.set(leagueConfigurationKey, "$", leagueConfigString)
 }
 
+export async function updateLeagueConfigurationData(leagueConfigurationKey: string, leagueConfiguration: ILeagueConfigurationData): Promise<void> {
+    if (leagueConfigurationKey === undefined) {
+        throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value\"");
+    };
+    if (leagueConfiguration === undefined) {
+        throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfiguration' is undefined but must have a value\"");
+    };
+
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    });
+
+    const leagueConfigString = JSON.stringify(leagueConfiguration);
+    const tx = redis.multi();
+    tx.del(leagueConfigurationKey);
+    tx.json.set(leagueConfigurationKey, "$", leagueConfigString);
+    await tx.exec();
+}
+
 
 
 export async function getLeagueConfigurationData(leagueConfigurationKey: string): Promise<ILeagueConfigurationData> {

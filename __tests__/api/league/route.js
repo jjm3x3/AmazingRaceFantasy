@@ -6,7 +6,7 @@ jest.mock("google-auth-library");
 jest.mock("../../../app/dataSources/dbFetch");
 import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
-import { writeLeagueConfigurationData, getUser, getAllKeys, getLeagueConfigurationData, deleteLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { writeLeagueConfigurationData, getUser, getAllKeys, getLeagueConfigurationData, updateLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { POST, PUT } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
@@ -33,7 +33,7 @@ writeLeagueConfigurationData.mockImplementation(() => {
     return () => { }
 });
 
-deleteLeagueConfigurationData.mockImplementation(() => {
+updateLeagueConfigurationData.mockImplementation(() => {
     return Promise.resolve();
 });
 
@@ -870,12 +870,6 @@ describe("PUT (unit tests)", () => {
             leagueKey: leagueConfigKey
         };
 
-        getUser.mockImplementation(() => {
-            return Promise.resolve({
-                role: "showAdmin"
-            });
-        });
-
         getAllKeys.mockImplementation(() => {
             return Promise.resolve([`league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`]);
         });
@@ -925,8 +919,8 @@ describe("PUT (unit tests)", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
         expect(request.json).toHaveBeenCalledTimes(1);
-        expect(writeLeagueConfigurationData).toHaveBeenCalledTimes(1);
-        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+        expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
             `league_configuration:${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
             expect.objectContaining({
                 createdBy: happyPathRequest.createdBy,
@@ -1076,7 +1070,7 @@ describe("PUT (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
-        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
             expect.anything(),
             expect.objectContaining({
                 wikiPageUrl: dbWikiPageUrl,
@@ -1140,96 +1134,9 @@ describe("PUT (unit tests)", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
-        expect(writeLeagueConfigurationData).toHaveBeenCalledWith(
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
             `league_configuration:${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
             expect.anything()
         );
-    });
-
-    it("should delete the preexisting configuration when leagueStatus changes", async () => {
-        // Arrange
-        const preexistingLeagueConfigurationKey = `league_configuration:inactive:${happyPathRequest.leagueKey}`;
-        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
-        
-        getAllKeys.mockImplementation(() => {
-            return Promise.resolve([preexistingLeagueConfigurationKey]);
-        });
-
-        getLeagueConfigurationData.mockImplementation(() => {
-            return Promise.resolve({
-                createdBy: ourUserId,
-                leagueStatus: "inactive",
-                wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
-                wikiApiUrl: "https://en.wikipedia.org/w/api.php",
-                castPhrase: "Cast",
-                competitingEntityName: "person",
-                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
-            });
-        });
-
-        const request = {
-            cookies: {
-                get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
-                })
-            },
-            json: jest.fn().mockImplementation(async () => {
-                return {
-                    ...happyPathRequest,
-                    leagueStatus: "active"
-                };
-            })
-        };
-
-        // Act
-        const response = await PUT(request);
-
-        // Assert
-        expect(response).not.toBeNull();
-        expect(response.status).toEqual(200);
-        expect(deleteLeagueConfigurationData).toHaveBeenCalledWith(preexistingLeagueConfigurationKey);
-    });
-
-    it("should not delete the preexisting configuration when leagueStatus does not change", async () => {
-        // Arrange
-        const preexistingLeagueConfigurationKey = `league_configuration:active:${happyPathRequest.leagueKey}`;
-        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
-        
-        getAllKeys.mockImplementation(() => {
-            return Promise.resolve([preexistingLeagueConfigurationKey]);
-        });
-
-        getLeagueConfigurationData.mockImplementation(() => {
-            return Promise.resolve({
-                createdBy: ourUserId,
-                leagueStatus: "active",
-                wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
-                wikiApiUrl: "https://en.wikipedia.org/w/api.php",
-                castPhrase: "Cast",
-                competitingEntityName: "person",
-                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
-            });
-        });
-
-        deleteLeagueConfigurationData.mockClear();
-
-        const request = {
-            cookies: {
-                get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
-                })
-            },
-            json: jest.fn().mockImplementation(async () => {
-                return happyPathRequest;
-            })
-        };
-
-        // Act
-        const response = await PUT(request);
-
-        // Assert
-        expect(response).not.toBeNull();
-        expect(response.status).toEqual(200);
-        expect(deleteLeagueConfigurationData).not.toHaveBeenCalled();
     });
 });
