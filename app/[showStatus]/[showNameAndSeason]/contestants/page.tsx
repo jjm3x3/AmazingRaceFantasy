@@ -1,6 +1,6 @@
 import styles from "./contestantsPage.module.scss";
 import { parseEntities } from "@/app/utils/entityParserSwitch"
-import { getWikipediaContestantData } from "../../../dataSources/wikiFetch";
+import { getWikipediaContestantData, getWikipediaContestantData2 } from "../../../dataSources/wikiFetch";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys, getContestantData } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
 import TeamListWithToggle from "./teamListWithToggle";
