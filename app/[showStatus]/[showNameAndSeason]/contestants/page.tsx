@@ -31,7 +31,13 @@ export default async function Contestants({ params }: {
     const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
     const { wikiApiUrl, wikiPageUrl, castPhrase, competitingEntityName, contestantLeagueDataKeyPrefix } = leagueConfigurationData;
 
+    await getWikipediaContestantData2();
+
     const wikiContestants = await getWikipediaContestantData(wikiApiUrl, castPhrase);
+
+    wikiContestants.map(x => {
+        console.log(x);
+    });
 
     const final = parseEntities(wikiContestants, showName);
     const randomizedContestants = [...final].sort(() => Math.random() - 0.5);
