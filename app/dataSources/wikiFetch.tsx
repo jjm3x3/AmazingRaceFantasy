@@ -114,3 +114,21 @@ export async function getWikipediaContestantData(wikiUrl: string, contestantSect
     return contestantData;
 }
 
+export async function getWikipediaContestantData2() {
+    //let doc = await wtf.fetch("Survivor 49");
+    //let doc = await wtf.fetch("Survivor 50: In the Hands of the Fans");
+    const doc = await wtf.fetch("Big Brother 25 (American season)");
+
+    console.log(doc);
+
+    const s = doc.sections("HouseGuests");
+    console.log(s[0]);
+    const contestants = s[0].tables()[0].json();
+
+    contestants.map(x => {
+        console.log(x);
+    });
+
+    //console.log(contestants);
+}
+
