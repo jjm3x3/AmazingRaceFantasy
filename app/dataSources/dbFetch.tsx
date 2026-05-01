@@ -110,7 +110,7 @@ export async function updateLeagueConfigurationData(leagueConfigurationKey: stri
 
     const leagueConfigString = JSON.stringify(leagueConfiguration);
     const tx = redis.multi();
-    if(tx.json.get(leagueConfigurationKey) !== null){
+    if(tx.exists(leagueConfigurationKey)){
         tx.del(leagueConfigurationKey);
     }
     tx.json.set(leagueConfigurationKey, "$", leagueConfigString);
