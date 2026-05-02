@@ -100,7 +100,7 @@ export async function updateLeagueConfigurationData(leagueConfigurationKey: stri
         throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value\"");
     };
     if (leagueConfiguration === undefined) {
-        throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfiguration' is undefined but must have a value\"");
+        throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfiguration' is undefined but must have a value");
     };
 
     const redis = new Redis({
