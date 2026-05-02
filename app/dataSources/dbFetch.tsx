@@ -111,9 +111,7 @@ export async function updateLeagueConfigurationData(leagueConfigurationKey: stri
 
     const leagueConfigString = JSON.stringify(leagueConfiguration);
     const tx = redis.multi();
-    if(tx.exists(leagueConfigurationKey)){
-        tx.del(leagueConfigurationKey);
-    }
+    tx.del(leagueConfigurationKey);
     const newLeagueConfigKey = `league_configuration:${leagueConfiguration.leagueStatus}:${leagueConfiguration.contestantLeagueDataKeyPrefix}`;
     tx.json.set(newLeagueConfigKey, "$", leagueConfigString);
     await tx.exec();

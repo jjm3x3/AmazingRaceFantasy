@@ -921,7 +921,7 @@ describe("PUT (unit tests)", () => {
         expect(request.json).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
-            `league_configuration:${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
+            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
             expect.objectContaining({
                 createdBy: happyPathRequest.createdBy,
                 leagueStatus: happyPathRequest.leagueStatus
@@ -1135,7 +1135,7 @@ describe("PUT (unit tests)", () => {
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
         expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
-            `league_configuration:${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
+            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
             expect.anything()
         );
     });
