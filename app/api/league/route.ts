@@ -135,7 +135,6 @@ export async function PUT (request: NextRequest) {
     }
 
     // update in db
-    const leagueConfigKey = `league_configuration:${body.leagueStatus}:${leagueConfigurationData.contestantLeagueDataKeyPrefix}`;
     const leagueConfig = {
         wikiPageUrl: leagueConfigurationData.wikiPageUrl,
         wikiApiUrl: leagueConfigurationData.wikiApiUrl,
@@ -148,7 +147,7 @@ export async function PUT (request: NextRequest) {
         contestantLeagueDataKeyPrefix: leagueConfigurationData.contestantLeagueDataKeyPrefix,
         createdBy: userId
     };
-    await updateLeagueConfigurationData(leagueConfigKey, leagueConfig);
+    await updateLeagueConfigurationData(`${preexistingLeagueConfigurationKey}:*`, leagueConfig);
 
     // return
     return NextResponse.json({"message": "updated"});
