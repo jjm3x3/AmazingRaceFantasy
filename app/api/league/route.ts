@@ -147,7 +147,7 @@ export async function PUT (request: NextRequest) {
         contestantLeagueDataKeyPrefix: leagueConfigurationData.contestantLeagueDataKeyPrefix,
         createdBy: userId
     };
-    await updateLeagueConfigurationData(preexistingLeagueConfigurationKey, leagueConfig);
+    await updateLeagueConfigurationData(body.leagueKey, leagueConfig);
 
     // return
     return NextResponse.json({"message": "updated"});
