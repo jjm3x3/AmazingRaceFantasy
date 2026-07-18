@@ -1,4 +1,4 @@
-import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
+import parseBigBrotherEntities, { getContestantName } from "@/app/parsers/bigBrotherEntityParser";
 
 describe("parseBigBrotherEntities", () => {
     it("should run", () => {
