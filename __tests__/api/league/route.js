@@ -919,7 +919,7 @@ describe("PUT (unit tests)", () => {
         expect(request.json).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
-            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
+            happyPathRequest.leagueKey,
             expect.objectContaining({
                 createdBy: happyPathRequest.createdBy,
                 leagueStatus: happyPathRequest.leagueStatus
@@ -1104,21 +1104,6 @@ describe("PUT (unit tests)", () => {
         // Arrange
         const dbContestantLeagueDataKeyPrefix = "tvshowTestKey";
 
-        const request = {
-            cookies: {
-                get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
-                })
-            },
-            json: jest.fn().mockImplementation(async () => {
-                return {
-                    createdBy: ourUserId,
-                    leagueStatus: "active",
-                    leagueKey: happyPathRequest.leagueKey
-                }
-            })
-        };
-
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
                 createdBy: ourUserId,
@@ -1131,8 +1116,20 @@ describe("PUT (unit tests)", () => {
             });
         });
 
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+        
         // Act
         const response = await PUT(request);
+        console.log(getAllKeys.mock.results[0].value);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1141,8 +1138,10 @@ describe("PUT (unit tests)", () => {
             `${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
             expect.anything()
         );
+        expect(getAllKeys.mock.calls[0][0]).toContain(`league_configuration:*:${happyPathRequest.leagueKey}`);
+        expect(getLeagueConfigurationData).toHaveBeenCalledWith(`league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`);
         expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
-            `${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
+            happyPathRequest.leagueKey,
             expect.anything()
         );
     });
