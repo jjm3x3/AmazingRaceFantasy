@@ -30,7 +30,7 @@ export default function parseBigBrotherEntities(contestantData :ITableRowData[])
             throw new ReferenceError("Status is either null or undefined and it should not be");
         }
 
-        const teamName = element.name || element.name2;
+        const teamName = getContestantName(element);
 
         let isParticipating = true;
         let eliminationOrder = 0;
