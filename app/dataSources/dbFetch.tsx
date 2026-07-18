@@ -107,12 +107,14 @@ export async function updateLeagueConfigurationData(leagueConfigurationKey: stri
         url: process.env.KV_REST_API_URL,
         token: process.env.KV_REST_API_TOKEN
     });
-    
 
+    const leagueStatusAndKeyPrefix = leagueConfigurationKey.replace("league_configuration:", "");
+    const index = leagueStatusAndKeyPrefix.indexOf(":");
+    const leagueKeyWithoutStatus = leagueStatusAndKeyPrefix.slice(index + 1);
     const leagueConfigString = JSON.stringify(leagueConfiguration);
     const tx = redis.multi();
     tx.del(leagueConfigurationKey);
-    const newLeagueConfigKey = `league_configuration:${leagueConfiguration.leagueStatus}:${leagueConfiguration.contestantLeagueDataKeyPrefix}`;
+    const newLeagueConfigKey = `league_configuration:${leagueConfiguration.leagueStatus}:${leagueKeyWithoutStatus}`;
     tx.json.set(newLeagueConfigKey, "$", leagueConfigString);
     await tx.exec();
 }
