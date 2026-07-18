@@ -427,5 +427,18 @@ describe("getContestantName", () => {
         // Assert
         expect(result).toBe(aRow.name);
     });
+
+    it("should fall back to name2 when row.name is undefined", () => {
+        // Arrange
+        const aRow = {
+            name2: "I have a name"
+        }
+
+        // Act
+        const result = getContestantName(aRow);
+
+        // Assert
+        expect(result).toBe(aRow.name2);
+    });
 });
 
