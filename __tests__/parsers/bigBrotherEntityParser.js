@@ -414,3 +414,18 @@ describe("parseBigBrotherEntities", () => {
     });
 });
 
+describe("getContestantName", () => {
+    it("should return just the row.name when it exists", () => {
+        // Arrange
+        const aRow = {
+            name: "I have a name"
+        }
+
+        // Act
+        const result = getContestantName(aRow);
+
+        // Assert
+        expect(result).toBe(aRow.name);
+    });
+});
+
