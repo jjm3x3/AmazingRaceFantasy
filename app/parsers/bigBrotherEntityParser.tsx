@@ -30,7 +30,7 @@ export default function parseBigBrotherEntities(contestantData :ITableRowData[])
             throw new ReferenceError("Status is either null or undefined and it should not be");
         }
 
-        const teamName = element.name || element.name2;
+        const teamName = getContestantName(element);
 
         let isParticipating = true;
         let eliminationOrder = 0;
@@ -108,4 +108,16 @@ export default function parseBigBrotherEntities(contestantData :ITableRowData[])
     });
 
     return contestantsSortedByEliminationOrder;
+}
+
+export function getContestantName(row: ITableRowData): string {
+    const rawName = row.name || row.name2;
+
+    const lowerCaseRawName = rawName.toLowerCase();
+    if (lowerCaseRawName.includes("big brother")) {
+        const indexOfBigBrother = lowerCaseRawName.indexOf("big brother");
+        return rawName.substring(0, indexOfBigBrother);
+    }
+
+    return rawName;
 }

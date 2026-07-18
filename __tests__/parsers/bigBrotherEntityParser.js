@@ -1,4 +1,4 @@
-import parseBigBrotherEntities from "@/app/parsers/bigBrotherEntityParser";
+import parseBigBrotherEntities, { getContestantName } from "@/app/parsers/bigBrotherEntityParser";
 
 describe("parseBigBrotherEntities", () => {
     it("should run", () => {
@@ -411,6 +411,65 @@ describe("parseBigBrotherEntities", () => {
 
         expect(result.length).toEqual(0);
         expect(result.map(x => x.eliminationOrder)).not.toContain(0);
+    });
+});
+
+describe("getContestantName", () => {
+    it("should return just the row.name when it exists", () => {
+        // Arrange
+        const aRow = {
+            name: "I have a name"
+        }
+
+        // Act
+        const result = getContestantName(aRow);
+
+        // Assert
+        expect(result).toBe(aRow.name);
+    });
+
+    it("should fall back to name2 when row.name is undefined", () => {
+        // Arrange
+        const aRow = {
+            name2: "I have a name"
+        }
+
+        // Act
+        const result = getContestantName(aRow);
+
+        // Assert
+        expect(result).toBe(aRow.name2);
+    });
+
+    it("should remove every thing strarting from 'big brother' text when it exists", () => {
+        // Arrange
+        const nameTextBeforeBB = "I have a name";
+        const nameTextWithBBAndBeyond = "big brother and some other stuff";
+        const aRow = {
+            name: nameTextBeforeBB + nameTextWithBBAndBeyond
+        }
+
+        // Act
+        const result = getContestantName(aRow);
+
+        // Assert
+        expect(result).toBe(nameTextBeforeBB);
+    });
+
+    it("should remove every thing strarting from 'Big Brother' text when it exists", () => {
+        // Arrange
+        const nameTextBeforeBB = "I have a name";
+        // casing matters!
+        const nameTextWithBBAndBeyond = "Big Brother and some other stuff";
+        const aRow = {
+            name: nameTextBeforeBB + nameTextWithBBAndBeyond
+        }
+
+        // Act
+        const result = getContestantName(aRow);
+
+        // Assert
+        expect(result).toBe(nameTextBeforeBB);
     });
 });
 
