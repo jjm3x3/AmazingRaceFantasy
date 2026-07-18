@@ -440,5 +440,20 @@ describe("getContestantName", () => {
         // Assert
         expect(result).toBe(aRow.name2);
     });
+
+    it("should remove every thing strarting from 'big brother' text when it exists", () => {
+        // Arrange
+        const nameTextBeforeBB = "I have a name";
+        const nameTextWithBBAndBeyond = "big brother and some other stuff";
+        const aRow = {
+            name: nameTextBeforeBB + nameTextWithBBAndBeyond
+        }
+
+        // Act
+        const result = getContestantName(aRow);
+
+        // Assert
+        expect(result).toBe(nameTextBeforeBB);
+    });
 });
 
