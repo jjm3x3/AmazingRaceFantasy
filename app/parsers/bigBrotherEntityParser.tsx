@@ -110,7 +110,7 @@ export default function parseBigBrotherEntities(contestantData :ITableRowData[])
     return contestantsSortedByEliminationOrder;
 }
 
-export function getContestantName(row: string): string {
+export function getContestantName(row: ITableRowData): string {
     const rawName = row.name || row.name2;
 
     const lowerCaseRawName = rawName.toLowerCase();
