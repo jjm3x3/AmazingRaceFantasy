@@ -113,8 +113,9 @@ export default function parseBigBrotherEntities(contestantData :ITableRowData[])
 export function getContestantName(row: string): string {
     const rawName = row.name || row.name2;
 
-    if (rawName.includes("big brother")) {
-        const indexOfBigBrother = rawName.indexOf("big brother");
+    const lowerCaseRawName = rawName.toLowerCase();
+    if (lowerCaseRawName.includes("big brother")) {
+        const indexOfBigBrother = lowerCaseRawName.indexOf("big brother");
         return rawName.substring(0, indexOfBigBrother);
     }
 
