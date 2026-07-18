@@ -109,3 +109,9 @@ export default function parseBigBrotherEntities(contestantData :ITableRowData[])
 
     return contestantsSortedByEliminationOrder;
 }
+
+export function getContestantName(row: string): string {
+    const rawName = row.name || row.name2;
+
+    return rawName;
+}
