@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
-import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData, deleteLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData, updateLeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
 
 interface decryptionPayload {
@@ -134,12 +134,7 @@ export async function PUT (request: NextRequest) {
         return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
     }
 
-    if(leagueConfigurationData.leagueStatus !== body.leagueStatus){
-        await deleteLeagueConfigurationData(preexistingLeagueConfigurationKey);
-    }
-
-    // insert into db
-    const leagueConfigKey = `league_configuration:${body.leagueStatus}:${leagueConfigurationData.contestantLeagueDataKeyPrefix}`;
+    // update in db
     const leagueConfig = {
         wikiPageUrl: leagueConfigurationData.wikiPageUrl,
         wikiApiUrl: leagueConfigurationData.wikiApiUrl,
@@ -152,8 +147,7 @@ export async function PUT (request: NextRequest) {
         contestantLeagueDataKeyPrefix: leagueConfigurationData.contestantLeagueDataKeyPrefix,
         createdBy: userId
     };
-
-    await writeLeagueConfigurationData(leagueConfigKey, leagueConfig);
+    await updateLeagueConfigurationData(body.leagueKey, leagueConfig);
 
     // return
     return NextResponse.json({"message": "updated"});
