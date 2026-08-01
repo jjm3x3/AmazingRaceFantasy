@@ -57,7 +57,8 @@ export async function GET(request: NextRequest) {
 
 async function getAndSaveKeyValue(key: string): Promise<PutObjectCommandOutput> {
 
-    const aJson = await getJson(key);
+    let aJson = {};
+    aJson = await getJson(key);
 
     const jsonString = JSON.stringify(aJson);
 
