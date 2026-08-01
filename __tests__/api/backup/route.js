@@ -6,7 +6,7 @@ jest.mock("../../../app/dataSources/dbFetch");
 jest.mock("../../../app/dataSources/s3Provider");
 import { GET } from "@/app/api/backup/route.ts";
 import { saveObject } from "@/app/dataSources/s3Provider";
-import { getAllKeys } from "@/app/dataSources/dbFetch";
+import { getAllKeys, getJson } from "@/app/dataSources/dbFetch";
 
 const aSecretValue = "iAmAVerySercretValue";
 
@@ -110,6 +110,36 @@ describe("backup GET", () => {
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(500);
+    });
+
+    it("should succeed when one key fails to getJson", async () => {
+        // Arrange
+        getJson
+            .mockImplementation((key) => {
+                if (key === "aKey") {
+                    return new Promise((_resolve, reject) => {
+                        reject(new Error("I am an error"));
+                    });
+                }
+
+                return new Promise((resolve) => {
+                    resolve({ key: "value" });
+                });
+            });
+
+        const request = {
+            headers: { get: () => `Bearer ${aSecretValue}` }
+        };
+
+        // Act
+        const response = await GET(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(saveObject).toHaveBeenCalledWith(expect.objectContaining({
+            Key: "aSecondKey"
+        }));
     });
 
     it("should catch when the last save fails", async () => {
