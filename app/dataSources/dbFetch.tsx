@@ -180,7 +180,7 @@ export async function getUser(userId: string): Promise<UserData> {
     return getJson<UserData>(`internal_user:${userId}`);
 }
 
-export async function getJson<T>(key: string): Promise<T> {
+export async function getJson<T>(key: string): Promise<T|null> {
 
     if (key === undefined) {
         throw new Error("Unable to getJson. Provided param 'key' is undefined but must have a value");
