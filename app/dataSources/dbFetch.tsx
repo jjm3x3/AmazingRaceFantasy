@@ -190,16 +190,7 @@ export async function getJson<T>(key: string): Promise<T> {
         url: process.env.KV_REST_API_URL,
         token: process.env.KV_REST_API_TOKEN
     })
-
-    let jsonResult: T | null = null;
-    try {
-        jsonResult = await redis.json.get(key);
-    } catch (error) {
-        console.error(`Could not read key '${key}' because of error: ${error}`);
-        // Not sure if I can... but here's to trying
-        return null;
-    }
-
+    const jsonResult: T | null = await redis.json.get(key);
     if (jsonResult !== null){
         return jsonResult;
     } else {
