@@ -65,6 +65,12 @@ and `seed:prod`, which will run the [seedDb script](https://github.com/jjm3x3/Am
 
 This is a small section to get some ideas about how the site may be configured to work.
 
+#### Backup
+
+We have setup a 3rd tier "off-site" backup where we write all our key/value pairs to an S3 bucket. This process runs every day at 3pm UTC (7am PST)
+
+_note: this only backs up key/value pairs which have json values, it skips the rest._
+
 #### Config
 
 - Wikipedia calls are configured to cache for 3600s (or 1h)
