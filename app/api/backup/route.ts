@@ -62,6 +62,7 @@ async function getAndSaveKeyValue(key: string): Promise<PutObjectCommandOutput|n
         aJson = await getJson(key);
     } catch(error) {
         console.error(`Could not read JSON for key '${key}' because of error: ${error}`);
+        return null;
     }
 
     const jsonString = JSON.stringify(aJson);
