@@ -107,8 +107,10 @@ export async function PUT (request: NextRequest) {
     }
 
     // validate/sanitize input
+    let updateRequest: UpdateRequest | null = null;
     try {
         LeagueConfigUpdate.parse(body);
+        updateRequest = body as UpdateRequest;
     } catch(error: unknown){
         if (error instanceof z.ZodError) {
             const firstIssue = error.issues[0];
