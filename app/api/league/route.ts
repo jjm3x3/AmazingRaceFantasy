@@ -11,6 +11,13 @@ interface decryptionPayload {
     exp: number
 }
 
+interface UpdateRequest {
+    createdBy: string,
+    leagueStatus: string,
+    leagueKey: string,
+    googleSheetUrl: string
+}
+
 const LeagueConfig = z.object({
     wikiPageName: validationPattern.wikiPageUrl.zod,
     googleSheetUrl: validationPattern.googleSheetUrl.zod,
@@ -109,8 +116,8 @@ export async function PUT (request: NextRequest) {
     // validate/sanitize input
     let updateRequest: UpdateRequest | null = null;
     try {
-        LeagueConfigUpdate.parse(body);
         updateRequest = body as UpdateRequest;
+        LeagueConfigUpdate.parse(updateRequest);
     } catch(error: unknown){
         if (error instanceof z.ZodError) {
             const firstIssue = error.issues[0];
