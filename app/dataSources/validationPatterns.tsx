@@ -5,6 +5,10 @@ const validationPattern = {
         zod: z.string().regex(/^[a-zA-Z:()_0-9]+$/),
         string: "^[a-zA-Z:()_0-9]+$"
     },
+    createdBy: {
+        zod: z.string(),
+        string: "^[a-zA-Z0-9]+$"
+    },
     googleSheetUrl: {
         zod: z.url({
             protocol: /^https$/,

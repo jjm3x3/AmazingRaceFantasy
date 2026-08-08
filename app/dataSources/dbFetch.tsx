@@ -95,6 +95,32 @@ export async function writeLeagueConfigurationData(leagueConfigurationKey: strin
     await redis.json.set(leagueConfigurationKey, "$", leagueConfigString)
 }
 
+export async function updateLeagueConfigurationData(leagueConfigurationKey: string, leagueConfiguration: ILeagueConfigurationData): Promise<void> {
+    if (leagueConfigurationKey === undefined) {
+        throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value\"");
+    };
+    if (leagueConfiguration === undefined) {
+        throw new Error("Unable to writeLeagueConfigurationData. Provided param 'leagueConfiguration' is undefined but must have a value");
+    };
+
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    });
+
+    const leagueStatusAndKeyPrefix = leagueConfigurationKey.replace("league_configuration:", "");
+    const index = leagueStatusAndKeyPrefix.indexOf(":");
+    const leagueKeyWithoutStatus = leagueStatusAndKeyPrefix.slice(index + 1);
+    const leagueConfigString = JSON.stringify(leagueConfiguration);
+    const tx = redis.multi();
+    tx.del(leagueConfigurationKey);
+    const newLeagueConfigKey = `league_configuration:${leagueConfiguration.leagueStatus}:${leagueKeyWithoutStatus}`;
+    tx.json.set(newLeagueConfigKey, "$", leagueConfigString);
+    await tx.exec();
+}
+
+
+
 export async function getLeagueConfigurationData(leagueConfigurationKey: string): Promise<ILeagueConfigurationData> {
 
     if (leagueConfigurationKey === undefined) {
@@ -110,6 +136,23 @@ export async function getLeagueConfigurationData(leagueConfigurationKey: string)
         return leagueConfigurationData;
     } else {
         throw new Error("There is no league configuration found for the key provided");
+    }
+}
+
+export async function deleteLeagueConfigurationData(leagueConfigurationKey: string): Promise<void> {
+
+    if (leagueConfigurationKey === undefined) {
+        throw new Error("Unable to deleteLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value");
+    }
+
+    const redis = new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN
+    });
+    try {
+        await redis.del(leagueConfigurationKey);
+    } catch (error) {
+        throw new Error("There was an error deleting the league configuration data for the key provided");
     }
 }
 
