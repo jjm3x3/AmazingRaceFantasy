@@ -55,9 +55,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: true });
 }
 
-async function getAndSaveKeyValue(key: string): Promise<PutObjectCommandOutput> {
+async function getAndSaveKeyValue(key: string): Promise<PutObjectCommandOutput|null> {
 
-    const aJson = await getJson(key);
+    let aJson = {};
+    try {
+        aJson = await getJson(key);
+    } catch(error) {
+        console.error(`Could not read JSON for key '${key}' because of error: ${error}`);
+        return null;
+    }
 
     const jsonString = JSON.stringify(aJson);
 
