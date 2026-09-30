@@ -45,9 +45,22 @@ export interface ITableRowData {
     col7: string
 }
 
-async function fetchWikipediaData(wikiUrl: string): Promise<IWikipediaData> {
-    const response = await fetch(wikiUrl, { next: { revalidate: 3600 } });
-    const data = await response.json();
+async function fetchWikipediaData(url: string): Promise<WikipediaApiResponse> {
+    const response = await fetch(url, { next: { revalidate: 3600 } });
+
+    if (!response.ok) {
+        throw new Error(`Wikipedia request failed (${response.status}) for ${url}`);
+    }
+
+    const data = await response.json() as WikipediaApiResponse;
+
+    if (data.error) {
+        throw new Error(
+            `Wikipedia API error${data.error.code ? ` (${data.error.code})` : ""}: ` +
+            `${data.error.info ?? "Unknown API error"}`
+        );
+    }
+
     return data;
 }
 
