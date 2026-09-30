@@ -1,11 +1,5 @@
 import * as cheerio from "cheerio";
 
-interface IWikipediaData {
-    parse: {
-        text: string
-    }
-}
-
 interface Section {
     toclevel: number
     level: string
