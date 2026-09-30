@@ -76,6 +76,7 @@ export async function getWikipediaContestantData(wikiUrl: string, contestantSect
     const castUrl = `${wikiUrl}&section=${sectionIndex}&formatversion=2`;
 
     const wikipediaData = await fetchWikipediaData(castUrl);
+    console.log(wikipediaData.error);
     const htmlsnippet = wikipediaData.parse.text;
     const $ = cheerio.load(htmlsnippet);
     const cheerioFilter = $("table.wikitable tbody tr");
