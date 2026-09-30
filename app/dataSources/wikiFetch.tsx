@@ -25,6 +25,14 @@ interface ParseResult {
     showtoc: boolean
 }
 
+interface WikipediaApiResponse {
+    error?: { code?: string; info?: string };
+    parse?: {
+        sections?: Section[];
+        text?: string;
+    };
+}
+
 export interface ITableRowData {
     name: string
     name2: string
