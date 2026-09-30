@@ -12,13 +12,6 @@ interface Section {
     linkAnchor: string
 }
 
-interface ParseResult {
-    title: string
-    pageid: number
-    sections: Section[]
-    showtoc: boolean
-}
-
 interface WikipediaApiResponse {
     error?: { code?: string; info?: string };
     parse?: {
@@ -62,15 +55,6 @@ export function getWikipediaContestantDataFetcher(wikiUrl: string, contestantSec
     return async function() {
         return await getWikipediaContestantData(wikiUrl, contestantSectionName);
     };
-}
-
-async function fetchWikipediaSections(wikiUrl: string): Promise<ParseResult> {
-    const response = await fetch(wikiUrl, { next: { revalidate: 3600 } });
-    if (!response.ok) {
-        console.error(`There was an non 200 status code (${response.status}) getting wikipedia sections for page: '${wikiUrl}'`);
-    }
-    const data = await response.json();
-    return data.parse;
 }
 
 function findSectionIndexByAnchor(sections: Section[], anchor: string): number | undefined {
