@@ -206,4 +206,23 @@ describe("convertNamesToTeamList", () => {
         expect(result).not.toBeNull()
         expect(result.length).toBe(1);
     });
+
+    it("Should return a list with an entity in it, even though the name and key is different", () => {
+        // Arrange
+        const spy = jest.spyOn(console, 'warn');
+        const theMap = new Map();
+        const importedTeamName =  "Giacomo \"Jack\" Palumbo & Vincenzo \"Enzo\" Palumbo"
+        const localTeamName = "Jack Palumbo & Enzo Palumbo"
+        const expectedKey = CompetingEntity.getKey(localTeamName);
+        const entity = new CompetingEntity({teamName: localTeamName});
+        theMap.set(expectedKey, entity)
+
+        // Act
+        const result = convertNamesToTeamList([importedTeamName], theMap);
+
+        // Assert
+        expect(spy).toHaveBeenCalled();
+        expect(result).not.toBeNull()
+        expect(result.length).toBe(1);
+    });
 });
