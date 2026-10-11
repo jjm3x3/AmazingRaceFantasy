@@ -1,0 +1,29 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import * as TestComponent from './testComponent.stories';
+
+<Meta name="Docs" of={TestComponent} />
+
+# Test Component
+
+The Test component a template for the agent skill.
+
+## Overview
+
+This component renders a test component.
+
+## Props
+
+- `exampleProp`: The example text
+
+## Usage
+
+```tsx
+import TestComponent from './testComponent';
+
+<TestComponent exampleProp={"test"}/>
+```
+
+## Example
+
+<Canvas of={TestComponent.Default} />
