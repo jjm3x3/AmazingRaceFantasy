@@ -23,7 +23,7 @@ const CONTESTANT_LEAGUE_DATA = [
     {
         name: "Cindy",
         userId: "685AAAF4-97DB-4266-A0B7-E61E2C6CA22E",
-        ranking: [ "Kristin Flickinger", "Devin Way", "Maggie Nestor", "Lewis Kelly", "Mike Pinsky", "Ori Jean-Charles", "Eric Macksoud", "Patt Cannaday", "Linnea Capobianco", "Jenna Doore", "Sharonda Cox", "Carter Krull", "Danny \"Kilby\" Kilby", "Cristian Chavez", "Brady Booker", "Angelica \"Jelly\" Loblack", "An \"Thien An\" Nguyen", "Alexis Levine", "Rob Antonson", "Ana Sani", "Aaliyah Puglia" ]
+        ranking: [ "Kristin Flickinger", "Devin Way", "Maggie Nestor", "Lewis Kelly", "Mike Pinsky", "Ori Jean-Charles", "Eric Macksoud", "Patt Cannaday", "Linnea Capobianco", "Jenna Doore", "Sharonda Cox", "Carter Krull", "Danny Kilby", "Cristian Chavez", "Brady Booker", "Angelica \"Jelly\" Loblack", "Thien An Nguyen", "Alexis Levine", "Rob Antonson", "Ana Sani", "Aaliyah Puglia" ]
     }
 ];
 
