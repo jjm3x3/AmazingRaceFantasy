@@ -153,7 +153,6 @@ What this tells us:
 ```ts
 interface SurvivorFinish {
     name: string            // name || name2
-    rowIndex: number        // position after partial-row filtering
     placement?: string      // raw text, e.g. "8th voted out1st jury member"
     day?: number            // N from "Day N"
 }
@@ -238,7 +237,6 @@ spec only promises that `day` reaches that stage when the row has one.
    a prerequisite for decision 1.
 3. **Rows with no status:** treated as still in play, not an error.
 4. **Sort key:** `Nth voted out` → N; other exits → previous key + 0.5.
-   `rowIndex` is not used for ordering.
 5. **Combined cell:** not split. It came from the Big Brother parser, and
    Survivor tables never format cells that way.
 
