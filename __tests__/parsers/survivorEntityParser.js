@@ -341,8 +341,39 @@ describe("parseSurvivorEntities", () => {
         expect(result.length).toEqual(0);
         expect(result.map(x => x.eliminationOrder)).not.toContain(0);
     });
-});
 
+    it("should parse the finish day out of col8 when a contestant's row spans all eight columns", () => {
+        const listOfContestants = [
+            {
+                name: "Nicole Mazullo",
+                col1: "26",
+                col2: "Philadelphia,Pennsylvania",
+                col3: "Kele",
+                col4: "",
+                col5: "",
+                col6: "",
+                col7: "1st voted out",
+                col8: "Day 3"
+            },
+            {
+                name: "Kimberly \"Annie\" Davis",
+                col1: "49",
+                col2: "Austin,Texas",
+                col3: "2nd voted out",
+                col4: "Day 5",
+                col5: "",
+                col6: "",
+                col7: "",
+                col8: ""
+            }
+        ];
+
+        var result = parseSurvivorEntities(listOfContestants);
+
+        expect(result.map(x => x.teamName)).toEqual(["Nicole Mazullo", "Kimberly \"Annie\" Davis"]);
+        expect(result.map(x => x.eliminationOrder)).toEqual([1, 2]);
+    });
+});
 
 describe("parseSurvivorEntities characterization against real Wikipedia rows", () => {
     // Pins the current parser's output for full seasons so changes in
