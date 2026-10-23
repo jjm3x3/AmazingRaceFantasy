@@ -30,6 +30,7 @@ export interface ITableRowData {
     col5: string
     col6: string
     col7: string
+    col8: string
 }
 
 async function fetchWikipediaData(url: string): Promise<WikipediaApiResponse> {
@@ -112,6 +113,7 @@ export async function getWikipediaContestantData(wikiUrl: string, contestantSect
         const col5 = $row.find("td").eq(4).text().trim();
         const col6 = $row.find("td").eq(5).text().trim();
         const col7 = $row.find("td").eq(6).text().trim();
+        const col8 = $row.find("td").eq(7).text().trim();
 
         const aContestant: ITableRowData = {
             name: name,
@@ -122,7 +124,8 @@ export async function getWikipediaContestantData(wikiUrl: string, contestantSect
             col4: col4,
             col5: col5,
             col6: col6,
-            col7: col7
+            col7: col7,
+            col8: col8
         };
 
         return aContestant;
