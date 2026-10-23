@@ -4,6 +4,7 @@ import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
 import parseSurvivorEntities from "@/app/parsers/survivorEntityParser";
 import { survivor47WikiTableData } from "@/__tests__/fixtures/survivor47WikiTableData";
 import { survivor49WikiTableData } from "@/__tests__/fixtures/survivor49WikiTableData";
+import { survivor50WikiTableData } from "@/__tests__/fixtures/survivor50WikiTableData";
 
 describe("Regression Tests Checking generation of Archived Leagues", () => {
 
@@ -408,5 +409,51 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[16].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
         expect(result.rounds[16].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[16].contestantRoundData[0].totalScore).toBe(1160);
+    });
+
+    it("Should return a league with Antoinettes scoring for Survivor_50", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                survivor50WikiTableData
+            );
+        });
+
+        const antoinettesRawTeamList = [ "Christian Hubicki", "Joe Hunter", "Cirie Fields", "Aubry Bracco", "Kamilla Karthigesu", "Quintavius \"Q\" Burdette", "Charlie Davis", "Jonathan Young", "Colby Donaldson", "Benjamin \"Coach\" Wade", "Dee Valladares", "Genevieve Mushaluk", "Chrissy Hofbeck", "Angelina Keeley", "Emily Flippen", "Mike White", "Rick Devens", "Tiffany Ervin", "Stephenie LaGrossa Kendrick", "Savannah Louie", "Oscar \"Ozzy\" Lusth", "Rizo Velovic", "Jenna Lewis-Dougherty", "Kyle Fraser" ];
+
+        const antoinettesContestantLeagueData = {
+            name: "Antoinette",
+            userId: "DCC9DCDC-AE5C-4A53-AF09-23F3C957D60B",
+            ranking: antoinettesRawTeamList
+        };
+        const listOfContetantLeagueData = [antoinettesContestantLeagueData]
+
+        // Note: this is a characterization of the current parser output. The
+        // double elimination (Chrissy & Coach) and the finale ordering are not
+        // parsed correctly yet, so expect these numbers to change with that fix
+        const expectedNumberOfRounds = 22;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, parseSurvivorEntities, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(220);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(220);
+
+        //// round 1..20 not testing because we aren't using them today
+
+        // round 21
+        expect(result.rounds[21].round).toBe(21);
+        expect(result.rounds[21].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
+        expect(result.rounds[21].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[21].contestantRoundData[0].totalScore).toBe(1960);
     });
 });
