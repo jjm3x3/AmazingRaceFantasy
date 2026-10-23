@@ -1,4 +1,6 @@
 import parseSurvivorEntities from "@/app/parsers/survivorEntityParser";
+import { survivor47WikiTableData } from "@/__tests__/fixtures/survivor47WikiTableData";
+import { survivor49WikiTableData } from "@/__tests__/fixtures/survivor49WikiTableData";
 
 describe("parseSurvivorEntities", () => {
     it("should run", () => {
@@ -341,3 +343,67 @@ describe("parseSurvivorEntities", () => {
     });
 });
 
+
+describe("parseSurvivorEntities characterization against real Wikipedia rows", () => {
+    // Pins the current parser's output for full seasons so changes in
+    // behavior show up as explicit test diffs.
+    function summarize(entities) {
+        return entities.map(x => [
+            x.teamName,
+            x.isParticipating,
+            x.eliminationOrder === Number.MAX_VALUE ? "MAX" : x.eliminationOrder
+        ]);
+    }
+
+    it("should parse Survivor 47 in finish order with the winner still participating", () => {
+        const result = parseSurvivorEntities(survivor47WikiTableData);
+
+        expect(summarize(result)).toEqual([
+            ["Jon Lovett", false, 1],
+            ["TK Foster", false, 2],
+            ["Aysha Welch", false, 3],
+            ["Kishan Patel", false, 4],
+            ["Anika Dhar", false, 5],
+            ["Rome Cooney", false, 6],
+            ["Tiyana Hallums", false, 7],
+            ["Sierra Wright", false, 8],
+            ["Sol Yi", false, 9],
+            ["Gabe Ortis", false, 10],
+            ["Kyle Ostwald", false, 11],
+            ["Caroline Vidmar", false, 12],
+            ["Andy Rueda", false, 13],
+            ["Genevieve Mushaluk", false, 14],
+            ["Teeny Chirichillo", false, 15],
+            ["Sue Smey", false, 16],
+            ["Sam Phalen", false, 17],
+            ["Rachel LaMont", true, "MAX"]
+        ]);
+    });
+
+    it("should parse Survivor 49 in finish order including rows missing their day", () => {
+        // Nicole's day is past col7 and Jeremiah's/Sophi's day cell is shared
+        // with the row above, so both rely on the "previous day + 0.5" fallback
+        const result = parseSurvivorEntities(survivor49WikiTableData);
+
+        expect(summarize(result)).toEqual([
+            ["Nicole Mazullo", false, 1],
+            ["Kimberly \"Annie\" Davis", false, 2],
+            ["Jake Latimer", false, 3],
+            ["Jeremiah Ing", false, 4],
+            ["Matt Williams", false, 5],
+            ["Jason Treul", false, 6],
+            ["Shannon Fairweather", false, 7],
+            ["Nate Moore", false, 8],
+            ["Michelle \"MC\" Chukwujekwu", false, 9],
+            ["Alex Moore", false, 10],
+            ["Jawan Pitts", false, 11],
+            ["Sophie Segreti", false, 12],
+            ["Steven Ramm", false, 13],
+            ["Kristina Mills", false, 14],
+            ["Rizo Velovic", false, 15],
+            ["Sage Ahrens-Nichols", false, 16],
+            ["Sophi Balerdi", false, 17],
+            ["Savannah Louie", true, "MAX"]
+        ]);
+    });
+});
