@@ -157,7 +157,8 @@ Examples:
 - `previousKey` is the last non-zero key in row order (starts at `0`).
 - The ordinal pattern is anchored to the start, so `2nd runner-up` is **not**
   an ordinal placement; it takes `previousKey + 0.5`.
-- Rows sharing a placement (Chrissy and Coach) get the same key.
+- Rows sharing a placement (Chrissy and Coach) get the same key, and so the
+  same elimination order (step 6).
 
 Examples:
 - Survivor 49: `1st` → 1, `2nd` → 2, Medevac → 2.5, `3rd` → 3, …,
@@ -175,12 +176,20 @@ the parser, is out of scope for this spec.
 
 ### 6. Elimination order
 1. Stable-sort contestants by `finishKey` ascending.
-2. Walk the sorted list; each contestant with `finishKey !== 0` gets the next
-   counter value starting at `1`. `finishKey === 0` gets `Number.MAX_VALUE`.
-3. Sort by `eliminationOrder` ascending and return.
+2. Walk the sorted list; each **distinct** non-zero `finishKey` gets the next
+   counter value starting at `1`, and every contestant with that key gets
+   that order. `finishKey === 0` gets `Number.MAX_VALUE`.
+3. Sort by `eliminationOrder` ascending and return. Contestants with the same
+   order keep input order.
 
-Every eliminated contestant gets a **distinct** order. Equal keys (including
-shared placements) are broken by input order.
+Contestants with equal keys (shared placements such as Chrissy and Coach)
+get the **same** `eliminationOrder`, so they leave in the same round. The
+counter does not skip after a shared order: the next exit takes the next
+number. This lines up order numbers with round numbers, though
+`League` builds rounds from the distinct orders either way.
+
+Example (Survivor 50): …, Dee → 11, Chrissy → 12, Coach → 12,
+Christian → 13, …, Jonathan → 22, Aubry → `Number.MAX_VALUE`.
 
 ## Warnings
 
@@ -194,10 +203,9 @@ Survivor 47 and 49 characterization tests: **unchanged** (same orders 1–17
 and winner at `Number.MAX_VALUE`).
 
 Survivor 50 (generator regression test): Coach changes from still in play
-(`Number.MAX_VALUE`) to eliminated with order 13, right after Chrissy (12).
-Every later exit's order goes up by one (Christian 13 → 14, …,
-Jonathan 22 → 23). `expectedNumberOfRounds` and the round scores change
-with it.
+(`Number.MAX_VALUE`) to eliminated with order 12, the same as Chrissy. Every
+other contestant keeps today's order, so `expectedNumberOfRounds` stays 22.
+Round scores from round 12 on change, because Coach now leaves with Chrissy.
 
 Parser unit tests:
 - "should throw an error for a contestantData w/ a missing status" → the
