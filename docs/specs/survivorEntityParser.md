@@ -120,6 +120,12 @@ vocabulary: `voted out`, `eliminated`, `medically evacuated`, `quit`,
 `removed`, `runner-up`, `sole survivor`. Anything else (tribe names,
 `None[a]`, `Participating`) is not a placement.
 
+Matching ignores whitespace: the cell text and the vocabulary are compared
+with all whitespace removed, so `Medicallyevacuated` matches
+`medically evacuated`. cheerio's `.text()` joins a cell's lines without a
+separator, so a `Medically<br>evacuated` cell loses its space. The same goes
+for the ordinal pattern in step 4. `placement` itself keeps the raw text.
+
 A cell that holds both values (e.g. `Runner-upDay 100`) is **not** split.
 Support for that shape is left over from the Big Brother parser this code was
 copied from: Big Brother tables have cells like that, Survivor tables do not.
@@ -151,7 +157,7 @@ Examples:
 | --- | --- | --- |
 | missing | `0` | `true` |
 | contains `sole survivor` | `0` (winner) | `true` |
-| matches `^(\d+)(?:st\|nd\|rd\|th)(?:\s*&\s*\d+(?:st\|nd\|rd\|th))?\s*voted out` | first ordinal `N` | `false` |
+| with whitespace removed, matches `^(\d+)(?:st\|nd\|rd\|th)(?:&\d+(?:st\|nd\|rd\|th))?votedout` | first ordinal `N` | `false` |
 | any other recognized placement (eliminated, medevac, quit, removed, runner-ups) | `previousKey + 0.5` | `false` |
 
 - `previousKey` is the last non-zero key in row order (starts at `0`).
@@ -205,7 +211,8 @@ and winner at `Number.MAX_VALUE`).
 Survivor 50 (generator regression test): Coach changes from still in play
 (`Number.MAX_VALUE`) to eliminated with order 12, the same as Chrissy. Every
 other contestant keeps today's order, so `expectedNumberOfRounds` stays 22.
-Round scores from round 12 on change, because Coach now leaves with Chrissy.
+Round scores change from `rounds[11]` (elimination order 12) on, because
+Coach now leaves with Chrissy.
 
 Parser unit tests:
 - "should throw an error for a contestantData w/ a missing status" → the
