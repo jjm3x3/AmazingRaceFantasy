@@ -1,6 +1,7 @@
 import parseSurvivorEntities from "@/app/parsers/survivorEntityParser";
 import { survivor47WikiTableData } from "@/__tests__/fixtures/survivor47WikiTableData";
 import { survivor49WikiTableData } from "@/__tests__/fixtures/survivor49WikiTableData";
+import { survivor50WikiTableData } from "@/__tests__/fixtures/survivor50WikiTableData";
 
 describe("parseSurvivorEntities", () => {
     it("should run", () => {
@@ -25,24 +26,26 @@ describe("parseSurvivorEntities", () => {
         expect(result).not.toBeNull();
     });
 
-    it("should throw an error for a contestantData w/ a missing status", () => {
+    it("should treat a contestant with no finish cells and no placement above as still participating", () => {
         // Arrange
-        const firstContestantsFirstName = "Some";
-        const secondContestantsFirstName = "SomeGuys";
-
+        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
         const listOfContestants = [
             {
-                name: firstContestantsFirstName + " Guy",
+                name: "Some Guy",
                 col4: "Participating"
             },
-            {name: secondContestantsFirstName + " Brother"}
+            {name: "SomeGuys Brother"}
         ];
 
         // Act
-        var act = () => parseSurvivorEntities(listOfContestants);
+        var result = parseSurvivorEntities(listOfContestants);
 
         // Assert
-        expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"));
+        const target = result.find(x => x.teamName == "SomeGuys Brother");
+        expect(target.isParticipating).toBe(true);
+        expect(target.eliminationOrder).toEqual(Number.MAX_VALUE);
+        expect(warnSpy).toHaveBeenCalled();
+        warnSpy.mockRestore();
     });
 
     it("should give two exits on the same day separate elimination orders based on their placements", () => {
@@ -70,6 +73,34 @@ describe("parseSurvivorEntities", () => {
         expect(result.map(x => [x.teamName, x.eliminationOrder])).toEqual([
             ["Angelina Keeley", 1],
             ["Charlie Davis", 2]
+        ]);
+    });
+
+    it("should treat a medically evacuated contestant with no day of their own as eliminated", () => {
+        const listOfContestants = [
+            {
+                name: "first out",
+                col3: "1st voted out",
+                col4: "Day 3"
+            },
+            {
+                name: "medevac",
+                col3: "Vatu",
+                col4: "Medically evacuated"
+            },
+            {
+                name: "second out",
+                col3: "2nd voted out",
+                col4: "Day 6"
+            }
+        ];
+
+        var result = parseSurvivorEntities(listOfContestants);
+
+        expect(result.map(x => [x.teamName, x.isParticipating, x.eliminationOrder])).toEqual([
+            ["first out", false, 1],
+            ["medevac", false, 2],
+            ["second out", false, 3]
         ]);
     });
 
@@ -127,6 +158,63 @@ describe("parseSurvivorEntities", () => {
             ["second place", 3],
             ["winner", Number.MAX_VALUE]
         ]);
+    });
+
+    it("should give a shared double-elimination placement one elimination order", () => {
+        // The second contestant's row is empty because every cell is shared
+        // with the row above on Wikipedia
+        const listOfContestants = [
+            {
+                name: "tenth out",
+                col3: "Kalo",
+                col4: "10th voted out1st jury member",
+                col5: "Day 15"
+            },
+            {
+                name: "first of the pair",
+                col3: "Kalo",
+                col4: "11th & 12th voted out2nd & 3rd jury members",
+                col5: "Day 16"
+            },
+            {
+                name: "second of the pair",
+                col3: "",
+                col4: "",
+                col5: ""
+            },
+            {
+                name: "thirteenth out",
+                col3: "Cila",
+                col4: "13th voted out4th jury member",
+                col5: "Day 18"
+            }
+        ];
+
+        var result = parseSurvivorEntities(listOfContestants);
+
+        expect(result.map(x => [x.teamName, x.isParticipating, x.eliminationOrder])).toEqual([
+            ["tenth out", false, 1],
+            ["first of the pair", false, 2],
+            ["second of the pair", false, 2],
+            ["thirteenth out", false, 3]
+        ]);
+    });
+
+    it("should warn when a day cell has no recognized placement to its left", () => {
+        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+        const listOfContestants = [
+            {
+                name: "odd row",
+                col3: "Kele",
+                col4: "Day 4"
+            }
+        ];
+
+        var result = parseSurvivorEntities(listOfContestants);
+
+        expect(result[0].isParticipating).toBe(true);
+        expect(warnSpy).toHaveBeenCalled();
+        warnSpy.mockRestore();
     });
 
     it("Should parse out ending day from status when status is runner-up", () => {
@@ -430,5 +518,42 @@ describe("parseSurvivorEntities characterization against real Wikipedia rows", (
             ["Sophi Balerdi", false, 17],
             ["Savannah Louie", true, "MAX"]
         ]);
+    });
+
+    it("should parse Survivor 50 with the shared double elimination in one elimination order", () => {
+        // Coach's row is empty because every cell is shared with Chrissy's
+        // "11th & 12th voted out" row, so they leave together
+        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+
+        const result = parseSurvivorEntities(survivor50WikiTableData);
+
+        expect(summarize(result)).toEqual([
+            ["Jenna Lewis-Dougherty", false, 1],
+            ["Kyle Fraser", false, 2],
+            ["Savannah Louie", false, 3],
+            ["Quintavius \"Q\" Burdette", false, 4],
+            ["Mike White", false, 5],
+            ["Angelina Keeley", false, 6],
+            ["Charlie Davis", false, 7],
+            ["Kamilla Karthigesu", false, 8],
+            ["Genevieve Mushaluk", false, 9],
+            ["Colby Donaldson", false, 10],
+            ["Dee Valladares", false, 11],
+            ["Chrissy Hofbeck", false, 12],
+            ["Benjamin \"Coach\" Wade", false, 12],
+            ["Christian Hubicki", false, 13],
+            ["Stephenie LaGrossa Kendrick", false, 14],
+            ["Emily Flippen", false, 15],
+            ["Oscar \"Ozzy\" Lusth", false, 16],
+            ["Rick Devens", false, 17],
+            ["Cirie Fields", false, 18],
+            ["Tiffany Ervin", false, 19],
+            ["Rizo Velovic", false, 20],
+            ["Joe Hunter", false, 21],
+            ["Jonathan Young", false, 22],
+            ["Aubry Bracco", true, "MAX"]
+        ]);
+        expect(warnSpy).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
     });
 });
