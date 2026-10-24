@@ -45,6 +45,34 @@ describe("parseSurvivorEntities", () => {
         expect(act).toThrow(new ReferenceError("Status is either null or undefined and it should not be"));
     });
 
+    it("should give two exits on the same day separate elimination orders based on their placements", () => {
+        // From Survivor 50: Charlie's day cell is shared with Angelina's, so
+        // both left on Day 11, but their placements put them in separate rounds
+        const listOfContestants = [
+            {
+                name: "Angelina Keeley",
+                col3: "Vatu",
+                col4: "",
+                col5: "5th voted out",
+                col6: "Day 11"
+            },
+            {
+                name: "Charlie Davis",
+                col3: "Kalo",
+                col4: "Cila",
+                col5: "",
+                col6: "6th voted out"
+            }
+        ];
+
+        var result = parseSurvivorEntities(listOfContestants);
+
+        expect(result.map(x => [x.teamName, x.eliminationOrder])).toEqual([
+            ["Angelina Keeley", 1],
+            ["Charlie Davis", 2]
+        ]);
+    });
+
     it("Should parse out evicted day from their status when it indicates they were evicted", () => {
         const firstContestantsFirstName = "Some";
 
