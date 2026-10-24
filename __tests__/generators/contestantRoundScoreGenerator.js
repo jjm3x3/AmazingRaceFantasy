@@ -4,6 +4,7 @@ import parseAmazingRaceEntities from "@/app/parsers/amazingRaceEntityParser";
 import parseSurvivorEntities from "@/app/parsers/survivorEntityParser";
 import { survivor47WikiTableData } from "@/__tests__/fixtures/survivor47WikiTableData";
 import { survivor49WikiTableData } from "@/__tests__/fixtures/survivor49WikiTableData";
+import { bigBrother28WikiTableData } from "@/__tests__/fixtures/bigBrother28WikiTableData";
 import { survivor50WikiTableData } from "@/__tests__/fixtures/survivor50WikiTableData";
 
 describe("Regression Tests Checking generation of Archived Leagues", () => {
@@ -409,6 +410,50 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[16].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
         expect(result.rounds[16].contestantRoundData[0].roundScore).toBe(0);
         expect(result.rounds[16].contestantRoundData[0].totalScore).toBe(1160);
+    });
+
+    it("Should return a league with Antoinettes scoring for BigBrother_28", async () => {
+
+        // Arrange
+        const testDataFetcher = () => new Promise((resolve, _reject) => {
+            resolve(
+                bigBrother28WikiTableData
+            );
+        });
+
+        const antoinettesRawTeamList = [ "Dee Valladares", "Rick Devens", "Kamuela \"Kamu\" Kirk", "Angela Murray", "Chuk Anyanwu", "Drew Campbell", "Lyric Medeiros", "Jason De Puy", "Haley Thogmartin", "Jack \"Rome\" Seymour", "LaTrice Verrett", "Barrett Pfeiffer", "Taylor Brown", "Melody Morris", "Yash Patel", "Mallory Aurichio", "Ashley Trail" ];
+
+        const antoinettesContestantLeagueData = {
+            name: "Antoinette",
+            userId: "DCC9DCDC-AE5C-4A53-AF09-23F3C957D60B",
+            ranking: antoinettesRawTeamList
+        };
+        const listOfContetantLeagueData = [antoinettesContestantLeagueData]
+
+        const expectedNumberOfRounds = 16;
+
+        // Act
+        const result = await generateContestantRoundScores(testDataFetcher, parseBigBrotherEntities, listOfContetantLeagueData);
+
+        // Assert
+        expect(result.rounds.length).toBe(expectedNumberOfRounds);
+
+        // Note: we are always pulling the 0th contestantRoundData because we
+        // are only inserting one contestant into the league
+        // round 0 (only testing to make sure we start is correct)
+        expect(result.rounds[0].round).toBe(0);
+        expect(result.rounds[0].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
+
+        expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(160);
+        expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(160);
+
+        //// round 1..14 not testing because we aren't using them today
+
+        // round 15
+        expect(result.rounds[15].round).toBe(15);
+        expect(result.rounds[15].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
+        expect(result.rounds[15].contestantRoundData[0].roundScore).toBe(0);
+        expect(result.rounds[15].contestantRoundData[0].totalScore).toBe(910);
     });
 
     it("Should return a league with Antoinettes scoring for Survivor_50", async () => {
