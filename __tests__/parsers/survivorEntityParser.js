@@ -73,6 +73,62 @@ describe("parseSurvivorEntities", () => {
         ]);
     });
 
+    it("should treat a row whose right-most cell is a tribe name as still participating", () => {
+        const listOfContestants = [
+            {
+                name: "first out",
+                col3: "Kele",
+                col4: "1st voted out",
+                col5: "Day 3"
+            },
+            {
+                name: "still playing",
+                col3: "Kele",
+                col4: "Hina"
+            }
+        ];
+
+        var result = parseSurvivorEntities(listOfContestants);
+
+        const target = result.find(x => x.teamName == "still playing");
+        expect(target.isParticipating).toBe(true);
+        expect(target.eliminationOrder).toEqual(Number.MAX_VALUE);
+    });
+
+    it("should not read an ordinal out of a 2nd runner-up placement", () => {
+        const listOfContestants = [
+            {
+                name: "fifth out",
+                col3: "5th voted out",
+                col4: "Day 20"
+            },
+            {
+                name: "third place",
+                col3: "Tuku",
+                col4: "2nd runner-up",
+                col5: "Day 26"
+            },
+            {
+                name: "second place",
+                col3: "Gata",
+                col4: "Runner-up"
+            },
+            {
+                name: "winner",
+                col3: "Sole Survivor"
+            }
+        ];
+
+        var result = parseSurvivorEntities(listOfContestants);
+
+        expect(result.map(x => [x.teamName, x.eliminationOrder])).toEqual([
+            ["fifth out", 1],
+            ["third place", 2],
+            ["second place", 3],
+            ["winner", Number.MAX_VALUE]
+        ]);
+    });
+
     it("Should parse out ending day from status when status is runner-up", () => {
         const firstContestantsFirstName = "Some";
         const expectedEliminationOrder = 1;
@@ -104,7 +160,8 @@ describe("parseSurvivorEntities", () => {
             },
             {
                 name: firstContestantsFirstName + " Guy",
-                col4: "Runner-upDay 100"
+                col4: "Runner-up",
+                col5: "Day 100"
             }
         ];
 
@@ -224,33 +281,37 @@ describe("parseSurvivorEntities", () => {
 
         const listOfContestants = [
             {
-                name: firstContestantsFirstName + " Guy",
-                col4: "Participating"
-            },
-            {
-                name: secondContestantsFirstName + " Brother",
-                col4: "Participating"
-            },
-            {
-                name: "blah Guy",
-                col4: "Participating"
-            },
-            {
-                name: "meh Brother",
-                col4: "Participating"
+                name: secondContestantsFirstName + "alsoLost Brother",
+                col3: "1st voted out",
+                col4: "Day 3"
             },
             {
                 name: "lost Guy",
-                col4: "EvictedDay 20"
+                col3: "Gata",
+                col4: "2nd voted out",
+                col5: "Day 5"
             },
             {
-                name: secondContestantsFirstName + "alsoLost Brother",
-                col4: "EvictedDay 10"
+                name: firstContestantsFirstName + " Guy",
+                col3: "Gata"
+            },
+            {
+                name: secondContestantsFirstName + " Brother",
+                col3: "Tuku"
+            },
+            {
+                name: "blah Guy",
+                col3: "Lavo"
+            },
+            {
+                name: "meh Brother",
+                col3: "Lavo"
             }
         ];
 
         var result = parseSurvivorEntities(listOfContestants);
 
+        expect(result.map(x => x.eliminationOrder)).toEqual([1, 2, Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE]);
         expect(result.map(x => x.eliminationOrder)).not.toContain(6);
     });
 
