@@ -20,7 +20,9 @@ export default function parseSurvivorEntities(contestantData :ITableRowData[]): 
         }
 
         let rawFinishDay = null;
-        if (element.col7){
+        if (element.col8){
+            rawFinishDay = element.col8;
+        } else if (element.col7) {
             rawFinishDay = element.col7;
         } else if (element.col6) {
             rawFinishDay = element.col6;
