@@ -474,9 +474,8 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         };
         const listOfContetantLeagueData = [antoinettesContestantLeagueData]
 
-        // Note: this is a characterization of the current parser output. The
-        // double elimination (Chrissy & Coach) and the finale ordering are not
-        // parsed correctly yet, so expect these numbers to change with that fix
+        // Note: Chrissy & Coach are a double elimination that share elimination
+        // order 12, so they both leave in round 11
         const expectedNumberOfRounds = 22;
 
         // Act
@@ -493,12 +492,20 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[0].contestantRoundData[0].roundScore).toBe(220);
         expect(result.rounds[0].contestantRoundData[0].totalScore).toBe(220);
 
-        //// round 1..20 not testing because we aren't using them today
+        //// round 1..10 not testing because we aren't using them today
+
+        // round 11 (the double elimination)
+        expect(result.rounds[11].round).toBe(11);
+        expect(result.rounds[11].eliminationOrder).toBe(12);
+        expect(result.rounds[11].contestantRoundData[0].roundScore).toBe(50);
+        expect(result.rounds[11].contestantRoundData[0].totalScore).toBe(1680);
+
+        //// round 12..20 not testing because we aren't using them today
 
         // round 21
         expect(result.rounds[21].round).toBe(21);
         expect(result.rounds[21].contestantRoundData[0].name).toBe(antoinettesContestantLeagueData.name);
         expect(result.rounds[21].contestantRoundData[0].roundScore).toBe(0);
-        expect(result.rounds[21].contestantRoundData[0].totalScore).toBe(1960);
+        expect(result.rounds[21].contestantRoundData[0].totalScore).toBe(1910);
     });
 });
