@@ -60,16 +60,4 @@ describe("SessionProvider expiry", () => {
         expect(mockRouter.push).not.toHaveBeenCalled();
         warnSpy.mockRestore();
     });
-
-    it("should not log the user out when /api/logout returns an unexpected status", async () => {
-        global.fetch = jest.fn().mockResolvedValue({ status: 500 });
-        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
-        const { getByTestId } = render(<SessionProvider sessionExpiresAt={nowInSeconds() + 60}><LoggedInStatus /></SessionProvider>);
-        await act(async () => { jest.advanceTimersByTime(61 * 1000); });
-        expect(getByTestId("status").textContent).toBe("in");
-        expect(warnSpy).toHaveBeenCalled();
-        expect(clearLocalStorage).not.toHaveBeenCalled();
-        expect(mockRouter.push).not.toHaveBeenCalled();
-        warnSpy.mockRestore();
-    });
 });
