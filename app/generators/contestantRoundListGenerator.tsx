@@ -5,17 +5,19 @@ import CompetingEntity from "../models/CompetingEntity";
 import ContestantRoundList from "../components/contestantRoundList";
 import IRound from "../models/IRound";
 import League from "../models/League";
+import ParserOptions from "../models/ParserOptions";
 
 export default async function generateListOfContestantRoundLists(
     dataFetcher: () => Promise<ITableRowData[]>,
     listOfContestantLeagueData: IContestantData[],
-    getCompetingEntityListFunction: (_: ITableRowData[]) => CompetingEntity[],
+    getCompetingEntityListFunction: (_: ITableRowData[], _po?: ParserOptions) => CompetingEntity[],
+    parserOptions?: ParserOptions
 ) {
     const wikiTableData = await dataFetcher();
 
     const wikiContestants = stripTableHeader(wikiTableData);
 
-    const pageData = getCompetingEntityListFunction(wikiContestants);
+    const pageData = getCompetingEntityListFunction(wikiContestants, parserOptions);
 
     const league = new League(pageData);
 
