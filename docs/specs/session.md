@@ -3,8 +3,6 @@
 Source: [app/api/session/session.tsx](../../app/api/session/session.tsx), [app/contexts/session.tsx](../../app/contexts/session.tsx), [app/template.tsx](../../app/template.tsx)
 Tests: [__tests__/contexts/sessionExpiry.js](../../__tests__/contexts/sessionExpiry.js)
 
-Living copy: [Session behavior spec](https://claude.ai/artifact/QuANrUzKfr954t6pP8DhPJ) (Claude Doc, 2026-10-25).
-
 ## Overview
 
 A session starts when Google confirms who the user is and ends when the user logs out or the token expires, whichever comes first. The server owns the session through a signed, httpOnly `session` cookie; the browser only keeps display data and an expiry timer.
