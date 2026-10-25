@@ -557,3 +557,150 @@ describe("parseSurvivorEntities characterization against real Wikipedia rows", (
         warnSpy.mockRestore();
     });
 });
+
+describe("parseSurvivorEntities day overrides", () => {
+    function summarize(entities) {
+        return entities.map(x => [
+            x.teamName,
+            x.isParticipating,
+            x.eliminationOrder === Number.MAX_VALUE ? "MAX" : x.eliminationOrder
+        ]);
+    }
+
+    // A row with its placement and day in col4/col5, after a tribe in col3.
+    // Leaving placement or day out leaves that cell empty, so it is shared
+    // with the row above
+    function survivorRow(name, placement, day) {
+        return {
+            name,
+            col3: "Tribe",
+            col4: placement ?? "",
+            col5: day === undefined ? "" : `Day ${day}`,
+            col6: "",
+            col7: "",
+            col8: ""
+        };
+    }
+
+    const fourExits = [
+        survivorRow("First Out", "1st voted out", 3),
+        survivorRow("Second Out", "2nd voted out", 6),
+        survivorRow("Third Out", "3rd voted out", 6),
+        survivorRow("Fourth Out", "4th voted out", 8),
+        survivorRow("Still Playing")
+    ];
+
+    it("should give the same result with no parserOptions, empty parserOptions or empty dayOverrides", () => {
+        const withoutOptions = parseSurvivorEntities(fourExits);
+
+        expect(parseSurvivorEntities(fourExits, {})).toEqual(withoutOptions);
+        expect(parseSurvivorEntities(fourExits, { dayOverrides: [] })).toEqual(withoutOptions);
+        expect(summarize(withoutOptions)).toEqual([
+            ["First Out", false, 1],
+            ["Second Out", false, 2],
+            ["Third Out", false, 3],
+            ["Fourth Out", false, 4],
+            ["Still Playing", true, "MAX"]
+        ]);
+    });
+
+    it("should give two exits on an overridden day the smaller order and the next exit the next number", () => {
+        const result = parseSurvivorEntities(fourExits, { dayOverrides: [6] });
+
+        expect(summarize(result)).toEqual([
+            ["First Out", false, 1],
+            ["Second Out", false, 2],
+            ["Third Out", false, 2],
+            ["Fourth Out", false, 3],
+            ["Still Playing", true, "MAX"]
+        ]);
+    });
+
+    it("should treat duplicate days in dayOverrides like one", () => {
+        const result = parseSurvivorEntities(fourExits, { dayOverrides: [6, 6] });
+
+        expect(result).toEqual(parseSurvivorEntities(fourExits, { dayOverrides: [6] }));
+    });
+
+    it("should group exits that take their day from the row above", () => {
+        const listOfContestants = [
+            survivorRow("First Out", "1st voted out", 3),
+            survivorRow("Second Out", "2nd voted out", 5),
+            survivorRow("Third Out", "3rd voted out"),
+            survivorRow("Fourth Out", "4th voted out"),
+            survivorRow("Fifth Out", "5th voted out", 7),
+            survivorRow("Still Playing")
+        ];
+
+        const result = parseSurvivorEntities(listOfContestants, { dayOverrides: [5] });
+
+        expect(summarize(result)).toEqual([
+            ["First Out", false, 1],
+            ["Second Out", false, 2],
+            ["Third Out", false, 2],
+            ["Fourth Out", false, 2],
+            ["Fifth Out", false, 3],
+            ["Still Playing", true, "MAX"]
+        ]);
+    });
+
+    it("should not change in play contestants or the winner when they carry an overridden day", () => {
+        const listOfContestants = [
+            survivorRow("First Out", "1st voted out", 3),
+            survivorRow("Runner Up", "Runner-up", 39),
+            survivorRow("Winner", "Sole Survivor")
+        ];
+
+        const withoutOverrides = parseSurvivorEntities(listOfContestants);
+        const result = parseSurvivorEntities(listOfContestants, { dayOverrides: [39] });
+
+        expect(result).toEqual(withoutOverrides);
+        expect(summarize(result)).toEqual([
+            ["First Out", false, 1],
+            ["Runner Up", false, 2],
+            ["Winner", true, "MAX"]
+        ]);
+    });
+
+    it("should change nothing for an overridden day with a single exit or nobody on it", () => {
+        const withoutOverrides = parseSurvivorEntities(fourExits);
+
+        expect(parseSurvivorEntities(fourExits, { dayOverrides: [3] })).toEqual(withoutOverrides);
+        expect(parseSurvivorEntities(fourExits, { dayOverrides: [100] })).toEqual(withoutOverrides);
+    });
+
+    it("should parse Survivor 50 with Day 11 and Day 13 exits each in one elimination order", () => {
+        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+
+        const result = parseSurvivorEntities(survivor50WikiTableData, { dayOverrides: [11, 13] });
+
+        expect(summarize(result)).toEqual([
+            ["Jenna Lewis-Dougherty", false, 1],
+            ["Kyle Fraser", false, 2],
+            ["Savannah Louie", false, 3],
+            ["Quintavius \"Q\" Burdette", false, 4],
+            ["Mike White", false, 5],
+            ["Angelina Keeley", false, 6],
+            ["Charlie Davis", false, 6],
+            ["Kamilla Karthigesu", false, 7],
+            ["Genevieve Mushaluk", false, 7],
+            ["Colby Donaldson", false, 7],
+            ["Dee Valladares", false, 8],
+            ["Chrissy Hofbeck", false, 9],
+            ["Benjamin \"Coach\" Wade", false, 9],
+            ["Christian Hubicki", false, 10],
+            ["Stephenie LaGrossa Kendrick", false, 11],
+            ["Emily Flippen", false, 12],
+            ["Oscar \"Ozzy\" Lusth", false, 13],
+            ["Rick Devens", false, 14],
+            ["Cirie Fields", false, 15],
+            ["Tiffany Ervin", false, 16],
+            ["Rizo Velovic", false, 17],
+            ["Joe Hunter", false, 18],
+            ["Jonathan Young", false, 19],
+            ["Aubry Bracco", true, "MAX"]
+        ]);
+        expect(warnSpy).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
+    });
+});
