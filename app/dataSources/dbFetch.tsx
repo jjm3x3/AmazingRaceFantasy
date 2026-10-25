@@ -112,9 +112,9 @@ export async function updateLeagueConfigurationData(leagueConfigurationKey: stri
     const statusSeparatorIndex = leagueStatusAndKeyPrefix.indexOf(":");
     const leagueKeyWithoutStatus = leagueStatusAndKeyPrefix.slice(statusSeparatorIndex + 1);
     const leagueConfigString = JSON.stringify(leagueConfiguration);
+    const newLeagueConfigKey = `league_configuration:${leagueConfiguration.leagueStatus}:${leagueKeyWithoutStatus}`;
     const tx = redis.multi();
     tx.del(leagueConfigurationKey);
-    const newLeagueConfigKey = `league_configuration:${leagueConfiguration.leagueStatus}:${leagueKeyWithoutStatus}`;
     tx.json.set(newLeagueConfigKey, "$", leagueConfigString);
     await tx.exec();
 }
