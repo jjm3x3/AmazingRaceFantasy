@@ -27,13 +27,13 @@ export default async function LeagueStanding({ params }: {
     const showName = showAndSeasonArr.join("_");
     // "Dynamically" (still static site generated) retrieving modules
     const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
-    const { wikiApiUrl, castPhrase, contestantLeagueDataKeyPrefix } = leagueConfigurationData;
+    const { wikiApiUrl, castPhrase, contestantLeagueDataKeyPrefix, parserOptions } = leagueConfigurationData;
     const dataFetcher = getWikipediaContestantDataFetcher(wikiApiUrl, castPhrase);
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
 
     const parsingFn = getParser(showName)
     
-    const contestantsScores = await generateContestantRoundScores(dataFetcher, parsingFn, contestantRoundData);
+    const contestantsScores = await generateContestantRoundScores(dataFetcher, parsingFn, contestantRoundData, parserOptions);
     return (
         <div>
             <h1 className="text-3xl text-center">League Standing</h1>

@@ -151,7 +151,9 @@ export async function PUT (request: NextRequest) {
         postGoogleSheetsLinkText: "which was populated using a google form.",
         competitingEntityName: leagueConfigurationData.competitingEntityName,
         contestantLeagueDataKeyPrefix: leagueConfigurationData.contestantLeagueDataKeyPrefix,
-        createdBy: userId
+        createdBy: userId,
+        // not editable through this endpoint, so keep what is stored
+        parserOptions: leagueConfigurationData.parserOptions
     };
     await updateLeagueConfigurationData(preexistingLeagueConfigurationKey, leagueConfig);
 

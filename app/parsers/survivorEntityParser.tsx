@@ -1,5 +1,6 @@
 import { ITableRowData } from "@/app/dataSources/wikiFetch";
 import CompetingEntity from "@/app/models/CompetingEntity";
+import ParserOptions from "@/app/models/ParserOptions";
 import { isPartialContestantData } from "@/app/utils/wikiQuery";
 
 interface SurvivorFinish {
@@ -13,6 +14,7 @@ interface RankedSurvivor {
     name: string
     isParticipating: boolean
     finishKey: number
+    day?: number
 }
 
 // col1 and col2 are age and hometown, tribe and finish cells come after
@@ -31,7 +33,7 @@ const PLACEMENT_VOCABULARY = [
 const DAY_PATTERN = /^Day\s*(\d+)$/;
 const ORDINAL_PLACEMENT_PATTERN = /^(\d+)(?:st|nd|rd|th)(?:&\d+(?:st|nd|rd|th))?votedout/;
 
-export default function parseSurvivorEntities(contestantData: ITableRowData[]): CompetingEntity[] {
+export default function parseSurvivorEntities(contestantData: ITableRowData[], parserOptions?: ParserOptions): CompetingEntity[] {
 
     const finishes = contestantData
         .filter((element) => !isPartialContestantData(element))
@@ -39,7 +41,9 @@ export default function parseSurvivorEntities(contestantData: ITableRowData[]): 
 
     fillSharedCells(finishes);
 
-    const rankedSurvivors = applyDayOverrides(rankFinishes(finishes));
+    const rankedFinishes = rankFinishes(finishes);
+    
+    const rankedSurvivors = applyDayOverrides(rankedFinishes, parserOptions?.dayOverrides ?? []);
 
     return assignEliminationOrder(rankedSurvivors);
 }
@@ -108,26 +112,42 @@ function rankFinishes(finishes: SurvivorFinish[]): RankedSurvivor[] {
     return finishes.map((finish) => {
         const placement = finish.placement;
         if (placement === undefined) {
-            return { name: finish.name, isParticipating: true, finishKey: 0 };
+            return { name: finish.name, isParticipating: true, finishKey: 0, day: finish.day };
         }
 
         const compactPlacement = removeWhitespaceAndToLower(placement);
         if (compactPlacement.includes(removeWhitespaceAndToLower("sole survivor"))) {
-            return { name: finish.name, isParticipating: true, finishKey: 0 };
+            return { name: finish.name, isParticipating: true, finishKey: 0, day: finish.day };
         }
 
         const ordinalMatches = compactPlacement.match(ORDINAL_PLACEMENT_PATTERN);
         const finishKey = ordinalMatches ? Number(ordinalMatches[1]) : previousKey + 0.5;
         previousKey = finishKey;
 
-        return { name: finish.name, isParticipating: false, finishKey };
+        return { name: finish.name, isParticipating: false, finishKey, day: finish.day };
     });
 }
 
-// Placeholder: show/season keyed overrides that use `day` to adjust the
-// elimination order will go here, for now it changes nothing
-function applyDayOverrides(rankedSurvivors: RankedSurvivor[]): RankedSurvivor[] {
-    return rankedSurvivors;
+// Everyone eliminated on an overridden day takes the smallest finishKey of
+// that day, so they all leave in the same round
+function applyDayOverrides(rankedSurvivors: RankedSurvivor[], dayOverrides: number[]): RankedSurvivor[] {
+    const smallestKeyByDay = new Map<number, number>();
+    rankedSurvivors.forEach((survivor) => {
+        if (survivor.isParticipating || survivor.day === undefined || !dayOverrides.includes(survivor.day)) {
+            return;
+        }
+        const smallestKey = smallestKeyByDay.get(survivor.day);
+        if (smallestKey === undefined || survivor.finishKey < smallestKey) {
+            smallestKeyByDay.set(survivor.day, survivor.finishKey);
+        }
+    });
+
+    return rankedSurvivors.map((survivor) => {
+        const smallestKey = survivor.isParticipating || survivor.day === undefined
+            ? undefined
+            : smallestKeyByDay.get(survivor.day);
+        return smallestKey === undefined ? survivor : { ...survivor, finishKey: smallestKey };
+    });
 }
 
 function assignEliminationOrder(rankedSurvivors: RankedSurvivor[]): CompetingEntity[] {

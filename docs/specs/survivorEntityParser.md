@@ -10,11 +10,26 @@ between the two.
 ## Interface
 
 ```ts
-parseSurvivorEntities(contestantData: ITableRowData[]): CompetingEntity[]
+parseSurvivorEntities(contestantData: ITableRowData[], parserOptions?: ParserOptions): CompetingEntity[]
+
+interface ParserOptions {
+    dayOverrides?: number[]   // see step 5
+}
 ```
 
 - Pure function of its input. The only side effect is `console.warn` (see
-  "Warnings"). No show/season context is passed in.
+  "Warnings"). No show/season context is passed in: anything specific to a
+  season comes in only through `parserOptions`. Callers read it from the
+  optional `parserOptions` field of that season's league configuration
+  (`ILeagueConfigurationData`) and pass it in unchanged; a configuration
+  without the field means no options.
+- `parserOptions` and each of its fields are optional. Leaving them out
+  gives the behavior without the step that option drives. The only option
+  today is `dayOverrides`; leaving it out (or passing `[]`) skips step 5.
+- `ParserOptions` is shared by every parser, so it is not Survivor
+  specific. It lives in
+  [ParserOptions.tsx](../../app/models/ParserOptions.tsx). A parser ignores
+  options it does not use.
 - Selected by `getParser(showName)` in
   [entityParserSwitch.tsx](../../app/utils/entityParserSwitch.tsx) as the
   **fallback** for any show name not matching `amazing_race` or `big_brother`.
@@ -172,13 +187,43 @@ Examples:
   Sole Survivor → winner.
 - Survivor 50: …, `10th` → 10, Chrissy → 11, Coach → 11, `13th` → 13, ….
 
-### 5. `day` overrides (placeholder)
+### 5. `day` overrides
 
-A step between the sort key and elimination order that, for now, changes
-nothing. Overrides will be keyed by show and season, and are the only place
-`day` (or explicit names) can change the `eliminationOrder` assignment, e.g.
-to put two exits in one round. Designing them, and passing the season into
-the parser, is out of scope for this spec.
+A step between the sort key and elimination order. It is the only place
+`day` can change the `eliminationOrder` assignment.
+
+`parserOptions.dayOverrides` is a list of day numbers. For each listed day
+`D`:
+
+1. The **group** is every contestant with `isParticipating === false` and
+   `day === D`. Contestants still in play (and the winner, key `0`) are never
+   in a group, even when they carry that day.
+2. Every contestant in the group takes the **smallest** `finishKey` in the
+   group. Nobody outside the group changes.
+
+So everyone who left on that day leaves in the same round, at the position
+of the first of them. A listed day with no group (or a group of one) changes
+nothing. Duplicate days in the list act like one. Days are not checked
+against the table: an override for a day nobody left on is silently a no-op.
+
+The step does not reorder rows, so the stable sort in step 6 keeps the
+group in input order, and since days only go up in row order, a group is
+always a run of adjacent rows.
+
+Examples (Survivor 50, `parserOptions: { dayOverrides: [11, 13] }`):
+- Day 11: Angelina (`5th`, key 5) and Charlie (`6th`, Day 11 taken from
+  Angelina in step 3) both get key 5. These were two separate tribal
+  councils on one day (#516).
+- Day 13: Kamilla (`7th`, Day 13), Genevieve (`8th`) and Colby (`9th`), the
+  last two taking Day 13 from Kamilla, all get key 7 (the triple
+  elimination, #495).
+- Day 16 needs no override: Chrissy and Coach already share a placement
+  (#505).
+
+Resulting orders: Jenna 1, Kyle 2, Savannah 3, Q 4, Mike 5, Angelina 6,
+Charlie 6, Kamilla 7, Genevieve 7, Colby 7, Dee 8, Chrissy 9, Coach 9,
+Christian 10, …, Jonathan 19, Aubry `Number.MAX_VALUE`. 19 rounds instead
+of 22.
 
 ### 6. Elimination order
 1. Stable-sort contestants by `finishKey` ascending.
@@ -202,29 +247,3 @@ Christian → 13, …, Jonathan → 22, Aubry → `Number.MAX_VALUE`.
 The parser logs nothing per row. It calls `console.warn` only when:
 - a `Day N` cell's left neighbor is not a recognized placement, or
 - an empty row has no row above with a `placement` to take.
-
-## Expected test changes
-
-Survivor 47 and 49 characterization tests: **unchanged** (same orders 1–17
-and winner at `Number.MAX_VALUE`).
-
-Survivor 50 (generator regression test): Coach changes from still in play
-(`Number.MAX_VALUE`) to eliminated with order 12, the same as Chrissy. Every
-other contestant keeps today's order, so `expectedNumberOfRounds` stays 22.
-Round scores change from `rounds[11]` (elimination order 12) on, because
-Coach now leaves with Chrissy.
-
-Parser unit tests:
-- "should throw an error for a contestantData w/ a missing status" → the
-  empty row has no placement above it, so it is an active contestant, not
-  an error.
-- The `EvictedDay 10`, `Evicted Day 10`, `ExpelledDay 7` and `ExitedDay 58`
-  tests use Big Brother cells. None of these is a `Day N` cell or a
-  recognized placement, so the contestant is in play. Remove them, or
-  rewrite them with Survivor rows.
-- "should not give any competingEntity the eliminationOrder of the max…"
-  still passes, but only because its `EvictedDay` rows are now in play.
-  Rewrite it with Survivor rows.
-- "Should parse out ending day from status when status is runner-up" still
-  passes (`Runner-upDay 100` → runner-up → key 0.5 → order 1). Rewrite it
-  with separate placement and day cells.

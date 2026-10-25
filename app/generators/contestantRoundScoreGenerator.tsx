@@ -3,17 +3,19 @@ import { stripTableHeader } from "@/app/utils/wikiQuery";
 import { IContestantData } from "@/app/dataSources/dbFetch";
 import CompetingEntity from "../models/CompetingEntity";
 import League from "../models/League";
+import ParserOptions from "../models/ParserOptions";
 
 export async function generateContestantRoundScores(
     dataFetcher: () => Promise<ITableRowData[]>,
-    getCompetitorList: (_: ITableRowData[]) => CompetingEntity[],
-    listOfContestantLeagueData: IContestantData[]
+    getCompetitorList: (_: ITableRowData[], _po?: ParserOptions) => CompetingEntity[],
+    listOfContestantLeagueData: IContestantData[],
+    parserOptions?: ParserOptions
 ) {
     const wikiTableData = await dataFetcher();
 
     const wikiContestants = stripTableHeader(wikiTableData);
     // TODO: come up with better names for getCompetitorList and pageData
-    const pageData = getCompetitorList(wikiContestants);
+    const pageData = getCompetitorList(wikiContestants, parserOptions);
 
     const result: League = new League(pageData);
 

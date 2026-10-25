@@ -27,14 +27,14 @@ export default async function Scoring({ params }: {
     const showName = showAndSeasonArr.join("_");
     // "Dynamically" (still static site generated) retrieving modules
     const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
-    const { wikiApiUrl, googleSheetUrl, castPhrase, preGoogleSheetsLinkText, postGoogleSheetsLinkText, contestantLeagueDataKeyPrefix } = leagueConfigurationData;
+    const { wikiApiUrl, googleSheetUrl, castPhrase, preGoogleSheetsLinkText, postGoogleSheetsLinkText, contestantLeagueDataKeyPrefix, parserOptions } = leagueConfigurationData;
 
     const dataFetcher = getWikipediaContestantDataFetcher(wikiApiUrl, castPhrase);
 
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
 
     const parsingFn = getParser(showName)
-    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, parsingFn)
+    const listOfContestantRoundLists = await generateListOfContestantRoundLists(dataFetcher, contestantRoundData, parsingFn, parserOptions)
 
     return (
         <div>

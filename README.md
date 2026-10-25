@@ -75,6 +75,22 @@ _note: this only backs up key/value pairs which have json values, it skips the r
 
 - Wikipedia calls are configured to cache for 3600s (or 1h)
 
+#### Day Overrides
+
+Sometimes Wikipedia lists exits in separate placements even though they really happened in the same round, such as two
+separate tribal councils on the same day. A day override puts everyone who left on a given day into the same round. For
+now these can only be set by hand in a league's configuration, so if you are a "Show Admin" and feel a day override
+should be added for a round, contact [@jjm3x3](https://github.com/jjm3x3) with:
+
+1. The override, in this format, listing every day that should be a single round:
+    ``` JSON
+    "parserOptions": { "dayOverrides": [11, 13] }
+    ```
+1. A justification for the override, e.g. which contestants left on that day and why they should leave in the same round.
+
+_note: day overrides are only supported for Survivor leagues today. See the
+[Survivor parser spec](docs/specs/survivorEntityParser.md) for exactly how they are applied._
+
 ## Using The Site
 
 ### Normal Usage

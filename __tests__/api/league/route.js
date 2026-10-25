@@ -1137,6 +1137,47 @@ describe("PUT (unit tests)", () => {
         );
     });
 
+    it("should keep the stored parserOptions when updating", async () => {
+        // Arrange
+        const dbParserOptions = { dayOverrides: [11, 13] };
+
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus,
+                wikiPageUrl: "https://en.wikipedia.org/wiki/Database_Page",
+                wikiApiUrl: "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Database_Page",
+                castPhrase: "Original Cast",
+                competitingEntityName: "person",
+                contestantLeagueDataKeyPrefix: `${happyPathRequest.leagueKey}:*`,
+                parserOptions: dbParserOptions
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response.status).toEqual(200);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                parserOptions: dbParserOptions
+            })
+        );
+    });
+
     it("should call getAllKeys with correct league key pattern", async () => {
         // Arrange
         const request = {

@@ -28,12 +28,12 @@ export default async function WikiConnectionStatus({ params }: {
     const showName = showAndSeasonArr.join("_");
     // "Dynamically" (still static site generated) retrieving modules
     const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
-    const { wikiApiUrl, castPhrase } = leagueConfigurationData;
+    const { wikiApiUrl, castPhrase, parserOptions } = leagueConfigurationData;
     const dataFetcher = await getWikipediaContestantDataFetcher(wikiApiUrl, castPhrase);
     const wikiTableData = await dataFetcher();
     const wikiContestants = stripTableHeader(wikiTableData);
     const parsingFn = getParser(showName);
-    const parsedData = parsingFn(wikiContestants);
+    const parsedData = parsingFn(wikiContestants, parserOptions);
     console.log(parsedData)
     const tableColumnNames: TableRowItem[] = [{
         key: "teamName",
