@@ -18,6 +18,9 @@ interface UpdateRequest {
     googleSheetUrl: string
 }
 
+// a JWT is three base64url segments (header.payload.signature) separated by "."
+const isWellFormedJwt = (token: string | undefined) => typeof token === "string" && token.split(".").length === 3;
+
 const LeagueConfig = z.object({
     wikiPageName: validationPattern.wikiPageUrl.zod,
     googleSheetUrl: validationPattern.googleSheetUrl.zod,
@@ -33,11 +36,12 @@ export async function POST(request: NextRequest) {
     const sessionCookie = request.cookies.get("session");
     let userId: string | undefined;
     if(sessionCookie){
-        const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
+        if(!isWellFormedJwt(sessionCookie.value)){
+            return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
+        }
+        const decryptedSessionCookie = await decrypt(sessionCookie.value) as decryptionPayload;
         userId = decryptedSessionCookie?.sub;
-        const invalidUserId = !userId
-        const invalidUserSub = Object.keys(decryptedSessionCookie).length !== 3;
-        if (invalidUserId || invalidUserSub ) {
+        if (!userId) {
             return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
         }
         let userRole = null;
@@ -102,15 +106,13 @@ export async function PUT (request: NextRequest) {
     // check auth
     const body = await request.json();
     const sessionCookie = request.cookies.get("session");
-    if(!sessionCookie){
+    if(!sessionCookie || !isWellFormedJwt(sessionCookie.value)){
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
     }
     
-    const decryptedSessionCookie = await decrypt(sessionCookie?.value) as decryptionPayload;
+    const decryptedSessionCookie = await decrypt(sessionCookie.value) as decryptionPayload;
     const userId = decryptedSessionCookie?.sub;
-    const invalidUserId = !userId;
-    const invalidUserSub = Object.keys(decryptedSessionCookie).length !== 3;
-    if (invalidUserId || invalidUserSub ) {
+    if (!userId) {
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
     }
 

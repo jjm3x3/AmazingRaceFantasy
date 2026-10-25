@@ -38,6 +38,7 @@ updateLeagueConfigurationData.mockImplementation(() => {
 });
 
 const ourUserId = "ourUserId67C20C65-064D-444C-9AC0-DB5E14A38863";
+const validSessionCookie = { name: "session", value: "header.payload.signature" };
 
 jest.mock("../../../app/api/session/session", ()=> {
     const actual = jest.requireActual("../../../app/api/session/session");
@@ -95,7 +96,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -129,9 +130,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return {
-                        session: "testToken"
-                    }
+                    return validSessionCookie
                 })
             },
             json: async () => { return { } }
@@ -153,7 +152,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -175,7 +174,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -201,7 +200,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -227,7 +226,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -249,7 +248,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -275,7 +274,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -301,7 +300,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -327,7 +326,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -353,7 +352,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -379,7 +378,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -405,7 +404,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -431,7 +430,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -457,7 +456,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -483,7 +482,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -509,7 +508,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -535,7 +534,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -560,7 +559,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -586,7 +585,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -614,7 +613,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -642,7 +641,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -670,7 +669,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -698,7 +697,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -726,7 +725,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -754,7 +753,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -782,7 +781,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -810,7 +809,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -838,7 +837,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -859,6 +858,63 @@ describe("POST (unit tests)", () => {
             expect.objectContaining({
                 "createdBy": ourUserId
             }));
+    });
+
+    it("should return a 401 when POST session cookie is missing", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> undefined)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+        expect(sessionModule.decrypt).not.toHaveBeenCalled();
+    });
+
+    it.each([
+        ["has no dots", "testToken"],
+        ["has only two parts", "header.payload"],
+        ["has more than three parts", "header.payload.signature.extra"],
+        ["is empty", ""],
+        ["is undefined", undefined]
+    ])("should return a 401 without decrypting when POST session cookie value %s", async (_description, cookieValue) => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> ({ name: "session", value: cookieValue }))
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+        expect(sessionModule.decrypt).not.toHaveBeenCalled();
+    });
+
+    it("should return a 401 when POST session cookie decrypts without a sub claim", async () => {
+        // Arrange
+        jest.spyOn(sessionModule, "decrypt").mockImplementationOnce(()=> ({ iat: "", exp: "" }));
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> validSessionCookie)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
     });
 });
 
@@ -903,7 +959,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -937,7 +993,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -964,7 +1020,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -990,7 +1046,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1015,7 +1071,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => invalidRequestBody)
@@ -1056,7 +1112,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1086,7 +1142,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1123,7 +1179,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1153,7 +1209,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1180,7 +1236,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1207,7 +1263,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1234,7 +1290,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1261,7 +1317,7 @@ describe("PUT (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -1280,5 +1336,62 @@ describe("PUT (unit tests)", () => {
         const rawBody = await response.body.getReader().read();
         const bodyString = new TextDecoder().decode(rawBody.value);
         expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 401 when PUT session cookie is missing", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> undefined)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+        expect(sessionModule.decrypt).not.toHaveBeenCalled();
+    });
+
+    it.each([
+        ["has no dots", "testToken"],
+        ["has only two parts", "header.payload"],
+        ["has more than three parts", "header.payload.signature.extra"],
+        ["is empty", ""],
+        ["is undefined", undefined]
+    ])("should return a 401 without decrypting when PUT session cookie value %s", async (_description, cookieValue) => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> ({ name: "session", value: cookieValue }))
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+        expect(sessionModule.decrypt).not.toHaveBeenCalled();
+    });
+
+    it("should return a 401 when PUT session cookie decrypts without a sub claim", async () => {
+        // Arrange
+        jest.spyOn(sessionModule, "decrypt").mockImplementationOnce(()=> ({ iat: "", exp: "" }));
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> validSessionCookie)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
     });
 });
