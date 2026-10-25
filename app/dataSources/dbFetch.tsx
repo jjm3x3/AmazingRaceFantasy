@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis"
+import ParserOptions from "@/app/models/ParserOptions"
 
 export interface IContestantData {
     name: string
@@ -17,7 +18,8 @@ export interface ILeagueConfigurationData {
     postGoogleSheetsLinkText: string,
     competitingEntityName: string,
     contestantLeagueDataKeyPrefix: string,
-    createdBy?: string
+    createdBy?: string,
+    parserOptions?: ParserOptions
 }
 
 export interface GoogleUserData {
