@@ -139,23 +139,6 @@ export async function getLeagueConfigurationData(leagueConfigurationKey: string)
     }
 }
 
-export async function deleteLeagueConfigurationData(leagueConfigurationKey: string): Promise<void> {
-
-    if (leagueConfigurationKey === undefined) {
-        throw new Error("Unable to deleteLeagueConfigurationData. Provided param 'leagueConfigurationKey' is undefined but must have a value");
-    }
-
-    const redis = new Redis({
-        url: process.env.KV_REST_API_URL,
-        token: process.env.KV_REST_API_TOKEN
-    });
-    try {
-        await redis.del(leagueConfigurationKey);
-    } catch (error) {
-        throw new Error("There was an error deleting the league configuration data for the key provided");
-    }
-}
-
 export async function writeGoogleUserData (googleUserId: string){
     const redisOptions = {
         url: process.env.KV_REST_API_URL,
