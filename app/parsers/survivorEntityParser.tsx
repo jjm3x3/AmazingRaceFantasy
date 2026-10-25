@@ -37,8 +37,6 @@ export default function parseSurvivorEntities(contestantData: ITableRowData[]): 
         .filter((element) => !isPartialContestantData(element))
         .map(extractFinish);
 
-    console.log(finishes);
-
     fillSharedCells(finishes);
 
     const rankedSurvivors = applyDayOverrides(rankFinishes(finishes));
