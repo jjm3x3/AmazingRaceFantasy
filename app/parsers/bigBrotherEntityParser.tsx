@@ -46,6 +46,9 @@ export default function parseBigBrotherEntities(contestantData :ITableRowData[])
         } else if (status.toLowerCase().includes("exited")) {
             isParticipating = false;
             eliminationOrder = Number(status.match(/ExitedDay (\d+)/i)![1]); // covers Jared leaving after zombie twist
+        } else if (/Eliminated\W*Day \d+/i.test(status)) {
+            isParticipating = false;
+            eliminationOrder = Number(status.match(/Eliminated\W*Day (\d+)/i)![1]); // covers Haley being eliminated (not evicted) in BB28
         } else if (status.toLowerCase().includes("runner-upd")) { // added the d to distinguish from amazing-race
             isParticipating = false;
             eliminationOrder = Number(status.match(/Runner-UpDay (\d+)/i)![1]+ ".5"); // covers the final person plus adding .5 to distinguish from the last eviction

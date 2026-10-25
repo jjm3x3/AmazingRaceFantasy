@@ -8,7 +8,8 @@ export interface Session {
 }
 
 export interface SessionInfo {
-    isLoggedIn: boolean,
     userName: string | null,
-    googleUserId: string | null
+    googleUserId: string | null,
+    // unix time in seconds when the session token expires
+    sessionExpiresAt?: number | null
 }

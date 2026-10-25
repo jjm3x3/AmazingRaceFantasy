@@ -30,6 +30,7 @@ export default function Navigation({ pages }: {
         classes: ""
     };
     const { sessionInfo } = useContext(SessionContext);
+    const isLoggedIn = !!sessionInfo.sessionExpiresAt;
     const [shouldNavigateClose, setShouldNavigateClose] = useState(false);
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
@@ -71,7 +72,7 @@ export default function Navigation({ pages }: {
                             })} />
                     </li>);
                 })}
-                { !sessionInfo.isLoggedIn ?
+                { !isLoggedIn ?
                     <li className={styles["top-level-link"]} data-testid="login-link" key={"nav-toplevellink-login"}><Link href="/login">Login</Link></li>
                     : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton setShouldNavigateClose={setShouldNavigateClose} /></li>
                 }
