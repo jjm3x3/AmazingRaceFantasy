@@ -6,11 +6,12 @@ jest.mock("google-auth-library");
 jest.mock("../../../app/dataSources/dbFetch");
 import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
-import { writeLeagueConfigurationData, getUser } from "@/app/dataSources/dbFetch";
-import { POST } from "@/app/api/league/route.ts";
+import { writeLeagueConfigurationData, getUser, getAllKeys, getLeagueConfigurationData, updateLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { POST, PUT } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
 let happyPathRequest = {}
+const leagueConfigKey = "some_show_name:and_season_1";
 
 const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
@@ -32,7 +33,12 @@ writeLeagueConfigurationData.mockImplementation(() => {
     return () => { }
 });
 
+updateLeagueConfigurationData.mockImplementation(() => {
+    return Promise.resolve();
+});
+
 const ourUserId = "ourUserId67C20C65-064D-444C-9AC0-DB5E14A38863";
+const validSessionCookie = { name: "session", value: "header.payload.signature" };
 
 jest.mock("../../../app/api/session/session", ()=> {
     const actual = jest.requireActual("../../../app/api/session/session");
@@ -56,16 +62,6 @@ beforeEach(() => {
         family_name: "TestLastName"
     };
 
-    happyPathRequest = {
-        token: "testToken",
-        wikiPageName: "someName",
-        googleSheetUrl: "https://some.url",
-        leagueStatus: "active",
-        wikiSectionHeader: "Show Contestants",
-        contestantType: "team",
-        leagueKey: "some_show_name:and_season_1"
-    };
-
     getUser.mockImplementation(() => {
         return Promise.resolve({
             role: "showAdmin"
@@ -79,12 +75,28 @@ afterEach(() => {
 });
 
 describe("POST (unit tests)", () => {
+    beforeEach(()=> {
+        happyPathRequest = {
+            token: "testToken",
+            wikiPageName: "someName",
+            googleSheetUrl: "https://some.url",
+            leagueStatus: "active",
+            wikiSectionHeader: "Show Contestants",
+            contestantType: "team",
+            leagueKey: leagueConfigKey
+        };
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should return 200 when conditions met", async () => {
         // Arrange
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -118,9 +130,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return {
-                        session: "testToken"
-                    }
+                    return validSessionCookie
                 })
             },
             json: async () => { return { } }
@@ -142,7 +152,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -164,7 +174,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -190,7 +200,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -216,7 +226,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -238,7 +248,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -264,7 +274,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -290,7 +300,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -316,7 +326,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -342,7 +352,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -368,7 +378,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -394,7 +404,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -420,7 +430,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -446,7 +456,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -472,7 +482,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -498,7 +508,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -524,7 +534,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -549,7 +559,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -575,7 +585,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -603,7 +613,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -631,7 +641,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -659,7 +669,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -687,7 +697,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -715,7 +725,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -743,7 +753,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -771,7 +781,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -799,7 +809,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -827,7 +837,7 @@ describe("POST (unit tests)", () => {
         const request = {
             cookies: {
                 get: jest.fn().mockImplementation(()=> {
-                    return "testToken"
+                    return validSessionCookie
                 })
             },
             json: jest.fn().mockImplementation(async () => {
@@ -848,5 +858,540 @@ describe("POST (unit tests)", () => {
             expect.objectContaining({
                 "createdBy": ourUserId
             }));
+    });
+
+    it("should return a 401 when POST session cookie is missing", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> undefined)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+        expect(sessionModule.decrypt).not.toHaveBeenCalled();
+    });
+
+    it.each([
+        ["has no dots", "testToken"],
+        ["has only two parts", "header.payload"],
+        ["has more than three parts", "header.payload.signature.extra"],
+        ["is empty", ""],
+        ["is undefined", undefined]
+    ])("should return a 401 without decrypting when POST session cookie value %s", async (_description, cookieValue) => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> ({ name: "session", value: cookieValue }))
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+        expect(sessionModule.decrypt).not.toHaveBeenCalled();
+    });
+
+    it("should return a 401 when POST session cookie decrypts without a sub claim", async () => {
+        // Arrange
+        jest.spyOn(sessionModule, "decrypt").mockImplementationOnce(()=> ({ iat: "", exp: "" }));
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> validSessionCookie)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await POST(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+    });
+});
+
+describe("PUT (unit tests)", () => {
+    beforeEach(() => {
+        happyPathRequest = {
+            createdBy: ourUserId,
+            leagueStatus: "active",
+            leagueKey: leagueConfigKey,
+            googleSheetUrl: "https://some.url"
+        };
+
+        getAllKeys.mockImplementation(() => {
+            return Promise.resolve([`league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`]);
+        });
+    });
+
+    afterEach(()=> {
+        jest.clearAllMocks();
+    });
+
+    it("should return 200 when PUT conditions met", async () => {
+        // Arrange
+        const dbWikiPageUrl = "https://en.wikipedia.org/wiki/Original_Page";
+        const dbWikiApiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Original_Page";
+        const dbCastPhrase = "Original Cast";
+        const dbCompetitingEntityName = "person";
+        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus,
+                wikiPageUrl: dbWikiPageUrl,
+                wikiApiUrl: dbWikiApiUrl,
+                castPhrase: dbCastPhrase,
+                competitingEntityName: dbCompetitingEntityName,
+                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(request.json).toHaveBeenCalledTimes(1);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
+            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
+            expect.objectContaining({
+                createdBy: happyPathRequest.createdBy,
+                leagueStatus: happyPathRequest.leagueStatus,
+                googleSheetUrl: happyPathRequest.googleSheetUrl
+            })
+        );
+    });
+
+    it("should return a 404 when no league configuration found", async () => {
+        // Arrange
+        getAllKeys.mockImplementation(() => {
+            return Promise.resolve([]);
+        });
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(404);
+    });
+
+    it("should return a 409 when multiple league configurations found", async () => {
+        // Arrange
+        getAllKeys.mockImplementation(() => {
+            return Promise.resolve([
+                `league_configuration:active:${happyPathRequest.leagueKey}`,
+                `league_configuration:inactive:${happyPathRequest.leagueKey}`
+            ]);
+        });
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(409);
+    });
+
+    it("should return a 403 when PUT userId does not match createdBy from database", async () => {
+        // Arrange
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: "differentUser"
+            });
+        });
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(403);
+    });
+
+    it("should return a 400 when PUT has invalid leagueStatus", async () => {
+        // Arrange
+        const invalidRequestBody = {
+            ...happyPathRequest,
+            leagueStatus: "maybe-active"
+        };
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => invalidRequestBody)
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("leagueStatus");
+    });
+
+    it("should use wikiPageUrl, wikiApiUrl, castPhrase, and competitingEntityName from database when updating", async () => {
+        // Arrange
+        const dbWikiPageUrl = "https://en.wikipedia.org/wiki/Database_Page";
+        const dbWikiApiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Database_Page";
+        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        const dbCastPhrase = "Original Cast";
+        const dbCompetitingEntityName = "person";
+        
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus,
+                wikiPageUrl: dbWikiPageUrl,
+                wikiApiUrl: dbWikiApiUrl,
+                castPhrase: dbCastPhrase,
+                competitingEntityName: dbCompetitingEntityName,
+                contestantLeagueDataKeyPrefix: dbContestantLeagueDataKeyPrefix
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                wikiPageUrl: dbWikiPageUrl,
+                wikiApiUrl: dbWikiApiUrl,
+                castPhrase: dbCastPhrase,
+                competitingEntityName: dbCompetitingEntityName
+            })
+        );
+    });
+
+    it("should call getAllKeys with correct league key pattern", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(getAllKeys).toHaveBeenCalledWith(`league_configuration:*:${happyPathRequest.leagueKey}`);
+    });
+
+    it("should use the existing league configuration key from the database as the update key", async () => {
+        // Arrange
+        const dbLeagueConfigurationKey = `league_configuration:archive:${happyPathRequest.leagueKey}`;
+        getAllKeys.mockImplementation(() => {
+            return Promise.resolve([dbLeagueConfigurationKey]);
+        });
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: "archive",
+                wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
+                wikiApiUrl: "https://en.wikipedia.org/w/api.php",
+                castPhrase: "Cast",
+                competitingEntityName: "person",
+                contestantLeagueDataKeyPrefix: `${happyPathRequest.leagueKey}:*`
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(200);
+        expect(getLeagueConfigurationData).toHaveBeenCalledWith(dbLeagueConfigurationKey);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
+            dbLeagueConfigurationKey,
+            expect.objectContaining({
+                leagueStatus: happyPathRequest.leagueStatus
+            })
+        );
+    });
+
+    it("should return a 400 when PUT is missing googleSheetUrl", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = null;
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 400 when PUT googleSheetUrl has an invalid value", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = "not a url";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 400 when PUT googleSheetUrl is invalid probably doesn't have a scheme", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = "sup";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 400 when PUT googleSheetUrl does not use https", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = "http://some.url";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 400 when PUT googleSheetUrl has an invalid domain", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = "https:sup_blah_{_ga*b;ge_d^ta";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 401 when PUT session cookie is missing", async () => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> undefined)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+        expect(sessionModule.decrypt).not.toHaveBeenCalled();
+    });
+
+    it.each([
+        ["has no dots", "testToken"],
+        ["has only two parts", "header.payload"],
+        ["has more than three parts", "header.payload.signature.extra"],
+        ["is empty", ""],
+        ["is undefined", undefined]
+    ])("should return a 401 without decrypting when PUT session cookie value %s", async (_description, cookieValue) => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> ({ name: "session", value: cookieValue }))
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
+        expect(sessionModule.decrypt).not.toHaveBeenCalled();
+    });
+
+    it("should return a 401 when PUT session cookie decrypts without a sub claim", async () => {
+        // Arrange
+        jest.spyOn(sessionModule, "decrypt").mockImplementationOnce(()=> ({ iat: "", exp: "" }));
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> validSessionCookie)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response.status).toEqual(401);
     });
 });
