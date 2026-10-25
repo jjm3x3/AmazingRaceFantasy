@@ -26,7 +26,7 @@ const PLACEMENT_VOCABULARY = [
     "removed",
     "runner-up",
     "sole survivor"
-].map(removeWhitespace);
+].map(removeWhitespaceAndToLower);
 
 const DAY_PATTERN = /^Day\s*(\d+)$/;
 const ORDINAL_PLACEMENT_PATTERN = /^(\d+)(?:st|nd|rd|th)(?:&\d+(?:st|nd|rd|th))?votedout/;
@@ -36,6 +36,8 @@ export default function parseSurvivorEntities(contestantData: ITableRowData[]): 
     const finishes = contestantData
         .filter((element) => !isPartialContestantData(element))
         .map(extractFinish);
+
+    console.log(finishes);
 
     fillSharedCells(finishes);
 
@@ -111,8 +113,8 @@ function rankFinishes(finishes: SurvivorFinish[]): RankedSurvivor[] {
             return { name: finish.name, isParticipating: true, finishKey: 0 };
         }
 
-        const compactPlacement = removeWhitespace(placement);
-        if (compactPlacement.includes(removeWhitespace("sole survivor"))) {
+        const compactPlacement = removeWhitespaceAndToLower(placement);
+        if (compactPlacement.includes(removeWhitespaceAndToLower("sole survivor"))) {
             return { name: finish.name, isParticipating: true, finishKey: 0 };
         }
 
@@ -162,10 +164,10 @@ function assignEliminationOrder(rankedSurvivors: RankedSurvivor[]): CompetingEnt
 }
 
 function isRecognizedPlacement(cell: string): boolean {
-    const compactCell = removeWhitespace(cell);
+    const compactCell = removeWhitespaceAndToLower(cell);
     return PLACEMENT_VOCABULARY.some((placement) => compactCell.includes(placement));
 }
 
-function removeWhitespace(text: string): string {
+function removeWhitespaceAndToLower(text: string): string {
     return text.replace(/\s+/g, "").toLowerCase();
 }
