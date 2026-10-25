@@ -141,3 +141,4 @@ The code mostly matches this spec; these are the places it still falls short.
 - [ ] **Follow-up PR: session expired message.** After an automatic logout, show a message on the homepage telling the user their session expired.
 - [ ] **Logout across tabs.** When one tab logs out or expires, log out every other open tab (see Logout across tabs).
 - [ ] **Fix the gaps above.** Each item in Gaps in the current code.
+- [ ] **Move authorization to its own spec.** Take the authorization step (step 4 of Server-side verification) out of this spec and into a new authorization spec. The new spec should cover the permission models the app uses or could use, such as roles like `showAdmin` and ownership like a league's `createdBy`.
