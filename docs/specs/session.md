@@ -111,8 +111,8 @@ Logging out, whether the user clicks Log Out or the token expires, must end in t
 ### Automatic logout on expiry
 
 1. While `isLoggedIn` is true and `sessionExpiresAt` is set, `SessionProvider` schedules a timer for `sessionExpiresAt × 1000 − now` ms (0 if already past). There is no allowance for clock skew: the timer fires exactly at `exp` by the browser's clock, never early or late on purpose.
-2. When it fires, the client posts to `/api/logout` without waiting for the result; a network failure only logs a warning.
-3. Without waiting, it clears localStorage, sets the context to logged out with `sessionExpiresAt: null`, which switches the nav to Login, and redirects to `/` (the homepage, not the login page). The homepage then shows a message telling the user their session expired (planned for a follow-up PR).
+2. When it fires, the client posts to `/api/logout` and waits for the response. If the request fails (a network error), it only logs a warning and the user stays logged in on the client.
+3. Once the request succeeds, with any response status, it clears localStorage, sets the context to logged out with `sessionExpiresAt: null`, which switches the nav to Login, and redirects to `/` (the homepage, not the login page). The homepage then shows a message telling the user their session expired (planned for a follow-up PR).
 4. The timer is cancelled and rescheduled whenever `isLoggedIn` or `sessionExpiresAt` changes, so a new login starts a fresh timer.
 
 If the tab was closed or asleep at expiry, the next page load covers it: the browser has dropped the cookie (`maxAge`), or the server rejects the expired token, and the user renders as logged out with localStorage cleared. API calls made after expiry get a 401 from step 2 of server-side verification.
@@ -133,10 +133,10 @@ The code mostly matches this spec; these are the places it still falls short.
 
 - **`decrypt` returns a response on failure.** It returns a 401 `NextResponse` instead of `null`, and callers only work because that object has no `sub` or `exp`. It should return `null` and let each caller respond.
 - **`/api/login` has no reply when Google returns no payload.** `/api/account` answers 502 in that case; login should too.
-- **Manual and automatic logout disagree on failure.** The Log Out button keeps the user logged in on the client if `/api/logout` returns anything but 205, while expiry logs out regardless. Since the cookie is httpOnly, the client cannot tell if it was cleared either way.
+- **Manual and automatic logout check the response differently.** The Log Out button needs a 205, while expiry accepts any response from `/api/logout`. Since the cookie is httpOnly, the client cannot tell if it was cleared either way.
+- **A failed logout at expiry is not retried.** The timer does not reschedule, so after a network error the user still looks logged in until the next page load, even though their API calls already get 401s.
 - **Manual logout leaves `sessionExpiresAt` set.** It is harmless because `isLoggedIn` is false, but it should be `null` to match the expiry path.
 - **`/api/logout` does not await `removeSession`.** It works only because `removeSession` has no awaits inside.
-- **`google-login-btn.tsx` looks unused** and handles no errors; it should be deleted or brought in line with `GoogleButton`.
 
 ## To do
 
