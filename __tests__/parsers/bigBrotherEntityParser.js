@@ -138,6 +138,30 @@ describe("parseBigBrotherEntities", () => {
         expect(result[0].eliminationOrder).toEqual(expectedEliminationOrder);
     });
 
+    it("Should parse out eliminated day from their status when it indicates they were eliminated", () => {
+        const targetContestantName = "Some Guy";
+        const expectedEliminationOrder = 1;
+
+        const listOfContestants = [
+            {
+                name: "blah Guy",
+                col4: "Participating"
+            },
+            {
+                name: targetContestantName,
+                col4: "EliminatedDay 53"
+            }
+        ];
+
+        var result = parseBigBrotherEntities(listOfContestants);
+
+        expect(result.length).toEqual(listOfContestants.length);
+
+        expect(result[0].teamName).toEqual(targetContestantName);
+        expect(result[0].eliminationOrder).toEqual(expectedEliminationOrder);
+        expect(result[0].isParticipating).toBeFalsy();
+    });
+
     it("Should parse out ending day from status when status is runner-up", () => {
         const firstContestantsFirstName = "Some";
         const expectedEliminationOrder = 1;

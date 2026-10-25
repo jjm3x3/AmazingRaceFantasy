@@ -37,7 +37,8 @@ export async function POST(request: NextRequest) {
                 lastName: payload?.family_name
             },
             googleUserId: googleUserId,
-            userId: user.userId
+            userId: user.userId,
+            sessionExpiresAt: payload.exp
         }
 
         const response = NextResponse.json(userObj);
