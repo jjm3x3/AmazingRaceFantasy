@@ -94,7 +94,8 @@ export async function POST(request: NextRequest) {
 const LeagueConfigUpdate = z.object({
     createdBy: validationPattern.createdBy.zod,
     leagueStatus: validationPattern.leagueStatus.zod,
-    leagueKey: validationPattern.leagueKey.zod
+    leagueKey: validationPattern.leagueKey.zod,
+    googleSheetUrl: validationPattern.googleSheetUrl.zod
 });
 
 export async function PUT (request: NextRequest) {
@@ -156,7 +157,7 @@ export async function PUT (request: NextRequest) {
         contestantLeagueDataKeyPrefix: leagueConfigurationData.contestantLeagueDataKeyPrefix,
         createdBy: userId
     };
-    await updateLeagueConfigurationData(body.leagueKey, leagueConfig);
+    await updateLeagueConfigurationData(preexistingLeagueConfigurationKey, leagueConfig);
 
     // return
     return NextResponse.json({"message": "updated"});

@@ -867,7 +867,8 @@ describe("PUT (unit tests)", () => {
         happyPathRequest = {
             createdBy: ourUserId,
             leagueStatus: "active",
-            leagueKey: leagueConfigKey
+            leagueKey: leagueConfigKey,
+            googleSheetUrl: "https://some.url"
         };
 
         getAllKeys.mockImplementation(() => {
@@ -919,10 +920,11 @@ describe("PUT (unit tests)", () => {
         expect(request.json).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
-            happyPathRequest.leagueKey,
+            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
             expect.objectContaining({
                 createdBy: happyPathRequest.createdBy,
-                leagueStatus: happyPathRequest.leagueStatus
+                leagueStatus: happyPathRequest.leagueStatus,
+                googleSheetUrl: happyPathRequest.googleSheetUrl
             })
         );
     });
@@ -1100,19 +1102,21 @@ describe("PUT (unit tests)", () => {
         expect(getAllKeys).toHaveBeenCalledWith(`league_configuration:*:${happyPathRequest.leagueKey}`);
     });
 
-    it("should construct the update key using database contestantLeagueDataKeyPrefix", async () => {
+    it("should use the existing league configuration key from the database as the update key", async () => {
         // Arrange
-        const dbContestantLeagueDataKeyPrefix = "tvshowTestKey";
-
+        const dbLeagueConfigurationKey = `league_configuration:archive:${happyPathRequest.leagueKey}`;
+        getAllKeys.mockImplementation(() => {
+            return Promise.resolve([dbLeagueConfigurationKey]);
+        });
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
                 createdBy: ourUserId,
-                leagueStatus: happyPathRequest.leagueStatus,
+                leagueStatus: "archive",
                 wikiPageUrl: "https://en.wikipedia.org/wiki/Page",
                 wikiApiUrl: "https://en.wikipedia.org/w/api.php",
                 castPhrase: "Cast",
                 competitingEntityName: "person",
-                contestantLeagueDataKeyPrefix: `${dbContestantLeagueDataKeyPrefix}:*`
+                contestantLeagueDataKeyPrefix: `${happyPathRequest.leagueKey}:*`
             });
         });
 
@@ -1126,23 +1130,155 @@ describe("PUT (unit tests)", () => {
                 return happyPathRequest;
             })
         };
-        
+
         // Act
         const response = await PUT(request);
-        console.log(getAllKeys.mock.results[0].value);
 
         // Assert
         expect(response).not.toBeNull();
         expect(response.status).toEqual(200);
-        expect(updateLeagueConfigurationData).not.toHaveBeenCalledWith(
-            `${happyPathRequest.leagueStatus}:${dbContestantLeagueDataKeyPrefix}`,
-            expect.anything()
-        );
-        expect(getAllKeys.mock.calls[0][0]).toContain(`league_configuration:*:${happyPathRequest.leagueKey}`);
-        expect(getLeagueConfigurationData).toHaveBeenCalledWith(`league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`);
+        expect(getLeagueConfigurationData).toHaveBeenCalledWith(dbLeagueConfigurationKey);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
-            happyPathRequest.leagueKey,
-            expect.anything()
+            dbLeagueConfigurationKey,
+            expect.objectContaining({
+                leagueStatus: happyPathRequest.leagueStatus
+            })
         );
+    });
+
+    it("should return a 400 when PUT is missing googleSheetUrl", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = null;
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 400 when PUT googleSheetUrl is invalid probably has spaces", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = "not a url";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 400 when PUT googleSheetUrl is invalid probably doesn't have a scheme", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = "sup";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 400 when PUT googleSheetUrl does not use https", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = "http://some.url";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
+    });
+
+    it("should return a 400 when PUT googleSheetUrl has an invalid domain", async () => {
+        // Arrange
+        happyPathRequest.googleSheetUrl = "https:sup_blah_{_ga*b;ge_d^ta";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return "testToken"
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request);
+
+        // Assert
+        expect(response).not.toBeNull();
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("googleSheetUrl");
     });
 });
