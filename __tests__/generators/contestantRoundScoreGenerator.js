@@ -509,3 +509,21 @@ describe("Regression Tests Checking generation of Archived Leagues", () => {
         expect(result.rounds[21].contestantRoundData[0].totalScore).toBe(1910);
     });
 });
+
+describe("generateContestantRoundScores", () => {
+
+    it("Should pass parserOptions to the parsing function", async () => {
+
+        // Arrange
+        const tableRowData = [{ name: "Some person", col4: "Eliminated 1st" }];
+        const testDataFetcher = () => Promise.resolve(tableRowData);
+        const parsingFn = jest.fn(parseAmazingRaceEntities);
+        const parserOptions = { dayOverrides: [3] };
+
+        // Act
+        await generateContestantRoundScores(testDataFetcher, parsingFn, [], parserOptions);
+
+        // Assert
+        expect(parsingFn).toHaveBeenCalledWith(tableRowData, parserOptions);
+    });
+});
