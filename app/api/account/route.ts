@@ -52,7 +52,8 @@ export async function POST(request: NextRequest) {
             lastName: payload?.family_name
         },
         googleUserId: googleUserId,
-        userId: uuid
+        userId: uuid,
+        sessionExpiresAt: payload.exp
     }
     const response = NextResponse.json(userObjForClient);
     await createSession({
