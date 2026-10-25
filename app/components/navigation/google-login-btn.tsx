@@ -47,7 +47,7 @@ export default function GoogleLoginButton({classes}: {classes: string}){
     async function handleLogin(response: Response) {
         const data = await response.json();
         setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
-        setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId});
+        setSessionInfo({isLoggedIn: true, userName: data.name.firstName, googleUserId: data.googleUserId, sessionExpiresAt: data.sessionExpiresAt});
         router.push("/");
     }
 
