@@ -135,7 +135,6 @@ The code mostly matches this spec; these are the places it still falls short.
 - **Manual and automatic logout check the response differently.** The Log Out button needs a 205, while expiry accepts any response from `/api/logout`. Since the cookie is httpOnly, the client cannot tell if it was cleared either way.
 - **A failed logout at expiry is not retried.** The timer does not reschedule, so after a network error the user still looks logged in until the next page load, even though their API calls already get 401s.
 - **Manual logout leaves `sessionExpiresAt` set.** It is harmless because `isLoggedIn` is false, but it should be `null` to match the expiry path.
-- **`/api/logout` does not await `removeSession`.** It works only because `removeSession` has no awaits inside.
 
 ## To do
 
