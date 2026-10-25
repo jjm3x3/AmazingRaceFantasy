@@ -117,11 +117,12 @@ If the tab was closed or asleep at expiry, the next page load covers it: the bro
 
 ### Logout across tabs
 
-When any tab logs out, by Log Out or by expiry, every other open tab of the app must log out too.
+When any tab logs out successfully, by Log Out or by expiry, every other open tab of the app must log out too, without leaving the page it is on.
 
-1. The tab that logs out tells the other tabs, for example with a `BroadcastChannel` message or the `storage` event that clearing localStorage fires.
-2. Each other tab sets its context to logged out with `sessionExpiresAt: null`, switches the nav to Login and redirects to `/`.
-3. Other tabs do not call `/api/logout` again, since the cookie is shared and already cleared.
+1. The tab that logs out tells the other tabs only after its own logout succeeded, for example with a `BroadcastChannel` message or the `storage` event that clearing localStorage fires. A failed logout sends nothing.
+2. Each other tab sets its context to logged out with `sessionExpiresAt: null` and switches the nav to Login.
+3. Other tabs do not redirect. They stay on their current page and show a toast notification that the user has been logged out.
+4. Other tabs do not call `/api/logout` again, since the cookie is shared and already cleared.
 
 This is not built yet: today each tab waits for its own expiry timer or its next page load.
 
@@ -139,6 +140,6 @@ The code mostly matches this spec; these are the places it still falls short.
 ## To do
 
 - [ ] **Follow-up PR: session expired message.** After an automatic logout, show a message on the homepage telling the user their session expired.
-- [ ] **Logout across tabs.** When one tab logs out or expires, log out every other open tab (see Logout across tabs).
+- [ ] **Logout across tabs.** When one tab logs out successfully, log out every other open tab and show them a toast instead of redirecting (see Logout across tabs).
 - [ ] **Fix the gaps above.** Each item in Gaps in the current code.
 - [ ] **Move authorization to its own spec.** Take the authorization step (step 4 of Server-side verification) out of this spec and into a new authorization spec. The new spec should cover the permission models the app uses or could use, such as roles like `showAdmin` and ownership like a league's `createdBy`.
