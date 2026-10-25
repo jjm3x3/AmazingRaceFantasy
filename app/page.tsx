@@ -10,7 +10,7 @@ export default async function Home() {
         <>
             <div className="site-notice">
                 <p>
-                    League Submission forms for Survivor 50 have been sent out. If you would like to participate and didn't get one, email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link> and we will see what we can do.
+                    League Submission forms for Amazing Race 39 and Survivor 51 have been sent out. If you would like to participate and didn't get one, email <Link className="standard-link" href="mailto:xfactorleaguesite@gmail.com">xfactorleaguesite@gmail.com</Link> and we will see what we can do.
                 </p>
             </div>
             {pages.map((p: IPage) => { 
