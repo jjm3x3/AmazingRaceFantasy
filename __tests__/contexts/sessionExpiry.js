@@ -40,12 +40,36 @@ describe("SessionProvider expiry", () => {
         expect(mockRouter.push).not.toHaveBeenCalled();
     });
 
-    it("should log the user out and redirect to the homepage when the session expires", () => {
+    it("should log the user out and redirect to the homepage when the session expires", async () => {
         const { getByTestId } = render(<SessionProvider sessionExpiresAt={nowInSeconds() + 60}><LoggedInStatus /></SessionProvider>);
-        act(() => { jest.advanceTimersByTime(61 * 1000); });
+        await act(async () => { jest.advanceTimersByTime(61 * 1000); });
         expect(getByTestId("status").textContent).toBe("out");
         expect(global.fetch).toHaveBeenCalledWith("/api/logout", { method: "POST" });
         expect(clearLocalStorage).toHaveBeenCalled();
         expect(mockRouter.push).toHaveBeenCalledWith("/");
+    });
+
+    it("should not log the user out when the logout request fails", async () => {
+        global.fetch = jest.fn().mockRejectedValue(new Error("network down"));
+        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+        const { getByTestId } = render(<SessionProvider sessionExpiresAt={nowInSeconds() + 60}><LoggedInStatus /></SessionProvider>);
+        await act(async () => { jest.advanceTimersByTime(61 * 1000); });
+        expect(getByTestId("status").textContent).toBe("in");
+        expect(warnSpy).toHaveBeenCalled();
+        expect(clearLocalStorage).not.toHaveBeenCalled();
+        expect(mockRouter.push).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
+    });
+
+    it("should not log the user out when /api/logout returns an unexpected status", async () => {
+        global.fetch = jest.fn().mockResolvedValue({ status: 500 });
+        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+        const { getByTestId } = render(<SessionProvider sessionExpiresAt={nowInSeconds() + 60}><LoggedInStatus /></SessionProvider>);
+        await act(async () => { jest.advanceTimersByTime(61 * 1000); });
+        expect(getByTestId("status").textContent).toBe("in");
+        expect(warnSpy).toHaveBeenCalled();
+        expect(clearLocalStorage).not.toHaveBeenCalled();
+        expect(mockRouter.push).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
     });
 });

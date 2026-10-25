@@ -37,12 +37,16 @@ export const SessionProvider = ({ sessionExpiresAt, children }:{ sessionExpiresA
         }
         const msUntilExpiry = expiresAt * 1000 - Date.now();
         const timeoutId = setTimeout(()=> {
-            fetch("/api/logout", { method: "POST" }).catch((error) => {
-                console.warn(`Failed to clear expired session cookie: ${error}`);
-            });
-            clearLocalStorage();
-            setSessionInfo({isLoggedIn: false, userName: null, googleUserId: null, sessionExpiresAt: null});
-            router.push("/");
+            // a promise chain, not an async callback, so a failed request can never become an unhandled rejection
+            fetch("/api/logout", { method: "POST" })
+                .then(() => {
+                    clearLocalStorage();
+                    setSessionInfo({isLoggedIn: false, userName: null, googleUserId: null, sessionExpiresAt: null});
+                    router.push("/");
+                })
+                .catch((error) => {
+                    console.warn(`Failed to clear expired session cookie: ${error}`);
+                });
         }, Math.max(msUntilExpiry, 0));
 
         return () => clearTimeout(timeoutId);
