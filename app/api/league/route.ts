@@ -34,30 +34,24 @@ export async function POST(request: NextRequest) {
     // check auth
     const body = await request.json();
     const sessionCookie = request.cookies.get("session");
-    let userId: string | undefined;
-    if(sessionCookie){
-        if(!isWellFormedJwt(sessionCookie.value)){
-            return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
-        }
-        const decryptedSessionCookie = await decrypt(sessionCookie.value) as decryptionPayload;
-        userId = decryptedSessionCookie?.sub;
-        if (!userId) {
-            return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
-        }
-        let userRole = null;
-
-        try {
-            const userData = await getUser(userId);
-            userRole = userData.role;
-        } catch(error) {
-            console.info(`No roles found for user '${userId}'`);
-        }
-        const isUserDenied = userRole !== "showAdmin";
-        if(isUserDenied){
-            return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403})
-        }
-    } else {
+    if(!sessionCookie || !isWellFormedJwt(sessionCookie.value)){
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401})
+    }
+    const decryptedSessionCookie = await decrypt(sessionCookie.value) as decryptionPayload;
+    const userId: string | undefined = decryptedSessionCookie?.sub;
+    if (!userId) {
+        return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
+    }
+    let userRole = null;
+    try {
+        const userData = await getUser(userId);
+        userRole = userData.role;
+    } catch(error) {
+        console.info(`No roles found for user '${userId}'`);
+    }
+    const isUserDenied = userRole !== "showAdmin";
+    if(isUserDenied){
+        return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403})
     }
 
     // validate/sanitize input
