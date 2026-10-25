@@ -1230,7 +1230,7 @@ describe("PUT (unit tests)", () => {
         expect(bodyString).toContain("googleSheetUrl");
     });
 
-    it("should return a 400 when PUT googleSheetUrl is invalid probably has spaces", async () => {
+    it("should return a 400 when PUT googleSheetUrl has an invalid value", async () => {
         // Arrange
         happyPathRequest.googleSheetUrl = "not a url";
         const request = {
