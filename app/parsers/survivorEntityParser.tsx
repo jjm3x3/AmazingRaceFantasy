@@ -2,122 +2,170 @@ import { ITableRowData } from "@/app/dataSources/wikiFetch";
 import CompetingEntity from "@/app/models/CompetingEntity";
 import { isPartialContestantData } from "@/app/utils/wikiQuery";
 
-interface Survivor {
+interface SurvivorFinish {
     name: string
-    isParticipating: boolean
-    finishDay: number
+    placement?: string
+    day?: number
+    isEmptyRow: boolean
 }
 
-export default function parseSurvivorEntities(contestantData :ITableRowData[]): CompetingEntity[] {
+interface RankedSurvivor {
+    name: string
+    isParticipating: boolean
+    finishKey: number
+}
 
-    const contestants: Survivor[] = [];
-    let previousFinishDay: number = 0;
+// col1 and col2 are age and hometown, tribe and finish cells come after
+const FINISH_COLUMNS: (keyof ITableRowData)[] = ["col3", "col4", "col5", "col6", "col7", "col8"];
 
-    contestantData.forEach((element) => {
+const PLACEMENT_VOCABULARY = [
+    "voted out",
+    "eliminated",
+    "medically evacuated",
+    "quit",
+    "removed",
+    "runner-up",
+    "sole survivor"
+].map(removeWhitespaceAndToLower);
 
-        if (isPartialContestantData(element)) {
-            return;
+const DAY_PATTERN = /^Day\s*(\d+)$/;
+const ORDINAL_PLACEMENT_PATTERN = /^(\d+)(?:st|nd|rd|th)(?:&\d+(?:st|nd|rd|th))?votedout/;
+
+export default function parseSurvivorEntities(contestantData: ITableRowData[]): CompetingEntity[] {
+
+    const finishes = contestantData
+        .filter((element) => !isPartialContestantData(element))
+        .map(extractFinish);
+
+    fillSharedCells(finishes);
+
+    const rankedSurvivors = applyDayOverrides(rankFinishes(finishes));
+
+    return assignEliminationOrder(rankedSurvivors);
+}
+
+function extractFinish(row: ITableRowData): SurvivorFinish {
+    const name = row.name || row.name2;
+
+    const cells = FINISH_COLUMNS.map((column) => (row[column] ?? "").trim());
+    let rightMostIndex = cells.length - 1;
+    while (rightMostIndex >= 0 && cells[rightMostIndex] === "") {
+        rightMostIndex--;
+    }
+
+    if (rightMostIndex < 0) {
+        // empty row, every cell is shared with the row above
+        return { name, isEmptyRow: true };
+    }
+
+    const rightMostCell = cells[rightMostIndex];
+    const dayMatches = rightMostCell.match(DAY_PATTERN);
+    if (dayMatches) {
+        const day = Number(dayMatches[1]);
+        const leftCell = rightMostIndex > 0 ? cells[rightMostIndex - 1] : "";
+        if (isRecognizedPlacement(leftCell)) {
+            return { name, placement: leftCell, day, isEmptyRow: false };
         }
+        console.warn(`Survivor contestant '${name}' has a 'Day ${day}' cell without a recognized placement to its left: '${leftCell}'`);
+        return { name, day, isEmptyRow: false };
+    }
 
-        let rawFinishDay = null;
-        if (element.col8){
-            rawFinishDay = element.col8;
-        } else if (element.col7) {
-            rawFinishDay = element.col7;
-        } else if (element.col6) {
-            rawFinishDay = element.col6;
-        } else if (element.col5) {
-            rawFinishDay = element.col5;
-        } else if(element.col4)  {
-            rawFinishDay = element.col4;
-        } else {
-            rawFinishDay = element.col3;
-        }
-        if (rawFinishDay === null || rawFinishDay === undefined) {
-            throw new ReferenceError("Status is either null or undefined and it should not be");
-        }
+    if (isRecognizedPlacement(rightMostCell)) {
+        return { name, placement: rightMostCell, isEmptyRow: false };
+    }
 
-        const teamName = element.name || element.name2;
+    // typically a tribe name, the contestant is still in play
+    return { name, isEmptyRow: false };
+}
 
-        console.log(`Show contestant '${teamName}' right after parsing first parsing round: exitDay '${rawFinishDay}'`);
+function fillSharedCells(finishes: SurvivorFinish[]): void {
+    let lastDay: number | undefined = undefined;
 
-        let isParticipating = true;
-        let finishDay = 0;
-        let isWinner = false;
-
-        if (rawFinishDay.toLowerCase().includes("day")) {
-            isParticipating = false;
-            const statusMatches = rawFinishDay.match(/Day (\d+)/i);
-            finishDay = Number(statusMatches![1]);
-        } else if (rawFinishDay.toLowerCase().includes("runner-up")) {
-            isParticipating = false;
-            finishDay = previousFinishDay + 0.5
-        } else if (rawFinishDay.toLowerCase().includes("sole survivor")) {
-            isWinner = true;
-        } else if (rawFinishDay.toLowerCase().includes("voted out")) {
-            isParticipating = false;
-            finishDay = previousFinishDay + 0.5;
-        }
-
-        if (finishDay !== 0) {
-            // update previousFinishDay
-            previousFinishDay = finishDay;
-        } else if (!isWinner) {
-            // Previously we used to set finishDay to the previous one but that
-            // only works if we assume that any unset finishDay should default
-            // to what the previous person should be, and this depends on the
-            // order of the list
-            const foundContestant = contestants[contestants.length-1];
-            if (foundContestant == null) {
-                console.debug("found previous contestant to be null");
-                isParticipating = true; // implies that this is the first contestant
-            } else if (foundContestant.finishDay === 0) {
-                console.debug("previous contestant has not exited yet");
-                isParticipating = true; // implies all contestants before this one are still participating
+    finishes.forEach((finish, index) => {
+        if (finish.isEmptyRow) {
+            const rowAbove = finishes[index - 1];
+            if (rowAbove?.placement !== undefined) {
+                finish.placement = rowAbove.placement;
+                finish.day = rowAbove.day;
             } else {
-                // Initially we were assuming false because we have already
-                // started to see contestants eliminated and based on the order
-                // we see them, once one has been eliminated everyone after that
-                // is assumed to be. Now realizing that the list could be
-                // starting with the eliminated contestant we are going to try
-                // assuming true and assign no finishing day
-                isParticipating = true;
+                console.warn(`Survivor contestant '${finish.name}' has an empty row with no placement above it to share`);
             }
         }
 
-        const parsedContestantData = {
-            name: teamName,
-            isParticipating,
-            finishDay
-        };
+        if (finish.placement !== undefined && finish.day === undefined) {
+            finish.day = lastDay;
+        }
 
-        contestants.push(parsedContestantData);
+        if (finish.day !== undefined) {
+            lastDay = finish.day;
+        }
+    });
+}
+
+function rankFinishes(finishes: SurvivorFinish[]): RankedSurvivor[] {
+    let previousKey = 0;
+
+    return finishes.map((finish) => {
+        const placement = finish.placement;
+        if (placement === undefined) {
+            return { name: finish.name, isParticipating: true, finishKey: 0 };
+        }
+
+        const compactPlacement = removeWhitespaceAndToLower(placement);
+        if (compactPlacement.includes(removeWhitespaceAndToLower("sole survivor"))) {
+            return { name: finish.name, isParticipating: true, finishKey: 0 };
+        }
+
+        const ordinalMatches = compactPlacement.match(ORDINAL_PLACEMENT_PATTERN);
+        const finishKey = ordinalMatches ? Number(ordinalMatches[1]) : previousKey + 0.5;
+        previousKey = finishKey;
+
+        return { name: finish.name, isParticipating: false, finishKey };
+    });
+}
+
+// Placeholder: show/season keyed overrides that use `day` to adjust the
+// elimination order will go here, for now it changes nothing
+function applyDayOverrides(rankedSurvivors: RankedSurvivor[]): RankedSurvivor[] {
+    return rankedSurvivors;
+}
+
+function assignEliminationOrder(rankedSurvivors: RankedSurvivor[]): CompetingEntity[] {
+    const sortedSurvivors = [...rankedSurvivors].sort(function(a, b) {
+        return a.finishKey - b.finishKey;
     });
 
-
-    const sortedContestants = contestants.sort(function(a, b){
-        return a.finishDay-b.finishDay;
-    });
-
-    let eliminationOrderCounter = 1;
-    const contestantsWithEliminationOrder = sortedContestants.map(function(contestant) {
+    let eliminationOrderCounter = 0;
+    let previousFinishKey = 0;
+    const contestantsWithEliminationOrder = sortedSurvivors.map(function(survivor) {
         let eliminationOrder = Number.MAX_VALUE;
-        if (contestant.finishDay !== 0) {
+        if (survivor.finishKey !== 0) {
+            if (survivor.finishKey !== previousFinishKey) {
+                // shared placements keep the same order, the next exit takes the next number
+                eliminationOrderCounter++;
+                previousFinishKey = survivor.finishKey;
+            }
             eliminationOrder = eliminationOrderCounter;
-            eliminationOrderCounter++;
         }
 
         return new CompetingEntity({
-            teamName: contestant.name,
+            teamName: survivor.name,
             relationship: "needed for ITeam",
-            isParticipating: contestant.isParticipating,
+            isParticipating: survivor.isParticipating,
             eliminationOrder
         });
     });
 
-    const contestantsSortedByEliminationOrder = contestantsWithEliminationOrder.sort(function(a, b){
-        return a.eliminationOrder-b.eliminationOrder;
+    return contestantsWithEliminationOrder.sort(function(a, b) {
+        return a.eliminationOrder - b.eliminationOrder;
     });
+}
 
-    return contestantsSortedByEliminationOrder;
+function isRecognizedPlacement(cell: string): boolean {
+    const compactCell = removeWhitespaceAndToLower(cell);
+    return PLACEMENT_VOCABULARY.some((placement) => compactCell.includes(placement));
+}
+
+function removeWhitespaceAndToLower(text: string): string {
+    return text.replace(/\s+/g, "").toLowerCase();
 }
