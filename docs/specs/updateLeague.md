@@ -5,8 +5,8 @@ Issue: [#439 Create League Edit page](https://github.com/jjm3x3/AmazingRaceFanta
 
 This is the **target** behavior of the update league feature: a page,
 pre-filled with a league's stored configuration, where the league's owner
-can change it and save. Items marked **Decision** are proposals that still
-need sign-off; they are collected again under "Open questions".
+can change it and save. The choices made along the way are collected under
+"Decisions" at the end.
 
 ## Parts
 
@@ -50,9 +50,9 @@ What the edit flow does to each stored field:
 The editable set is the create form's fields minus the two that make up the
 league key, so the derivations match `POST /api/league` exactly.
 
-**Decision:** today's `PUT /api/league` only lets you change
-`googleSheetUrl` and `leagueStatus`. This spec widens that to every field
-the create form sets, except the league key.
+Today's `PUT /api/league` only lets you change `googleSheetUrl` and
+`leagueStatus`. This feature widens that to every field the create form
+sets, except the league key.
 
 ## Edit page
 
@@ -72,9 +72,9 @@ URL: `/league/<status>/<slug>/configuration`, e.g.
   - `leagueStatus` `archive` → `archived` option
 - Works out the league id on the server and passes it to the form as a
   prop. This is the only place the client gets it from.
-- **Decision:** who can open the page. Proposal: anyone can open it (the
-  same values are already public on `league-details`); only the owner can
-  save, which the endpoint enforces. See "Open questions".
+- Anyone can open the page; it does not read the session. The same values
+  are already public on `league-details`. Only the owner can save, which the
+  endpoint enforces: anyone else gets a 403 and the unauthorized message.
 
 ## Form
 
@@ -102,7 +102,7 @@ validation patterns. Differences in edit mode:
 | --- | --- |
 | 401 | `UNAUTHENTICATED_ERROR_MESSAGE` |
 | 403 | `UNAUTHORIZED_ERROR_MESSAGE` |
-| 404 | **Decision:** new message, e.g. "This league no longer exists." |
+| 404 | `LEAGUE_NOT_FOUND_ERROR_MESSAGE` (new, in [errorMsgs.tsx](../../app/dataSources/errorMsgs.tsx)): "This league could not be found. It may have been moved or archived; refresh and try again." |
 | anything else | `GENERIC_FORM_ERROR_MESSAGE` |
 
 ## Update endpoint: `PUT /api/league/[leagueId]`
@@ -152,8 +152,9 @@ The first one that fails decides the response:
 | 4 | Exactly one key matches `league_configuration:*:<leagueId>` | none: 404, more than one: 409 |
 | 5 | Session user is the stored `createdBy` | 403 |
 
-**Decision:** whether a `showAdmin` may also update leagues they did not
-create. Proposal: no, owner only, which is what `PUT /api/league` does today.
+Only the owner can update a league. A `showAdmin` role does not let a user
+update leagues they did not create; this is what `PUT /api/league` does
+today.
 
 ### Write
 
@@ -189,13 +190,14 @@ status from the checks table.
 
 On `league-details`, the "Edit League" link goes to
 `/league/<status>/<slug>/configuration` (today it goes to the create page,
-`/league/configuration`). It shows only to the league's owner; everyone else
-sees the disabled "Edit League (owner only)" button, as now.
+`/league/configuration`). The link stays behind `userIsLeagueOwner`, which
+is still always `false`, so everyone keeps seeing the disabled "Edit League
+(owner only)" button. Until the owner check lands, the owner reaches the
+edit page by its URL.
 
-**Decision:** how the page knows the viewer is the owner. `league-details`
-is built at build time, so it cannot read the session there. Proposal: check
-on the client with the session context and the stored `createdBy`. Could be
-split into its own issue.
+Working out `userIsLeagueOwner` is its own issue. `league-details` is built
+at build time, so it cannot read the session there; the likely approach is
+to compare the session context with the stored `createdBy` on the client.
 
 ## Tests
 
@@ -225,6 +227,8 @@ and shows the right message for 401/403/404/other.
   contestant data key prefix.
 - Transferring ownership.
 - Deleting a league.
+- Showing the `league-details` "Edit League" link to the owner (working out
+  `userIsLeagueOwner`).
 - A real `leagueId` (next section).
 
 ## Future work: `leagueId`
@@ -259,13 +263,18 @@ What this spec does so that switch is cheap:
   server hands out. Only the lookup inside the route has to change.
 - The form sends back the id it was given and never builds one.
 
-## Open questions
+## Decisions
 
-1. Widen the editable fields past `googleSheetUrl` and `leagueStatus`, as
-   above?
-2. Can a non-owner open the edit page (and get a 403 on save), or should
-   it redirect/deny?
-3. Owner only, or also `showAdmin`?
-4. Where to go after saving: `league-details` (proposed) or `/`?
-5. 404 message text.
-6. Owner check for the `league-details` link: in this issue or its own?
+1. **Editable fields:** every field the create form sets except show name
+   and season, not just `googleSheetUrl` and `leagueStatus`.
+2. **Non-owners on the edit page:** the page opens for anyone; saving gives
+   a 403 and the unauthorized message.
+3. **Who can update:** the owner (`createdBy`) only. `showAdmin` gets no
+   extra rights.
+4. **After saving:** go to the league's `league-details` page, with the new
+   status in the URL.
+5. **404 on save:** a new `LEAGUE_NOT_FOUND_ERROR_MESSAGE`.
+6. **Owner check for the `league-details` link:** its own issue. Here the
+   link only changes where it points.
+7. **League identity in the API:** an opaque league id, which is the league
+   key for now. A real `leagueId` is future work.
