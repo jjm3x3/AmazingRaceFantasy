@@ -39,10 +39,13 @@ const pages = [
 
 const mockRouter = { push: jest.fn() };
 
-jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
+let mockPathname = "/";
+
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter}, usePathname: () => mockPathname }));
 
 describe("Navigation Component", () => {
     beforeEach(()=> {
+        mockPathname = "/";
         mockSessionInfo = {
             isLoggedIn: false,
             userName: "Default User Name From Context",
@@ -182,5 +185,55 @@ describe("Navigation Component", () => {
             // Need to wait for the login flow to cycle through and rerender the navigation in closed state
             expect(navMenu).not.toBeVisible();
         }); 
+    });
+
+    it("should close the navigation on every logout", async ()=> {
+        mockSessionInfo.isLoggedIn = true;
+        const { getByTestId } = render(
+            <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
+                <Navigation pages={pages} />
+            </SessionContext.Provider>
+        );
+        const toggleButton = getByTestId("hamburger-nav-btn");
+        const navMenu = getByTestId("navigation-menu");
+
+        for (let i = 0; i < 2; i++) {
+            // Act
+            fireEvent.click(toggleButton);
+            await waitFor(()=> {
+                expect(navMenu).toBeVisible();
+            });
+            fireEvent.click(getByTestId("logout-button-core"));
+
+            // Assert
+            await waitFor(()=> {
+                expect(navMenu).not.toBeVisible();
+            });
+        }
+    });
+
+    it("should close the navigation and its subpages every time the route changes", async ()=> {
+        const { getByTestId, rerender } = render(<Navigation pages={pages} />);
+        const toggleButton = getByTestId("hamburger-nav-btn");
+        const navMenu = getByTestId("navigation-menu");
+        const subPageToggle = getByTestId("subpage-current-label");
+        const subPageList = getByTestId("subpage-current-dropdown");
+
+        for (const path of ["/contestants", "/scoring"]) {
+            // Act
+            fireEvent.click(toggleButton);
+            fireEvent.click(subPageToggle);
+            await waitFor(()=> {
+                expect(subPageList).toBeVisible();
+            });
+            mockPathname = path;
+            rerender(<Navigation pages={pages} />);
+
+            // Assert
+            await waitFor(()=> {
+                expect(navMenu).not.toBeVisible();
+            });
+            expect(subPageList).not.toBeVisible();
+        }
     });
 });

@@ -28,5 +28,6 @@ export default interface INavigationItem{
     labelAttr: ILabelAttribute
     listAttr: IListAttribute
     childElements: ReactNode | ReactNode[],
-    navigationClose: boolean
+    // the item closes whenever this value changes
+    navigationClose: string
 };
