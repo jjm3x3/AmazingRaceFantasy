@@ -1,40 +1,47 @@
-import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
-import { getUrlParams } from "@/app/utils/pages";
-import LeagueConfigurationEditForm from "./form";
+import { notFound } from "next/navigation";
+import { getLeagueConfigurationData, ILeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import LeagueConfigurationForm from "@/app/league/configuration/form/form";
 
-// This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
-export const dynamicParams = false
+// Render on every request so the form always shows what is stored now, and so a league
+// that moved to a new status is found at its new url without a rebuild
+export const dynamic = "force-dynamic";
 
-// Creates routes for all existing leagues
-export async function generateStaticParams() {
-    const leagueConfigurationKeys = await getLeagueConfigurationKeys();
-    const params = await getUrlParams(leagueConfigurationKeys);
-    return params;
-}
+const wikiPageUrlPrefix = "https://en.wikipedia.org/wiki/";
 
 export default async function LeagueConfigurationEdit({ params }: {
     params: Promise<{ showStatus: string; showNameAndSeason: string }>
   }) {
     const { showNameAndSeason, showStatus } = await params;
     const showAndSeasonArr = showNameAndSeason.split("-");
-    const showSeason = showAndSeasonArr.at(-1);
-    showAndSeasonArr.pop();
+    const showSeason = showAndSeasonArr.pop() ?? "";
     const showName = showAndSeasonArr.join("_");
+    const leagueId = `${showName}:${showSeason}`;
 
-    const leagueConfigurationKey = `league_configuration:${showStatus}:${showName}:${showSeason}`;
-    const leagueConfigurationData = await getLeagueConfigurationData(leagueConfigurationKey);
+    let leagueConfigurationData: ILeagueConfigurationData;
+    try {
+        leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${leagueId}`);
+    } catch {
+        notFound();
+    }
+
+    const wikiPageUrl = leagueConfigurationData.wikiPageUrl;
+    const league = {
+        leagueId,
+        urlSlug: showNameAndSeason,
+        wikiPageName: wikiPageUrl.startsWith(wikiPageUrlPrefix) ? wikiPageUrl.slice(wikiPageUrlPrefix.length) : wikiPageUrl,
+        wikiSectionHeader: leagueConfigurationData.castPhrase,
+        showName,
+        showSeason,
+        contestantType: leagueConfigurationData.competitingEntityName,
+        leagueStatus: leagueConfigurationData.leagueStatus,
+        googleSheetUrl: leagueConfigurationData.googleSheetUrl
+    };
 
     return (
         <div>
-            <h2 className="text-2xl text-center">Edit League Configuration</h2>
-            <p className="text-center text-sm text-gray-600">Editing configuration for {showNameAndSeason}</p>
-            <LeagueConfigurationEditForm 
-                initialData={leagueConfigurationData}
-                leagueConfigurationKey={leagueConfigurationKey}
-                showName={showName}
-                showStatus={showStatus}
-                showSeason={showSeason}
-            />
+            <h2 className="text-2xl text-center">Edit League</h2>
+            <p className="text-center text-sm text-gray-600">{showNameAndSeason}</p>
+            <LeagueConfigurationForm league={league} />
         </div>
     );
 }
