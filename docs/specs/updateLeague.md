@@ -60,12 +60,12 @@ URL: `/league/<status>/<slug>/configuration`, e.g.
 `/league/active/big-brother-28/configuration`.
 
 - Heading "Edit League", with the league (`big-brother-28`) named under it.
-- Has one route per stored league. Any other URL is a 404 (same
-  `generateStaticParams` / `dynamicParams = false` as the `league-details`
-  page).
-- Renders on the server **at request time**, not at build time, so it always
-  shows what is stored now. A page built at deploy time would show values
-  from before every edit made since.
+- Renders on the server **at request time** (`dynamic = "force-dynamic"`),
+  not at build time, so it always shows what is stored now. A page built at
+  deploy time would show values from before every edit made since, and a
+  league whose status changed would 404 at its new URL until the next build.
+- A URL with no stored league is a 404 (`notFound()` when there is no
+  configuration at `league_configuration:<status>:<league key>`).
 - Reads the configuration with `getLeagueConfigurationData` and maps it to
   the form fields (see the table above):
   - `wikiPageName` = `wikiPageUrl` without the `https://en.wikipedia.org/wiki/` prefix
