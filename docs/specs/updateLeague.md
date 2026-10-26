@@ -14,7 +14,7 @@ need sign-off; they are collected again under "Open questions".
 | --- | --- |
 | Edit page | `app/league/[showStatus]/[showNameAndSeason]/configuration/page.tsx` |
 | Form | Shared with the create page, `app/league/configuration/form/form.tsx` |
-| Update endpoint | `PUT /api/league/[leagueKey]`, `app/api/league/[leagueKey]/route.ts` |
+| Update endpoint | `PUT /api/league/[leagueId]`, `app/api/league/[leagueId]/route.ts` |
 | Storage | `updateLeagueConfigurationData` in [dbFetch.tsx](../../app/dataSources/dbFetch.tsx) |
 | Entry point | "Edit League" link on the `league-details` page |
 
@@ -22,7 +22,8 @@ need sign-off; they are collected again under "Open questions".
 
 | Term | Example | Notes |
 | --- | --- | --- |
-| league key | `big_brother:28` | `showName:showSeason`. Identifies a league. Never changes. |
+| league key | `big_brother:28` | `showName:showSeason`. Identifies a league today. Never changes. |
+| league id | `big_brother:28` | What the API uses to name a league. Opaque to the client: the server hands it out and the client sends it back unchanged, never builds or parses it. **Today it is the league key**; see "Future work: `leagueId`". |
 | league status | `active` / `archive` | Stored value. The form shows `archive` as "Archived". |
 | configuration key | `league_configuration:active:big_brother:28` | `league_configuration:<status>:<league key>`. The redis key. Changes when status changes. |
 | URL slug | `big-brother-28` | League key with `_` and `:` turned into `-` (`getUrlParams`). |
@@ -69,6 +70,8 @@ URL: `/league/<status>/<slug>/configuration`, e.g.
   the form fields (see the table above):
   - `wikiPageName` = `wikiPageUrl` without the `https://en.wikipedia.org/wiki/` prefix
   - `leagueStatus` `archive` → `archived` option
+- Works out the league id on the server and passes it to the form as a
+  prop. This is the only place the client gets it from.
 - **Decision:** who can open the page. Proposal: anyone can open it (the
   same values are already public on `league-details`); only the owner can
   save, which the endpoint enforces. See "Open questions".
@@ -84,7 +87,7 @@ validation patterns. Differences in edit mode:
 | Show name / season | Editable | Shown, not editable, not sent |
 | Starts valid? | No (submit disabled) | Yes, when the stored values pass validation |
 | Button | "Create League" | "Update League" |
-| Request | `POST /api/league` | `PUT /api/league/<league key>` |
+| Request | `POST /api/league` | `PUT /api/league/<league id>`, with the id from the page prop, URL-encoded (`encodeURIComponent`) |
 | On success | Go to `/` | Go to the league's `league-details` page, using the **new** status in the URL |
 
 - If a stored value does not pass its field's pattern (older data), that
@@ -102,18 +105,24 @@ validation patterns. Differences in edit mode:
 | 404 | **Decision:** new message, e.g. "This league no longer exists." |
 | anything else | `GENERIC_FORM_ERROR_MESSAGE` |
 
-## Update endpoint: `PUT /api/league/[leagueKey]`
+## Update endpoint: `PUT /api/league/[leagueId]`
 
 This replaces `PUT /api/league` (league key in the body). `POST /api/league`
-does not change. The league key goes in the path, so the URL names the
+does not change. The league id goes in the path, so the URL names the
 resource being updated, and the body holds only what changes.
+
+Only the route turns a league id into storage keys. Clients and the rest of
+the request handling treat it as an opaque string, so switching to a real
+`leagueId` later changes the lookup here and nothing in the contract.
 
 ### Request
 
-- Path: `leagueKey`, e.g. `/api/league/big_brother:28`. Must match
-  `validationPattern.leagueKey` (`^[a-zA-Z0-9_:]+$`), so `*` and other redis
-  glob characters are rejected before any lookup. It does **not** include the
-  status or the `league_configuration:` prefix.
+- Path: `leagueId`, e.g. `/api/league/big_brother:28`. `:` is allowed in a
+  path segment, and the route gets the same value whether the client sends
+  it raw or as `%3A`. Today it must match `validationPattern.leagueKey`
+  (`^[a-zA-Z0-9_:]+$`), so `*` and other redis glob characters are rejected
+  before any lookup. It does **not** include the status or the
+  `league_configuration:` prefix.
 - Cookie: `session`.
 - Body (JSON), every field required:
 
@@ -139,8 +148,8 @@ The first one that fails decides the response:
 | --- | --- | --- |
 | 1 | `session` cookie present and a well-formed JWT | 401 |
 | 2 | Cookie decrypts and has a `sub` (user id) | 401 |
-| 3 | Path `leagueKey` and body pass validation | 400, naming the first bad property (same wording as `POST`) |
-| 4 | Exactly one key matches `league_configuration:*:<leagueKey>` | none: 404, more than one: 409 |
+| 3 | Path `leagueId` and body pass validation | 400, naming the first bad property (same wording as `POST`) |
+| 4 | Exactly one key matches `league_configuration:*:<leagueId>` | none: 404, more than one: 409 |
 | 5 | Session user is the stored `createdBy` | 403 |
 
 **Decision:** whether a `showAdmin` may also update leagues they did not
@@ -161,7 +170,7 @@ Builds the new configuration:
 | everything else | stored value, unchanged (`createdBy` included) |
 
 Calls `updateLeagueConfigurationData(<found configuration key>, config)`.
-That already writes to `league_configuration:<new status>:<league key>`
+That already writes to `league_configuration:<new status>:<league id>`
 and deletes the old key in one transaction, so:
 
 - Same status: the configuration is overwritten in place.
@@ -190,13 +199,13 @@ split into its own issue.
 
 ## Tests
 
-Endpoint (`__tests__/api/league/[leagueKey]/route.js`; the `PUT (unit
+Endpoint (`__tests__/api/league/[leagueId]/route.js`; the `PUT (unit
 tests)` block moves out of `__tests__/api/league/route.js`):
 - 401: missing cookie, malformed JWT, no `sub`.
-- 400: invalid `leagueKey` in the path (space, `*`); each missing or invalid
+- 400: invalid `leagueId` in the path (space, `*`); each missing or invalid
   body field.
 - 404 / 409 from the key lookup; lookup pattern is
-  `league_configuration:*:<leagueKey>`.
+  `league_configuration:*:<leagueId>`.
 - 403 when the user is not `createdBy`.
 - 200: derived `wikiPageUrl`/`wikiApiUrl`, renamed fields, stored fields
   kept (`parserOptions`, link texts, `contestantLeagueDataKeyPrefix`,
@@ -204,7 +213,8 @@ tests)` block moves out of `__tests__/api/league/route.js`):
 - Body `leagueKey` / `createdBy` are ignored.
 
 Form: edit mode pre-fills each field, maps `archive` ↔ `archived`, starts
-with submit enabled, locks show name/season, sends `PUT` to the right URL,
+with submit enabled, locks show name/season, sends `PUT` to
+`/api/league/<league id prop>` (not one built from show name and season),
 and shows the right message for 401/403/404/other.
 
 ## Out of scope
@@ -215,6 +225,39 @@ and shows the right message for 401/403/404/other.
   contestant data key prefix.
 - Transferring ownership.
 - Deleting a league.
+- A real `leagueId` (next section).
+
+## Future work: `leagueId`
+
+Today the league key (`showName:showSeason`) is a league's identity, part of
+its redis key, and (via the URL slug) part of its page URLs. That holds only
+while there is at most one league per show and season. Once users outside
+the core group can create leagues, two leagues for the same season will
+exist, so a league needs an id of its own. This belongs in its own issue.
+
+What that work would cover:
+- **A generated id.** Random and URL-safe, assigned by `POST /api/league` and
+  never changed. Show name and season become plain fields of the
+  configuration.
+- **Status out of the key.** `league_configuration:<status>:…` means a
+  league's key changes when it is archived, and finding one means a
+  wildcard lookup (the 404/409 check above). With an id, the key is just
+  the id, status is a field, and lists of active/archived leagues come from
+  an index (e.g. a set of ids per status).
+- **Contestant data per league.** Picks are stored under `showName:showSeason:*`
+  (`contestantLeagueDataKeyPrefix`). They belong to a league, so they move to
+  the league id. Wikipedia data stays per show and season, since every league
+  for that season shares it.
+- **Page URLs.** `getUrlParams` turns `_` into `-` and pages turn `-` back
+  into `_`, which breaks for names that contain `-`. Pages would be addressed
+  by id (optionally with a readable slug that is ignored when looking the
+  league up).
+- **Migrating** existing `league_configuration:*` and contestant keys.
+
+What this spec does so that switch is cheap:
+- The update endpoint names the league with an opaque `leagueId` that the
+  server hands out. Only the lookup inside the route has to change.
+- The form sends back the id it was given and never builds one.
 
 ## Open questions
 
