@@ -12,7 +12,7 @@ let mockSessionInfo = {
 const mockSetSessionInfo = jest.fn();
 const mockRouter = { push: jest.fn() };
 
-jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter} }));
+jest.mock("next/navigation", () => ({ useRouter: () => { return mockRouter}, usePathname: () => "/" }));
 
 const pages = [
     {
