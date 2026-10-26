@@ -5,6 +5,7 @@ import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
 import NavigationItem from "./navigation-item";
 import { useContext, useState } from "react";
+import { usePathname } from "next/navigation";
 import { SessionContext } from "@/app/contexts/session";
 import LogoutButton from "@/app/components/navigation/logoutButton"
 
@@ -30,13 +31,18 @@ export default function Navigation({ pages }: {
         classes: ""
     };
     const { sessionInfo } = useContext(SessionContext);
-    const [shouldNavigateClose, setShouldNavigateClose] = useState(false);
+    // the navigation lives in the root layout so it is never remounted, close it whenever the route changes
+    // or a menu action asks it to, which also covers navigating to the page that is already open
+    const pathname = usePathname();
+    const [closeRequestCount, setCloseRequestCount] = useState(0);
+    const closeNavigation = () => setCloseRequestCount(count => count + 1);
+    const navigationClose = `${pathname}-${closeRequestCount}`;
 
     return (<nav id={styles["navigation"]} data-testid="navigation">
         <NavigationItem inputAttr={rootNavInputAttr} 
             labelAttr={rootNavLabelAttr} 
             listAttr={rootNavListAttr} 
-            navigationClose={shouldNavigateClose}
+            navigationClose={navigationClose}
             childElements={
                 <>{pages.map((page: IPage) => {
                     const keyName = page.name.toLowerCase().replaceAll(" ", "-");
@@ -62,18 +68,18 @@ export default function Navigation({ pages }: {
                         <NavigationItem inputAttr={subpageInputAttr} 
                             labelAttr={subpageLabelAttr} 
                             listAttr={subpageListAttr} 
-                            navigationClose={shouldNavigateClose}
+                            navigationClose={navigationClose}
                             childElements={page.subpages.map((subpage: ISubpage) => {
                                 const subpageKeyName = subpage.name.toLowerCase().replaceAll(" ", "-");
                                 return <li key={`nav-toplevellink-${keyName}-sublink-${subpageKeyName}`}>
-                                    <Link href={subpage.path} className={styles["sub-level-link"]} onNavigate={()=> { setShouldNavigateClose(true) }}>{subpage.name}</Link>
+                                    <Link href={subpage.path} className={styles["sub-level-link"]} onNavigate={closeNavigation}>{subpage.name}</Link>
                                 </li>;
                             })} />
                     </li>);
                 })}
                 { !sessionInfo.isLoggedIn ?
                     <li className={styles["top-level-link"]} data-testid="login-link" key={"nav-toplevellink-login"}><Link href="/login">Login</Link></li>
-                    : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton setShouldNavigateClose={setShouldNavigateClose} /></li>
+                    : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton setShouldNavigateClose={closeNavigation} /></li>
                 }
                 </>} />
     </nav>);
