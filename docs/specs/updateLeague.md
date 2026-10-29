@@ -201,8 +201,9 @@ to compare the session context with the stored `createdBy` on the client.
 
 ## Tests
 
-Endpoint (`__tests__/api/league/[leagueId]/route.js`; the `PUT (unit
-tests)` block moves out of `__tests__/api/league/route.js`):
+Endpoint (the `PUT (unit tests)` block stays in
+`__tests__/api/league/route.js`, importing `PUT` from the new route, so the
+change to it reviews as a small diff):
 - 401: missing cookie, malformed JWT, no `sub`.
 - 400: invalid `leagueId` in the path (space, `*`); each missing or invalid
   body field.
