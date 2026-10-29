@@ -130,15 +130,15 @@ This is not built yet: today each tab waits for its own expiry timer or its next
 
 The code mostly matches this spec; these are the places it still falls short.
 
-- **`decrypt` returns a response on failure.** It returns a 401 `NextResponse` instead of `null`, and callers only work because that object has no `sub` or `exp`. It should return `null` and let each caller respond.
-- **`/api/login` has no reply when Google returns no payload.** `/api/account` answers 502 in that case; login should too.
-- **Manual and automatic logout check the response differently.** The Log Out button needs a 205, while expiry accepts any response from `/api/logout`. Since the cookie is httpOnly, the client cannot tell if it was cleared either way.
-- **A failed logout at expiry is not retried.** The timer does not reschedule, so after a network error the user still looks logged in until the next page load, even though their API calls already get 401s.
-- **Manual logout leaves `sessionExpiresAt` set.** It is harmless because `isLoggedIn` is false, but it should be `null` to match the expiry path.
+- **`decrypt` returns a response on failure.** It returns a 401 `NextResponse` instead of `null`, and callers only work because that object has no `sub` or `exp`. It should return `null` and let each caller respond. Tracked in [#551](https://github.com/jjm3x3/AmazingRaceFantasy/issues/551).
+- **`/api/login` has no reply when Google returns no payload.** `/api/account` answers 502 in that case; login should too. Tracked in [#551](https://github.com/jjm3x3/AmazingRaceFantasy/issues/551).
+- **Manual and automatic logout check the response differently.** The Log Out button needs a 205, while expiry accepts any response from `/api/logout`. Since the cookie is httpOnly, the client cannot tell if it was cleared either way. Tracked in [#551](https://github.com/jjm3x3/AmazingRaceFantasy/issues/551).
+- **A failed logout at expiry is not retried.** The timer does not reschedule, so after a network error the user still looks logged in until the next page load, even though their API calls already get 401s. Tracked in [#552](https://github.com/jjm3x3/AmazingRaceFantasy/issues/552).
+- **Manual logout leaves `sessionExpiresAt` set.** It is harmless because `isLoggedIn` is false, but it should be `null` to match the expiry path. This may no longer be relevant once [#544](https://github.com/jjm3x3/AmazingRaceFantasy/pull/544) merges. Tracked in [#550](https://github.com/jjm3x3/AmazingRaceFantasy/issues/550).
 
 ## To do
 
-- [ ] **Follow-up PR: session expired message.** After an automatic logout, show a message on the homepage telling the user their session expired.
-- [ ] **Logout across tabs.** When one tab logs out successfully, log out every other open tab and show them a toast instead of redirecting (see Logout across tabs).
+- [ ] **Follow-up PR: session expired message.** After an automatic logout, show a message on the homepage telling the user their session expired. Tracked in [#548](https://github.com/jjm3x3/AmazingRaceFantasy/issues/548).
+- [ ] **Logout across tabs.** When one tab logs out successfully, log out every other open tab and show them a toast instead of redirecting (see Logout across tabs). Tracked in [#549](https://github.com/jjm3x3/AmazingRaceFantasy/issues/549).
 - [ ] **Fix the gaps above.** Each item in Gaps in the current code.
-- [ ] **Move authorization to its own spec.** Take the authorization step (step 4 of Server-side verification) out of this spec and into a new authorization spec. The new spec should cover the permission models the app uses or could use, such as roles like `showAdmin` and ownership like a league's `createdBy`.
+- [ ] **Move authorization to its own spec.** Take the authorization step (step 4 of Server-side verification) out of this spec and into a new authorization spec. The new spec should cover the permission models the app uses or could use, such as roles like `showAdmin` and ownership like a league's `createdBy`. Tracked in [#553](https://github.com/jjm3x3/AmazingRaceFantasy/issues/553).
