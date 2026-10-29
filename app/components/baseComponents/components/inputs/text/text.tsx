@@ -12,7 +12,8 @@ export default function TextInput({
     id,
     getFormValidity,
     isRequired=false,
-    validationPattern=defaultValidationPattern
+    validationPattern=defaultValidationPattern,
+    defaultValue=""
 }:{
     label: string,
     placeholder: string,
@@ -21,6 +22,7 @@ export default function TextInput({
     getFormValidity:()=> boolean,
     isRequired: boolean,
     validationPattern?: string,
+    defaultValue?: string,
 }){
     const [validity, setValidity] = useState(true);
     const inputHandler:React.ChangeEventHandler<HTMLInputElement> = (event)=> {
@@ -44,6 +46,7 @@ export default function TextInput({
                     pattern={validationPattern}
                     placeholder={placeholder}
                     required={isRequired}
+                    defaultValue={defaultValue}
                     className={`${ styles.input } ${validity === false && styles.error}`}
                     onChange={inputHandler}
                 />
