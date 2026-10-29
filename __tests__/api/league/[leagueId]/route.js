@@ -76,12 +76,16 @@ afterEach(() => {
 
 describe("PUT (unit tests)", () => {
     it("should return 200 when PUT conditions met", async () => {
+        // Arrange
+        const request = makeRequest(happyPathRequest);
+
         // Act
-        const response = await PUT(makeRequest(happyPathRequest), makeContext());
+        const response = await PUT(request, makeContext());
 
         // Assert
         expect(response.status).toEqual(200);
         expect(await readBody(response)).toContain("updated");
+        expect(request.json).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
     });
 
