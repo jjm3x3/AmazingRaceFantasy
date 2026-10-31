@@ -14,7 +14,9 @@ const config = {
     },
     testEnvironment: "jest-environment-jsdom",
     setupFilesAfterEnv: ["<rootDir>/__tests__/setupTests.js"],
-    testPathIgnorePatterns: ["<rootDir>/build/", "<rootDir>/node_modules/", "<rootDir>/__tests__/setupTests.js", "<rootDir>/__tests__/setupGoogleAccountsSdk.js", "<rootDir>/__tests__/fixtures/"]
+    testPathIgnorePatterns: ["<rootDir>/build/", "<rootDir>/node_modules/", "<rootDir>/__tests__/setupTests.js", "<rootDir>/__tests__/setupGoogleAccountsSdk.js", "<rootDir>/__tests__/fixtures/", "<rootDir>/.claude/"],
+    // Claude Code worktrees live under .claude/ with their own copies of the code and node_modules
+    modulePathIgnorePatterns: ["<rootDir>/.claude/"]
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
