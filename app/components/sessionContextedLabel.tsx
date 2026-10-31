@@ -11,7 +11,7 @@ export default function SessionContextedLabel() {
     useEffect(() => {
         if (sessionInfo.userName === null || sessionInfo.googleUserId === null) {
             // a logged out user may still have data in localStorage from an expired session
-            const userData = sessionInfo.isLoggedIn === false ? { userName: null, googleUserId: null } : getLocalUserData()
+            const userData = !sessionInfo.sessionExpiresAt ? { userName: null, googleUserId: null } : getLocalUserData()
             const userName = userData.userName ?? "";
             const googleUserId = userData.googleUserId ?? "";
             setSessionInfo({...sessionInfo, userName: userName, googleUserId: googleUserId});

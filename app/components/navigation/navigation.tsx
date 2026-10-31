@@ -31,6 +31,7 @@ export default function Navigation({ pages }: {
         classes: ""
     };
     const { sessionInfo } = useContext(SessionContext);
+    const isLoggedIn = !!sessionInfo.sessionExpiresAt;
     // the navigation lives in the root layout so it is never remounted, close it whenever the route changes
     // or a menu action asks it to, which also covers navigating to the page that is already open
     const pathname = usePathname();
@@ -77,7 +78,7 @@ export default function Navigation({ pages }: {
                             })} />
                     </li>);
                 })}
-                { !sessionInfo.isLoggedIn ?
+                { !isLoggedIn ?
                     <li className={styles["top-level-link"]} data-testid="login-link" key={"nav-toplevellink-login"}><Link href="/login">Login</Link></li>
                     : <li className={styles["top-level-link"]} data-testid="logout-btn" key={"nav-toplevellink-logout"}><LogoutButton setShouldNavigateClose={closeNavigation} /></li>
                 }

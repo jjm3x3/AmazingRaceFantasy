@@ -6,7 +6,7 @@ import { originalGoogle, mockGoogleAccounts } from "../setupGoogleAccountsSdk";
 const mockgoogleSdkLoaded = true;
 const mockSetGoogleSdkLoaded = jest.fn();
 let mockSessionInfo = {
-    isLoggedIn: false,
+    sessionExpiresAt: null,
     userName: "Default User Name From Context",
     googleUserId: "xxx-xxx-xxx"
 };
@@ -47,7 +47,7 @@ describe("Navigation Component", () => {
     beforeEach(()=> {
         mockPathname = "/";
         mockSessionInfo = {
-            isLoggedIn: false,
+            sessionExpiresAt: null,
             userName: "Default User Name From Context",
             googleUserId: "xxx-xxx-xxx"
         }
@@ -136,7 +136,7 @@ describe("Navigation Component", () => {
 
     it("should render a logout button if the client does not have a session cookie", async () => {
         // setup
-        mockSessionInfo.isLoggedIn = true;
+        mockSessionInfo.sessionExpiresAt = Math.floor(Date.now() / 1000) + 3600;
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <Navigation pages={pages} />
@@ -165,7 +165,7 @@ describe("Navigation Component", () => {
     });
 
     it("should close the navigation on logout", async ()=> {
-        mockSessionInfo.isLoggedIn = true;
+        mockSessionInfo.sessionExpiresAt = Math.floor(Date.now() / 1000) + 3600;
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <Navigation pages={pages} />
@@ -188,7 +188,7 @@ describe("Navigation Component", () => {
     });
 
     it("should close the navigation on every logout", async ()=> {
-        mockSessionInfo.isLoggedIn = true;
+        mockSessionInfo.sessionExpiresAt = Math.floor(Date.now() / 1000) + 3600;
         const { getByTestId } = render(
             <SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
                 <Navigation pages={pages} />

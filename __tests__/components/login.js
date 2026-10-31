@@ -19,7 +19,7 @@ afterEach(() => {
 const mockgoogleSdkLoaded = true;
 const mockSetGoogleSdkLoaded = jest.fn();
 let mockSessionInfo = {
-    isLoggedIn: false,
+    sessionExpiresAt: null,
     userName: "Default User Name From Context",
     googleUserId: "xxx-xxx-xxx"
 };

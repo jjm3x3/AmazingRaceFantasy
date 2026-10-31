@@ -10,7 +10,7 @@ jest.mock("next/navigation", () => ({ useRouter: () => mockRouter }));
 
 function LoggedInStatus() {
     const { sessionInfo } = useContext(SessionContext);
-    return <p data-testid="status">{sessionInfo.isLoggedIn ? "in" : "out"}</p>;
+    return <p data-testid="status">{sessionInfo.sessionExpiresAt ? "in" : "out"}</p>;
 }
 
 const nowInSeconds = () => Math.floor(Date.now() / 1000);

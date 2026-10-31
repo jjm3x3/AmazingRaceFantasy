@@ -5,7 +5,7 @@ import Navigation from "../../app/components/navigation/navigation";
 const mockgoogleSdkLoaded = true;
 const mockSetGoogleSdkLoaded = jest.fn();
 let mockSessionInfo = {
-    isLoggedIn: false,
+    sessionExpiresAt: null,
     userName: "Default User Name From Context",
     googleUserId: "xxx-xxx-xxx"
 };
@@ -48,7 +48,7 @@ describe("Session", ()=> {
     });
 
     it("should hide the login link if there is a session cookie", ()=> {
-        mockSessionInfo.isLoggedIn = true;
+        mockSessionInfo.sessionExpiresAt = Math.floor(Date.now() / 1000) + 3600;
         const { queryByTestId } = render(<SessionContext.Provider value={{ sessionInfo: mockSessionInfo, setSessionInfo: mockSetSessionInfo, googleSdkLoaded: mockgoogleSdkLoaded, setGoogleSdkLoaded: mockSetGoogleSdkLoaded }}>
             <Navigation pages={pages}/>
         </SessionContext.Provider>);

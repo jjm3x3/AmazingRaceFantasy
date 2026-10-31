@@ -5,14 +5,14 @@ import { Session, SessionInfo } from "../models/Session";
 import { clearLocalStorage } from "../dataSources/localStorageShim";
 
 export const SessionContext = createContext<Session>({ 
-    sessionInfo: { isLoggedIn: false, userName: "Default User Name From Context", googleUserId: "xxx-xxx-xxx"},
+    sessionInfo: { userName: "Default User Name From Context", googleUserId: "xxx-xxx-xxx"},
     setSessionInfo: (_sessionInfo) => {},
     googleSdkLoaded: false, 
     setGoogleSdkLoaded: (_isGoogleSdkLoaded) => {}
 });
 
 export const SessionProvider = ({ sessionExpiresAt, children }:{ sessionExpiresAt: number | null, children: React.ReactNode })=> {
-    const [sessionInfo, setSessionInfo] = useState<SessionInfo>({isLoggedIn: sessionExpiresAt !== null, userName: null, googleUserId: null, sessionExpiresAt});
+    const [sessionInfo, setSessionInfo] = useState<SessionInfo>({userName: null, googleUserId: null, sessionExpiresAt});
     const [googleSdkLoaded, setGoogleSdkLoaded] = useState(false);
     const router = useRouter();
 
@@ -32,7 +32,7 @@ export const SessionProvider = ({ sessionExpiresAt, children }:{ sessionExpiresA
 
     useEffect(()=> {
         const expiresAt = sessionInfo.sessionExpiresAt;
-        if (!sessionInfo.isLoggedIn || !expiresAt) {
+        if (!expiresAt) {
             return;
         }
         const msUntilExpiry = expiresAt * 1000 - Date.now();
@@ -41,7 +41,7 @@ export const SessionProvider = ({ sessionExpiresAt, children }:{ sessionExpiresA
             fetch("/api/logout", { method: "POST" })
                 .then(() => {
                     clearLocalStorage();
-                    setSessionInfo({isLoggedIn: false, userName: null, googleUserId: null, sessionExpiresAt: null});
+                    setSessionInfo({userName: null, googleUserId: null, sessionExpiresAt: null});
                     router.push("/");
                 })
                 .catch((error) => {
@@ -50,7 +50,7 @@ export const SessionProvider = ({ sessionExpiresAt, children }:{ sessionExpiresA
         }, Math.max(msUntilExpiry, 0));
 
         return () => clearTimeout(timeoutId);
-    }, [sessionInfo.isLoggedIn, sessionInfo.sessionExpiresAt, router])
+    }, [sessionInfo.sessionExpiresAt, router])
     
     return (
         <SessionContext.Provider value={{ sessionInfo, setSessionInfo, googleSdkLoaded, setGoogleSdkLoaded }}>
