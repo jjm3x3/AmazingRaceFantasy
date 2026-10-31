@@ -7,8 +7,7 @@ jest.mock("../../../app/dataSources/dbFetch");
 import * as sessionModule from "../../../app/api/session/session";
 import { OAuth2Client } from "google-auth-library";
 import { writeLeagueConfigurationData, getUser, getAllKeys, getLeagueConfigurationData, updateLeagueConfigurationData } from "@/app/dataSources/dbFetch";
-import { POST } from "@/app/api/league/route.ts";
-import { PUT } from "@/app/api/league/[leagueId]/route.ts";
+import { POST, PUT } from "@/app/api/league/route.ts";
 
 let testAuthData = {}
 let happyPathRequest = {}
