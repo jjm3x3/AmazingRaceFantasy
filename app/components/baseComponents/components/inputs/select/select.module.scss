@@ -14,6 +14,11 @@
         background-color: colors.$headingGray;
         cursor: pointer;
     }
+    &:disabled {
+        background-color: colors.$headingGray;
+        color: colors.$disabledTextGray;
+        cursor: not-allowed;
+    }
 }
 
 .label {
