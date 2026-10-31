@@ -12,7 +12,9 @@ export default function TextInput({
     id,
     getFormValidity,
     isRequired=false,
-    validationPattern=defaultValidationPattern
+    validationPattern=defaultValidationPattern,
+    defaultValue="",
+    isDisabled=false
 }:{
     label: string,
     placeholder: string,
@@ -21,8 +23,11 @@ export default function TextInput({
     getFormValidity:()=> boolean,
     isRequired: boolean,
     validationPattern?: string,
+    defaultValue?: string,
+    isDisabled?: boolean,
 }){
-    const [validity, setValidity] = useState(true);
+    // A pre-filled value is checked up front so stored data that no longer validates shows as an error
+    const [validity, setValidity] = useState(defaultValue.length === 0 || !!defaultValue.match(validationPattern));
     const inputHandler:React.ChangeEventHandler<HTMLInputElement> = (event)=> {
         event.preventDefault();
         const inputValidity = !!event.currentTarget.value.match(validationPattern);
@@ -44,6 +49,8 @@ export default function TextInput({
                     pattern={validationPattern}
                     placeholder={placeholder}
                     required={isRequired}
+                    defaultValue={defaultValue}
+                    disabled={isDisabled}
                     className={`${ styles.input } ${validity === false && styles.error}`}
                     onChange={inputHandler}
                 />
