@@ -2,7 +2,7 @@ import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { getGoogleUser } from "@/app/dataSources/dbFetch";
 import { createSession } from "../session/session";
-import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
+import { unauthenticatedErrorMessage } from "@/app/api/errors/messages";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();

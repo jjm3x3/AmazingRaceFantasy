@@ -5,7 +5,7 @@
 jest.mock("google-auth-library");
 import { OAuth2Client } from "google-auth-library";
 import { POST } from "@/app/api/account/route.ts";
-import { missingBodyErrorMessage, malformedBodyErrorMessage } from "@/app/api/constants/errors";
+import { missingBodyErrorMessage, malformedBodyErrorMessage } from "@/app/api/errors/messages";
 
 const testRequestPayload = {
     token: "testToken"

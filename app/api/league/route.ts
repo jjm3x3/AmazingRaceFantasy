@@ -3,7 +3,7 @@ import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
 import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData, updateLeagueConfigurationData, ILeagueConfigurationData } from "@/app/dataSources/dbFetch";
-import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
+import { unauthenticatedErrorMessage } from "@/app/api/errors/messages";
 
 interface decryptionPayload {
     sub: string,
