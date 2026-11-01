@@ -24,7 +24,7 @@ export default function LoginComponent() {
         } else {
             const data = await response.json();
             setLocalUserData({userName: data.name.firstName, googleUserId: data.googleUserId});
-            setSessionInfo({userName: data.name.firstName, googleUserId: data.googleUserId, sessionExpiresAt: data.sessionExpiresAt});
+            setSessionInfo({userName: data.name.firstName, googleUserId: data.googleUserId, userId: data.userId, sessionExpiresAt: data.sessionExpiresAt});
             router.push("/");
         }
     }
