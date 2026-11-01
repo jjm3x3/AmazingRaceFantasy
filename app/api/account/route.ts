@@ -3,7 +3,7 @@ import { OAuth2Client, TokenPayload } from "google-auth-library";
 import { NextRequest, NextResponse } from "next/server";
 import { getGoogleUser, writeGoogleUserDataWithId } from "@/app/dataSources/dbFetch";
 import { createSession } from "@/app/api/session/session";
-import { unauthenticatedErrorMessage, badGatewayErrorMessage, missingBodyErrorMessage, malformedBodyErrorMessage } from "@/app/api/constants/errors";
+import { unauthenticatedErrorMessage, badGatewayErrorMessage, missingBodyErrorMessage, malformedBodyErrorMessage } from "@/app/api/errors/messages";
 
 export async function POST(request: NextRequest) {
     const client = new OAuth2Client();

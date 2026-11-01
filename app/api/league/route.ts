@@ -2,20 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
-import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData, updateLeagueConfigurationData } from "@/app/dataSources/dbFetch";
-import { unauthenticatedErrorMessage } from "@/app/api/constants/errors";
+import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData, updateLeagueConfigurationData, ILeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { unauthenticatedErrorMessage } from "@/app/api/errors/messages";
+import { parsingErrorResponse } from "@/app/api/errors/responses";
 
 interface decryptionPayload {
     sub: string,
     iat: number,
     exp: number
-}
-
-interface UpdateRequest {
-    createdBy: string,
-    leagueStatus: string,
-    leagueKey: string,
-    googleSheetUrl: string
 }
 
 // a JWT is three base64url segments (header.payload.signature) separated by "."
@@ -55,17 +49,10 @@ export async function POST(request: NextRequest) {
     }
 
     // validate/sanitize input
-    try {
-        LeagueConfig.parse(body);
-    }
-    catch(error: unknown){
-        if (error instanceof z.ZodError) {
-            const firstIssue = error.issues[0];
-            return NextResponse.json(
-                {"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`},
-                {status: 400}
-            );
-        }
+    const bodyResult = LeagueConfig.safeParse(body);
+    if (!bodyResult.success) {
+        const firstIssue = bodyResult.error.issues[0];
+        return parsingErrorResponse(String(firstIssue.path[0]), firstIssue.message);
     }
 
     // insert into db
@@ -89,21 +76,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({"message": "posted"});
 }
 
+// The league id is opaque to clients. For now it is the league key (showName:showSeason),
+// so this route is the only place that turns it into a league configuration key.
+const LeagueId = validationPattern.leagueKey.zod;
+
 const LeagueConfigUpdate = z.object({
-    createdBy: validationPattern.createdBy.zod,
+    wikiPageName: validationPattern.wikiPageUrl.zod,
+    wikiSectionHeader: validationPattern.wikiSectionHeader.zod,
+    contestantType: validationPattern.contestantType.zod,
     leagueStatus: validationPattern.leagueStatus.zod,
-    leagueKey: validationPattern.leagueKey.zod,
     googleSheetUrl: validationPattern.googleSheetUrl.zod
 });
 
-export async function PUT (request: NextRequest) {
+// leagueId is optional only so this handler also type checks as the /api/league route while it
+// lives here for review; without one the request fails validation below with a 400
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ leagueId?: string }> }) {
     // check auth
+    const { leagueId } = await params;
     const body = await request.json();
     const sessionCookie = request.cookies.get("session");
     if(!sessionCookie || !isWellFormedJwt(sessionCookie.value)){
         return NextResponse.json({"error": unauthenticatedErrorMessage}, {status: 401});
     }
-    
+
     const decryptedSessionCookie = await decrypt(sessionCookie.value) as decryptionPayload;
     const userId = decryptedSessionCookie?.sub;
     if (!userId) {
@@ -111,26 +106,23 @@ export async function PUT (request: NextRequest) {
     }
 
     // validate/sanitize input
-    let updateRequest: UpdateRequest | null = null;
-    try {
-        updateRequest = body as UpdateRequest;
-        LeagueConfigUpdate.parse(updateRequest);
-    } catch(error: unknown){
-        if (error instanceof z.ZodError) {
-            const firstIssue = error.issues[0];
-            return NextResponse.json(
-                {"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`},
-                {status: 400}
-            );
-        }
+    const leagueIdResult = LeagueId.safeParse(leagueId);
+    if (!leagueIdResult.success) {
+        return parsingErrorResponse("leagueId", leagueIdResult.error.issues[0].message);
     }
+    const bodyResult = LeagueConfigUpdate.safeParse(body);
+    if (!bodyResult.success) {
+        const firstIssue = bodyResult.error.issues[0];
+        return parsingErrorResponse(String(firstIssue.path[0]), firstIssue.message);
+    }
+    const updateRequest = bodyResult.data;
 
     // check permissions - only allow if user is league owner
-    const leagueConfigurationKeyArray = await getAllKeys(`league_configuration:*:${body.leagueKey}`);
+    const leagueConfigurationKeyArray = await getAllKeys(`league_configuration:*:${leagueId}`);
     if(leagueConfigurationKeyArray.length === 0){
-        return NextResponse.json({"error": "no league configuration found for that league key"}, {status: 404});
+        return NextResponse.json({"error": "no league configuration found for that league id"}, {status: 404});
     } else if (leagueConfigurationKeyArray.length > 1){
-        return NextResponse.json({"error": "multiple league configurations found for that league key, please contact support"}, {status: 409});
+        return NextResponse.json({"error": "multiple league configurations found for that league id, please contact support"}, {status: 409});
     }
 
     const preexistingLeagueConfigurationKey = leagueConfigurationKeyArray[0];
@@ -140,20 +132,15 @@ export async function PUT (request: NextRequest) {
         return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
     }
 
-    // update in db
-    const leagueConfig = {
-        wikiPageUrl: leagueConfigurationData.wikiPageUrl,
-        wikiApiUrl: leagueConfigurationData.wikiApiUrl,
-        googleSheetUrl: body.googleSheetUrl,
-        leagueStatus: body.leagueStatus,
-        castPhrase: leagueConfigurationData.castPhrase,
-        preGoogleSheetsLinkText: "This season's contestant data has been sourced from",
-        postGoogleSheetsLinkText: "which was populated using a google form.",
-        competitingEntityName: leagueConfigurationData.competitingEntityName,
-        contestantLeagueDataKeyPrefix: leagueConfigurationData.contestantLeagueDataKeyPrefix,
-        createdBy: userId,
-        // not editable through this endpoint, so keep what is stored
-        parserOptions: leagueConfigurationData.parserOptions
+    // update in db, keeping every stored field that is not editable through this endpoint
+    const leagueConfig: ILeagueConfigurationData = {
+        ...leagueConfigurationData,
+        wikiPageUrl: `https://en.wikipedia.org/wiki/${updateRequest.wikiPageName}`,
+        wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${updateRequest.wikiPageName}`,
+        castPhrase: updateRequest.wikiSectionHeader,
+        competitingEntityName: updateRequest.contestantType,
+        leagueStatus: updateRequest.leagueStatus,
+        googleSheetUrl: updateRequest.googleSheetUrl
     };
     await updateLeagueConfigurationData(preexistingLeagueConfigurationKey, leagueConfig);
 

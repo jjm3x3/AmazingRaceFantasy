@@ -12,6 +12,7 @@ import { POST, PUT } from "@/app/api/league/route.ts";
 let testAuthData = {}
 let happyPathRequest = {}
 const leagueConfigKey = "some_show_name:and_season_1";
+const context = { params: Promise.resolve({ leagueId: leagueConfigKey }) };
 
 const getPayloadMock = jest.fn().mockImplementation(()=> {
     return testAuthData
@@ -921,14 +922,15 @@ describe("POST (unit tests)", () => {
 describe("PUT (unit tests)", () => {
     beforeEach(() => {
         happyPathRequest = {
-            createdBy: ourUserId,
+            wikiPageName: "New_Page_(season)",
+            wikiSectionHeader: "HouseGuests",
+            contestantType: "team",
             leagueStatus: "active",
-            leagueKey: leagueConfigKey,
             googleSheetUrl: "https://some.url"
         };
 
         getAllKeys.mockImplementation(() => {
-            return Promise.resolve([`league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`]);
+            return Promise.resolve([`league_configuration:${happyPathRequest.leagueStatus}:${leagueConfigKey}`]);
         });
     });
 
@@ -942,7 +944,7 @@ describe("PUT (unit tests)", () => {
         const dbWikiApiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Original_Page";
         const dbCastPhrase = "Original Cast";
         const dbCompetitingEntityName = "person";
-        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        const dbContestantLeagueDataKeyPrefix = `${leagueConfigKey}:*`;
         
         getLeagueConfigurationData.mockImplementation(() => {
             return Promise.resolve({
@@ -968,7 +970,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -976,9 +978,9 @@ describe("PUT (unit tests)", () => {
         expect(request.json).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledTimes(1);
         expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
-            `league_configuration:${happyPathRequest.leagueStatus}:${happyPathRequest.leagueKey}`,
+            `league_configuration:${happyPathRequest.leagueStatus}:${leagueConfigKey}`,
             expect.objectContaining({
-                createdBy: happyPathRequest.createdBy,
+                createdBy: ourUserId,
                 leagueStatus: happyPathRequest.leagueStatus,
                 googleSheetUrl: happyPathRequest.googleSheetUrl
             })
@@ -1002,7 +1004,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1013,8 +1015,8 @@ describe("PUT (unit tests)", () => {
         // Arrange
         getAllKeys.mockImplementation(() => {
             return Promise.resolve([
-                `league_configuration:active:${happyPathRequest.leagueKey}`,
-                `league_configuration:inactive:${happyPathRequest.leagueKey}`
+                `league_configuration:active:${leagueConfigKey}`,
+                `league_configuration:inactive:${leagueConfigKey}`
             ]);
         });
         const request = {
@@ -1029,7 +1031,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1055,7 +1057,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1078,7 +1080,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1089,11 +1091,11 @@ describe("PUT (unit tests)", () => {
         expect(bodyString).toContain("leagueStatus");
     });
 
-    it("should use wikiPageUrl, wikiApiUrl, castPhrase, and competitingEntityName from database when updating", async () => {
+    it("should derive wikiPageUrl, wikiApiUrl, castPhrase, and competitingEntityName from the request when updating", async () => {
         // Arrange
         const dbWikiPageUrl = "https://en.wikipedia.org/wiki/Database_Page";
         const dbWikiApiUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Database_Page";
-        const dbContestantLeagueDataKeyPrefix = `${happyPathRequest.leagueKey}:*`;
+        const dbContestantLeagueDataKeyPrefix = `${leagueConfigKey}:*`;
         const dbCastPhrase = "Original Cast";
         const dbCompetitingEntityName = "person";
         
@@ -1121,7 +1123,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1129,10 +1131,10 @@ describe("PUT (unit tests)", () => {
         expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
             expect.anything(),
             expect.objectContaining({
-                wikiPageUrl: dbWikiPageUrl,
-                wikiApiUrl: dbWikiApiUrl,
-                castPhrase: dbCastPhrase,
-                competitingEntityName: dbCompetitingEntityName
+                wikiPageUrl: `https://en.wikipedia.org/wiki/${happyPathRequest.wikiPageName}`,
+                wikiApiUrl: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${happyPathRequest.wikiPageName}`,
+                castPhrase: happyPathRequest.wikiSectionHeader,
+                competitingEntityName: happyPathRequest.contestantType
             })
         );
     });
@@ -1149,7 +1151,7 @@ describe("PUT (unit tests)", () => {
                 wikiApiUrl: "https://en.wikipedia.org/w/api.php?action=parse&format=json&page=Database_Page",
                 castPhrase: "Original Cast",
                 competitingEntityName: "person",
-                contestantLeagueDataKeyPrefix: `${happyPathRequest.leagueKey}:*`,
+                contestantLeagueDataKeyPrefix: `${leagueConfigKey}:*`,
                 parserOptions: dbParserOptions
             });
         });
@@ -1166,7 +1168,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response.status).toEqual(200);
@@ -1192,16 +1194,16 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
-        expect(getAllKeys).toHaveBeenCalledWith(`league_configuration:*:${happyPathRequest.leagueKey}`);
+        expect(getAllKeys).toHaveBeenCalledWith(`league_configuration:*:${leagueConfigKey}`);
     });
 
     it("should use the existing league configuration key from the database as the update key", async () => {
         // Arrange
-        const dbLeagueConfigurationKey = `league_configuration:archive:${happyPathRequest.leagueKey}`;
+        const dbLeagueConfigurationKey = `league_configuration:archive:${leagueConfigKey}`;
         getAllKeys.mockImplementation(() => {
             return Promise.resolve([dbLeagueConfigurationKey]);
         });
@@ -1213,7 +1215,7 @@ describe("PUT (unit tests)", () => {
                 wikiApiUrl: "https://en.wikipedia.org/w/api.php",
                 castPhrase: "Cast",
                 competitingEntityName: "person",
-                contestantLeagueDataKeyPrefix: `${happyPathRequest.leagueKey}:*`
+                contestantLeagueDataKeyPrefix: `${leagueConfigKey}:*`
             });
         });
 
@@ -1229,7 +1231,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1259,7 +1261,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1286,7 +1288,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1313,7 +1315,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1340,7 +1342,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1367,7 +1369,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response).not.toBeNull();
@@ -1389,7 +1391,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response.status).toEqual(401);
@@ -1412,7 +1414,7 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response.status).toEqual(401);
@@ -1430,9 +1432,186 @@ describe("PUT (unit tests)", () => {
         };
 
         // Act
-        const response = await PUT(request);
+        const response = await PUT(request, context);
 
         // Assert
         expect(response.status).toEqual(401);
+    });
+
+    it("should keep the stored fields that are not editable when updating", async () => {
+        // Arrange
+        const dbStoredFields = {
+            preGoogleSheetsLinkText: "stored pre text",
+            postGoogleSheetsLinkText: "stored post text",
+            contestantLeagueDataKeyPrefix: `${leagueConfigKey}:*`
+        };
+
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus,
+                ...dbStoredFields
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request, context);
+
+        // Assert
+        expect(response.status).toEqual(200);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining(dbStoredFields)
+        );
+    });
+
+    it("should not add parserOptions when none are stored", async () => {
+        // Arrange
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return happyPathRequest;
+            })
+        };
+
+        // Act
+        const response = await PUT(request, context);
+
+        // Assert
+        expect(response.status).toEqual(200);
+        const writtenConfig = updateLeagueConfigurationData.mock.calls[0][1];
+        expect(writtenConfig).not.toHaveProperty("parserOptions");
+    });
+
+    it("should ignore leagueKey and createdBy in the body", async () => {
+        // Arrange
+        getLeagueConfigurationData.mockImplementation(() => {
+            return Promise.resolve({
+                createdBy: ourUserId,
+                leagueStatus: happyPathRequest.leagueStatus
+            });
+        });
+
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> {
+                    return validSessionCookie
+                })
+            },
+            json: jest.fn().mockImplementation(async () => {
+                return {
+                    ...happyPathRequest,
+                    leagueKey: "other_show:2",
+                    createdBy: "someoneElse"
+                };
+            })
+        };
+
+        // Act
+        const response = await PUT(request, context);
+
+        // Assert
+        expect(response.status).toEqual(200);
+        expect(getAllKeys).toHaveBeenCalledWith(`league_configuration:*:${leagueConfigKey}`);
+        expect(updateLeagueConfigurationData).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({ createdBy: ourUserId })
+        );
+    });
+
+    it.each([
+        ["has a space", "some show:1"],
+        ["has a '*'", "some_show:*"],
+        ["is empty", ""]
+    ])("should return a 400 when the path leagueId %s", async (_description, invalidLeagueId) => {
+        // Arrange
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> validSessionCookie)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request, { params: Promise.resolve({ leagueId: invalidLeagueId }) });
+
+        // Assert
+        expect(response.status).toEqual(400);
+        expect(getAllKeys).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("leagueId");
+    });
+
+    it.each([
+        "wikiPageName",
+        "wikiSectionHeader",
+        "contestantType",
+        "leagueStatus"
+    ])("should return a 400 when PUT is missing %s", async (property) => {
+        // Arrange
+        delete happyPathRequest[property];
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> validSessionCookie)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request, context);
+
+        // Assert
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain(property);
+    });
+
+    it("should return a 400 when PUT wikiPageName has whitespace", async () => {
+        // Arrange
+        happyPathRequest.wikiPageName = "Some Page";
+        const request = {
+            cookies: {
+                get: jest.fn().mockImplementation(()=> validSessionCookie)
+            },
+            json: jest.fn().mockImplementation(async () => happyPathRequest)
+        };
+
+        // Act
+        const response = await PUT(request, context);
+
+        // Assert
+        expect(response.status).toEqual(400);
+        expect(updateLeagueConfigurationData).not.toHaveBeenCalled();
+
+        const rawBody = await response.body.getReader().read();
+        const bodyString = new TextDecoder().decode(rawBody.value);
+        expect(bodyString).toContain("wikiPageName");
     });
 });
