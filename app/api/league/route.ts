@@ -48,17 +48,10 @@ export async function POST(request: NextRequest) {
     }
 
     // validate/sanitize input
-    try {
-        LeagueConfig.parse(body);
-    }
-    catch(error: unknown){
-        if (error instanceof z.ZodError) {
-            const firstIssue = error.issues[0];
-            return NextResponse.json(
-                {"error": `parsing error caught, first one being property: '${String(firstIssue.path[0])}' having issue: '${firstIssue.message}'`},
-                {status: 400}
-            );
-        }
+    const bodyResult = LeagueConfig.safeParse(body);
+    if (!bodyResult.success) {
+        const firstIssue = bodyResult.error.issues[0];
+        return parsingErrorResponse(String(firstIssue.path[0]), firstIssue.message);
     }
 
     // insert into db
