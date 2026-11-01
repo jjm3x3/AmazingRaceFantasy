@@ -4,6 +4,7 @@ import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
 import { getUser, getAllKeys, getLeagueConfigurationData, writeLeagueConfigurationData, updateLeagueConfigurationData, ILeagueConfigurationData } from "@/app/dataSources/dbFetch";
 import { unauthenticatedErrorMessage } from "@/app/api/errors/messages";
+import { parsingErrorResponse } from "@/app/api/errors/responses";
 
 interface decryptionPayload {
     sub: string,
@@ -86,11 +87,6 @@ const LeagueConfigUpdate = z.object({
     leagueStatus: validationPattern.leagueStatus.zod,
     googleSheetUrl: validationPattern.googleSheetUrl.zod
 });
-
-const parsingErrorResponse = (property: string, message: string) => NextResponse.json(
-    {"error": `parsing error caught, first one being property: '${property}' having issue: '${message}'`},
-    {status: 400}
-);
 
 // leagueId is optional only so this handler also type checks as the /api/league route while it
 // lives here for review; without one the request fails validation below with a 400
