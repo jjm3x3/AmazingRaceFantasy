@@ -3,7 +3,7 @@ import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
 import { getAllKeys, getLeagueConfigurationData, updateLeagueConfigurationData, ILeagueConfigurationData } from "@/app/dataSources/dbFetch";
-import { unauthenticatedErrorMessage } from "@/app/api/errors/messages";
+import { unauthenticatedErrorMessage, genericUnauthorizedMessage} from "@/app/api/errors/messages";
 import { parsingErrorResponse } from "@/app/api/errors/responses";
 
 interface decryptionPayload {
@@ -66,7 +66,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const leagueConfigurationData = await getLeagueConfigurationData(preexistingLeagueConfigurationKey);
     const isUserDenied = userId !== leagueConfigurationData.createdBy;
     if(isUserDenied){
-        return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403});
+        return NextResponse.json({"error": genericUnauthorizedMessage}, {status: 403});
     }
 
     // update in db, keeping every stored field that is not editable through this endpoint

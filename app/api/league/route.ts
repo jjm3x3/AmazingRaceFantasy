@@ -3,7 +3,7 @@ import validationPattern from "@/app/dataSources/validationPatterns";
 import * as z from "zod/v4";
 import { decrypt } from "@/app/api/session/session";
 import { getUser, writeLeagueConfigurationData } from "@/app/dataSources/dbFetch";
-import { unauthenticatedErrorMessage } from "@/app/api/errors/messages";
+import { unauthenticatedErrorMessage, genericUnauthorizedMessage} from "@/app/api/errors/messages";
 import { parsingErrorResponse } from "@/app/api/errors/responses";
 
 interface decryptionPayload {
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     }
     const isUserDenied = userRole !== "showAdmin";
     if(isUserDenied){
-        return NextResponse.json({"error": "you are not authorized to perform that action"}, {status: 403})
+        return NextResponse.json({"error": genericUnauthorizedMessage}, {status: 403})
     }
 
     // validate/sanitize input
