@@ -15,7 +15,7 @@ export default function LogoutButton({ setShouldNavigateClose }:{ setShouldNavig
         result.then((resp) => {
             if (resp.status === 205) {
                 clearLocalStorage();
-                setSessionInfo({userName: null, googleUserId: null, sessionExpiresAt: null});
+                setSessionInfo({userName: null, googleUserId: null, userId: null, sessionExpiresAt: null});
                 setShouldNavigateClose(true);
                 router.push("/");
             } else {
