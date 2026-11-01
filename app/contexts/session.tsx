@@ -11,8 +11,8 @@ export const SessionContext = createContext<Session>({
     setGoogleSdkLoaded: (_isGoogleSdkLoaded) => {}
 });
 
-export const SessionProvider = ({ sessionExpiresAt, children }:{ sessionExpiresAt: number | null, children: React.ReactNode })=> {
-    const [sessionInfo, setSessionInfo] = useState<SessionInfo>({userName: null, googleUserId: null, sessionExpiresAt});
+export const SessionProvider = ({ sessionExpiresAt, userId = null, children }:{ sessionExpiresAt: number | null, userId?: string | null, children: React.ReactNode })=> {
+    const [sessionInfo, setSessionInfo] = useState<SessionInfo>({userName: null, googleUserId: null, userId, sessionExpiresAt});
     const [googleSdkLoaded, setGoogleSdkLoaded] = useState(false);
     const router = useRouter();
 
@@ -41,7 +41,7 @@ export const SessionProvider = ({ sessionExpiresAt, children }:{ sessionExpiresA
             fetch("/api/logout", { method: "POST" })
                 .then(() => {
                     clearLocalStorage();
-                    setSessionInfo({userName: null, googleUserId: null, sessionExpiresAt: null});
+                    setSessionInfo({userName: null, googleUserId: null, userId: null, sessionExpiresAt: null});
                     router.push("/");
                 })
                 .catch((error) => {
