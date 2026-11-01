@@ -10,6 +10,8 @@ export interface Session {
 export interface SessionInfo {
     userName: string | null,
     googleUserId: string | null,
+    // the session token's subject; matches a league's stored createdBy
+    userId?: string | null,
     // unix time in seconds when the session token expires
     sessionExpiresAt?: number | null
 }

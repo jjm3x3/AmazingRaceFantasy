@@ -13,6 +13,11 @@ function LoggedInStatus() {
     return <p data-testid="status">{sessionInfo.sessionExpiresAt ? "in" : "out"}</p>;
 }
 
+function UserIdStatus() {
+    const { sessionInfo } = useContext(SessionContext);
+    return <p data-testid="userId">{sessionInfo.userId ?? "none"}</p>;
+}
+
 const nowInSeconds = () => Math.floor(Date.now() / 1000);
 
 beforeEach(() => {
@@ -59,5 +64,16 @@ describe("SessionProvider expiry", () => {
         expect(clearLocalStorage).not.toHaveBeenCalled();
         expect(mockRouter.push).not.toHaveBeenCalled();
         warnSpy.mockRestore();
+    });
+
+    it("should expose the user id from the session token", () => {
+        const { getByTestId } = render(<SessionProvider sessionExpiresAt={nowInSeconds() + 60} userId="user-123"><UserIdStatus /></SessionProvider>);
+        expect(getByTestId("userId").textContent).toBe("user-123");
+    });
+
+    it("should clear the user id when the session expires", async () => {
+        const { getByTestId } = render(<SessionProvider sessionExpiresAt={nowInSeconds() + 60} userId="user-123"><UserIdStatus /></SessionProvider>);
+        await act(async () => { jest.advanceTimersByTime(61 * 1000); });
+        expect(getByTestId("userId").textContent).toBe("none");
     });
 });
