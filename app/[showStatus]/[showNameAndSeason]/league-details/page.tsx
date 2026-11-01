@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
+import EditLeagueButton from "@/app/components/editLeagueButton";
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
@@ -23,9 +23,6 @@ export default async function LeagueDetails({ params }: {
 
     const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
 
-    // Owner edit eligibility is not yet implemented; this path is reserved for future permission logic.
-    const userIsLeagueOwner = false;
-
     return (
         <div>
             <h1 className="text-3xl text-center">League Details</h1>
@@ -41,15 +38,10 @@ export default async function LeagueDetails({ params }: {
             </dl>
             <br />
             <div className="text-center">
-                {userIsLeagueOwner ? (
-                    <Link href="/league/configuration" className="btn btn-primary" data-testid="league-details-edit-link">
-                        Edit League
-                    </Link>
-                ) : (
-                    <button disabled className="btn btn-secondary opacity-50" data-testid="league-details-edit-button" title="Edit option when owner">
-                        Edit League (owner only)
-                    </button>
-                )}
+                <EditLeagueButton
+                    createdBy={leagueConfigurationData.createdBy}
+                    editHref={`/league/${showStatus}/${showNameAndSeason}/configuration`}
+                />
             </div>
         </div>
     );
