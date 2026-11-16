@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import EditLeagueButton from "../../app/components/editLeagueButton";
+import EditLeagueLink from "../../app/components/editLeagueLink";
 import { SessionContext } from "../../app/contexts/session";
 
 const ownerUserId = "owner-user-id";
@@ -8,7 +8,7 @@ const editHref = "/league/active/big-brother-28/configuration";
 function renderWithSession(sessionInfo, createdBy = ownerUserId) {
     return render(
         <SessionContext.Provider value={{ sessionInfo, setSessionInfo: jest.fn(), googleSdkLoaded: true, setGoogleSdkLoaded: jest.fn() }}>
-            <EditLeagueButton createdBy={createdBy} editHref={editHref} />
+            <EditLeagueLink createdBy={createdBy} editHref={editHref} />
         </SessionContext.Provider>
     );
 }
@@ -21,7 +21,7 @@ function expectDisabledLink(link) {
     expect(link).toHaveTextContent("Edit League (owner only)");
 }
 
-describe("EditLeagueButton", () => {
+describe("EditLeagueLink", () => {
     it("should render an enabled edit link to the league's edit page when the signed in user is the league owner", () => {
         const { getByTestId, queryByTestId } = renderWithSession({ userName: "Owner", googleUserId: "google-id", userId: ownerUserId, sessionExpiresAt: 4102444800 });
         const link = getByTestId("league-details-edit-link");

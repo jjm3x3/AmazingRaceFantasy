@@ -5,7 +5,7 @@ import { SessionContext } from "@/app/contexts/session";
 
 // The page around this is built at build time, so ownership is checked here against the session context.
 // This only decides what to show; PUT /api/league/[leagueId] is what enforces that only the owner can save.
-export default function EditLeagueButton({ createdBy, editHref }:{ createdBy?: string, editHref: string }) {
+export default function EditLeagueLink({ createdBy, editHref }:{ createdBy?: string, editHref: string }) {
     const { sessionInfo } = useContext(SessionContext);
     const userIsLeagueOwner = !!sessionInfo.sessionExpiresAt && !!sessionInfo.userId && sessionInfo.userId === createdBy;
 

@@ -1,6 +1,6 @@
 import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { getUrlParams } from "@/app/utils/pages";
-import EditLeagueButton from "@/app/components/editLeagueButton";
+import EditLeagueLink from "@/app/components/editLeagueLink";
 
 // This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
 export const dynamicParams = false
@@ -38,7 +38,7 @@ export default async function LeagueDetails({ params }: {
             </dl>
             <br />
             <div className="text-center">
-                <EditLeagueButton
+                <EditLeagueLink
                     createdBy={leagueConfigurationData.createdBy}
                     editHref={`/league/${showStatus}/${showNameAndSeason}/configuration`}
                 />
