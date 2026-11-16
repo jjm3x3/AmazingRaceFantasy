@@ -14,8 +14,9 @@ export default function EditLeagueButton({ createdBy, editHref }:{ createdBy?: s
             Edit League
         </Link>
     ) : (
-        <button disabled className="btn btn-secondary opacity-50" data-testid="league-details-edit-button" title="Edit option when owner">
+        // an empty href points back at this page, so pointer-events-none and tabIndex keep it from being clicked or focused
+        <Link href="" aria-disabled="true" tabIndex={-1} className="btn btn-secondary opacity-50 pointer-events-none" data-testid="league-details-edit-link-disabled">
             Edit League (owner only)
-        </button>
+        </Link>
     );
 }

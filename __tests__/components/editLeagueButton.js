@@ -13,36 +13,44 @@ function renderWithSession(sessionInfo, createdBy = ownerUserId) {
     );
 }
 
+function expectDisabledLink(link) {
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("href", "");
+    expect(link).toHaveAttribute("aria-disabled", "true");
+    expect(link).toHaveAttribute("tabindex", "-1");
+    expect(link).toHaveTextContent("Edit League (owner only)");
+}
+
 describe("EditLeagueButton", () => {
     it("should render an enabled edit link to the league's edit page when the signed in user is the league owner", () => {
         const { getByTestId, queryByTestId } = renderWithSession({ userName: "Owner", googleUserId: "google-id", userId: ownerUserId, sessionExpiresAt: 4102444800 });
         const link = getByTestId("league-details-edit-link");
         expect(link).toHaveAttribute("href", editHref);
         expect(link).toHaveTextContent("Edit League");
-        expect(queryByTestId("league-details-edit-button")).toBeNull();
+        expect(queryByTestId("league-details-edit-link-disabled")).toBeNull();
     });
 
-    it("should render the disabled button when the signed in user is not the league owner", () => {
+    it("should render the disabled link when the signed in user is not the league owner", () => {
         const { getByTestId, queryByTestId } = renderWithSession({ userName: "Someone", googleUserId: "google-id", userId: "different-user-id", sessionExpiresAt: 4102444800 });
-        expect(getByTestId("league-details-edit-button")).toBeDisabled();
+        expectDisabledLink(getByTestId("league-details-edit-link-disabled"));
         expect(queryByTestId("league-details-edit-link")).toBeNull();
     });
 
-    it("should render the disabled button when the user is signed out", () => {
+    it("should render the disabled link when the user is signed out", () => {
         const { getByTestId, queryByTestId } = renderWithSession({ userName: null, googleUserId: null, userId: null, sessionExpiresAt: null });
-        expect(getByTestId("league-details-edit-button")).toBeDisabled();
+        expectDisabledLink(getByTestId("league-details-edit-link-disabled"));
         expect(queryByTestId("league-details-edit-link")).toBeNull();
     });
 
-    it("should render the disabled button when the user is signed out even if a stale user id matches the owner", () => {
+    it("should render the disabled link when the user is signed out even if a stale user id matches the owner", () => {
         const { getByTestId, queryByTestId } = renderWithSession({ userName: null, googleUserId: null, userId: ownerUserId, sessionExpiresAt: null });
-        expect(getByTestId("league-details-edit-button")).toBeDisabled();
+        expectDisabledLink(getByTestId("league-details-edit-link-disabled"));
         expect(queryByTestId("league-details-edit-link")).toBeNull();
     });
 
-    it("should render the disabled button when the league has no stored owner", () => {
+    it("should render the disabled link when the league has no stored owner", () => {
         const { getByTestId, queryByTestId } = renderWithSession({ userName: "Someone", googleUserId: "google-id", userId: undefined, sessionExpiresAt: 4102444800 }, undefined);
-        expect(getByTestId("league-details-edit-button")).toBeDisabled();
+        expectDisabledLink(getByTestId("league-details-edit-link-disabled"));
         expect(queryByTestId("league-details-edit-link")).toBeNull();
     });
 });
