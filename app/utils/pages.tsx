@@ -1,6 +1,7 @@
 import IPage from "@/app/models/IPage";
 import ISubpage from "@/app/models/ISubpage";
-import { getLeagueConfigurationKeys, hasContestantData } from "../dataSources/dbFetch";
+import { notFound } from "next/navigation";
+import { getLeagueConfigurationData, getLeagueConfigurationKeys, hasContestantData, ILeagueConfigurationData } from "../dataSources/dbFetch";
 
 interface PageInformation {
     showStatus: string, 
@@ -105,3 +106,14 @@ export function getUrlParams (dataKeys:string[]){
     return shows;
 }
 
+
+// League pages render on every request, so a url that matches no stored league (a made-up slug,
+// an unknown status, or an archived league's old /active/ url) reaches the lookup. Show a 404 page
+// for it instead of a server error.
+export async function getLeagueConfigurationDataOrNotFound(leagueConfigurationKey: string): Promise<ILeagueConfigurationData> {
+    try {
+        return await getLeagueConfigurationData(leagueConfigurationKey);
+    } catch {
+        notFound();
+    }
+}
