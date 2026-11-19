@@ -9,6 +9,8 @@ X Factor League provides a space to create fantasy leagues for reality game show
     1. [Seeding the Database](#seeding-db)
     1. [Operational Notes](#operational-notes)
 1. [Using The Site](#using-the-site)
+    1. [Create A League](#create-a-league)
+    1. [Update Or Archive A League](#update-or-archive-a-league)
 
 ## Getting Started
 <a name="getting-started"></a>
@@ -106,3 +108,16 @@ If you are a user who would like to create a league, first you need to have an a
 1. Create an account by going to our [Create Account Page](https://xfactorleague.com/create-account). 
 1. Let @jjm3x3 know, and he can get you set up.
 1. Navigate to the [League Creation Page](https://xfactorleague.com/league/configuration), fill out the form, and hit submit
+
+### Update Or Archive A League
+
+Only the league owner (the account that created the league) can update or archive it. Every save is checked
+against the league's owner, so anyone else who opens the edit page will get a permission error when they submit.
+
+#### How To
+
+1. Log in with the account you used to create the league.
+1. Navigate to the league's League Details page (`/<status>/<show-season>/league-details`) and click "Edit League".
+    - If you are not the league owner, or you are not logged in, you will see a disabled "Edit League (owner only)" link instead.
+1. Update the fields you want to change and hit submit. The show name and season can't be changed.
+    - To archive the league, set "League Status" to "Archived". As soon as you save, the league's pages move from `/active/...` to `/archive/...`, and its old `/active/...` links stop working.
