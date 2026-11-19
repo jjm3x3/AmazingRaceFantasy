@@ -28,11 +28,12 @@ export default async function RootLayout({
     // an expired or tampered token fails verification, so the user is treated as logged out
     const decryptedSession = sessionCookie ? await decrypt(sessionCookie.value) : undefined;
     const sessionExpiresAt = decryptedSession && "exp" in decryptedSession && typeof decryptedSession.exp === "number" ? decryptedSession.exp : null;
+    const userId = sessionExpiresAt !== null && decryptedSession && "sub" in decryptedSession && typeof decryptedSession.sub === "string" ? decryptedSession.sub : null;
 
     return (
         <html className={inter.className}>
             <body>
-                <SessionProvider sessionExpiresAt={sessionExpiresAt}>
+                <SessionProvider sessionExpiresAt={sessionExpiresAt} userId={userId}>
                     <header>
                         <p>
                             <a href="/" title="Link that takes user to homepage. " className="page-title">X Factor Fantasy</a>
