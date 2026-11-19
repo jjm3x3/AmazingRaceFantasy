@@ -1,9 +1,6 @@
-import { getLeagueConfigurationData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
-import { getUrlParams } from "@/app/utils/pages";
+import { getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
+import { getLeagueConfigurationDataOrNotFound, getUrlParams } from "@/app/utils/pages";
 import EditLeagueLink from "@/app/components/editLeagueLink";
-
-// This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
-export const dynamicParams = false
 
 // Creates routes for league details
 export async function generateStaticParams() {
@@ -21,7 +18,7 @@ export default async function LeagueDetails({ params }: {
     showAndSeasonArr.pop();
     const showName = showAndSeasonArr.join("_");
 
-    const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
+    const leagueConfigurationData = await getLeagueConfigurationDataOrNotFound(`league_configuration:${showStatus}:${showName}:${showSeason}`);
 
     return (
         <div>

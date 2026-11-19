@@ -1,13 +1,10 @@
 import { getWikipediaContestantDataFetcher } from "@/app/dataSources/wikiFetch";
-import { getLeagueConfigurationKeys, getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
+import { getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
 import { stripTableHeader } from "@/app/utils/wikiQuery";
 import { getParser } from "@/app/utils/entityParserSwitch"
-import { getUrlParams } from "@/app/utils/pages";
+import { getLeagueConfigurationDataOrNotFound, getUrlParams } from "@/app/utils/pages";
 import { Table } from "@/app/components/baseComponents";
 import { TableRowItem } from "@/app/components/baseComponents/models/tableData";
-
-// This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
-export const dynamicParams = false
 
 // Creates routes for wiki connection status
 export async function generateStaticParams() {
@@ -27,7 +24,7 @@ export default async function WikiConnectionStatus({ params }: {
     showAndSeasonArr.pop();
     const showName = showAndSeasonArr.join("_");
     // "Dynamically" (still static site generated) retrieving modules
-    const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
+    const leagueConfigurationData = await getLeagueConfigurationDataOrNotFound(`league_configuration:${showStatus}:${showName}:${showSeason}`);
     const { wikiApiUrl, castPhrase, parserOptions } = leagueConfigurationData;
     const dataFetcher = await getWikipediaContestantDataFetcher(wikiApiUrl, castPhrase);
     const wikiTableData = await dataFetcher();

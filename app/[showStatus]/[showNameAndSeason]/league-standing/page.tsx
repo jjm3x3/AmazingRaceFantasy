@@ -2,11 +2,8 @@ import { getWikipediaContestantDataFetcher } from "@/app/dataSources/wikiFetch"
 import LeagueStandingTable from "../../../components/leagueStandingTable/leagueStandingTable";
 import { getParser } from "@/app/utils/entityParserSwitch"
 import { generateContestantRoundScores } from "@/app/generators/contestantRoundScoreGenerator";
-import { getContestantData, getLeagueConfigurationKeys, getLeagueConfigurationData } from "@/app/dataSources/dbFetch";
-import { getUrlParams } from "@/app/utils/pages";
-
-// This forces Next to only generate routes that exist in generateStaticParams, otherwise return a 404
-export const dynamicParams = false
+import { getContestantData, getLeagueConfigurationKeys } from "@/app/dataSources/dbFetch";
+import { getLeagueConfigurationDataOrNotFound, getUrlParams } from "@/app/utils/pages";
 
 // Creates routes for scoring
 export async function generateStaticParams() {
@@ -26,7 +23,7 @@ export default async function LeagueStanding({ params }: {
     showAndSeasonArr.pop();
     const showName = showAndSeasonArr.join("_");
     // "Dynamically" (still static site generated) retrieving modules
-    const leagueConfigurationData = await getLeagueConfigurationData(`league_configuration:${showStatus}:${showName}:${showSeason}`);
+    const leagueConfigurationData = await getLeagueConfigurationDataOrNotFound(`league_configuration:${showStatus}:${showName}:${showSeason}`);
     const { wikiApiUrl, castPhrase, contestantLeagueDataKeyPrefix, parserOptions } = leagueConfigurationData;
     const dataFetcher = getWikipediaContestantDataFetcher(wikiApiUrl, castPhrase);
     const contestantRoundData = await getContestantData(contestantLeagueDataKeyPrefix);
