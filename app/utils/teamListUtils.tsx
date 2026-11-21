@@ -52,9 +52,50 @@ export function convertNamesToTeamList(teamNames: string[], teamDictionary: Map<
         const teamKey = CompetingEntity.getKey(x);
         const foundTeam = teamDictionary.get(teamKey);
         if (foundTeam === undefined) {
-            throw new Error(`Missing leagueContestants selected show contestant '${x}' from league source data`);
+            const closestMatch = findClosestMatch(teamKey, teamDictionary);
+            if (closestMatch === undefined) {
+                throw new Error(`Missing leagueContestants selected show contestant '${x}' from league source data`);
+            } else {
+                console.warn(`No exact match found for teamKey: '${teamKey}'. Near match found looks like '${closestMatch.friendlyName()}'`);
+                return closestMatch;
+            }
         }
         return foundTeam;
     });
 }
 
+export function findClosestMatch(targetKey: string, teamDictionary: Map<string, CompetingEntity>): CompetingEntity | undefined {
+    const heuristics: number[] = new Array(teamDictionary.size).fill(0);
+    let teamIndex = 0;
+    teamDictionary.forEach((team, key) => {
+        if (targetKey.includes(key)) {
+            heuristics[teamIndex]++;
+        }
+        const individualNames: string[] = team.teamName.split("&");
+        const fullName: string[] = [];
+        for (let i = 0; i < individualNames.length; i++) {
+            if (targetKey.includes(individualNames[i].trim())) {
+                heuristics[teamIndex]++;
+            }
+            if (targetKey.includes(individualNames[i].trim().replace(" ", ""))) {
+                heuristics[teamIndex]++;
+            }
+            fullName.push(...individualNames[i].trim().replace(/["]/g, "").split(" "));
+        }
+        fullName.forEach((part) => {
+            if (targetKey.includes(part)) {
+                heuristics[teamIndex]++;
+            }
+        });
+        teamIndex++;
+    },);
+    const bestHeuristic = Math.max(...heuristics);
+    if (bestHeuristic === 0) {
+        return undefined;
+    }
+    const heuristicIndex = heuristics.findIndex((d) => d == bestHeuristic);
+    if (heuristicIndex !== -1) {
+        return teamDictionary.get(Array.from(teamDictionary.keys())[heuristicIndex]);
+    }
+    return undefined;
+}
