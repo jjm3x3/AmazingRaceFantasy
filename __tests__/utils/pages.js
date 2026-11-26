@@ -1,4 +1,11 @@
 import * as pagesModule from "../../app/utils/pages";
+import { getLeagueConfigurationData } from "../../app/dataSources/dbFetch";
+import { notFound } from "next/navigation";
+
+jest.mock("next/navigation", () => ({
+    // The real notFound throws to stop rendering, so the mock throws too
+    notFound: jest.fn(() => { throw new Error("NEXT_NOT_FOUND"); })
+}));
 
 const AmazingRaceConfigData = () => {
     return { 
@@ -153,5 +160,25 @@ describe("pages getUrlParams", () => {
         expect(ARTestUrl).toBeTruthy();
         const BBTestUrl = new URL(`https://test.com/${BBLeagueStatus}/${BBParams.showNameAndSeason}/subpage`);
         expect(BBTestUrl).toBeTruthy();
+    });
+});
+
+describe("pages getLeagueConfigurationDataOrNotFound", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("should return the league configuration when one exists for the key", async () => {
+        const leagueConfiguration = await pagesModule.getLeagueConfigurationDataOrNotFound("AmazingRace_36");
+        expect(leagueConfiguration).toEqual(AmazingRaceConfigData());
+        expect(getLeagueConfigurationData).toHaveBeenCalledWith("AmazingRace_36");
+        expect(notFound).not.toHaveBeenCalled();
+    });
+
+    it("should call notFound when no league configuration exists for the key", async () => {
+        getLeagueConfigurationData.mockRejectedValueOnce(new Error("There is no league configuration found for the key provided"));
+        await expect(pagesModule.getLeagueConfigurationDataOrNotFound("league_configuration:active:amazing_race:36")).rejects.toThrow("NEXT_NOT_FOUND");
+        expect(getLeagueConfigurationData).toHaveBeenCalledWith("league_configuration:active:amazing_race:36");
+        expect(notFound).toHaveBeenCalledTimes(1);
     });
 });
